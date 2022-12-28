@@ -1,0 +1,63 @@
+﻿<!-- collapse menu button -->
+<div id="hide-menu" class="btn-header pull-right">
+    <span> <a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder fa-md"></i></a> </span>
+</div>
+<!-- end collapse menu -->
+
+<!-- #MOBILE -->
+<!-- Top menu profile link : this shows only when top menu is active -->
+<ul id="mobile-profile-img" class="header-dropdown-list hidden-xs padding-5">
+    <li class="">
+        @*<a href="#" class="dropdown-toggle no-margin userdropdown" data-toggle="dropdown">
+            <img src="~/content/img/avatars/sunny.png" alt="John Doe" class="online" />
+        </a>*@
+        <ul class="dropdown-menu pull-right">
+
+            <li>
+                <a href="javascript:void(0);" class="padding-10 padding-top-0 padding-bottom-0" data-action="launchFullscreen"><i class="fa fa-arrows-alt fa-md"></i> Full <>S</>creen</a>
+            </li>
+
+            <li class="divider"></li>
+            
+            <li>
+                <a class="padding-10 padding-top-5 padding-bottom-5" data-action="userLogout"><i class="fa fa-sign-out fa-md"></i> <strong><>L</>ogout</strong></a>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<!-- logout button -->
+<div id="logout" class="btn-header transparent pull-right">
+    <span> <a href="@Url.Action("Login", "Home", new { logout = "1" })" title="Sign Out" data-action="userLogout" data-logout-msg="Are you sure you want to logout?"><i class="fa fa-lg fa-sign-out"></i></a> </span>
+</div>
+
+<div id="fullscreen" class="btn-header transparent pull-right">
+    <span> <a href="javascript:void(0);" data-action="launchFullscreen" title="Full Screen"><i class="fa fa-lg fa-arrows-alt"></i></a> </span>
+</div>
+
+<div class="transparent pull-right">
+    <span><label style="text-align:left; display:inline-block; margin: 13px 0 0;font-weight: 700; font-size: 13px; height:30px; padding: 5px; color: gray" id="username">Hi, @ViewBag.UserID</label></span>
+</div>
+
+<script type="text/javascript">
+    history.pushState(null, null, $(location).attr('href'));
+    window.addEventListener('popstate', function () {
+        history.pushState(null, null, $(location).attr('href'));
+    });
+
+    $(document).ready(function () {
+        //$("#alogout").on("click", function (event) {
+        function actionlogout(d) {
+                alert(d.getAttribute("data-action"));
+                $.ajax({
+                    url: "@Url.Action("login", "home")",
+                    data: { ID: "1" },
+                    success: function (data) {
+                        window.location.href = "/Home/Login?logout=1";
+                    }
+                });
+            }
+
+        //});
+    });
+</script>

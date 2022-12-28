@@ -1,0 +1,1652 @@
+﻿<style>
+    progress {
+      -webkit-appearance: none;
+    }
+
+    .progress-containerPortInVLC:before {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      right: 1em;
+      top:10px;
+      line-height:1em;
+      font-size: 22px;
+      font-weight: 800;
+      color:orange;
+    }
+
+    .progress-containerPortInVLC {
+      text-align: right;
+      position: relative;
+    }
+
+    .progress-containerPortInKAP:before {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      right: 1em;
+      top:10px;
+      line-height:1em;
+      font-size: 22px;
+      font-weight: 800;
+      color:deepskyblue;
+    }
+
+    .progress-containerPortInKAP {
+      text-align: right;
+      position: relative;
+    }
+
+    .progress-containerVLCOutPatimban:before {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      right: 1em;
+      top:10px;
+      line-height:1em;
+      font-size: 22px;
+      font-weight: 800;
+      color:#464653;
+    }
+
+    .progress-containerVLCOutPatimban {
+      text-align: right;
+      position: relative;
+    }
+
+    .progress-containerKAPOutPatimban:before {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      right: 1em;
+      top:10px;
+      line-height:1em;
+      font-size: 22px;
+      font-weight: 800;
+      color:#464653;
+    }
+
+    .progress-containerKAPOutPatimban {
+      text-align: right;
+      position: relative;
+    }
+
+    .barPortInVLC::-webkit-progress-bar {
+      background-color: white;
+    }
+    .barPortInVLC::-webkit-progress-value {
+       background-color: #464653;
+    }
+
+    .barPortInKAP::-webkit-progress-bar {
+      background-color: white;
+    }
+    .barPortInKAP::-webkit-progress-value {
+       background-color: #464653;
+    }
+
+    .barVLCOutPatimban::-webkit-progress-bar {
+      background-color: white;
+    }
+    .barVLCOutPatimban::-webkit-progress-value {
+       background-color: #ffa500;
+    }
+
+    .barKAPOutPatimban::-webkit-progress-bar {
+      background-color: white;
+    }
+    .barKAPOutPatimban::-webkit-progress-value {
+       background-color: #6effe2;
+    }
+
+    .tbl-fixed {
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .tbl-content {
+        background: #464653;
+        height: 100px;
+        overflow-x: auto;
+        margin-top: 0px;
+    }
+
+    .tbl-content2 {
+        background: #464653;
+        height: 558px;
+        overflow-x: auto;
+        margin-top: 0px;
+    }
+
+    ::-webkit-scrollbar {
+        width: 1px;
+        background: #a06777;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.3);
+        background: gray;
+    }
+</style>
+
+<div class="row" style="background-color:#f2f2f2; margin: 5px 1px 0px 1px">
+    <h2 style="font-family:Tahoma;font-weight:900;font-size:32px;font-style:normal;color:#464653;margin: 15px 15px">Patimban Operations</h2>
+    <table style="width:100%">
+
+        @if (ViewBag.AndonPatimbanOperation != null)
+        {
+            foreach (var item in ViewBag.AndonPatimbanOperation)
+            {
+
+                <tr>
+                    <td style="width:27%; text-align:center; vertical-align:top">
+                        <table width="100%">
+                            <tr>
+                                <td style="width:2%; background-color:#f2f2f2"></td>
+                                <td style="width:96%; text-align:center; vertical-align:top">
+                                    <!--Port Operation Result-->
+                                    <table style="width:90%; margin-left:5%; margin-right:5%">
+                                        <tr>
+                                            <td style="background-color:#ffa500; border-radius:25px; height:39px">
+                                                <span style="font-family:'Segoe UI';font-size:26px;font-style:italic;font-weight:600;padding-left:5px"></span>
+                                                <span style="font-family:'Segoe UI';font-size:26px;font-style:italic;font-weight:600;padding-left:5px">
+                                                    Port Operation
+                                                </span>
+                                                <span style="font-family:'Segoe UI';font-size:26px;font-style:italic;font-weight:800;padding-right:5px">
+                                                    Result
+                                                </span>
+                                                <span style="font-family:'Segoe UI';font-size:26px;font-style:italic;font-weight:600;padding-left:5px"></span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="width:2%; background-color:#f2f2f2"></td>
+                            </tr>
+                            <tr style="width:100%; height:12px; background-color:#f2f2f2"></tr>
+                            <tr>
+                                <td style="width:2%; background-color:#f2f2f2"></td>
+                                <td style="width:96%; border-radius:5px">
+                                    <!--Port In (VLC)-->
+                                    <table style="width:100%;background-color:#ffa500">
+                                        <tr>
+                                            <td>
+                                                <table style="width:100%; background-color:#f2f2f2">
+                                                    <tr>
+                                                        <td style="background-color:#464653; border-top-right-radius:28px">
+                                                            <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:800;padding-left:5px;margin-top:-0.7%;position:absolute;color:#ffffff">
+                                                                <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-right:5px;margin-top:-1%"></span>
+                                                            </span>
+                                                            <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-right:5px"></span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td colspan="2" style="background-color:#f2f2f2"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <table style="width:100%; background-color:#ffa500; text-align:left">
+                                                    <tr>
+                                                        <td style="background-color:#464653; border-bottom-right-radius:28px">
+                                                            <span style="font-family:'Segoe UI';font-size:24px;font-weight:800;padding-left:5px;margin-top:-1%;position:absolute;color:#ffffff">
+                                                                Port In
+                                                                <span style="font-family:'Segoe UI';font-size:24px;font-weight:600;padding-right:5px;margin-top:-1%">
+                                                                    (VLC)
+                                                                </span>
+                                                            </span>
+                                                            <span style="font-family:'Segoe UI';font-size:24px;font-weight:600;padding-right:5px"></span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td style="background-color:#ffa500" colspan="2"></td>
+                                        </tr>
+
+                                        <tr style="height:5px"></tr>
+
+                                        <tr>
+                                            <td style="text-align:center; width:33%">
+                                                <span style="font-family:'Segoe UI';font-size:22px;font-weight:500;color:#464653;">
+                                                    Original
+                                                </span>
+                                            </td>
+
+                                            <td style="text-align:center; width:33%">
+                                                <span style="font-family:'Segoe UI';font-size:22px;font-weight:500;color:#464653;">
+                                                    Actual
+                                                </span>
+                                            </td>
+
+                                            <td rowspan="2" style="text-align:center; width: 33%">
+                                                <span style="font-family:'Segoe UI';font-size:22px;font-weight:800;color:#464653;">
+                                                    Ach<span style="font-family:'Segoe UI';font-size:22px;font-weight:400;color:#464653">iev.</span>
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="text-align:center">
+                                                <span style="font-family:'Segoe UI';font-size:22px;font-weight:800;color:#464653;">
+                                                    Plan
+                                                </span>
+                                            </td>
+
+                                            <td style="text-align:center">
+                                                <span style="font-family:'Segoe UI';font-size:22px;font-weight:800;color:#464653;">
+                                                    Plan
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="text-align:center">
+                                                <table style="background-color:#464653;width:90%;border-radius:25px">
+                                                    <tr>
+                                                        <td style="text-align:center">
+                                                            <span style="font-family:'Segoe UI';font-size:32px;font-weight:500;color:#ffffff;">
+                                                                @item.OriginalPortInVLC
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+
+                                            <td style="text-align:center">
+                                                <table style="background-color:#464653;width:90%;border-radius:25px">
+                                                    <tr>
+                                                        <td style="text-align:center">
+                                                            <span style="font-family:'Segoe UI';font-size:32px;font-weight:500;color:#ffffff;">
+                                                                @item.ActualPortInVLC
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+
+                                            <td style="text-align:center">
+                                                <table style="background-color:#464653;width:90%;border-radius:25px">
+                                                    <tr>
+                                                        <td style="text-align:center">
+                                                            <span style="font-family:'Segoe UI';font-size:32px;font-weight:500;color:#ffffff;">
+                                                                @item.AchievePortInVLC
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="height:5px"></tr>
+
+                                        <tr>
+                                            <td style="text-align:right;padding-right:2%" colspan="3">
+                                                <span style="font-family:'Segoe UI';font-size:30px;font-weight:400;color:#464653;">
+                                                    Effici<span style="font-family:'Segoe UI';font-size:30px;font-weight:800;color:#464653;">ency</span>
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="3" style="padding-left:1%;padding-right:1%">
+                                                <div class="progress-containerPortInVLC" data-text="@item.EffPortInVLC %">
+                                                    <progress class="barPortInVLC" style="width:100%; height:40px" value="@item.EffPortInVLC" max="100"></progress>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="height:5px"></tr>
+
+                                    </table>
+                                </td>
+                                <td style="width:2%; background-color:#f2f2f2"></td>
+                            </tr>
+                            <tr style="width:100%; height:13px; background-color:#f2f2f2"></tr>
+                            <tr>
+                                <td style="width:2%; background-color:#f2f2f2"></td>
+                                <td style="width:96%; border-radius:5px">
+                                    <!--Port In (KAP)-->
+                                    <table style="width:100%;background-color:#6effe2">
+                                        <tr>
+                                            <td style="background-color:#464653">
+                                                <table style="width:100%;background-color:#f2f2f2">
+                                                    <tr>
+                                                        <td style="background-color:#464653;border-top-right-radius:28px">
+                                                            <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:800;padding-left:5px;margin-top:-0.7%;position:absolute;color:#ffffff">
+                                                                <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-right:5px;margin-top:-1%"></span>
+                                                            </span>
+                                                            <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-right:5px"></span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td colspan="2" style="background-color:#f2f2f2"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <table style="width:100%;background-color:#6effe2; text-align:left">
+                                                    <tr>
+                                                        <td style="background-color:#464653;border-bottom-right-radius:28px">
+                                                            <span style="font-family:'Segoe UI';font-size:24px;font-weight:800;padding-left:5px;margin-top:-1%;position:absolute;color:#ffffff">
+                                                                Port In
+                                                                <span style="font-family:'Segoe UI';font-size:24px;font-weight:600;padding-right:5px;margin-top:-1%">
+                                                                    (KAP)
+                                                                </span>
+                                                            </span>
+                                                            <span style="font-family:'Segoe UI';font-size:24px;font-weight:600;padding-right:5px"></span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td style="background-color:#6effe2" colspan="2"></td>
+                                        </tr>
+
+                                        <tr style="height:5px"></tr>
+
+                                        <tr>
+                                            <td style="text-align:center; width:33%">
+                                                <span style="font-family:'Segoe UI';font-size:22px;font-weight:500;color:#464653;">
+                                                    Original
+                                                </span>
+                                            </td>
+
+                                            <td style="text-align:center; width:33%">
+                                                <span style="font-family:'Segoe UI';font-size:22px;font-weight:500;color:#464653;">
+                                                    Actual
+                                                </span>
+                                            </td>
+
+                                            <td rowspan="2" style="text-align:center; width: 33%">
+                                                <span style="font-family:'Segoe UI';font-size:22px;font-weight:800;color:#464653;">
+                                                    Ach<span style="font-family:'Segoe UI';font-size:22px;font-weight:400;color:#464653">iev.</span>
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="text-align:center">
+                                                <span style="font-family:'Segoe UI';font-size:22px;font-weight:800;color:#464653;">
+                                                    Plan
+                                                </span>
+                                            </td>
+
+                                            <td style="text-align:center">
+                                                <span style="font-family:'Segoe UI';font-size:22px;font-weight:800;color:#464653;">
+                                                    Plan
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="text-align:center">
+                                                <table style="background-color:#464653;width:90%;border-radius:25px">
+                                                    <tr>
+                                                        <td style="text-align:center">
+                                                            <span style="font-family:'Segoe UI';font-size:32px;font-weight:500;color:#ffffff;">
+                                                                @item.OriginalPortInKAP
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+
+                                            <td style="text-align:center">
+                                                <table style="background-color:#464653;width:90%;border-radius:25px">
+                                                    <tr>
+                                                        <td style="text-align:center">
+                                                            <span style="font-family:'Segoe UI';font-size:32px;font-weight:500;color:#ffffff;">
+                                                                @item.ActualPortInKAP
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+
+                                            <td style="text-align:center">
+                                                <table style="background-color:#464653;width:90%;border-radius:25px">
+                                                    <tr>
+                                                        <td style="text-align:center">
+                                                            <span style="font-family:'Segoe UI';font-size:32px;font-weight:500;color:#ffffff;">
+                                                                @item.AchievePortInKAP
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="height:5px"></tr>
+
+                                        <tr>
+                                            <td style="text-align:right;padding-right:2%" colspan="3">
+                                                <span style="font-family:'Segoe UI';font-size:30px;font-weight:400;color:#464653;">
+                                                    Effici<span style="font-family:'Segoe UI';font-size:30px;font-weight:800;color:#464653;">ency</span>
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="3" style="padding-left:1%;padding-right:1%">
+                                                <div class="progress-containerPortInKAP" data-text="@item.EffPortInKAP %">
+                                                    <progress class="barPortInKAP" style="width:100%; height:40px" value="@item.EffPortInKAP" max="100"></progress>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="height:5px"></tr>
+
+                                    </table>
+                                </td>
+                                <td style="width:2%; background-color:#f2f2f2"></td>
+                            </tr>
+                            <tr style="width:100%; height:12px; background-color:#f2f2f2"></tr>
+                            <tr>
+                                <td style="width:2%; background-color:#f2f2f2"></td>
+                                <td style="width:96%; border-radius:5px">
+                                    <!--Result Deliverty to PORT-->
+                                    <table style="width:100%;background-color:#ffffff; border-left: 3px solid #464653; border-bottom: 3px solid #464653" cellpadding="0">
+                                        <tr>
+                                            <td colspan="2" style="background-color:#464653">
+                                                <table style="width:100%;background-color:#f2f2f2">
+                                                    <tr>
+                                                        <td style="background-color:#464653;border-top-right-radius:28px">
+                                                            <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:800;padding-left:5px;margin-top:-0.7%;position:absolute;color:#ffffff">
+                                                                <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-right:5px;margin-top:-1%"></span>
+                                                            </span>
+                                                            <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-right:5px"></span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td style="background-color:#f2f2f2"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="2">
+                                                <table style="width:100%;background-color:#ffffff; text-align:left">
+                                                    <tr>
+                                                        <td style="background-color:#464653;border-bottom-right-radius:28px">
+                                                            <span style="font-family:'Segoe UI';font-size:24px;font-weight:600;padding-left:5px;margin-top:-1%;position:absolute;color:#ffffff">
+                                                                Result Delivery
+                                                                <span style="font-family:'Segoe UI';font-size:24px;font-weight:800;padding-right:5px;margin-top:-1%">
+                                                                    to Port
+                                                                </span>
+                                                            </span>
+                                                            <span style="font-family:'Segoe UI';font-size:24px;font-weight:600;padding-right:5px"></span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td style="background-color:#ffffff; border-top: 3px solid #464653; border-right: 3px solid #464653"></td>
+                                        </tr>
+
+                                        <tr style="height:5px; border-right: 3px solid #464653"></tr>
+
+                                        <tr style="border-right: 3px solid #464653">
+                                            <td style="text-align:center; width:33%">
+                                                <span style="font-family:'Segoe UI';font-size:22px;font-weight:500;color:#464653;">
+                                                    Original
+                                                </span>
+                                            </td>
+
+                                            <td rowspan="2" style="text-align:center; width:33%">
+                                                <table style="background-color:#464653;width:90%;border-radius:25px">
+                                                    <tr>
+                                                        <td style="text-align:center">
+                                                            <span style="font-family:'Segoe UI';font-size:32px;font-weight:500;color:#ffffff;">
+                                                                @item.OriginalResultDelivery
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+
+                                            <td rowspan="2" style="text-align:center; width: 33%">
+                                                <span style="font-family:'Segoe UI';font-size:22px;font-weight:800;color:#464653;">
+                                                    Efficiency
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="border-right: 3px solid #464653">
+                                            <td style="text-align:center">
+                                                <span style="font-family:'Segoe UI';font-size:22px;font-weight:800;color:#464653;">
+                                                    Plan
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="height:10px; border-right: 3px solid #464653"></tr>
+
+                                        <tr style="border-right: 3px solid #464653">
+                                            <td style="text-align:center">
+                                                <span style="font-family:'Segoe UI';font-size:22px;font-weight:500;color:#464653;">
+                                                    Actual
+                                                </span>
+                                            </td>
+
+                                            <td rowspan="2" style="text-align:center; width:33%">
+                                                <table style="background-color:#464653;width:90%;border-radius:25px">
+                                                    <tr>
+                                                        <td style="text-align:center">
+                                                            <span style="font-family:'Segoe UI';font-size:32px;font-weight:500;color:#ffffff;">
+                                                                @item.ActualResultDelivery
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+
+                                            <td rowspan="5" style="width: 33%; margin-top:-20px" align="center" valign="top">
+                                                <canvas id="cResultDelivery" style="display:flex; height:140px; width:140px"></canvas>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="border-right: 3px solid #464653">
+                                            <td style="text-align:center">
+                                                <span style="font-family:'Segoe UI';font-size:22px;font-weight:800;color:#464653;">
+                                                    Plan
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="height:10px; border-right: 3px solid #464653"></tr>
+
+                                        <tr style="border-right: 3px solid #464653">
+                                            <td style="text-align:center">
+                                                <span style="font-family:'Segoe UI';font-size:22px;font-weight:500;color:#464653;">
+                                                    Achieve
+                                                </span>
+                                            </td>
+
+                                            <td rowspan="2" style="text-align:center; width:33%">
+                                                <table style="background-color:#464653;width:90%;border-radius:25px">
+                                                    <tr>
+                                                        <td style="text-align:center">
+                                                            <span style="font-family:'Segoe UI';font-size:32px;font-weight:500;color:#ffffff;">
+                                                                @item.AchieveResultDelivery
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="border-right: 3px solid #464653">
+                                            <td style="text-align:center">
+                                                <span style="font-family:'Segoe UI';font-size:22px;font-weight:800;color:#464653;">
+                                                    ments
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="height:5px; border-right: 3px solid #464653"></tr>
+
+                                    </table>
+                                </td>
+                                <td style="width:2%; background-color:#f2f2f2"></td>
+                            </tr>
+                            <tr style="width:100%; height:10px; background-color:#f2f2f2"></tr>
+                        </table>
+                    </td>
+                    <td style="width:27%; text-align:center; vertical-align:top">
+                        <table width="100%">
+                            <tr>
+                                <td style="width:2%; background-color:#f2f2f2"></td>
+                                <td style="width:96%; text-align:center">
+                                    <!--On Progress Delivery-->
+                                    <table style="width:100%">
+                                        <tr>
+                                            <td style="background-color:#ffa500; border-radius:25px;width:100%">
+                                                <span style="font-family:'Segoe UI';font-size:26px;font-style:italic;font-weight:600;padding-left:5px">
+                                                    On Progress
+                                                </span>
+                                                <span style="font-family:'Segoe UI';font-size:26px;font-style:italic;font-weight:800;padding-right:5px">
+                                                    Delivery
+                                                </span>
+                                            </td>
+                                            <td rowspan="2">
+                                                <img src="~/Content/images/ExcelLogo.png" style="width:45px" onclick="location.href='@Url.Action("DownloadOnProgressDelivery")'" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="width:2%; background-color:#f2f2f2"></td>
+                            </tr>
+                            <tr style="width:100%; height:10px; background-color:#f2f2f2"></tr>
+                            <tr>
+                                <td style="width:1%; background-color:#f2f2f2"></td>
+                                <td style="width:98%; border-radius:5px">
+                                    <!--VLC Out to Patimban-->
+                                    <table style="width:100%;background-color:#464653">
+                                        <tr>
+                                            <td colspan="3">
+                                                <table style="width:100%; background-color:#f2f2f2">
+                                                    <tr>
+                                                        <td style="background-color:#464653; border-top-right-radius:28px">
+                                                            <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:800;padding-left:5px;margin-top:-0.7%;position:absolute;color:#ffffff">
+                                                                <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-right:5px;margin-top:-1%"></span>
+                                                            </span>
+                                                            <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-right:5px"></span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td style="background-color:#f2f2f2"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="3">
+                                                <table style="width:100%; background-color:#464653; text-align:left">
+                                                    <tr>
+                                                        <td style="background-color:#464653; border-bottom-right-radius:28px">
+                                                            <span style="font-family:'Segoe UI';font-size:24px;font-weight:800;padding-left:5px;margin-top:-1%;position:absolute;color:#ffa500">
+                                                                VLC Out
+                                                                <span style="font-family:'Segoe UI';font-size:24px;font-weight:600;padding-right:5px;margin-top:-1%;color:#ffa500">
+                                                                    to Patimban
+                                                                </span>
+                                                            </span>
+                                                            <span style="font-family:'Segoe UI';font-size:24px;font-weight:600;padding-right:5px"></span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td style="background-color:#464653"></td>
+                                        </tr>
+
+                                        <tr style="height:5px"></tr>
+
+                                        <tr>
+                                            <td style="text-align:right; width:20%; padding-right:15px">
+                                                <span style="font-family:'Segoe UI';font-size:20px;font-weight:800;color:#ffffff">
+                                                    Quan
+                                                </span>
+                                            </td>
+
+                                            <td rowspan="2" style="text-align:center; width:30%">
+                                                <table style="background-color:#ffa500;width:90%;border-radius:25px">
+                                                    <tr>
+                                                        <td style="text-align:center">
+                                                            <span style="font-family:'Segoe UI';font-size:32px;font-weight:500;color:#464653">
+                                                                @item.QtyVLCOut
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+
+                                            <td rowspan="2" style="text-align:center; width:30%">
+                                                <table style="background-color:#ffa500;width:90%;border-radius:25px">
+                                                    <tr>
+                                                        <td style="text-align:center">
+                                                            @if (item.AchieveVLCOut == "")
+                                                            {
+                                                                <span style="font-family:'Segoe UI';font-size:32px;font-weight:500;color:#464653">
+                                                                    &nbsp;
+                                                                </span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span style="font-family:'Segoe UI';font-size:16px;font-weight:500;color:#464653">
+                                                                    @item.AchieveVLCOut
+                                                                </span>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+
+                                            <td style="text-align:left; width:20%; padding-left:5px">
+                                                <span style="font-family:'Segoe UI';font-size:20px;font-weight:800;color:#ffffff">
+                                                    Last
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="text-align:right; padding-right:15px">
+                                                <span style="font-family:'Segoe UI';font-size:20px;font-weight:500;color:#ffffff">
+                                                    tity
+                                                </span>
+                                            </td>
+
+                                            <td style="text-align:left; padding-left:5px">
+                                                <span style="font-family:'Segoe UI';font-size:20px;font-weight:500;color:#ffffff">
+                                                    Scan
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="height:5px"></tr>
+
+                                        <tr>
+                                            <td rowspan="2" style="text-align:right;padding-right:2%;padding-left:2%" colspan="4">
+                                                <div class="tbl-fixed">
+                                                    <table style="width:100%; font-family:'Quicksand-Regular'; font-size:18px; color:#ffffff; border-color:#464653" border="1" cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                            <td style="width:25%; text-align:center">
+                                                                No. Pol
+                                                            </td>
+                                                            <td style="width:25%; text-align:center">
+                                                                Expedition
+                                                            </td>
+                                                            <td style="width:25%; text-align:center">
+                                                                DN
+                                                            </td>
+                                                            <td style="width:25%; text-align:center">
+                                                                Qty
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="tbl-content tbl-fixed">
+                                                    <table style="width:100%; font-family:'Quicksand-Regular'; font-size:18px; color:#ffffff; border-color:#464653" border="1" cellpadding="0" cellspacing="0">
+                                                        @if (ViewBag.AndonPatimbanOperationVLCOutToPatimban != null)
+                                                        {
+                                                            foreach (var items in ViewBag.AndonPatimbanOperationVLCOutToPatimban)
+                                                            {
+                                                                <tr style="height:35px">
+                                                                    <td style="width:25%; text-align:center; font-size:10pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                        @items.NoPol
+                                                                    </td>
+                                                                    <td style="width:25%; text-align:center; font-size:10pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                        @items.Expedition
+                                                                    </td>
+                                                                    <td style="width:25%; text-align:center; font-size:10pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                        @items.DN
+                                                                    </td>
+                                                                    <td style="width:25%; text-align:center; font-size:10pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                        @items.Qty
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        }
+
+                                                        <tr style="height:5px">
+                                                            <td colspan="9"></td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="height:5px"></tr>
+
+                                    </table>
+                                </td>
+                                <td style="width:1%; background-color:#f2f2f2"></td>
+                            </tr>
+                            <tr style="width:100%; height:5px; background-color:#f2f2f2"></tr>
+                            <tr>
+                                <td style="width:1%; background-color:#f2f2f2"></td>
+                                <td style="width:98%; border-radius:5px">
+                                    <!--KAP Out to Patimban-->
+                                    <table style="width:100%;background-color:#464653">
+                                        <tr>
+                                            <td colspan="3">
+                                                <table style="width:100%; background-color:#f2f2f2">
+                                                    <tr>
+                                                        <td style="background-color:#464653; border-top-right-radius:28px">
+                                                            <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:800;padding-left:5px;margin-top:-0.7%;position:absolute;color:#ffffff">
+                                                                <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-right:5px;margin-top:-1%"></span>
+                                                            </span>
+                                                            <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-right:5px"></span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td style="background-color:#f2f2f2"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="3">
+                                                <table style="width:100%; background-color:#464653; text-align:left">
+                                                    <tr>
+                                                        <td style="background-color:#464653; border-bottom-right-radius:28px">
+                                                            <span style="font-family:'Segoe UI';font-size:24px;font-weight:800;padding-left:5px;margin-top:-1%;position:absolute;color:#6effe2">
+                                                                KAP Out
+                                                                <span style="font-family:'Segoe UI';font-size:24px;font-weight:600;padding-right:5px;margin-top:-1%;color:#6effe2">
+                                                                    to Patimban
+                                                                </span>
+                                                            </span>
+                                                            <span style="font-family:'Segoe UI';font-size:24px;font-weight:600;padding-right:5px"></span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td style="background-color:#464653"></td>
+                                        </tr>
+
+                                        <tr style="height:5px"></tr>
+
+                                        <tr>
+                                            <td style="text-align:right; width:20%; padding-right:15px">
+                                                <span style="font-family:'Segoe UI';font-size:20px;font-weight:800;color:#ffffff">
+                                                    Quan
+                                                </span>
+                                            </td>
+
+                                            <td rowspan="2" style="text-align:center; width:30%">
+                                                <table style="background-color:#6effe2;width:90%;border-radius:25px">
+                                                    <tr>
+                                                        <td style="text-align:center">
+                                                            <span style="font-family:'Segoe UI';font-size:32px;font-weight:500;color:#464653">
+                                                                @item.QtyKAPOut
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+
+                                            <td rowspan="2" style="text-align:center; width:30%">
+                                                <table style="background-color:#6effe2;width:90%;border-radius:25px">
+                                                    <tr>
+                                                        <td style="text-align:center">
+                                                            @if (item.AchieveKAPOut == "")
+                                                            {
+                                                                <span style="font-family:'Segoe UI';font-size:32px;font-weight:500;color:#464653">
+                                                                    &nbsp;
+                                                                </span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span style="font-family:'Segoe UI';font-size:16px;font-weight:500;color:#464653">
+                                                                    @item.AchieveKAPOut
+                                                                </span>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+
+                                            <td style="text-align:left; width:20%; padding-left:5px">
+                                                <span style="font-family:'Segoe UI';font-size:20px;font-weight:800;color:#ffffff">
+                                                    Last
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="text-align:right; padding-right:15px">
+                                                <span style="font-family:'Segoe UI';font-size:20px;font-weight:500;color:#ffffff">
+                                                    tity
+                                                </span>
+                                            </td>
+
+                                            <td style="text-align:left; padding-left:5px">
+                                                <span style="font-family:'Segoe UI';font-size:20px;font-weight:500;color:#ffffff">
+                                                    Scan
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="height:5px"></tr>
+
+                                        <tr>
+                                            <td rowspan="2" style="text-align:right;padding-right:2%;padding-left:2%" colspan="4">
+                                                <div class="tbl-fixed">
+                                                    <table style="width:100%; font-family:'Quicksand-Regular'; font-size:18px; color:#ffffff; border-color:#464653" border="1" cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                            <td style="width:25%; text-align:center">
+                                                                No. Pol
+                                                            </td>
+                                                            <td style="width:25%; text-align:center">
+                                                                Expedition
+                                                            </td>
+                                                            <td style="width:25%; text-align:center">
+                                                                DN
+                                                            </td>
+                                                            <td style="width:25%; text-align:center">
+                                                                Qty
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="tbl-content tbl-fixed">
+                                                    <table style="width:100%; font-family:'Quicksand-Regular'; font-size:18px; color:#ffffff; border-color:#464653" border="1" cellpadding="0" cellspacing="0">
+                                                        @if (ViewBag.AndonPatimbanOperationKAPOutToPatimban != null)
+                                                        {
+                                                            foreach (var items in ViewBag.AndonPatimbanOperationKAPOutToPatimban)
+                                                            {
+                                                                <tr style="height:35px">
+                                                                    <td style="width:25%; text-align:center; font-size:10pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                        @items.NoPol
+                                                                    </td>
+                                                                    <td style="width:25%; text-align:center; font-size:10pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                        @items.Expedition
+                                                                    </td>
+                                                                    <td style="width:25%; text-align:center; font-size:10pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                        @items.DN
+                                                                    </td>
+                                                                    <td style="width:25%; text-align:center; font-size:10pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                        @items.Qty
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        }
+
+                                                        <tr style="height:5px">
+                                                            <td colspan="9"></td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="height:5px"></tr>
+
+                                    </table>
+                                </td>
+                                <td style="width:1%; background-color:#f2f2f2"></td>
+                            </tr>
+                            <tr style="width:100%; height:5px; background-color:#f2f2f2"></tr>
+                            <tr>
+                                <td style="width:1%; background-color:#f2f2f2"></td>
+                                <td style="width:98%; border-radius:5px">
+                                    <!--Port Out Monitoring-->
+                                    <table style="width:100%">
+                                        <tr>
+                                            <td style="width:20%;background-color:#f2f2f2">
+                                                &nbsp;
+                                            </td>
+                                            <td rowspan="2" style="width:60%;background-color:#f2f2f2">
+                                                <table style="width:100%;position:relative">
+                                                    <tr>
+                                                        <td style="background-color:#ffa500; border-radius:25px;height:39px">
+                                                            <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-left:5px"></span>
+                                                            <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:800;padding-right:5px">
+                                                                Port Out
+                                                            </span>
+                                                            <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-left:5px">
+                                                                Monitoring
+                                                            </span>
+                                                            <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-left:5px"></span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td style="width:20%;background-color:#f2f2f2">
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="background-color:#464653">
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="background-color:#464653; padding-left:8px; padding-right:8px">
+                                                <div class="tbl-fixed">
+                                                    <table style="width:100%; font-family:'Quicksand-Regular'; font-size:18px; color:#ffffff; border-color:#464653" border="1" cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                            <td style="width:18.5%; text-align:center">
+                                                                ETD
+                                                            </td>
+                                                            <td style="width:34.5%; text-align:center">
+                                                                Vessel Name
+                                                            </td>
+                                                            <td style="width:15.5%; text-align:center">
+                                                                Plan
+                                                            </td>
+                                                            <td style="width:15.5%; text-align:center">
+                                                                Achiev
+                                                            </td>
+                                                            <td style="width:15.5%; text-align:center">
+                                                                Eff
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="tbl-content tbl-fixed">
+                                                    <table style="width:100%; font-family:'Quicksand-Regular'; font-size:18px; color:#ffffff; border-color:#464653" border="1" cellpadding="0" cellspacing="0">
+                                                        @if (ViewBag.PortOut != null)
+                                                        {
+                                                            foreach (var items in ViewBag.PortOut)
+                                                            {
+                                                                <tr style="height:35px">
+                                                                    @if (items.Achieve == 0)
+                                                                    {
+                                                                        <td style="width:18.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                            @items.ETD
+                                                                        </td>
+                                                                        <td style="width:34.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                            @items.Vessel
+                                                                        </td>
+                                                                        <td style="width:15.5%; text-align:center; font-size:14pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                            @items.Plan
+                                                                        </td>
+                                                                        <td style="width:15.5%; text-align:center; font-size:14pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                            @items.Achieve
+                                                                        </td>
+                                                                        <td style="width:15.5%; text-align:center; font-size:14pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                            @items.Eff  %
+                                                                        </td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td style="width:18.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#ff6666; color:#ffffff">
+                                                                            @items.ETD
+                                                                        </td>
+                                                                        <td style="width:34.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#ff6666; color:#ffffff">
+                                                                            @items.Vessel
+                                                                        </td>
+                                                                        <td style="width:15.5%; text-align:center; font-size:14pt; font-weight:800; background-color:#ff6666; color:#ffffff">
+                                                                            @items.Plan
+                                                                        </td>
+                                                                        <td style="width:15.5%; text-align:center; font-size:14pt; font-weight:800; background-color:#ff6666; color:#ffffff">
+                                                                            @items.Achieve
+                                                                        </td>
+                                                                        <td style="width:15.5%; text-align:center; font-size:14pt; font-weight:800; background-color:#ff6666; color:#ffffff">
+                                                                            @items.Eff  %
+                                                                        </td>
+                                                                    }
+                                                                </tr>
+                                                            }
+                                                        }
+
+                                                        <tr style="height:5px">
+                                                            <td colspan="9"></td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="width:1%; background-color:#f2f2f2"></td>
+                            </tr>
+                            <tr style="width:100%; height:5px; background-color:#f2f2f2"></tr>
+                            <tr>
+                                <td style="width:1%; background-color:#f2f2f2"></td>
+                                <td style="width:98%; border-radius:5px">
+                                    <!--Case Mark Monitoring-->
+                                    <table style="width:100%">
+                                        <tr>
+                                            <td style="width:20%;background-color:#f2f2f2">
+                                                &nbsp;
+                                            </td>
+                                            <td rowspan="2" style="width:60%;background-color:#f2f2f2">
+                                                <table style="width:100%;position:relative">
+                                                    <tr>
+                                                        <td style="background-color:#ffa500; border-radius:25px;height:39px">
+                                                            <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-left:5px"></span>
+                                                            <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:800;padding-right:5px">
+                                                                Case Mark
+                                                            </span>
+                                                            <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-left:5px">
+                                                                Monitoring
+                                                            </span>
+                                                            <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-left:5px"></span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td style="width:20%;background-color:#f2f2f2">
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="background-color:#464653">
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="background-color:#464653; padding-left:8px; padding-right:8px">
+                                                <div class="tbl-fixed">
+                                                    <table style="width:100%; font-family:'Quicksand-Regular'; font-size:18px; color:#ffffff; border-color:#464653; overflow-y:auto" border="1" cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                            <td style="width:20.5%; text-align:center">
+                                                                Opera.
+                                                            </td>
+                                                            <td style="width:15.5%; text-align:center">
+                                                                Result
+                                                            </td>
+                                                            <td style="width:21.5%; text-align:center">
+                                                                Last Scan
+                                                            </td>
+                                                            <td style="width:42%; text-align:center">
+                                                                Last VIN
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="tbl-content tbl-fixed">
+                                                    <table style="width:100%; font-family:'Quicksand-Regular'; font-size:18px; color:#ffffff; border-color:#464653; overflow-y:auto" border="1" cellpadding="0" cellspacing="0">
+                                                        @if (ViewBag.CaseMark != null)
+                                                        {
+                                                            foreach (var items in ViewBag.CaseMark)
+                                                            {
+                                                                <tr style="height:35px">
+                                                                    <td style="width:20.5%; text-align:center; font-size:14pt; font-weight:800; background-color:#6effe2; color:#464653">
+                                                                        @items.Operator
+                                                                    </td>
+                                                                    <td style="width:15.5%; text-align:center; font-size:14pt; font-weight:800; background-color:#6effe2; color:#464653">
+                                                                        @items.Result
+                                                                    </td>
+                                                                    <td style="width:21.5%; text-align:center; font-size:14pt; font-weight:800; background-color:#6effe2; color:#464653">
+                                                                        @items.LastScan
+                                                                    </td>
+                                                                    <td style="width:42%; text-align:center; font-size:12pt; font-weight:800; background-color:#6effe2; color:#464653">
+                                                                        @items.LastVIN
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                        <tr style="height:5px">
+                                                            <td colspan="9"></td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="width:1%; background-color:#f2f2f2"></td>
+                            </tr>
+                            <tr style="width:100%; height:5px; background-color:#f2f2f2"></tr>
+                        </table>
+                    </td>
+                    <td style="width:46%; text-align:center; vertical-align:top">
+                        <table width="100%">
+                            <tr>
+                                <td style="width:1%; background-color:#f2f2f2"></td>
+                                <td style="width:98%; text-align:center">
+                                    <!--Monitoring Claim Port-->
+                                    <table style="width:100%">
+                                        <tr>
+                                            <td style="width:20%;background-color:#f2f2f2">
+                                                &nbsp;
+                                            </td>
+                                            <td rowspan="2" style="width:60%;background-color:#f2f2f2">
+                                                <table style="width:100%;position:relative">
+                                                    <tr>
+                                                        <td style="background-color:#ffa500; border-radius:25px;height:39px">
+                                                            <span style="font-family:'Segoe UI';font-size:26px;font-style:italic;font-weight:600;padding-left:5px"></span>
+                                                            <span style="font-family:'Segoe UI';font-size:26px;font-style:italic;font-weight:600;padding-left:5px">
+                                                                Monitoring
+                                                            </span>
+                                                            <span style="font-family:'Segoe UI';font-size:26px;font-style:italic;font-weight:800;padding-right:5px">
+                                                                Claim Port
+                                                            </span>
+                                                            <span style="font-family:'Segoe UI';font-size:26px;font-style:italic;font-weight:600;padding-left:5px"></span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td rowspan="2" style="width:20%;background-color:#f2f2f2; text-align:right">
+                                                <img src="~/Content/images/ExcelLogo.png" style="width:45px" onclick="location.href='@Url.Action("DownloadClaimPortMonitoring")'" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="background-color:#fff">
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="background-color:#ffffff; padding-left:8px; padding-right:8px">
+                                                <table style="width:100%; overflow-y:auto">
+                                                    <tr>
+                                                        <td style="width:20%; text-align:center">
+                                                            &nbsp;
+                                                        </td>
+                                                        <td style="width:0.5%"></td>
+                                                        <td colspan="3" style="width:28.5%; text-align:center; font-family:'Segoe UI'; font-size:26px; font-style:italic; font-weight:800; color:black">
+                                                            Model
+                                                        </td>
+                                                        <td style="width:0.5%"></td>
+                                                        <td style="width:20%; text-align:center">
+                                                            &nbsp;
+                                                        </td>
+                                                        <td style="width:0.5%"></td>
+                                                        <td style="width:30%; text-align:center">
+                                                            &nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="width:20%; text-align:center; font-family:'Segoe UI'; font-size:26px; font-style:italic; font-weight:800; color:black">
+                                                            Location
+                                                        </td>
+                                                        <td style="width:0.5%"></td>
+                                                        <td style="width:14.2%; text-align:center; font-family:'Segoe UI'; font-size:26px; font-style:italic; font-weight:800; color:black">
+                                                            TMC
+                                                        </td>
+                                                        <td style="width:0.1%"></td>
+                                                        <td style="width:14.2%; text-align:center; font-family:'Segoe UI'; font-size:26px; font-style:italic; font-weight:800; color:black">
+                                                            GE
+                                                        </td>
+                                                        <td style="width:0.5%"></td>
+                                                        <td style="width:20%; text-align:center; font-family:'Segoe UI'; font-size:26px; font-style:italic; font-weight:800; color:black">
+                                                            Total
+                                                        </td>
+                                                        <td style="width:0.5%"></td>
+                                                        <td style="width:30%; text-align:center; font-family:'Segoe UI'; font-size:26px; font-style:italic; font-weight:800; color:black">
+                                                            Due Date
+                                                        </td>
+                                                    </tr>
+
+                                                    @if (ViewBag.MonitoringClaimPort != null)
+                                                    {
+                                                        foreach (var items in ViewBag.MonitoringClaimPort)
+                                                        {
+                                                            <tr>
+                                                                @if (items.Location == "VLC")
+                                                                {
+                                                                    <td>
+                                                                        <table style="background-color:#ffa500;width:90%;height:70px;border-radius:35px">
+                                                                            <tr>
+                                                                                <td style="text-align:center">
+                                                                                    <span style="font-family:'Segoe UI';font-size:26px;font-weight:800;color:#464653">
+                                                                                        @items.Location
+                                                                                    </span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                    <td style="width:0.5%"></td>
+                                                                    <td>
+                                                                        <table style="background-color:#ffa500;width:90%;height:70px;border-top-left-radius:35px;border-bottom-left-radius:35px">
+                                                                            <tr>
+                                                                                <td style="text-align:center">
+                                                                                    <span style="font-family:'Segoe UI';font-size:26px;font-weight:800;color:#464653">
+                                                                                        @items.TMC
+                                                                                    </span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                    <td style="width:0.1%"></td>
+                                                                    <td>
+                                                                        <table style="background-color:#ffa500;width:90%;height:70px;border-top-right-radius:35px;border-bottom-right-radius:35px">
+                                                                            <tr>
+                                                                                <td style="text-align:center">
+                                                                                    <span style="font-family:'Segoe UI';font-size:26px;font-weight:800;color:#464653">
+                                                                                        @items.GE
+                                                                                    </span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                    <td style="width:0.5%"></td>
+                                                                    <td>
+                                                                        <table style="background-color:#ffa500;width:90%;height:70px;border-radius:35px">
+                                                                            <tr>
+                                                                                <td style="text-align:center">
+                                                                                    <span style="font-family:'Segoe UI';font-size:26px;font-weight:800;color:#464653">
+                                                                                        @items.Total
+                                                                                    </span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                    <td style="width:0.5%"></td>
+                                                                    <td>
+                                                                        <table style="background-color:#ffa500;width:90%;height:70px;border-radius:35px">
+                                                                            <tr>
+                                                                                <td style="text-align:center">
+                                                                                    <span style="font-family:'Segoe UI';font-size:26px;font-weight:800;color:#464653">
+                                                                                        @items.DueDate
+                                                                                    </span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td>
+                                                                        <table style="background-color:#8de7f3;width:90%;height:70px;border-radius:35px">
+                                                                            <tr>
+                                                                                <td style="text-align:center">
+                                                                                    <span style="font-family:'Segoe UI';font-size:26px;font-weight:800;color:#464653">
+                                                                                        @items.Location
+                                                                                    </span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                    <td style="width:0.5%"></td>
+                                                                    <td>
+                                                                        <table style="background-color:#8de7f3;width:90%;height:70px;border-top-left-radius:35px;border-bottom-left-radius:35px">
+                                                                            <tr>
+                                                                                <td style="text-align:center">
+                                                                                    <span style="font-family:'Segoe UI';font-size:26px;font-weight:800;color:#464653">
+                                                                                        @items.TMC
+                                                                                    </span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                    <td style="width:0.1%"></td>
+                                                                    <td>
+                                                                        <table style="background-color:#8de7f3;width:90%;height:70px;border-top-right-radius:35px;border-bottom-right-radius:35px">
+                                                                            <tr>
+                                                                                <td style="text-align:center">
+                                                                                    <span style="font-family:'Segoe UI';font-size:26px;font-weight:800;color:#464653">
+                                                                                        @items.GE
+                                                                                    </span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                    <td style="width:0.5%"></td>
+                                                                    <td>
+                                                                        <table style="background-color:#8de7f3;width:90%;height:70px;border-radius:35px">
+                                                                            <tr>
+                                                                                <td style="text-align:center">
+                                                                                    <span style="font-family:'Segoe UI';font-size:26px;font-weight:800;color:#464653">
+                                                                                        @items.Total
+                                                                                    </span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                    <td style="width:0.5%"></td>
+                                                                    <td>
+                                                                        <table style="background-color:#8de7f3;width:90%;height:70px;border-radius:35px">
+                                                                            <tr>
+                                                                                <td style="text-align:center">
+                                                                                    <span style="font-family:'Segoe UI';font-size:26px;font-weight:800;color:#464653">
+                                                                                        @items.DueDate
+                                                                                    </span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                }
+                                                            </tr>
+                                                            <tr style="height:10px">
+                                                                <td colspan="9"></td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="width:1%; background-color:#f2f2f2"></td>
+                            </tr>
+                            <tr style="width:100%; height:18px; background-color:#f2f2f2"></tr>
+                            <tr>
+                                <td style="width:1%; background-color:#f2f2f2"></td>
+                                <td style="width:98%; text-align:center">
+                                    <!--Port Stock Status & Monitoring-->
+                                    <table style="width:100%; height:100%">
+                                        <tr>
+                                            <td style="width:20%;background-color:#f2f2f2">
+                                                &nbsp;
+                                            </td>
+                                            <td rowspan="2" style="width:60%;background-color:#f2f2f2">
+                                                <table style="width:100%;position:relative">
+                                                    <tr>
+                                                        <td style="background-color:#ffa500; border-radius:25px;height:39px">
+                                                            <span style="font-family:'Segoe UI';font-size:22px;font-style:italic;font-weight:600;padding-left:5px"></span>
+                                                            <span style="font-family:'Segoe UI';font-size:22px;font-style:italic;font-weight:800;padding-right:5px">
+                                                                Port Stock
+                                                            </span>
+                                                            <span style="font-family:'Segoe UI';font-size:22px;font-style:italic;font-weight:600">
+                                                                Status & Monitoring
+                                                            </span>
+                                                            <span style="font-family:'Segoe UI';font-size:22px;font-style:italic;font-weight:600;padding-left:5px"></span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td rowspan="2" style="width:20%;background-color:#f2f2f2; text-align:right">
+                                                @*<img src="~/Content/images/ExcelLogo.png" style="width:45px" />*@
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" style="background-color:#464653">
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                        <tr style="height:570px">
+                                            <td colspan="3" style="background-color:#464653; padding-left:8px; padding-right:8px; vertical-align:top">
+                                                <div class="tbl-fixed">
+                                                    <table style="width:100%; border-color:#464653" border="1" cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                            <td style="width:12.5%; text-align:center; font-family:'Segoe UI'; font-size:16px; font-weight:500; color:#ffffff; flex-wrap:wrap">
+                                                                ETD
+                                                            </td>
+                                                            <td style="width:16.5%; text-align:center; font-family:'Segoe UI'; font-size:16px; font-weight:500; color:#ffffff; flex-wrap:wrap">
+                                                                Vessel
+                                                            </td>
+                                                            <td style="width:11.5%; text-align:center; font-family:'Segoe UI'; font-size:16px; font-weight:500; color:#ffffff; flex-wrap:wrap">
+                                                                Country
+                                                            </td>
+                                                            <td style="width:9.5%; text-align:center; font-family:'Segoe UI'; font-size:16px; font-weight:500; color:#ffffff; flex-wrap:wrap">
+                                                                Model
+                                                            </td>
+                                                            <td style="width:5.5%; text-align:center; font-family:'Segoe UI'; font-size:16px; font-weight:500; color:#ffffff; flex-wrap:wrap">
+                                                                Qty
+                                                            </td>
+                                                            <td colspan="2" style="width:11.5%; text-align:center; font-family:'Segoe UI'; font-size:16px; font-weight:500; color:#ffffff; flex-wrap:wrap">
+                                                                CR Status
+                                                            </td>
+                                                            <td style="width:8.5%; text-align:center; font-family:'Segoe UI'; font-size:16px; font-weight:500; color:#ffffff; flex-wrap:wrap">
+                                                                Marking
+                                                            </td>
+                                                            <td style="width:8.5%; text-align:center; font-family:'Segoe UI'; font-size:16px; font-weight:500; color:#ffffff; flex-wrap:wrap">
+                                                                Pre Load
+                                                            </td>
+                                                            <td style="width:8%; text-align:center; font-family:'Segoe UI'; font-size:16px; font-weight:500; color:#ffffff; flex-wrap:wrap">
+                                                                NPE
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="tbl-content2 tbl-fixed">
+                                                    <table id="myTable2" style="width:100%; border-color:#464653" border="1" cellpadding="0" cellspacing="0">
+                                                        @if (ViewBag.PortStock != null)
+                                                        {
+                                                            foreach (var items in ViewBag.PortStock)
+                                                            {
+                                                            <tr style="height:35px">
+                                                                <td style="width:12.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#ffffff; color:#464653; flex-wrap:wrap">
+                                                                    @items.ETD
+                                                                </td>
+                                                                <td style="width:16.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                    @items.Vessel
+                                                                </td>
+                                                                <td style="width:11.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                    @items.Country
+                                                                </td>
+                                                                <td style="width:9.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                    @items.Model
+                                                                </td>
+
+                                                                @if ((items.Qty == items.Marking) && (items.Qty == items.PreLoad) && (items.Qty == items.NPE))
+                                                                {
+
+                                                                    <td style="width:5.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#6effe2; color:#464653">
+                                                                        @items.Qty
+                                                                    </td>
+                                                                    <td style="width:5.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#6effe2; color:#464653">
+                                                                        @items.CRStatus
+                                                                    </td>
+                                                                    <td style="width:5.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#6effe2; color:#464653">
+                                                                        @items.CRStatusPercentage %
+                                                                    </td>
+
+                                                                    if (items.Qty == items.Marking)
+                                                                    {
+                                                                        <td style="width:8.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#6effe2; color:#464653">
+                                                                            <img src="~/Content/img/V.png" style="width:30px" />
+                                                                        </td>
+                                                                    }
+                                                                    else if (items.Marking == 0)
+                                                                    {
+                                                                        <td style="width:8.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#6effe2; color:#464653">
+                                                                            <img src="~/Content/img/X.png" style="width:30px" />
+                                                                        </td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td style="width:8.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#6effe2; color:#464653">
+                                                                            @items.Marking
+                                                                        </td>
+                                                                    }
+
+                                                                    if (items.Qty == items.PreLoad)
+                                                                    {
+                                                                        <td style="width:8.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#6effe2; color:#464653">
+                                                                            <img src="~/Content/img/V.png" style="width:30px" />
+                                                                        </td>
+                                                                    }
+                                                                    else if (items.PreLoad == 0)
+                                                                    {
+                                                                        <td style="width:8.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#6effe2; color:#464653">
+                                                                            <img src="~/Content/img/X.png" style="width:30px" />
+                                                                        </td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td style="width:8.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#6effe2; color:#464653">
+                                                                            @items.PreLoad
+                                                                        </td>
+                                                                    }
+
+                                                                    if (items.Qty == items.NPE)
+                                                                    {
+                                                                        <td style="width:8.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#6effe2; color:#464653">
+                                                                            <img src="~/Content/img/V.png" style="width:30px" />
+                                                                        </td>
+                                                                    }
+                                                                    else if (items.NPE == 0)
+                                                                    {
+                                                                        <td style="width:8.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#6effe2; color:#464653">
+                                                                            <img src="~/Content/img/X.png" style="width:30px" />
+                                                                        </td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td style="width:8.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#6effe2; color:#464653">
+                                                                            @items.NPE
+                                                                        </td>
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td style="width:5.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                        @items.Qty
+                                                                    </td>
+                                                                    <td style="width:5.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                        @items.CRStatus
+                                                                    </td>
+                                                                    <td style="width:5.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                        @items.CRStatusPercentage %
+                                                                    </td>
+                                                                    if (items.Qty == items.Marking)
+                                                                    {
+                                                                        <td style="width:8.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                            <img src="~/Content/img/V.png" style="width:30px" />
+                                                                        </td>
+                                                                    }
+                                                                    else if (items.Marking == 0)
+                                                                    {
+                                                                        <td style="width:8.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                            <img src="~/Content/img/X.png" style="width:30px" />
+                                                                        </td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td style="width:8.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                            @items.Marking
+                                                                        </td>
+                                                                    }
+
+                                                                    if (items.Qty == items.PreLoad)
+                                                                    {
+                                                                        <td style="width:8.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                            <img src="~/Content/img/V.png" style="width:30px" />
+                                                                        </td>
+                                                                    }
+                                                                    else if (items.PreLoad == 0)
+                                                                    {
+                                                                        <td style="width:8.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                            <img src="~/Content/img/X.png" style="width:30px" />
+                                                                        </td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td style="width:8.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                            @items.PreLoad
+                                                                        </td>
+                                                                    }
+
+                                                                    if (items.Qty == items.NPE)
+                                                                    {
+                                                                        <td style="width:8.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                            <img src="~/Content/img/V.png" style="width:30px" />
+                                                                        </td>
+                                                                    }
+                                                                    else if (items.NPE == 0)
+                                                                    {
+                                                                        <td style="width:8.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                            <img src="~/Content/img/X.png" style="width:30px" />
+                                                                        </td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td style="width:8.5%; text-align:center; font-size:12pt; font-weight:800; background-color:#ffffff; color:#464653">
+                                                                            @items.NPE
+                                                                        </td>
+                                                                    }
+                                                                }
+                                                            </tr>
+                                                                }
+                                                            }
+                                                        </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="width:1%; background-color:#f2f2f2"></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        //Created By: Brij Mohan
+        //Website: http://techbrij.com
+        //
+        function groupTable($rows, startIndex, total) {
+            //alert(total);
+            if (total === 0) {
+                return;
+            }
+            var i, currentIndex = startIndex, count = 1, lst = [];
+            var tds = $rows.find('td:eq(' + currentIndex + ')');
+            var ctrl = $(tds[0]);
+            lst.push($rows[0]);
+            for (i = 1; i <= tds.length; i++) {
+                if (ctrl.text() == $(tds[i]).text()) {
+                    count++;
+                    $(tds[i]).addClass('deleted');
+                    lst.push($rows[i]);
+                }
+                else {
+                    if (count > 1) {
+                        ctrl.attr('rowspan', count);
+                        groupTable($(lst), startIndex + 1, total - 1)
+                    }
+                    count = 1;
+                    lst = [];
+                    ctrl = $(tds[i]);
+                    lst.push($rows[i]);
+                }
+            }
+        }
+        groupTable($('#myTable2 tr:has(td)'), 0, 3);
+        $('#myTable2 .deleted').remove();
+    });
+</script>

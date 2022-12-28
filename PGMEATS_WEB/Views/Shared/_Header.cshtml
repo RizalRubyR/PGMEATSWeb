@@ -1,0 +1,22 @@
+﻿<header id="header">
+    <div id="logo-group">
+
+    <!-- PLACE YOUR LOGO HERE -->
+        <span id="logo"> <img src="~/content/img/Daihatsu.png" style="width:150px; margin-top:-15px" alt="Daihatsu"> </span>
+    <!-- END LOGO PLACEHOLDER -->
+ 
+    </div>
+ 
+    <section id="top-right">
+        @if (@Model is HelperResult)
+        {
+            @Model
+        }
+        else
+        {
+            <div class="pull-right">
+                @Html.Partial("_TopRight")
+            </div>
+        }
+    </section>
+</header>

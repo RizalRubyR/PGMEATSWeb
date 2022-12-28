@@ -1,0 +1,86 @@
+﻿@*@model IEnumerable<ADLESKAP.Models.clsAndonKAPOperation>*@
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    img:hover {
+        cursor: pointer;
+    }
+
+    .rotate {
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        width: 5px;
+        transform: rotate(-90.0deg);
+    }
+</style>
+
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+
+            <article class="col-xs-12 col-md-12">
+                <div class="jarviswidget jarviswidget-color-red" id="wid-id-1"
+                     data-widget-colorbutton="false"
+                     data-widget-editbutton="false"
+                     data-widget-togglebutton="false"
+                     data-widget-deletebutton="false"
+                     data-widget-custombutton="false"
+                     data-widget-collapsed="false"
+                     data-widget-sortable="false">
+
+                    <header style="border-top-left-radius:8px; border-top-right-radius:8px">
+                        <h2 style="font-family:'Poppins-Regular';font-weight:500;font-size:13px">Dashboard</h2>
+                    </header>
+
+                    <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
+                        <ul class="nav nav-tabs" id="myTab" style="margin-top:-10px; font-size:22px">
+                            <li class="active">
+                                <a href="#tab_1" data-toggle="tab">Job Assignment</a>
+                            </li>
+                            <li>
+                                <a href="#tab_2" data-toggle="tab">KAP Operations</a>
+                            </li>
+                            <li>
+                                <a href="#tab_3" data-toggle="tab">Patimban Operations</a>
+                            </li>
+                            @*<li>
+                                <a href="#tab_4" data-toggle="tab">Car Carrier Operations</a>
+                            </li>*@
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_1">
+                                @{Html.RenderAction("_JobAssignment", "Home");}
+                            </div>
+                            <div class="tab-pane fade" id="tab_2">
+                                @{Html.RenderAction("_KAPOperation", "Home");}
+                            </div>
+                            <div class="tab-pane fade" id="tab_3">
+                                @{Html.RenderAction("_PatimbanOperation", "Home");}
+                            </div>
+                            @*<div class="tab-pane fade" id="tab_4">
+                                @{Html.RenderAction("_CCOperation", "Home");}
+                            </div>*@
+                        </div>
+                    </div>
+
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+
+<script src="~/Scripts/plugin/bootstrap-waitingfor/bootstrap-waitingfor.min.js"></script>
+<script src="~/Scripts/plugin/chartjs/chart.min.js"></script>
+<script src="~/Scripts/plugin/chartjs/chartjs-plugin-annotation.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script type="text/javascript">
+    setInterval("$('#tab_1').load('/Home/_JobAssignment') ", 10000);  
+    setInterval("$('#tab_2').load('/Home/_KapOperation') ", 30000);  
+    setInterval("$('#tab_3').load('/Home/_PatimbanOperation') ", 30000);
+    setInterval("$('#tab_4').load('/Home/_CCOperation') ", 30000);
+</script>

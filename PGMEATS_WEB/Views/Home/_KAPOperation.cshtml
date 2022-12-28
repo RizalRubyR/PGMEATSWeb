@@ -1,0 +1,1642 @@
+﻿<div class="row" style="background-color:#f2f2f2; margin: 5px 1px 0px 1px">
+    <h2 style="font-family:Tahoma;font-weight:900;font-size:32px;font-style:normal;color:#464653;margin: 15px 15px">KAP Operations</h2>
+    <table table style="width:100%">
+        @if (ViewBag.AndonKAPOperation != null)
+        {
+            foreach (var item in ViewBag.AndonKAPOperation)
+            {
+                <tr>
+                    <td style="width:1%; background-color:#f2f2f2"></td>
+                    @* Column VA Out *@
+                    <td style="width:25%; border-radius:5px; vertical-align:top">
+                        <table style="width:100%;background-color:#464653" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <table style="width:100%; background-color:#f2f2f2">
+                                        <tr>
+                                            <td style="background-color:#fff; border-top-right-radius:28px">
+                                                <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:800;padding-left:5px;margin-top:-0.7%;position:absolute;color:#ffffff">
+                                                    <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-right:5px;margin-top:-1%"></span>
+                                                </span>
+                                                <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-right:5px"></span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td colspan="4" style="background-color:#f2f2f2"></td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <table style="width:100%; background-color:#464653; text-align:left">
+                                        <tr>
+                                            <td style="background-color:#fff; border-bottom-right-radius:28px">
+                                                <span style="font-family:'Segoe UI';font-size:28px;font-weight:800;font-style:italic;padding-left:5px;margin-top:-1%;position:absolute;color:#464653">
+                                                    KAP
+                                                    <span style="font-family:'Segoe UI';font-size:28px;font-weight:600;font-style:italic;padding-right:5px;margin-top:-1%">
+                                                        Out
+                                                    </span>
+                                                </span>
+                                                <span style="font-family:'Segoe UI';font-size:24px;font-weight:600;padding-right:5px"></span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="background-color:#464653" colspan="4"></td>
+                            </tr>
+                            <tr>
+                                <td width="58%" style="height:5px" align="center">
+                                    <font style="font-family:'Quicksand-Regular';font-size:22px;font-weight:600;color:#fff">
+                                        Efficiency
+                                    </font>
+                                </td>
+                                <td width="42%" colspan="2">
+                                </td>
+                            </tr>
+                            <tr style="height:40px">
+                                <td width="58%" rowspan="6" align="center">
+                                    <canvas id="cVAOut" style="display:flex; height:180px; width:180px"></canvas>
+                                </td>
+                                <td width="20%" style="text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:22px;color:#ffffff;padding-right:5px">
+                                        Original Plan :
+                                    </span>
+                                </td>
+                                <td width="20%" style="background-color:#fff;text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:27px;font-weight:800;color:#464653;padding-left:5px">
+                                        @item.VAOriginalPlan
+                                    </span>
+                                </td>
+                                <td width="2%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:10px" colspan="2">
+                                </td>
+                            </tr>
+                            <tr style="height:40px">
+                                <td width="20%" style="text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:22px;color:#ffffff;text-align:center;padding-left:5px">
+                                        Actual Plan :
+                                    </span>
+                                </td>
+                                <td width="20%" style="background-color:#fff;text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:27px;font-weight:800;color:#464653;padding-left:5px">
+                                        @item.VAActualPlan
+                                    </span>
+                                </td>
+                                <td width="2%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:10px" colspan="2">
+                                </td>
+                            </tr>
+                            <tr style="height:60px">
+                                <td width="20%" style="text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:22px;color:#ffffff;text-align:center;padding-left:5px">
+                                        Achiev :
+                                    </span>
+                                </td>
+                                <td width="20%" style="background-color:red;text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:27px;font-weight:800;color:#ffffff;padding-left:5px">
+                                        @item.VAAchiev
+                                    </span>
+                                </td>
+                                <td width="2%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:10px" colspan="2">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td style="width:1%; background-color:#f2f2f2"></td>
+                    @* Column PIO Installation *@
+                    <td style="width:25%; background-color:transparent; border-radius:5px">
+                        <table style="width:100%; background-color:#ffffff">
+                            <tr>
+                                <td colspan="2" style="background-color:#464653">
+                                    <table style="width:100%;background-color:#f2f2f2">
+                                        <tr>
+                                            <td style="background-color:#464653;border-top-right-radius:28px">
+                                                <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:800;padding-left:5px;margin-top:-0.7%;position:absolute;color:#ffffff">
+                                                    <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-right:5px;margin-top:-1%"></span>
+                                                </span>
+                                                <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-right:5px"></span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="background-color:#f2f2f2"></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2">
+                                    <table style="width:100%;background-color:#ffffff; text-align:left">
+                                        <tr>
+                                            <td style="background-color:#464653;border-bottom-right-radius:28px">
+                                                <span style="font-family:'Segoe UI';font-size:28px;font-weight:800;font-style:italic;padding-left:5px;margin-top:-1%;position:absolute;color:#ffffff">
+                                                    PIO
+                                                    <span style="font-family:'Segoe UI';font-size:28px;font-weight:600;font-style:italic;padding-right:5px;margin-top:-1%">
+                                                        Installation
+                                                    </span>
+                                                </span>
+                                                <span style="font-family:'Segoe UI';font-size:24px;font-weight:600;padding-right:5px"></span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="background-color:#ffffff"></td>
+                            </tr>
+                            <tr>
+                                <td width="50%" colspan="2">
+                                </td>
+                                <td width="50%" style="height:5px" align="center">
+                                    <span style="font-family:'Quicksand-Regular';font-size:22px;font-weight:600;color:#464653">
+                                        Efficiency
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="height:40px">
+                                <td width="25%" style="text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:22px;color:#464653;text-align:center;padding-left:5px">
+                                        Original Plan :
+                                    </span>
+                                </td>
+                                <td width="25%" style="background-color:#464653;text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:27px;font-weight:800;color:#ffffff;padding-left:5px">
+                                        @item.PIOOriginalPlan
+                                    </span>
+                                </td>
+                                <td width="50%" rowspan="5" align="center">
+                                    <canvas id="cPIO" style="display:flex; height:180px; width:180px"></canvas>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:10px" colspan="2">
+                                </td>
+                            </tr>
+                            <tr style="height:40px">
+                                <td width="25%" style="text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:22px;color:#464653;text-align:center;padding-left:5px">
+                                        Actual Plan :
+                                    </span>
+                                </td>
+                                <td width="25%" style="background-color:#464653;text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:27px;font-weight:800;color:#ffffff;padding-left:5px">
+                                        @item.PIOActualPlan
+                                    </span>
+                                </td>
+                                <td width="50%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:10px" colspan="2">
+                                </td>
+                            </tr>
+                            <tr style="height:60px">
+                                <td width="25%" style="text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:22px;color:#464653;text-align:center;padding-left:5px">
+                                        Achiev :
+                                    </span>
+                                </td>
+                                <td width="25%" style="background-color:aqua;text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:27px;font-weight:800;color:#464653;padding-left:5px">
+                                        @item.PIOAchiev
+                                    </span>
+                                </td>
+                                <td width="50%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:10px" colspan="2">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td style="width:1%; background-color:#f2f2f2"></td>
+                    @* Column Claim & NG Monitoring *@
+                    <td style="width:46%; background-color:#ffffff; border-radius:5px; vertical-align:top">
+                        <table style="width:100%">
+                            <tr style="height:30px">
+                                <td colspan="13" width="100%" style="background-color:#f2f2f2"></td>
+                            </tr>
+                            <tr>
+                                <td width="50%" colspan="6">
+                                    <span style="font-family:'Quicksand-Regular';font-size:28px;font-style:italic;font-weight:500;padding-left:5px">
+                                        Claim & NG
+                                    </span>
+                                    <span style="font-family:'Quicksand-Bold';font-size:28px;font-style:italic;font-weight:900;padding-right:5px">
+                                        Monitoring
+                                    </span>
+                                </td>
+                                <td width="50%" colspan="7" align="right">
+                                    <img src="~/Content/images/ExcelLogo.png" style="width:55px; padding-right:5px" onclick="location.href='@Url.Action("DownloadClaimNGMonitoring")'"  />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:15px" colspan="3">
+                                </td>
+                            </tr>
+                            <tr style="height:70px">
+                                <td width="1%"></td>
+                                <td width="32%" colspan="3" style="background-color:aqua">
+                                    <span style="font-family:'Prompt-Regular';font-size:28px;font-weight:800;font-style:italic;padding-left:15px">
+                                        Small NG
+                                    </span>
+                                </td>
+                                <td width="1%"></td>
+                                <td width="32%" colspan="3" style="background-color:#fcbd00">
+                                    <span style="font-family:'Prompt-Regular';font-size:28px;font-weight:800;font-style:italic;padding-left:15px">
+                                        BIG NG
+                                    </span>
+                                </td>
+                                <td width="1%"></td>
+                                <td width="32%" colspan="3" style="background-color:red">
+                                    <span style="font-family:'Prompt-Regular';font-size:28px;font-weight:800;font-style:italic;padding-left:15px">
+                                        KAP IN
+                                    </span>
+                                </td>
+                                <td width="1%"></td>
+                            </tr>
+                            <tr style="border-top-style:dotted;border-top-color:#ffffff;height:50px">
+                                <td width="1%"></td>
+                                <td style="background-color:aqua;border-right-style:dotted;border-right-color:#ffffff;text-align:center">
+                                    <span style="font-family:'Quicksand-Regular';font-size:20px;font-weight:700;font-style:italic">
+                                        Regular
+                                    </span>
+                                </td>
+                                <td style="background-color:aqua;border-right-style:dotted;border-right-color:#ffffff;text-align:center">
+                                    <span style="font-family:'Quicksand-Regular';font-size:20px;font-weight:700;font-style:italic">
+                                        Priority
+                                    </span>
+                                </td>
+                                <td style="background-color:aqua;text-align:center">
+                                    <span style="font-family:'Quicksand-Bold';font-size:20px;font-weight:800;font-style:italic">
+                                        Total
+                                    </span>
+                                </td>
+                                <td width="1%"></td>
+                                <td style="background-color:#fcbd00;border-right-style:dotted;border-right-color:#ffffff;text-align:center">
+                                    <span style="font-family:'Quicksand-Regular';font-size:20px;font-weight:700;font-style:italic">
+                                        Regular
+                                    </span>
+                                </td>
+                                <td style="background-color:#fcbd00;border-right-style:dotted;border-right-color:#ffffff;text-align:center">
+                                    <span style="font-family:'Quicksand-Regular';font-size:20px;font-weight:700;font-style:italic">
+                                        Priority
+                                    </span>
+                                </td>
+                                <td style="background-color:#fcbd00;text-align:center">
+                                    <span style="font-family:'Quicksand-Bold';font-size:20px;font-weight:800;font-style:italic">
+                                        Total
+                                    </span>
+                                </td>
+                                <td width="1%"></td>
+                                <td style="background-color:red;border-right-style:dotted;border-right-color:#ffffff;text-align:center">
+                                    <span style="font-family:'Quicksand-Regular';font-size:20px;font-weight:700;font-style:italic">
+                                        Regular
+                                    </span>
+                                </td>
+                                <td style="background-color:red;border-right-style:dotted;border-right-color:#ffffff;text-align:center">
+                                    <span style="font-family:'Quicksand-Regular';font-size:20px;font-weight:700;font-style:italic">
+                                        Priority
+                                    </span>
+                                </td>
+                                <td style="background-color:red;text-align:center">
+                                    <span style="font-family:'Quicksand-Bold';font-size:20px;font-weight:800;font-style:italic">
+                                        Total
+                                    </span>
+                                </td>
+                                <td width="1%"></td>
+                            </tr>
+                            <tr style="height:50px">
+                                <td width="1%"></td>
+                                <td style="background-color:#ffffff;border-right-style:dotted;border-right-color:aqua;text-align:center">
+                                    <span style="font-family:'Segoe UI';font-size:62px;font-weight:600;color:aqua;padding-left:5px">
+                                        @item.SmallNGRegular
+                                    </span>
+                                </td>
+                                <td style="background-color:#ffffff;text-align:center">
+                                    <span style="font-family:'Segoe UI';font-size:62px;font-weight:600;color:aqua;padding-left:5px">
+                                        @item.SmallNGPriority
+                                    </span>
+                                </td>
+                                <td style="background-color:aqua;text-align:center">
+                                    <span style="font-family:'Segoe UI';font-size:62px;font-weight:600;padding-left:5px">
+                                        @item.SmallNGTotal
+                                    </span>
+                                </td>
+                                <td width="1%"></td>
+                                <td style="background-color:#ffffff;border-right-style:dotted;border-right-color:#fcbd00;text-align:center">
+                                    <span style="font-family:'Segoe UI';font-size:62px;font-weight:600;color:#fcbd00;padding-left:5px">
+                                        @item.BigNGRegular
+                                    </span>
+                                </td>
+                                <td style="background-color:#ffffff;text-align:center">
+                                    <span style="font-family:'Segoe UI';font-size:62px;font-weight:600;color:#fcbd00;padding-left:5px">
+                                        @item.BigNGPriority
+                                    </span>
+                                </td>
+                                <td style="background-color:#fcbd00;text-align:center">
+                                    <span style="font-family:'Segoe UI';font-size:62px;font-weight:600;padding-left:5px">
+                                        @item.BigNGTotal
+                                    </span>
+                                </td>
+                                <td width="1%"></td>
+                                <td style="background-color:#ffffff;border-right-style:dotted;border-right-color:red;text-align:center">
+                                    <span style="font-family:'Segoe UI';font-size:62px;font-weight:600;color:red;padding-left:5px">
+                                        @item.KAPInRegular
+                                    </span>
+                                </td>
+                                <td style="background-color:#ffffff;text-align:center">
+                                    <span style="font-family:'Segoe UI';font-size:62px;font-weight:600;color:red;padding-left:5px">
+                                        @item.KAPInPriority
+                                    </span>
+                                </td>
+                                <td style="background-color:red;text-align:center">
+                                    <span style="font-family:'Segoe UI';font-size:62px;font-weight:600;padding-left:5px">
+                                        @item.KAPInTotal
+                                    </span>
+                                </td>
+                                <td width="1%"></td>
+                            </tr>
+                            <tr>
+                                <td style="height:15px" colspan="3">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td style="width:1%; background-color:#f2f2f2"></td>
+                </tr>
+                <tr style="width:100%; height:10px; background-color:#f2f2f2"></tr>
+                <tr>
+                    <td style="width:1%; background-color:#f2f2f2"></td>
+                    @* Column Yard In *@
+                    <td style="width:25%; background-color:transparent; border-radius:5px">
+                        <table style="width:100%;background-color:#464653" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <table style="width:100%; background-color:#f2f2f2">
+                                        <tr>
+                                            <td style="background-color:#fff; border-top-right-radius:28px">
+                                                <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:800;padding-left:5px;margin-top:-0.7%;position:absolute;color:#ffffff">
+                                                    <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-right:5px;margin-top:-1%"></span>
+                                                </span>
+                                                <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-right:5px"></span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td colspan="4" style="background-color:#f2f2f2"></td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <table style="width:100%; background-color:#464653; text-align:left">
+                                        <tr>
+                                            <td style="background-color:#fff; border-bottom-right-radius:28px">
+                                                <span style="font-family:'Segoe UI';font-size:28px;font-weight:800;font-style:italic;padding-left:5px;margin-top:-1%;position:absolute;color:#464653">
+                                                    Yard
+                                                    <span style="font-family:'Segoe UI';font-size:28px;font-weight:600;font-style:italic;padding-right:5px;margin-top:-1%">
+                                                        In
+                                                    </span>
+                                                </span>
+                                                <span style="font-family:'Segoe UI';font-size:24px;font-weight:600;padding-right:5px"></span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="background-color:#464653" colspan="4"></td>
+                            </tr>
+                            <tr>
+                                <td width="58%" style="height:5px" align="center">
+                                    <font style="font-family:'Quicksand-Regular';font-size:22px;font-weight:600;color:#fff">
+                                        Efficiency
+                                    </font>
+                                </td>
+                                <td width="42%" colspan="2">
+                                </td>
+                            </tr>
+                            <tr style="height:40px">
+                                <td width="58%" rowspan="6" align="center">
+                                    <canvas id="cYardIn" style="display:flex; height:180px; width:180px"></canvas>
+                                </td>
+                                <td width="20%" style="text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:22px;color:#ffffff;text-align:center;padding-left:5px">
+                                        Original Plan :
+                                    </span>
+                                </td>
+                                <td width="20%" style="background-color:#fff;text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:27px;font-weight:800;color:#464653;padding-left:5px">
+                                        @item.YardOriginalPlan
+                                    </span>
+                                </td>
+                                <td width="2%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:10px" colspan="2">
+                                </td>
+                            </tr>
+                            <tr style="height:40px">
+                                <td width="20%" style="text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:22px;color:#ffffff;text-align:center;padding-left:5px">
+                                        Actual Plan :
+                                    </span>
+                                </td>
+                                <td width="20%" style="background-color:#fff;text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:27px;font-weight:800;color:#464653;padding-left:5px">
+                                        @item.YardActualPlan
+                                    </span>
+                                </td>
+                                <td width="2%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:10px" colspan="2">
+                                </td>
+                            </tr>
+                            <tr style="height:60px">
+                                <td width="20%" style="text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:22px;color:#ffffff;text-align:center;padding-left:5px">
+                                        Achiev :
+                                    </span>
+                                </td>
+                                <td width="20%" style="background-color:red;text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:27px;font-weight:800;color:#ffffff;padding-left:5px">
+                                        @item.YardAchiev
+                                    </span>
+                                </td>
+                                <td width="2%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:10px" colspan="2">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td style="width:1%; background-color:#f2f2f2"></td>
+                    @* Column Delivery to Port *@
+                    <td rowspan="3" style="width:25%; background-color:#464653; border-radius:5px">
+                        <table style="width:100%">
+                            <tr>
+                                <td colspan="2" style="background-color:#ffffff">
+                                    <table style="width:100%;background-color:#f2f2f2">
+                                        <tr>
+                                            <td style="background-color:#ffffff;border-top-right-radius:28px">
+                                                <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:800;padding-left:5px;margin-top:-0.7%;position:absolute;color:#ffffff">
+                                                    <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-right:5px;margin-top:-1%"></span>
+                                                </span>
+                                                <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-right:5px"></span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="background-color:#f2f2f2"></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2">
+                                    <table style="width:100%;background-color:#464653; text-align:left">
+                                        <tr>
+                                            <td style="background-color:#ffffff;border-bottom-right-radius:28px">
+                                                <span style="font-family:'Segoe UI';font-size:28px;font-weight:800;font-style:italic;padding-left:5px;margin-top:-1%;position:absolute;color:#464653">
+                                                    Delivery
+                                                    <span style="font-family:'Segoe UI';font-size:28px;font-weight:600;font-style:italic;padding-right:5px;margin-top:-1%">
+                                                        to Port
+                                                    </span>
+                                                </span>
+                                                <span style="font-family:'Segoe UI';font-size:24px;font-weight:600;padding-right:5px"></span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="background-color:#464653"></td>
+                            </tr>
+                            <tr>
+                                <td style="height:10px" colspan="3">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="100%" colspan="3">
+                                    <span style="font-family:'Quicksand-Bold';font-size:28px;font-style:italic;font-weight:900;color:red;padding-left:5px">
+                                        Tanjung
+                                    </span>
+                                    <span style="font-family:'Quicksand-Regular';font-size:28px;font-style:italic;font-weight:600;color:red;padding-right:5px">
+                                        Priok
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="50%" colspan="2">
+                                </td>
+                                <td width="50%" style="height:5px" align="center">
+                                    <span style="font-family:'Quicksand-Regular';font-size:22px;font-weight:800;font-style:italic;color:#ffffff">
+                                        Efficiency
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="height:40px">
+                                <td width="25%" style="text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:22px;color:#ffffff;text-align:center;padding-left:5px">
+                                        Original Plan :
+                                    </span>
+                                </td>
+                                <td width="25%" style="background-color:#ffffff;text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:27px;font-weight:800;color:#464653;padding-left:5px">
+                                        @item.TPriokOriginalPlan
+                                    </span>
+                                </td>
+                                <td width="50%" style="background-color:#464653" rowspan="5" align="center">
+                                    <canvas id="cTanjungPriok" style="display:flex; height:180px; width:180px"></canvas>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:10px" colspan="2">
+                                </td>
+                            </tr>
+                            <tr style="height:40px">
+                                <td width="25%" style="text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:22px;color:#ffffff;text-align:center;padding-left:5px">
+                                        Actual Plan :
+                                    </span>
+                                </td>
+                                <td width="25%" style="background-color:#ffffff;text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:27px;font-weight:800;color:#464653;padding-left:5px">
+                                        @item.TPriokActualPlan
+                                    </span>
+                                </td>
+                                <td width="50%" style="background-color:#464653">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:10px" colspan="2">
+                                </td>
+                            </tr>
+                            <tr style="height:60px">
+                                <td width="25%" style="text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:22px;color:#ffffff;text-align:center;padding-left:5px">
+                                        Achiev :
+                                    </span>
+                                </td>
+                                <td width="25%" style="background-color:red;text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:27px;font-weight:800;color:#ffffff;padding-left:5px">
+                                        @item.TPriokAchiev
+                                    </span>
+                                </td>
+                                <td width="50%" style="background-color:#464653">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:10px" colspan="2">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="100%" colspan="3">
+                                    <span style="font-family:'Quicksand-Bold';font-size:28px;font-style:italic;font-weight:900;color:#fcbd00;padding-left:5px;display:flex">
+                                        Pati
+                                        <span style="font-family:'Quicksand-Regular';font-size:28px;font-style:italic;font-weight:500;color:#fcbd00;padding-right:5px;display:flex">
+                                            mban
+                                        </span>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="50%" colspan="2">
+                                </td>
+                                <td width="50%" style="height:5px" align="center">
+                                    <span style="font-family:'Quicksand-Regular';font-size:22px;font-weight:800;font-style:italic;color:#ffff">
+                                        Efficiency
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr style="height:40px">
+                                <td width="25%" style="text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:22px;color:#ffffff;text-align:center;padding-left:5px">
+                                        Original Plan :
+                                    </span>
+                                </td>
+                                <td width="25%" style="background-color:#ffffff;text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:27px;font-weight:800;color:black;padding-left:5px">
+                                        @item.PatimbanOriginalPlan
+                                    </span>
+                                </td>
+                                <td width="50%" style="background-color:#464653" rowspan="5" align="center">
+                                    <canvas id="cPatimban" style="display:flex; height:180px; width:180px"></canvas>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:10px" colspan="2">
+                                </td>
+                            </tr>
+                            <tr style="height:40px">
+                                <td width="25%" style="text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:22px;color:#ffffff;text-align:center;padding-left:5px">
+                                        Actual Plan :
+                                    </span>
+                                </td>
+                                <td width="25%" style="background-color:#ffffff;text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:27px;font-weight:800;color:black;padding-left:5px">
+                                        @item.PatimbanActualPlan
+                                    </span>
+                                </td>
+                                <td width="50%" style="background-color:#464653">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:10px" colspan="2">
+                                </td>
+                            </tr>
+                            <tr style="height:60px">
+                                <td width="25%" style="text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:22px;color:#ffffff;text-align:center;padding-left:5px">
+                                        Achiev :
+                                    </span>
+                                </td>
+                                <td width="25%" style="background-color:#fcbd00;text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:27px;font-weight:800;color:black;padding-left:5px">
+                                        @item.PAtimbanAchiev
+                                    </span>
+                                </td>
+                                <td width="50%" style="background-color:#464653">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:10px" colspan="3">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td style="width:1%; background-color:#f2f2f2"></td>
+                    @* Column Man Power Performance Monitoring *@
+                    <td rowspan="3" style="width:46%; background-color:#464653; border-radius:5px; vertical-align:top">
+                        <table style="width:100%;height:100%">
+                            <tr>
+                                <td style="height:5px">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="100%" height="10%" style="background-color:#464653">
+                                    <div style="height:10%">
+                                        <span style="font-family:'Quicksand-Regular';font-size:28px;font-style:italic;color:#ffffff;padding-left:5px">
+                                            Manpower Performance
+                                        </span>
+                                        <span style="font-family:'Quicksand-Bold';font-size:28px;font-style:italic;font-weight:900;color:#ffffff;padding-left:5px">
+                                            Monitoring
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:5px">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="100%" height="80%" style="height:5px; padding-left:5px; padding-right:5px">
+                                    <table width="100%" style="font-family:'Quicksand-Regular';font-size:14px;color:#ffffff; overflow-y:auto">
+                                        <tr>
+                                            <td style="width:7%; text-align:center">
+                                                Eff
+                                            </td>
+                                            <td style="width:0.5%"></td>
+                                            <td style="width:10%; text-align:center">
+                                                Name
+                                            </td>
+                                            <td style="width:0.5%"></td>
+                                            <td style="width:10%; text-align:center">
+                                                Roles
+                                            </td>
+                                            <td style="width:0.5%"></td>
+                                            <td style="width:10%; text-align:center">
+                                                Assign
+                                            </td>
+                                            <td style="width:0.5%"></td>
+                                            <td style="width:8%; text-align:center">
+                                                Plan
+                                            </td>
+                                            <td style="width:0.5%"></td>
+                                            <td style="width:8%; text-align:center">
+                                                Accept
+                                            </td>
+                                            <td style="width:0.5%"></td>
+                                            <td style="width:8%; text-align:center">
+                                                Decline
+                                            </td>
+                                            <td style="width:0.5%"></td>
+                                            <td style="width:21%; text-align:center" colspan="2">
+                                                Current Job
+                                            </td>
+                                            <td style="width:0.5%"></td>
+                                            <td style="width:10%; text-align:center">
+                                                Last Job
+                                            </td>
+                                        </tr>
+
+                                        @if (ViewBag.AndonKAPOperationMP != null)
+                                        {
+                                            foreach (var items in ViewBag.AndonKAPOperationMP)
+                                            {
+                                                <tr style="height:30px">
+                                                    @if (items.Eff >= 70 && items.Eff < 80)
+                                                    {
+                                                        <td style="background-color:#ff6666; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Eff %</td>
+                                                    }
+                                                    else if (items.Eff >= 80 && items.Eff < 90)
+                                                    {
+                                                        <td style="background-color:#ffcc00; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Eff %</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="background-color:aqua; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Eff %</td>
+                                                    }
+                                                    <td></td>
+                                                    @if (items.Eff >= 70 && items.Eff < 80)
+                                                    {
+                                                        <td style="background-color:#ff6666; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Name</td>
+                                                    }
+                                                    else if (items.Eff >= 80 && items.Eff < 90)
+                                                    {
+                                                        <td style="background-color:#ffcc00; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Name</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="background-color:aqua; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Name</td>
+                                                    }
+                                                    <td></td>
+                                                    @if (items.Eff >= 70 && items.Eff < 80)
+                                                    {
+                                                        <td style="background-color:#ff6666; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Roles</td>
+                                                    }
+                                                    else if (items.Eff >= 80 && items.Eff < 90)
+                                                    {
+                                                        <td style="background-color:#ffcc00; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Roles</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="background-color:aqua; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Roles</td>
+                                                    }
+                                                    <td></td>
+                                                    @if (items.Eff >= 70 && items.Eff < 80)
+                                                    {
+                                                        <td style="background-color:#ff6666; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Assign</td>
+                                                    }
+                                                    else if (items.Eff >= 80 && items.Eff < 90)
+                                                    {
+                                                        <td style="background-color:#ffcc00; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Assign</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="background-color:aqua; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Assign</td>
+                                                    }
+                                                    <td></td>
+                                                    @if (items.Eff >= 70 && items.Eff < 80)
+                                                    {
+                                                        <td style="background-color:#ff6666; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Plan</td>
+                                                    }
+                                                    else if (items.Eff >= 80 && items.Eff < 90)
+                                                    {
+                                                        <td style="background-color:#ffcc00; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Plan</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="background-color:aqua; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Plan</td>
+                                                    }
+                                                    <td></td>
+                                                    @if (items.Eff >= 70 && items.Eff < 80)
+                                                    {
+                                                        <td style="background-color:#ff6666; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Accept</td>
+                                                    }
+                                                    else if (items.Eff >= 80 && items.Eff < 90)
+                                                    {
+                                                        <td style="background-color:#ffcc00; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Accept</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="background-color:aqua; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Accept</td>
+                                                    }
+                                                    <td></td>
+                                                    @if (items.Eff >= 70 && items.Eff < 80)
+                                                    {
+                                                        <td style="background-color:#ff6666; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Decline</td>
+                                                    }
+                                                    else if (items.Eff >= 80 && items.Eff < 90)
+                                                    {
+                                                        <td style="background-color:#ffcc00; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Decline</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="background-color:aqua; color:#464653; font-size:9pt; font-weight:800" align="center">@items.Decline</td>
+                                                    }
+                                                    <td></td>
+                                                    @if (items.Eff >= 70 && items.Eff < 80)
+                                                    {
+                                                        <td style="background-color:#ff6666; color:#464653; font-size:9pt; font-weight:800; border-right-style:dotted; border-right-width:thin" align="center">@items.CurrentJobFrom</td>
+                                                    }
+                                                    else if (items.Eff >= 80 && items.Eff < 90)
+                                                    {
+                                                        <td style="background-color:#ffcc00; color:#464653; font-size:9pt; font-weight:800; border-right-style:dotted; border-right-width:thin" align="center">@items.CurrentJobFrom</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="background-color:aqua; color:#464653; font-size:9pt; font-weight:800; border-right-style:dotted; border-right-width:thin" align="center">@items.CurrentJobFrom</td>
+                                                    }
+                                                    @if (items.Eff >= 70 && items.Eff < 80)
+                                                    {
+                                                        <td style="background-color:#ff6666; color:#464653; font-size:9pt; font-weight:800; border-right-width:thin" align="center">@items.CurrentJobTo</td>
+                                                    }
+                                                    else if (items.Eff >= 80 && items.Eff < 90)
+                                                    {
+                                                        <td style="background-color:#ffcc00; color:#464653; font-size:9pt; font-weight:800; border-right-width:thin" align="center">@items.CurrentJobTo</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="background-color:aqua; color:#464653; font-size:9pt; font-weight:800; border-right-width:thin" align="center">@items.CurrentJobTo</td>
+                                                    }
+                                                    <td></td>
+                                                    @if (items.Eff >= 70 && items.Eff < 80)
+                                                    {
+                                                        <td style="background-color:#ff6666; color:#464653; font-size:9pt; font-weight:800" align="center">@items.LastJob</td>
+                                                    }
+                                                    else if (items.Eff >= 80 && items.Eff < 90)
+                                                    {
+                                                        <td style="background-color:#ffcc00; color:#464653; font-size:9pt; font-weight:800" align="center">@items.LastJob</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="background-color:aqua; color:#464653; font-size:9pt; font-weight:800" align="center">@items.LastJob</td>
+                                                    }
+
+                                                </tr>
+                                                <tr style="height:3px">
+                                                    <td colspan="18"></td>
+                                                </tr>
+                                            }
+                                        }
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:10%">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td style="width:1%; background-color:#f2f2f2"></td>
+                </tr>
+                <tr style="width:100%; height:10px; background-color:#f2f2f2"></tr>
+                <tr>
+                    <td style="width:1%; background-color:#f2f2f2"></td>
+                    @* Column Shipping Line *@
+                    <td style="width:25%; background-color:transparent; border-radius:5px">
+                        <table style="width:100%;background-color:#464653" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <table style="width:100%; background-color:#f2f2f2">
+                                        <tr>
+                                            <td style="background-color:#fff; border-top-right-radius:28px">
+                                                <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:800;padding-left:5px;margin-top:-0.7%;position:absolute;color:#ffffff">
+                                                    <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-right:5px;margin-top:-1%"></span>
+                                                </span>
+                                                <span style="font-family:'Segoe UI';font-size:20px;font-style:italic;font-weight:600;padding-right:5px"></span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td colspan="4" style="background-color:#f2f2f2"></td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <table style="width:100%; background-color:#464653; text-align:left">
+                                        <tr>
+                                            <td style="background-color:#fff; border-bottom-right-radius:28px">
+                                                <span style="font-family:'Segoe UI';font-size:28px;font-weight:800;font-style:italic;padding-left:5px;margin-top:-1%;position:absolute;color:#464653">
+                                                    Shipping
+                                                    <span style="font-family:'Segoe UI';font-size:28px;font-weight:600;font-style:italic;padding-right:5px;margin-top:-1%">
+                                                        Line
+                                                    </span>
+                                                </span>
+                                                <span style="font-family:'Segoe UI';font-size:24px;font-weight:600;padding-right:5px"></span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="background-color:#464653" colspan="4"></td>
+                            </tr>
+                            <tr>
+                                <td width="58%" style="height:5px" align="center">
+                                    <font style="font-family:'Quicksand-Regular';font-size:22px;font-weight:600;color:#fff">
+                                        Efficiency
+                                    </font>
+                                </td>
+                                <td width="42%" colspan="2">
+                                </td>
+                            </tr>
+                            <tr style="height:40px">
+                                <td width="58%" rowspan="6" align="center">
+                                    <canvas id="cShippingLine" style="display:flex; height:180px; width:180px"></canvas>
+                                </td>
+                                <td width="20%" style="text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:22px;color:#ffffff;text-align:center;padding-left:5px">
+                                        Original Plan :
+                                    </span>
+                                </td>
+                                <td width="20%" style="background-color:#fff;text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:27px;font-weight:800;color:#464653;padding-left:5px">
+                                        @item.SLOriginalPlan
+                                    </span>
+                                </td>
+                                <td width="2%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:10px" colspan="2">
+                                </td>
+                            </tr>
+                            <tr style="height:40px">
+                                <td width="20%" style="text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:22px;color:#ffffff;text-align:center;padding-left:5px">
+                                        Actual Plan :
+                                    </span>
+                                </td>
+                                <td width="20%" style="background-color:#fff;text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:27px;font-weight:800;color:#464653;padding-left:5px">
+                                        @item.SLActualPlan
+                                    </span>
+                                </td>
+                                <td width="2%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:10px" colspan="2">
+                                </td>
+                            </tr>
+                            <tr style="height:60px">
+                                <td width="20%" style="text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:22px;color:#ffffff;text-align:center;padding-left:5px">
+                                        Achiev :
+                                    </span>
+                                </td>
+                                <td width="20%" style="background-color:red;text-align:center">
+                                    <span style="font-family:'Prompt-Regular';font-size:27px;font-weight:800;color:#ffffff;padding-left:5px">
+                                        @item.SLAchiev
+                                    </span>
+                                </td>
+                                <td width="2%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height:10px" colspan="2">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td style="width:1%; background-color:#f2f2f2"></td>
+                </tr>
+                <tr style="width:100%; height:10px; background-color:#f2f2f2"></tr>
+            }
+        }
+    </table>
+</div>
+
+<script type="text/javascript">
+
+    function chartdash_map(e) {
+        $(function () {
+            var msg = "@(TempData["Msg"] as string)";
+            if (msg !== "") {
+                toastr.error(msg, 'Error', { timeOut: 3000, "closeButton": true });
+            }
+            VAOutChart(e);
+            YardInChart(e);
+            ShippingLineChart(e)
+            PIOChart(e);
+            TanjungPriokChart(e);
+            PatimbanChart(e);
+            ResultDeliveryChart(e);
+        })
+    }
+
+    chartdash_map("Init");
+
+    function VAOutChart(e) {
+        $.ajax(
+            {
+                type: "POST",
+                url: "/Home/VAOutChart",
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess_,
+                error: OnErrorCall_
+            });
+
+        function OnSuccess_(response) {
+            var pieOption =
+            {
+                animation: false,
+                tooltips:
+                {
+                    enabled: false,
+                    cornerRadius: 4,
+                    caretSize: 4,
+                    xPadding: 5,
+                    yPadding: 10,
+                    backgroundColor: 'rgba(0, 150, 100, 0.9)',
+                    titleFontStyle: 'normal',
+                    titleMarginBottom: 15
+                },
+                maintainAspectRatio: true,
+                responsive: false,
+                cutoutPercentage: 80,
+                title:
+                {
+                    display: false,
+                    text: ""
+                },
+                legend:
+                {
+                    display: false,
+                    position: 'top',
+                    align: 'center',
+                    labels:
+                    {
+                        fontColor: 'white',
+                        fontSize: 10,
+                        fontFamily: 'Segoe UI'
+                    }
+                },
+            };
+
+            var datachart = response;
+            if (window.bChart1 != null) {
+                window.bChart1.destroy();
+            }
+
+            var ctx1 = document.getElementById("cVAOut").getContext("2d");
+            window.bChart1 = new Chart(ctx1, {
+                type: 'doughnut', data: datachart, options: pieOption, plugins: [{
+                    id: 'text',
+                    beforeDraw: function (chart, a, b) {
+                        var data = chart.data.datasets[0].data;
+                        var sum = data[0];
+
+                        var width = chart.width,
+                            height = chart.height,
+                            ctx = chart.ctx;
+                        ctx.restore();
+
+                        var fontSize = 2.8;
+                        ctx.font = fontSize + "em Poppins-Regular";
+                        ctx.textBaseline = "middle";
+
+                        var text = sum + "%",
+                            textX = Math.round((width - ctx.measureText(text).width) / 2),
+                            textY = height / 2;
+
+                        ctx.fillStyle = "#fff";
+                        ctx.fillText(text, textX, textY);
+                        ctx.save();
+                    }
+                }]
+            });
+        }
+
+        function OnErrorCall_(response) {
+            toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
+        }
+    }
+
+    function YardInChart(e) {
+        $.ajax(
+            {
+                type: "POST",
+                url: "/Home/YardInChart",
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess_,
+                error: OnErrorCall_
+            });
+
+        function OnSuccess_(response) {
+            var pieOption =
+            {
+                animation: false,
+                tooltips:
+                {
+                    enabled: false,
+                    cornerRadius: 4,
+                    caretSize: 4,
+                    xPadding: 5,
+                    yPadding: 10,
+                    backgroundColor: 'rgba(0, 150, 100, 0.9)',
+                    titleFontStyle: 'normal',
+                    titleMarginBottom: 15
+                },
+                maintainAspectRatio: true,
+                responsive: false,
+                cutoutPercentage: 80,
+                title:
+                {
+                    display: false,
+                    text: ""
+                },
+                legend:
+                {
+                    display: false,
+                    position: 'top',
+                    align: 'center',
+                    labels:
+                    {
+                        fontColor: 'white',
+                        fontSize: 10,
+                        fontFamily: 'Segoe UI'
+                    }
+                }
+            };
+
+            var datachart = response;
+            if (window.bChart2 != null) {
+                window.bChart2.destroy();
+            }
+
+            var ctx2 = document.getElementById("cYardIn").getContext("2d");
+            window.bChart2 = new Chart(ctx2, {
+                type: 'doughnut', data: datachart, options: pieOption, plugins: [{
+                    id: 'text',
+                    beforeDraw: function (chart, a, b) {
+                        var data = chart.data.datasets[0].data;
+                        var sum = data[0];
+
+                        var width = chart.width,
+                            height = chart.height,
+                            ctx = chart.ctx;
+                        ctx.restore();
+
+                        var fontSize = 2.8;
+                        ctx.font = fontSize + "em Poppins-Regular";
+                        ctx.textBaseline = "middle";
+
+                        var text = sum + "%",
+                            textX = Math.round((width - ctx.measureText(text).width) / 2),
+                            textY = height / 2;
+
+                        ctx.fillStyle = "#fff";
+                        ctx.fillText(text, textX, textY);
+                        ctx.save();
+                    }
+                }]
+            });
+        }
+
+        function OnErrorCall_(response) {
+            toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
+        }
+    }
+
+    function ShippingLineChart(e) {
+        $.ajax(
+            {
+                type: "POST",
+                url: "/Home/ShippingLineChart",
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess_,
+                error: OnErrorCall_
+            });
+
+        function OnSuccess_(response) {
+            var pieOption =
+            {
+                animation: false,
+                tooltips:
+                {
+                    enabled: false,
+                    cornerRadius: 4,
+                    caretSize: 4,
+                    xPadding: 5,
+                    yPadding: 10,
+                    backgroundColor: 'rgba(0, 150, 100, 0.9)',
+                    titleFontStyle: 'normal',
+                    titleMarginBottom: 15
+                },
+                maintainAspectRatio: true,
+                responsive: false,
+                cutoutPercentage: 80,
+                title:
+                {
+                    display: false,
+                    text: ""
+                },
+                legend:
+                {
+                    display: false,
+                    position: 'top',
+                    align: 'center',
+                    labels:
+                    {
+                        fontColor: 'white',
+                        fontSize: 10,
+                        fontFamily: 'Segoe UI'
+                    }
+                }
+            };
+
+            var datachart = response;
+            if (window.bChart3 != null) {
+                window.bChart3.destroy();
+            }
+
+            var ctx3 = document.getElementById("cShippingLine").getContext("2d");
+            window.bChart3 = new Chart(ctx3, {
+                type: 'doughnut', data: datachart, options: pieOption, plugins: [{
+                    id: 'text',
+                    beforeDraw: function (chart, a, b) {
+                        var data = chart.data.datasets[0].data;
+                        var sum = data[0];
+
+                        var width = chart.width,
+                            height = chart.height,
+                            ctx = chart.ctx;
+                        ctx.restore();
+
+                        var fontSize = 2.8;
+                        ctx.font = fontSize + "em Poppins-Regular";
+                        ctx.textBaseline = "middle";
+
+                        var text = sum + "%",
+                            textX = Math.round((width - ctx.measureText(text).width) / 2),
+                            textY = height / 2;
+
+                        ctx.fillStyle = "#fff";
+                        ctx.fillText(text, textX, textY);
+                        ctx.save();
+                    }
+                }]
+            });
+        }
+
+        function OnErrorCall_(response) {
+            toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
+        }
+    }
+
+    function PIOChart(e) {
+        $.ajax(
+            {
+                type: "POST",
+                url: "/Home/PIOChart",
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess_,
+                error: OnErrorCall_
+            });
+
+        function OnSuccess_(response) {
+            var pieOption =
+            {
+                animation: false,
+                tooltips:
+                {
+                    enabled: false,
+                    cornerRadius: 4,
+                    caretSize: 4,
+                    xPadding: 1,
+                    yPadding: 10,
+                    width: 10,
+                    backgroundColor: 'rgba(0, 150, 100, 0.9)',
+                    titleFontStyle: 'normal',
+                    titleMarginBottom: 15
+                },
+                maintainAspectRatio: true,
+                responsive: false,
+                cutoutPercentage: 65,
+                title:
+                {
+                    display: false,
+                    text: ""
+                },
+                legend:
+                {
+                    display: false,
+                    position: 'top',
+                    align: 'center',
+                    labels:
+                    {
+                        fontColor: 'white',
+                        fontSize: 10,
+                        fontFamily: 'Segoe UI'
+                    }
+                }
+            };
+
+            var datachart = response;
+            if (window.bChart4 != null) {
+                window.bChart4.destroy();
+            }
+
+            var ctx4 = document.getElementById("cPIO").getContext("2d");
+            window.bChart4 = new Chart(ctx4, {
+                type: 'doughnut', data: datachart, options: pieOption, plugins: [{
+                    id: 'text',
+                    beforeDraw: function (chart, a, b) {
+                        var data = chart.data.datasets[0].data;
+                        var sum = data[0];
+
+                        var width = chart.width,
+                            height = chart.height,
+                            ctx = chart.ctx;
+                        ctx.restore();
+
+                        var fontSize = 2.4;
+                        ctx.font = fontSize + "em Poppins-Regular";
+                        ctx.textBaseline = "middle";
+
+                        var text = sum + "%",
+                            textX = Math.round((width - ctx.measureText(text).width) / 2),
+                            textY = height / 2;
+
+                        ctx.fillStyle = "#464653";
+                        ctx.fillText(text, textX, textY);
+                        ctx.save();
+                    }
+                }]
+            });
+        }
+
+        function OnErrorCall_(response) {
+            toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
+        }
+    }
+
+    function TanjungPriokChart(e) {
+        $.ajax(
+            {
+                type: "POST",
+                url: "/Home/TanjungPriokChart",
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess_,
+                error: OnErrorCall_
+            });
+
+        function OnSuccess_(response) {
+            var pieOption =
+            {
+                animation: false,
+                tooltips:
+                {
+                    cornerRadius: 4,
+                    caretSize: 4,
+                    xPadding: 5,
+                    yPadding: 10,
+                    backgroundColor: 'rgba(0, 150, 100, 0.9)',
+                    titleFontStyle: 'normal',
+                    titleMarginBottom: 15
+                },
+                maintainAspectRatio: true,
+                responsive: false,
+                cutoutPercentage: 80,
+                title:
+                {
+                    display: false,
+                    text: ""
+                },
+                legend:
+                {
+                    enabled: false,
+                    display: false,
+                    position: 'top',
+                    align: 'center',
+                    labels:
+                    {
+                        fontColor: 'white',
+                        fontSize: 10,
+                        fontFamily: 'Segoe UI'
+                    }
+                }
+            };
+
+            var datachart = response;
+            if (window.bChart5 != null) {
+                window.bChart5.destroy();
+            }
+
+            var ctx5 = document.getElementById("cTanjungPriok").getContext("2d");
+            window.bChart5 = new Chart(ctx5, {
+                type: 'doughnut', data: datachart, options: pieOption, plugins: [{
+                    id: 'text',
+                    beforeDraw: function (chart, a, b) {
+                        var data = chart.data.datasets[0].data;
+                        var sum = data[0];
+
+                        var width = chart.width,
+                            height = chart.height,
+                            ctx = chart.ctx;
+                        ctx.restore();
+
+                        var fontSize = 2.8;
+                        ctx.font = fontSize + "em Poppins-Regular";
+                        ctx.textBaseline = "middle";
+
+                        var text = sum + "%",
+                            textX = Math.round((width - ctx.measureText(text).width) / 2),
+                            textY = height / 2;
+
+                        ctx.fillStyle = "#fff";
+                        ctx.fillText(text, textX, textY);
+                        ctx.save();
+                    }
+                }]
+            });
+        }
+
+        function OnErrorCall_(response) {
+            toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
+        }
+    }
+
+    function PatimbanChart(e) {
+        $.ajax(
+            {
+                type: "POST",
+                url: "/Home/PatimbanChart",
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess_,
+                error: OnErrorCall_
+            });
+
+        function OnSuccess_(response) {
+            var pieOption =
+            {
+                animation: false,
+                tooltips:
+                {
+                    enabled: false,
+                    cornerRadius: 4,
+                    caretSize: 4,
+                    xPadding: 5,
+                    yPadding: 10,
+                    backgroundColor: 'rgba(0, 150, 100, 0.9)',
+                    titleFontStyle: 'normal',
+                    titleMarginBottom: 15
+                },
+                maintainAspectRatio: true,
+                responsive: false,
+                cutoutPercentage: 80,
+                title:
+                {
+                    display: false,
+                    text: ""
+                },
+                legend:
+                {
+                    display: false,
+                    position: 'top',
+                    align: 'center',
+                    labels:
+                    {
+                        fontColor: 'white',
+                        fontSize: 10,
+                        fontFamily: 'Segoe UI'
+                    }
+                }
+            };
+
+            var datachart = response;
+            if (window.bChart6 != null) {
+                window.bChart6.destroy();
+            }
+
+            var ctx6 = document.getElementById("cPatimban").getContext("2d");
+            window.bChart6 = new Chart(ctx6, {
+                type: 'doughnut', data: datachart, options: pieOption, plugins: [{
+                    id: 'text',
+                    beforeDraw: function (chart, a, b) {
+                        var data = chart.data.datasets[0].data;
+                        var sum = data[0];
+
+                        var width = chart.width,
+                            height = chart.height,
+                            ctx = chart.ctx;
+                        ctx.restore();
+
+                        var fontSize = 2.8;
+                        ctx.font = fontSize + "em Poppins-Regular";
+                        ctx.textBaseline = "middle";
+
+                        var text = sum + "%",
+                            textX = Math.round((width - ctx.measureText(text).width) / 2),
+                            textY = height / 2;
+
+                        ctx.fillStyle = "#fff";
+                        ctx.fillText(text, textX, textY);
+                        ctx.save();
+                    }
+                }]
+            });
+        }
+
+        function OnErrorCall_(response) {
+            toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
+        }
+    }
+
+    function ResultDeliveryChart(e) {
+        $.ajax(
+            {
+                type: "POST",
+                url: "/Home/ResultDeliveryChart",
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess_,
+                error: OnErrorCall_
+            });
+
+        function OnSuccess_(response) {
+            var pieOption =
+            {
+                animation: false,
+                tooltips:
+                {
+                    enabled: false,
+                    cornerRadius: 4,
+                    caretSize: 4,
+                    xPadding: 5,
+                    yPadding: 10,
+                    backgroundColor: 'rgba(0, 150, 100, 0.9)',
+                    titleFontStyle: 'normal',
+                    titleMarginBottom: 15
+                },
+                maintainAspectRatio: true,
+                responsive: false,
+                cutoutPercentage: 80,
+                title:
+                {
+                    display: false,
+                    text: ""
+                },
+                legend:
+                {
+                    display: false,
+                    position: 'top',
+                    align: 'center',
+                    labels:
+                    {
+                        fontColor: 'white',
+                        fontSize: 10,
+                        fontFamily: 'Segoe UI'
+                    }
+                }
+            };
+
+            var datachart = response;
+            if (window.bChart7 != null) {
+                window.bChart7.destroy();
+            }
+
+            var ctx7 = document.getElementById("cResultDelivery").getContext("2d");
+            window.bChart7 = new Chart(ctx7, {
+                type: 'doughnut', data: datachart, options: pieOption, plugins: [{
+                    id: 'text',
+                    beforeDraw: function (chart, a, b) {
+                        var data = chart.data.datasets[0].data;
+                        var sum = data[0];
+
+                        var width = chart.width,
+                            height = chart.height,
+                            ctx = chart.ctx;
+                        ctx.restore();
+
+                        var fontSize = 2.8;
+                        ctx.font = fontSize + "em Poppins-Regular";
+                        ctx.textBaseline = "middle";
+
+                        var text = sum + "%",
+                            textX = Math.round((width - ctx.measureText(text).width) / 2),
+                            textY = height / 2;
+
+                        ctx.fillStyle = "red";
+                        ctx.fillText(text, textX, textY);
+                        ctx.save();
+                    }
+                }]
+            });
+        }
+
+        function OnErrorCall_(response) {
+            toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
+        }
+    }
+</script>

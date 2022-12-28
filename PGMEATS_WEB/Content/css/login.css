@@ -1,0 +1,986 @@
+﻿*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+body {
+    -webkit-box-align: center;
+    align-items: center;
+    display: -webkit-box;
+    display: flex;
+    height: 100vh;
+    -webkit-box-pack: center;
+    justify-content: center;
+}
+
+.content {
+    position: relative !important;
+    top: 150px;
+    left: 50%;
+    right: 50%;
+    padding: 30px 30px;
+    width: 350px;
+    border-radius: 8px;
+    transform: translate(-50%,-50%);
+    background: rgba(255,255,255,0.04);
+    box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+}
+
+.borderradius {
+    border-radius: 25px;
+}
+
+.borderradiusbtn {
+    border-radius: 25px;
+}
+
+.heightTextbox {
+    height: 38px
+}
+
+.contact-wrapper {
+    /*background: url(../../Content/img/bg-banner2.jpg) no-repeat 50%;*/
+    background-color:whitesmoke;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.left_side {
+    width: 50%;
+    padding: 0 5em 0 5em;
+}
+
+.right_side {
+    width: 50%;
+    padding: 0 5em 0 0;
+}
+
+.title {
+    font-size: 38px;
+    font-family: 'Poppins-Regular';
+    font-weight: bold;
+    /*-webkit-text-stroke: 0.5px thin gray;*/
+    color: white;
+}
+
+.description {
+    font-size: 26px;
+    font-family: 'Poppins-Regular';
+    font-weight: 400;
+    /*-webkit-text-stroke: 0.5px thin gray;*/
+    color: white;
+}
+
+.titlelogin {
+    font-size: 30px;
+    font-family: 'Poppins-Regular';
+    font-weight: bold;
+    color: black;
+    text-align: center;
+}
+
+.copyright {
+    position: absolute !important;
+    top: 90%;
+    left: 33%;
+    right: 33%;
+}
+
+.titlecopyright {
+    font-size: 14px;
+    font-family: 'Poppins-Regular';
+    font-weight: 400;
+    color: black;
+    text-align: center;
+}
+
+/* ----------- Galaxy S3 ----------- */
+/* Portrait */
+@media only screen 
+    and (max-device-width: 360px) 
+    and (max-device-height: 640px) 
+    and (-webkit-device-pixel-ratio: 2) 
+    and (orientation: portrait) {
+
+    .contact-wrapper {
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    .left_side {
+        width: 100%;
+    }
+
+    .right_side {
+        width: 100%;
+    }
+
+    .left_side .title {
+        padding-top: 80px;
+        text-align: center;
+        font-size: 23.5px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .left_side .description {
+        text-align: center;
+        font-size: 13.5px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .content {
+        position: relative !important;
+        top: 18px;
+        left: 61%;
+        right: 39%;
+        padding: 30px 30px;
+        width: 285px;
+        border-radius: 8px;
+        transform: translate(-50%,-50%);
+        background: rgba(255,255,255,0.04);
+        box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+    }
+
+    .heightTextbox {
+        height: 36px
+    }
+
+    .titlelogin {
+        font-size: 23.5px;
+        font-family: 'Poppins-Regular';
+        font-weight: bold;
+        color: white;
+        text-align: center;
+    }
+
+    .copyright {
+        position: absolute !important;
+        top: 520px;
+        left: 5%;
+        right: 5%;
+    }
+
+    .titlecopyright {
+        font-size: 12px;
+        font-family: 'Poppins-Regular';
+        font-weight: 400;
+        color: white;
+        text-align: center;
+    }
+}
+
+/* Landscape */
+@media only screen 
+    and (max-device-width: 640px) 
+    and (max-device-height: 360px) 
+    and (-webkit-device-pixel-ratio: 2) 
+    and (orientation: landscape) {
+    .contact-wrapper {
+        flex-direction: column;
+        height: 180vh;
+    }
+
+    .left_side {
+        width: 100%;
+    }
+
+    .right_side {
+        width: 100%;
+    }
+
+    .left_side .title {
+        padding-top: 145px;
+        text-align: center;
+        font-size: 30px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .left_side .description {
+        text-align: center;
+        font-size: 17px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .content {
+        position: relative !important;
+        top: 90px;
+        left: 55.6%;
+        right: 44.4%;
+        padding: 30px 30px;
+        width: 380px;
+        border-radius: 8px;
+        transform: translate(-50%,-50%);
+        background: rgba(255,255,255,0.04);
+        box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+    }
+
+    .heightTextbox {
+        height: 36px
+    }
+
+    .titlelogin {
+        font-size: 28px;
+        font-family: 'Poppins-Regular';
+        font-weight: bold;
+        color: white;
+        text-align: center;
+    }
+
+    .copyright {
+        position: absolute !important;
+        top: 450px;
+        left: 15%;
+        right: 15%;
+    }
+
+    .titlecopyright {
+        font-size: 16px;
+        font-family: 'Poppins-Regular';
+        font-weight: 400;
+        color: white;
+        text-align: center;
+    }
+}
+
+
+
+/* ----------- Galaxy S4, S5 and Note 3 ----------- */
+/* Portrait */
+@media only screen 
+    and (max-device-width: 360px) 
+    and (max-device-height: 640px) 
+    and (-webkit-device-pixel-ratio: 3) 
+    and (orientation: portrait) {
+    .contact-wrapper {
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    .left_side {
+        width: 100%;
+    }
+
+    .right_side {
+        width: 100%;
+    }
+
+    .left_side .title {
+        padding-top: 80px;
+        text-align: center;
+        font-size: 23.5px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .left_side .description {
+        text-align: center;
+        font-size: 13.5px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .content {
+        position: relative !important;
+        top: 18px;
+        left: 61%;
+        right: 39%;
+        padding: 30px 30px;
+        width: 285px;
+        border-radius: 8px;
+        transform: translate(-50%,-50%);
+        background: rgba(255,255,255,0.04);
+        box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+    }
+
+    .heightTextbox {
+        height: 36px
+    }
+
+    .titlelogin {
+        font-size: 23.5px;
+        font-family: 'Poppins-Regular';
+        font-weight: bold;
+        color: white;
+        text-align: center;
+    }
+
+    .copyright {
+        position: absolute !important;
+        top: 520px;
+        left: 5%;
+        right: 5%;
+    }
+
+    .titlecopyright {
+        font-size: 12px;
+        font-family: 'Poppins-Regular';
+        font-weight: 400;
+        color: white;
+        text-align: center;
+    }
+}
+
+/* Landscape */
+@media only screen 
+    and (max-device-width: 640px) 
+    and (max-device-height: 360px) 
+    and (-webkit-device-pixel-ratio: 3) 
+    and (orientation: landscape) {
+    .contact-wrapper {
+        flex-direction: column;
+        height: 180vh;
+    }
+
+    .left_side,
+    .right_side {
+        width: 100%;
+    }
+
+    .left_side .title {
+        padding-top: 145px;
+        text-align: center;
+        font-size: 30px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .left_side .description {
+        text-align: center;
+        font-size: 17px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .content {
+        position: relative !important;
+        top: 90px;
+        left: 55.6%;
+        right: 44.4%;
+        padding: 30px 30px;
+        width: 380px;
+        border-radius: 8px;
+        transform: translate(-50%,-50%);
+        background: rgba(255,255,255,0.04);
+        box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+    }
+
+    .heightTextbox {
+        height: 36px
+    }
+
+    .titlelogin {
+        font-size: 28px;
+        font-family: 'Poppins-Regular';
+        font-weight: bold;
+        color: white;
+        text-align: center;
+    }
+
+    .copyright {
+        position: absolute !important;
+        top: 450px;
+        left: 15%;
+        right: 15%;
+    }
+
+    .titlecopyright {
+        font-size: 16px;
+        font-family: 'Poppins-Regular';
+        font-weight: 400;
+        color: white;
+        text-align: center;
+    }
+}
+
+
+
+/* ----------- iPhone 6, 6S, 7 and 8 ----------- */
+/* Portrait */
+@media only screen 
+    and (min-device-width: 375px) 
+    and (max-device-width: 375px) 
+    and (-webkit-min-device-pixel-ratio: 2) 
+    and (orientation: portrait) {
+    .contact-wrapper {
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    .left_side {
+        width: 100%;
+    }
+
+    .right_side {
+        width: 100%;
+    }
+
+    .left_side .title {
+        padding-top: 80px;
+        text-align: center;
+        font-size: 23.5px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .left_side .description {
+        text-align: center;
+        font-size: 13.5px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .content {
+        position: relative !important;
+        top: 0px;
+        left: 61%;
+        right: 39%;
+        padding: 30px 30px;
+        width: 285px;
+        border-radius: 8px;
+        transform: translate(-50%,-50%);
+        background: rgba(255,255,255,0.04);
+        box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+    }
+
+    .heightTextbox {
+        height: 36px
+    }
+
+    .titlelogin {
+        font-size: 23.5px;
+        font-family: 'Poppins-Regular';
+        font-weight: bold;
+        color: white;
+        text-align: center;
+    }
+
+    .copyright {
+        position: absolute !important;
+        top: 540px;
+        left: 10%;
+        right: 10%;
+    }
+
+    .titlecopyright {
+        font-size: 12px;
+        font-family: 'Poppins-Regular';
+        font-weight: 400;
+        color: white;
+        text-align: center;
+    }
+}
+
+/* Landscape */
+@media only screen 
+    and (min-device-width: 667px) 
+    and (max-device-width: 667px) 
+    and (-webkit-min-device-pixel-ratio: 2) 
+    and (orientation: landscape) {
+    .contact-wrapper {
+        flex-direction: column;
+        height: 180vh;
+    }
+
+    .left_side,
+    .right_side {
+        width: 100%;
+    }
+
+    .left_side .title {
+        padding-top: 165px;
+        text-align: center;
+        font-size: 30px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .left_side .description {
+        text-align: center;
+        font-size: 17px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .content {
+        position: relative !important;
+        top: 80px;
+        left: 55.3%;
+        right: 44.7%;
+        padding: 30px 30px;
+        width: 380px;
+        border-radius: 8px;
+        transform: translate(-50%,-50%);
+        background: rgba(255,255,255,0.04);
+        box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+    }
+
+    .heightTextbox {
+        height: 36px
+    }
+
+    .titlelogin {
+        font-size: 28px;
+        font-family: 'Poppins-Regular';
+        font-weight: bold;
+        color: white;
+        text-align: center;
+    }
+
+    .copyright {
+        position: absolute !important;
+        top: 460px;
+        left: 20%;
+        right: 20%;
+    }
+
+    .titlecopyright {
+        font-size: 16px;
+        font-family: 'Poppins-Regular';
+        font-weight: 400;
+        color: white;
+        text-align: center;
+    }
+}
+
+
+
+/* ----------- iPhone 6+, 7+ and 8+ ----------- */
+/* Portrait */
+@media only screen 
+    and (min-device-width: 414px) 
+    and (max-device-width: 414px) 
+    and (-webkit-min-device-pixel-ratio: 3) 
+    and (orientation: portrait) {
+    .contact-wrapper {
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    .left_side,
+    .right_side {
+        width: 100%;
+    }
+
+    .left_side .title {
+        padding-top: 115px;
+        text-align: center;
+        font-size: 23.5px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .left_side .description {
+        text-align: center;
+        font-size: 13.5px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .content {
+        position: relative !important;
+        top: -35px;
+        left: 59.3%;
+        right: 40.7%;
+        padding: 30px 30px;
+        width: 300px;
+        border-radius: 8px;
+        transform: translate(-50%,-50%);
+        background: rgba(255,255,255,0.04);
+        box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+    }
+
+    .heightTextbox {
+        height: 36px
+    }
+
+    .titlelogin {
+        font-size: 23.5px;
+        font-family: 'Poppins-Regular';
+        font-weight: bold;
+        color: white;   
+        text-align: center;
+    }
+
+    .copyright {
+        position: absolute !important;
+        top: 570px;
+        left: 10%;
+        right: 10%;
+    }
+
+    .titlecopyright {
+        font-size: 12.5px;
+        font-family: 'Poppins-Regular';
+        font-weight: 400;
+        color: white;
+        text-align: center;
+    }
+}
+
+/* Landscape */
+@media only screen 
+    and (min-device-width: 736px) 
+    and (max-device-width: 736px) 
+    and (-webkit-min-device-pixel-ratio: 3) 
+    and (orientation: landscape) {
+    .contact-wrapper {
+        flex-direction: column;
+        height: 180vh;
+    }
+
+    .left_side,
+    .right_side {
+        width: 100%;
+    }
+
+    .left_side .title {
+        padding-top: 200px;
+        text-align: center;
+        font-size: 28px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .left_side .description {
+        text-align: center;
+        font-size: 16px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .content {
+        position: relative !important;
+        top: 50px;
+        left: 55%;
+        right: 45%;
+        padding: 30px 30px;
+        width: 380px;
+        border-radius: 8px;
+        transform: translate(-50%,-50%);
+        background: rgba(255,255,255,0.04);
+        box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+    }
+
+    .heightTextbox {
+        height: 36px
+    }
+
+    .titlelogin {
+        font-size: 28px;
+        font-family: 'Poppins-Regular';
+        font-weight: bold;
+        color: white;
+        text-align: center;
+    }
+
+    .copyright {
+        position: absolute !important;
+        top: 490px;
+        left: 20%;
+        right: 20%;
+    }
+
+    .titlecopyright {
+        font-size: 16px;
+        font-family: 'Poppins-Regular';
+        font-weight: 400;
+        color: white;
+        text-align: center;
+    }
+}
+
+
+
+/* ----------- iPhone X ----------- */
+/* Landscape */
+@media only screen 
+    and (min-device-width: 812px) 
+    and (max-device-width: 812px) 
+    and (-webkit-min-device-pixel-ratio: 3) 
+    and (orientation: landscape) {
+    .contact-wrapper {
+        flex-direction: column;
+        height: 180vh;
+    }
+
+    .left_side,
+    .right_side {
+        width: 100%;
+    }
+
+    .left_side .title {
+        padding-top: 165px;
+        text-align: center;
+        font-size: 28px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .left_side .description {
+        text-align: center;
+        font-size: 16px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .content {
+        position: relative !important;
+        top: 77px;
+        left: 54.5%;
+        right: 45.5%;
+        padding: 30px 30px;
+        width: 350px;
+        border-radius: 8px;
+        transform: translate(-50%,-50%);
+        background: rgba(255,255,255,0.04);
+        box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+    }
+
+    .heightTextbox {
+        height: 36px
+    }
+
+    .titlelogin {
+        font-size: 28px;
+        font-family: 'Poppins-Regular';
+        font-weight: bold;
+        color: white;
+        text-align: center;
+    }
+
+    .copyright {
+        position: absolute !important;
+        top: 460px;
+        left: 20%;
+        right: 20%;
+    }
+
+    .titlecopyright {
+        font-size: 14.5px;
+        font-family: 'Poppins-Regular';
+        font-weight: 400;
+        color: white;
+        text-align: center;
+    }
+}
+
+/* Portrait */
+@media only screen 
+    and (min-device-width:375px) 
+    and (max-device-width:375px) 
+    and (-webkit-min-device-pixel-ratio: 3) 
+    and (orientation: portrait) {
+    .contact-wrapper {
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    .left_side,
+    .right_side {
+        width: 100%;
+    }
+
+    .left_side .title {
+        padding-top: 150px;
+        text-align: center;
+        font-size: 23px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .left_side .description {
+        text-align: center;
+        font-size: 13px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .content {
+        position: relative !important;
+        top: -75px;
+        left: 60.3%;
+        right: 39.7%;
+        padding: 30px 30px;
+        width: 280px;
+        border-radius: 8px;
+        transform: translate(-50%,-50%);
+        background: rgba(255,255,255,0.04);
+        box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+    }
+
+    .heightTextbox {
+        height: 36px
+    }
+
+    .titlelogin {
+        font-size: 23px;
+        font-family: 'Poppins-Regular';
+        font-weight: bold;
+        color: white;
+        text-align: center;
+    }
+
+    .copyright {
+        position: absolute !important;
+        top: 610px;
+        left: 10%;
+        right: 10%;
+    }
+
+    .titlecopyright {
+        font-size: 11.5px;
+        font-family: 'Poppins-Regular';
+        font-weight: 400;
+        color: white;
+        text-align: center;
+    }
+}
+
+
+
+/* ----------- iPad Pro 12.9" ----------- */
+/* Portrait */
+/* Declare the same value for min- and max-width to avoid colliding with desktops */
+/* Source: https://medium.com/connect-the-dots/css-media-queries-for-ipad-pro-8cad10e17106*/
+@media only screen 
+    and (min-device-width: 1024px) 
+    and (max-device-width: 1024px) 
+    and (orientation: portrait) 
+    and (-webkit-min-device-pixel-ratio: 2) {
+
+    .left_side {
+        width: 55%;
+        padding: 0 3em;
+    }
+
+    .right_side {
+        width: 45%;
+        padding: 0 0 0 0;
+    }
+
+    .left_side .title {
+        padding-top: 0px;
+        text-align: left;
+        font-size: 34px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .left_side .description {
+        text-align: left;
+        font-size: 26px;
+        font-family: 'Poppins-Regular';
+        color: white;
+    }
+
+    .content {
+        position: relative !important;
+        top: 150px;
+        left: 50%;
+        right: 50%;
+        padding: 30px 30px;
+        width: 350px;
+        border-radius: 8px;
+        transform: translate(-50%,-50%);
+        background: rgba(255,255,255,0.04);
+        box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+    }
+
+    .copyright {
+        position: absolute !important;
+        top: 1240px;
+        left: 10%;
+        right: 10%;
+    }
+
+    .titlecopyright {
+        font-size: 26px;
+        font-family: 'Poppins-Regular';
+        font-weight: 400;
+        color: white;
+        text-align: center;
+    }
+}
+
+@media only screen 
+    and (min-device-width: 1366px) 
+    and (max-device-width: 1366px) 
+    and (orientation: landscape) 
+    and (-webkit-min-device-pixel-ratio: 2) {
+    .left_side {
+        width: 52%;
+        padding: 0 8em;
+    }
+
+    .right_side {
+        width: 48%;
+        padding: 0 0 0 0;
+    }
+
+    .content {
+        position: relative !important;
+        left: 54.5%;
+        right: 45.5%;
+        padding: 30px 30px;
+        width: 380px;
+        border-radius: 8px;
+        transform: translate(-50%,-50%);
+        background: rgba(255,255,255,0.04);
+        box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+    }
+
+    .heightTextbox {
+        height: 50px
+    }
+
+    .titlelogin {
+        font-size: 36px;
+        font-family: 'Poppins-Regular';
+        font-weight: bold;
+        color: white;
+        text-align: center;
+    }
+
+    .copyright {
+        position: absolute !important;
+        left: 15%;
+        right: 15%;
+    }
+
+    .titlecopyright {
+        font-size: 24px;
+        font-family: 'Poppins-Regular';
+        font-weight: 400;
+        color: white;
+        text-align: center;
+    }
+}
+
+/* ----------- Laptop Non-Retina Screens ----------- */
+@media screen 
+    and (min-device-width: 1200px) 
+    and (max-device-width: 1600px) 
+    and (-webkit-min-device-pixel-ratio: 1) {
+    .left_side {
+        width: 52%;
+        padding: 0 8em;
+    }
+
+    .right_side {
+        width: 48%;
+        padding: 0 0 0 5em;
+    }
+}
+
+

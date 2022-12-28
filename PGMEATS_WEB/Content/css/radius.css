@@ -1,0 +1,22 @@
+﻿#JarvisHeader {
+    border-top-left-radius:8px; 
+    border-top-right-radius:8px
+}
+
+#JarvisBody {
+    border-bottom-left-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+}
+
+#JarvisBody {
+    border-bottom-left-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+}
+
+input[type=button] {
+    border-radius: 25px;
+}
+
+.button {
+    border-radius: 25px;
+}

@@ -1,0 +1,35 @@
+﻿/*@font-face {
+    font-family: Roboto-Regular;
+    src: url(/Content/fonts/Roboto-Regular.ttf)
+}*/
+
+@font-face {
+    font-family: Ubuntu-Regular;
+    src: url(/Content/fonts/Ubuntu-Regular.ttf)
+}
+
+/*@font-face {
+    font-family: OpenSans-Regular;
+    src: url(/Content/fonts/OpenSans-Regular.ttf)
+}*/
+
+@font-face {
+    font-family: Prompt-Regular;
+    src: url(/Content/fonts/Prompt-Regular.ttf)
+}
+
+@font-face {
+    font-family: Poppins-Regular;
+    src: url(/Content/fonts/Poppins-Regular.ttf)
+}
+
+@font-face {
+    font-family: Quicksand-Regular;
+    src: url(/Content/fonts/Quicksand-Regular.ttf)
+}
+
+@font-face {
+    font-family: Quicksand-Bold;
+    src: url(/Content/fonts/Quicksand-Bold.ttf)
+}
+

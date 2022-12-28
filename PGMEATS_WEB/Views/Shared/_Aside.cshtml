@@ -1,0 +1,190 @@
+﻿@model IEnumerable<ADLESKAP.Models.clsMenu>
+@{
+
+    Int32 cpcheck = 0;
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/css/font-google.css" />
+
+<aside id="left-panel">
+    <nav>
+        <ul>
+            <li class="@Html.RouteIf("index", "active")">
+                <a href="@Url.Action("Index", "Home")" title="Dashboard">
+                    <i class="fa fa-home" style="color:white; font-size:15px">
+                        <span class="menu-on-top" style="font-family:'Poppins-Regular'; color:white; font-weight:400; font-size:13px">&nbsp;Dashboard</span>
+                    </i>
+                </a>
+            </li>
+
+            <li class="@Html.RouteIf("Master", "active")">
+                @foreach (var menu in Model)
+                {
+                    if (cpcheck == 0 && menu.MenuGroup == "Master")
+                    {
+                        <a href="#">
+                            <i class="fa fa-cog" style="color:white; font-size:15px">
+                                <span class="menu-on-top" style="font-family:'Poppins-Regular'; color:white; font-weight:400; font-size:13px">&nbsp;Master</span>
+                            </i>
+                        </a>
+                        cpcheck = cpcheck + 1;
+                    }
+                }
+
+                @{
+                    cpcheck = 0;
+                }
+                <ul>
+                    @foreach (var menu in Model)
+                    {
+                        if (menu.GroupIndex == 1 && menu.AllowAccess == 1)
+                        {
+                            <li>
+                                <a href=@menu.MenuName class="fa fa-lg">
+                                    <i style="font-family:'Poppins-Regular';font-style:normal">@menu.MenuDescription</i>
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </li>
+
+            <li class="@Html.RouteIf("KAP Operation","active")">
+                @foreach (var menu in Model)
+                {
+                    if (cpcheck == 0 && menu.MenuGroup == "KAP Operation")
+                    {
+                        <a href="#">
+                            <i class="fa fa-cog" style="color:white; font-size:15px">
+                                <span class="menu-on-top" style="font-family:'Poppins-Regular'; color:white; font-weight:500; font-size:13px">&nbsp;KAP Operation</span>
+                            </i>
+                        </a>
+                        cpcheck = cpcheck + 1;
+                    }
+                }
+                @{
+                    cpcheck = 0;
+                }
+                <ul>
+                    @foreach (var menu in Model)
+                    {
+                        if (menu.GroupIndex == 2 && menu.AllowAccess == 1)
+                        {
+                            <li>
+                                <a href=@menu.MenuName class="fa fa-lg">
+                                    <i style="font-family:'Poppins-Regular';font-style:normal">@menu.MenuDescription</i>
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </li>
+
+            <li class="@Html.RouteIf("PORT Operation","active")">
+                @foreach (var menu in Model)
+                {
+                    if (cpcheck == 0 && menu.MenuGroup == "PORT Operation")
+                    {
+                        <a href="#">
+                            <i class="fa fa-cog" style="color:white; font-size:15px">
+                                <span class="menu-on-top" style="font-family:'Poppins-Regular'; color:white; font-weight:400; font-size:13px">&nbsp;PORT Operation</span>
+                            </i>
+                        </a>
+                        cpcheck = cpcheck + 1;
+                    }
+                }
+                @{
+                    cpcheck = 0;
+                }
+                <ul>
+                    @foreach (var menu in Model)
+                    {
+                        if (menu.GroupIndex == 3 && menu.AllowAccess == 1)
+                        {
+                            <li>
+                                <a href=@menu.MenuName class="fa fa-lg">
+                                    <i style="font-family:'Poppins-Regular';font-style:normal">@menu.MenuDescription</i>
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </li>
+
+
+            <li class="@Html.RouteIf("Andon","active")">
+                @foreach (var menu in Model)
+                {
+                    if (cpcheck == 0 && menu.MenuGroup == "Andon")
+                    {
+                        <a href="#">
+                            <i class="fa fa-cog" style="color:white; font-size:15px">
+                                <span class="menu-on-top" style="font-family:'Poppins-Regular'; color:white; font-weight:400; font-size:13px">&nbsp;Andon</span>
+                            </i>
+                        </a>
+                        cpcheck = cpcheck + 1;
+                    }
+                }
+                @{
+                    cpcheck = 0;
+                }
+                <ul>
+                    @foreach (var menu in Model)
+                    {
+                        if (menu.GroupIndex == 4 && menu.AllowAccess == 1)
+                        {
+                            <li>
+                                <a href=@menu.MenuName class="fa fa-lg">
+                                    <i style="font-family:'Poppins-Regular';font-style:normal">@menu.MenuDescription</i>
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </li>
+
+            <li class="@Html.RouteIf("security", "active")">
+                @foreach (var menu in Model)
+                {
+                    if (cpcheck == 0 && menu.MenuGroup == "Security")
+                    {
+                        <a href="#">
+                            <i class="fa fa-lg fa-fw fa-wrench" style="color:white; font-size:15px">
+                                <span class="menu-on-top" style="font-family:'Poppins-Regular'; color:white; font-weight:400; font-size:13px">&nbsp;Security</span>
+                            </i>
+                        </a>
+                        cpcheck = cpcheck + 1;
+                    }
+                }
+
+                @{
+                    cpcheck = 0;
+                }
+
+                <ul>
+                    @foreach (var menu in Model)
+                    {
+                        if (menu.GroupIndex == 99 && menu.AllowAccess == 1)
+                        {
+                            <li>
+                                <a href=@menu.MenuName class="fa fa-lg">
+                                    <i style="font-family:'Poppins-Regular';font-style:normal">@menu.MenuDescription</i>
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </li>
+        </ul>
+            
+
+    </nav>
+
+    <script type="text/javascript">
+        history.pushState(null, null, $(location).attr('href'));
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, $(location).attr('href'));
+        });
+    </script>
+
+</aside>

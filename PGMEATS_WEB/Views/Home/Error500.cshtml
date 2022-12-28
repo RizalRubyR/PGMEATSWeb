@@ -1,0 +1,44 @@
+﻿@*@model IEnumerable<ADLESKAP.Models.clsAndonKAPOperation>*@
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div id="content">
+
+    <!-- row -->
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="text-center error-box">
+                        <h1 class="error-text tada animated"><i class="fa fa-times-circle text-danger error-icon-shadow"></i> Error SQL Syntax </h1>
+                        <h2 class="font-xl"><strong>Oooops, Something went wrong!</strong></h2>
+                        <br />
+                        <p class="lead semi-bold">
+                            <strong>You have experienced a technical error. We apologize.</strong><br><br>
+                            <small>
+                                Please contact your IT Staff, to correct this issue.
+                            </small>
+                        </p>
+                        <p class="lead semi-bold">
+                            <small>
+                                @ViewBag.Error_Message
+                            </small>
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- end row -->
+
+</div>
+<!-- END MAIN CONTENT -->

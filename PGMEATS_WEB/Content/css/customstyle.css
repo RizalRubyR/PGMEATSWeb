@@ -1,0 +1,44 @@
+﻿.modal-header {
+    border-color: #45474b!important;
+    background: #4c4f53;
+    color: #fff;
+    height:40px;
+
+}
+
+.modal-header h4{
+    font-size:16px;
+    margin-top:-5px;
+} 
+
+.modal-header .close {
+      color: #fff; 
+      opacity: 1;
+     
+}
+
+.modal{
+    pointer-events: none;
+}
+
+.modal-dialog{
+    pointer-events: all;
+ }
+
+.smart-form fieldset
+{
+    padding-top:0px;
+}
+
+ .txtAlignCenter {
+        text-align: center;
+ }
+
+ .txtAlignLeft {
+    text-align: left;
+ }
+
+ .txtAlignRight {
+    text-align: right;
+ }
+
