@@ -7,7 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using ADLESKAP.Models;
+using PGMEATS_WEB.Models;
 using System.Configuration;
 using System.Threading.Tasks;
 using System.Net;
@@ -19,7 +19,7 @@ using System.IO;
 using System.Drawing;
 using ClosedXML.Excel;
 
-namespace ADLESKAP.Controllers
+namespace PGMEATS_WEB.Controllers
 {
     public class HomeController : Controller
     {        

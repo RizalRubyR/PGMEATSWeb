@@ -7,9 +7,9 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using ADLESKAP.Models;
+using PGMEATS_WEB.Models;
 
-namespace ADLESKAP.Models
+namespace PGMEATS_WEB.Models
 {
     public class clsUserStaff
     {

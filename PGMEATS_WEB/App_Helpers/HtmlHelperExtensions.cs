@@ -10,7 +10,7 @@ using Microsoft.Ajax.Utilities;
 
 #endregion
 
-namespace ADLESKAP
+namespace PGMEATS_WEB
 {
     public static class HtmlHelperExtensions
     {

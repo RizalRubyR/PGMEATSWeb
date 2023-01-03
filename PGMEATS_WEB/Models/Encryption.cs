@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace ADLESKAP.Models
+namespace PGMEATS_WEB.Models
 {
     public class Encryption
     {
@@ -79,7 +79,7 @@ namespace ADLESKAP.Models
 //using System.Configuration;
 //using System.Security.Cryptography;
 
-//namespace ADLESKAP.Models
+//namespace PGMEATS_WEB.Models
 //{
 //    public class Encryption
 //    {

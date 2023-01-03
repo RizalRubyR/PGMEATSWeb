@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace ADLESKAP.Models
+namespace PGMEATS_WEB.Models
 {
     public class SessionTimeoutAttribute : ActionFilterAttribute
     {

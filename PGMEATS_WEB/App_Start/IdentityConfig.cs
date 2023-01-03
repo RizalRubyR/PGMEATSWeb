@@ -1,4 +1,4 @@
-﻿namespace ADLESKAP
+﻿namespace PGMEATS_WEB
 {
     public static class IdentityConfig
     {

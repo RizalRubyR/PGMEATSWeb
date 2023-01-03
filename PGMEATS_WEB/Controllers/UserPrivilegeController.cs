@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using ADLESKAP.Models;
+using PGMEATS_WEB.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +11,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net;
 
-namespace ADLESKAP.Controllers
+namespace PGMEATS_WEB.Controllers
 {
     public class UserPrivilegeController : Controller
     {

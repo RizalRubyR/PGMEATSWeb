@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ADLESKAP.Models
+namespace PGMEATS_WEB.Models
 {
     public class clsAccessPrivilege
     {

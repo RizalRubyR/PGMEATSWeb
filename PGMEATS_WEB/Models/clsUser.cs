@@ -5,7 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace ADLESKAP.Models
+namespace PGMEATS_WEB.Models
 {
     public class clsUser
     {

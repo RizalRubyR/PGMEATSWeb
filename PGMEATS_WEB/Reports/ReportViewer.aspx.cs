@@ -6,9 +6,9 @@ using System.Web;
 using System.Data;
 using System.Configuration;
 using System.Data.SqlClient;
-using ADLESKAP.Models;
+using PGMEATS_WEB.Models;
 
-namespace ADLESKAP.Reports
+namespace PGMEATS_WEB.Reports
 {
     public partial class ReportViewer : System.Web.UI.Page
     {

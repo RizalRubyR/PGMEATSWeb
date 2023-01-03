@@ -6,7 +6,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 #endregion
 
-namespace ADLESKAP
+namespace PGMEATS_WEB
 {
     public class UserManager : UserManager<IdentityUser>
     {

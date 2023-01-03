@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace ADLESKAP
+namespace PGMEATS_WEB
 {
     /// <summary>
     /// Provides utility methods for converting string values to other data types.

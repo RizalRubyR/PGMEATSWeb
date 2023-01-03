@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace ADLESKAP.Areas.Landing
+namespace PGMEATS_WEB.Areas.Landing
 {
     public class LandingAreaRegistration : AreaRegistration 
     {

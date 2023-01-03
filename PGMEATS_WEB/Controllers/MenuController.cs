@@ -1,4 +1,4 @@
-﻿using ADLESKAP.Models;
+﻿using PGMEATS_WEB.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 
 
-namespace ADLESKAP.Controllers
+namespace PGMEATS_WEB.Controllers
 {
     [SessionExpire]
     public class MenuController : Controller

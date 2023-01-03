@@ -4,7 +4,7 @@ using System.Web.Mvc;
 
 #endregion
 
-namespace ADLESKAP
+namespace PGMEATS_WEB
 {
     public static class FilterConfig
     {

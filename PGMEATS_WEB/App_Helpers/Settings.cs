@@ -8,7 +8,7 @@ using Microsoft.Ajax.Utilities;
 
 #endregion
 
-namespace ADLESKAP
+namespace PGMEATS_WEB
 {
     /// <summary>
     ///     Provides access to the current application's configuration file.
