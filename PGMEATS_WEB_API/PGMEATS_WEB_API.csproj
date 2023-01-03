@@ -133,84 +133,22 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AccessPrivilegeController.cs" />
-    <Compile Include="Controllers\AndonCCActivePlanningController.cs" />
-    <Compile Include="Controllers\AndonProdShipmentAllController.cs" />
-    <Compile Include="Controllers\AndonSTOController.cs" />
-    <Compile Include="Controllers\AndonUploadController.cs" />
-    <Compile Include="Controllers\AndonYardMonitoringController.cs" />
-    <Compile Include="Controllers\DailyPartSupplyController.cs" />
-    <Compile Include="Controllers\DestinationLocSumController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\KAPEnteringShippingLineController.cs" />
-    <Compile Include="Controllers\KAPINController.cs" />
-    <Compile Include="Controllers\KAPReceivingClaimController.cs" />
-    <Compile Include="Controllers\KAPScanOutController.cs" />
-    <Compile Include="Controllers\KAPSJCCController.cs" />
-    <Compile Include="Controllers\KAPSJCCResultController.cs" />
-    <Compile Include="Controllers\KAPSJClaimController.cs" />
-    <Compile Include="Controllers\AndonCCLPQuotaController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
-    <Compile Include="Controllers\MoveVehicleInShippingLineController.cs" />
-    <Compile Include="Controllers\MoveVehicleInStorageController.cs" />
-    <Compile Include="Controllers\NoDropDocumentMasterController.cs" />
-    <Compile Include="Controllers\PIOInstructionController.cs" />
-    <Compile Include="Controllers\PIOServerController.cs" />
-    <Compile Include="Controllers\PIOStockMonitoringController.cs" />
-    <Compile Include="Controllers\PORTUploadController.cs" />
-    <Compile Include="Controllers\PriorityVINListController.cs" />
-    <Compile Include="Controllers\ShippingLineMasterController.cs" />
-    <Compile Include="Controllers\StorageYardController.cs" />
-    <Compile Include="Controllers\StorageYardSummaryController.cs" />
-    <Compile Include="Controllers\UploadMonthlyPlanningController.cs" />
-    <Compile Include="Controllers\UploadUnregularUnitController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserGroupController.cs" />
     <Compile Include="Controllers\UserGroupPrivilegeController.cs" />
-    <Compile Include="Controllers\VAOutKAPController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccessPrivilegeDB.cs" />
-    <Compile Include="Models\AndonCCOperationDB.cs" />
-    <Compile Include="Models\AndonCCActivePlanningDB.cs" />
-    <Compile Include="Models\AndonKAPOperationDB.cs" />
-    <Compile Include="Models\AndonJobAssignmentDB.cs" />
-    <Compile Include="Models\AndonPatimbanOperationDB.cs" />
-    <Compile Include="Models\AndonSTODB.cs" />
-    <Compile Include="Models\AndonUploadDB.cs" />
-    <Compile Include="Models\AndonYardMonitoringDB.cs" />
-    <Compile Include="Models\clsKAPScanOut.cs" />
-    <Compile Include="Models\clsNoDropDocumentMasterDB.cs" />
-    <Compile Include="Models\clsPIOInstructionDB.cs" />
-    <Compile Include="Models\clsPriorityVINListDB.cs" />
-    <Compile Include="Models\clsShippingLineMasterDB.cs" />
-    <Compile Include="Models\clsUploadMonthlyPlanningDB.cs" />
-    <Compile Include="Models\DailyPartSupplyDB.cs" />
-    <Compile Include="Models\DestinationLocSumDB.cs" />
     <Compile Include="Models\Encryption.cs" />
     <Compile Include="Models\FilterDB.cs" />
-    <Compile Include="Models\KAPEnteringShippingLineDB.cs" />
-    <Compile Include="Models\KAPIN.cs" />
-    <Compile Include="Models\KAPReceivingClaimDB.cs" />
-    <Compile Include="Models\KAPSJCCDB.cs" />
-    <Compile Include="Models\KAPSJCCResultDB.cs" />
-    <Compile Include="Models\KAPSJClaim.cs" />
-    <Compile Include="Models\AndonCCLPQuotaDB.cs" />
     <Compile Include="Models\MenuDB.cs" />
-    <Compile Include="Models\MoveVehicleInShippingLineDB.cs" />
-    <Compile Include="Models\MoveVehicleInStorageDB.cs" />
-    <Compile Include="Models\PIOServerDB.cs" />
-    <Compile Include="Models\PIOStockMonitoringDB.cs" />
-    <Compile Include="Models\PORTUpload.cs" />
-    <Compile Include="Models\StorageYardDB.cs" />
-    <Compile Include="Models\StorageYardSummaryDB.cs" />
-    <Compile Include="Models\UploadUnregulerUnitDB.cs" />
     <Compile Include="Models\UserDB.cs" />
     <Compile Include="Models\UserGroupDB.cs" />
     <Compile Include="Models\UserGroupPrivilegeDB.cs" />
-    <Compile Include="Models\VAOutKAP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -238,7 +176,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\AndonUpload\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

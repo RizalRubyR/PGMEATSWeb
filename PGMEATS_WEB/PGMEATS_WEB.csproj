@@ -1049,77 +1049,21 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\_Aside.cshtml" />
-    <Content Include="Views\Shared\_CurrentUser.cshtml" />
-    <Content Include="Views\Shared\_Footer.cshtml" />
-    <Content Include="Views\Shared\_Header.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Shared\_Ribbon.cshtml" />
-    <Content Include="Views\Shared\_Scripts.cshtml" />
-    <Content Include="Views\Shared\_TermsAndConditions.cshtml" />
-    <Content Include="Views\Shared\_Tiles.cshtml" />
-    <Content Include="Views\Shared\_TopRight.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\User\ChangePassword.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\Shared\_LayoutFullScreen.cshtml" />
     <Content Include="Scripts\pdf.js.map" />
     <Content Include="Scripts\pdf.worker.js.map" />
     <Content Include="Scripts\viewer.js.map" />
     <Content Include="Scripts\libs\jquery-2.1.1.min.map" />
-    <Content Include="Views\ShippingLineMaster\Index.cshtml" />
-    <Content Include="Views\KAPSJCC\Index.cshtml" />
-    <Content Include="Views\StorageYard\Index.cshtml" />
-    <Content Include="Views\VAOutKAP\Index.cshtml" />
-    <Content Include="Views\KAPEnteringShippingLine\Index.cshtml" />
-    <Content Include="Views\KAPScanOut\Index.cshtml" />
-    <Content Include="Views\KAPIN\Index.cshtml" />
     <Content Include="Views\UserGroup\Detail.cshtml" />
     <Content Include="Views\UserGroup\EditorTemplates\SelectUserPrivilegeEditorViewModel.cshtml" />
     <Content Include="Views\UserGroup\Index.cshtml" />
-    <Content Include="Views\KAPSJCCResult\Index.cshtml" />
-    <Content Include="Views\DailyPartSupply\Index.cshtml" />
-    <Content Include="Views\KAPSJClaim\Index.cshtml" />
-    <Content Include="Views\PORTUpload\Index.cshtml" />
-    <Content Include="Views\KAPReceivingClaim\Index.cshtml" />
-    <Content Include="Views\PIOStockMonitoring\Index.cshtml" />
-    <Content Include="Views\AndonProdShipmentAll\AndonJobAssignment.cshtml" />
-    <Content Include="Views\AndonProdShipmentAll\View.cshtml" />
-    <Content Include="Views\PIOInstruction\Index.cshtml" />
-    <Content Include="Views\PIOInstruction\_Select.cshtml" />
-    <Content Include="Views\AndonPort\Index.cshtml" />
-    <Content Include="Views\Shared\_Layout2.cshtml" />
-    <Content Include="Views\MoveVehicleInShippingLine\Index.cshtml" />
-    <Content Include="Views\MoveVehicleInStorage\Index.cshtml" />
-    <Content Include="Views\MoveVehicleInStorage\_FromTrees.cshtml" />
-    <Content Include="Views\MoveVehicleInStorage\_FromTreesLine.cshtml" />
-    <Content Include="Views\MoveVehicleInStorage\_FromTreesLocation.cshtml" />
-    <Content Include="Views\MoveVehicleInStorage\_FromTreesVIN.cshtml" />
-    <Content Include="Views\MoveVehicleInStorage\_ToTrees.cshtml" />
-    <Content Include="Views\MoveVehicleInShippingLine\_FromTreesVIN.cshtml" />
-    <Content Include="Views\MoveVehicleInShippingLine\_ToTrees.cshtml" />
-    <Content Include="Views\PriorityVINList\Index.cshtml" />
-    <Content Include="Views\NoDropDocumentMaster\Index.cshtml" />
-    <Content Include="Views\DestinationLocSum\Index.cshtml" />
-    <Content Include="Views\StorageYardSummary\Index.cshtml" />
     <Content Include="Views\Home\_JobAssignment.cshtml" />
     <Content Include="Views\Home\_KAPOperation.cshtml" />
     <Content Include="Views\Home\_PatimbanOperation.cshtml" />
-    <Content Include="Views\AndonSTO\Index.cshtml" />
-    <Content Include="Views\AndonUpload\Index.cshtml" />
-    <Content Include="Views\UploadUnregularUnit\Index.cshtml" />
     <Content Include="Views\Home\Error500.cshtml" />
-    <Content Include="Views\AndonYardMonitoring\AndonYardMonitoring.cshtml" />
-    <Content Include="Views\AndonSTO\Summary.cshtml" />
-    <Content Include="Views\AndonYardMonitoring\YardA1.cshtml" />
-    <Content Include="Views\AndonYardMonitoring\_YardColor.cshtml" />
-    <Content Include="Views\AndonYardMonitoring\YardA2.cshtml" />
-    <Content Include="Views\AndonYardMonitoring\YardSL.cshtml" />
-    <Content Include="Views\AndonCCActivePlanning\Index.cshtml" />
-    <Content Include="Views\UploadMonthlyPlanning\Index.cshtml" />
-    <Content Include="Views\AndonCCOperation\AndonCCOperation.cshtml" />
-    <Content Include="Views\AndonCCLPQuota\Index.cshtml" />
     <Content Include="Views\UserSetup\UserSetup.cshtml" />
     <Content Include="Views\UserSetup\Index.cshtml" />
     <Content Include="Views\UserStaff\Index.cshtml" />
@@ -1138,84 +1082,28 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Landing\Controllers\LandingController.cs" />
     <Compile Include="Areas\Landing\LandingAreaRegistration.cs" />
-    <Compile Include="Controllers\AndonCCOperationController.cs" />
-    <Compile Include="Controllers\AndonCCActivePlanningController.cs" />
-    <Compile Include="Controllers\AndonSTOController.cs" />
-    <Compile Include="Controllers\AndonUploadController.cs" />
-    <Compile Include="Controllers\AndonYardMonitoringController.cs" />
-    <Compile Include="Controllers\DailyPartSupplyController.cs" />
-    <Compile Include="Controllers\DestinationLocSumController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\KAPEnteringShippingLineController.cs" />
-    <Compile Include="Controllers\KAPINController.cs" />
-    <Compile Include="Controllers\KAPReceivingClaimController.cs" />
-    <Compile Include="Controllers\KAPScanOutController.cs" />
-    <Compile Include="Controllers\KAPSJCCController.cs" />
-    <Compile Include="Controllers\KAPSJCCResultController.cs" />
-    <Compile Include="Controllers\KAPSJClaimController.cs" />
-    <Compile Include="Controllers\AndonCCLPQuotaController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
-    <Compile Include="Controllers\MoveVehicleInShippingLineController.cs" />
-    <Compile Include="Controllers\MoveVehicleInStorageController.cs" />
     <Compile Include="Controllers\MultipleButtonAttribute.cs" />
-    <Compile Include="Controllers\NoDropDocumentMasterController.cs" />
-    <Compile Include="Controllers\PIOInstructionController.cs" />
-    <Compile Include="Controllers\PIOStockMonitoringController.cs" />
-    <Compile Include="Controllers\PORTUploadController.cs" />
-    <Compile Include="Controllers\PriorityVINListController.cs" />
-    <Compile Include="Controllers\ShippingLineMasterController.cs" />
-    <Compile Include="Controllers\StorageYardController.cs" />
-    <Compile Include="Controllers\StorageYardSummaryController.cs" />
-    <Compile Include="Controllers\UploadMonthlyPlanningController.cs" />
-    <Compile Include="Controllers\UploadUnregularUnitController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserPrivilegeController.cs" />
     <Compile Include="Controllers\UserGroupController.cs" />
     <Compile Include="Controllers\UserStaffController.cs" />
     <Compile Include="Controllers\UserSetupController.cs" />
-    <Compile Include="Controllers\VAOutKAPController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\claKAPIN.cs" />
     <Compile Include="Models\clsAccessPrivilege.cs" />
-    <Compile Include="Models\clsAndon.cs" />
-    <Compile Include="Models\clsAndonCCActivePlanning.cs" />
-    <Compile Include="Models\clsAndonJobAssignment.cs" />
-    <Compile Include="Models\clsAndonUpload.cs" />
-    <Compile Include="Models\clsDailyPartSupply.cs" />
-    <Compile Include="Models\clsDestinationLocSum.cs" />
-    <Compile Include="Models\clsInputDailyPartSupply.cs" />
     <Compile Include="Models\clsJSOXSetup.cs" />
-    <Compile Include="Models\clsKAPEnteringShippingLine.cs" />
-    <Compile Include="Models\clsKAPReceivingClaim.cs" />
-    <Compile Include="Models\clsKAPScanOut.cs" />
-    <Compile Include="Models\clsKAPSJCC.cs" />
-    <Compile Include="Models\clsKAPSJCCResult.cs" />
-    <Compile Include="Models\clsKAPSJClaim.cs" />
-    <Compile Include="Models\clsAndonCCLPQuota.cs" />
     <Compile Include="Models\clsMenu.cs" />
     <Compile Include="Models\clsMessage.cs" />
-    <Compile Include="Models\clsMoveVehicleInShippingLine.cs" />
-    <Compile Include="Models\clsMoveVehicleInStorage.cs" />
-    <Compile Include="Models\clsNoDropDocumentMaster.cs" />
     <Compile Include="Models\clsPasswordHistory.cs" />
-    <Compile Include="Models\clsPIOInstruction.cs" />
-    <Compile Include="Models\clsPIOStockMonitoring.cs" />
-    <Compile Include="Models\clsPORTUpload.cs" />
-    <Compile Include="Models\clsPriorityVINList.cs" />
-    <Compile Include="Models\clsShippingLineMaster.cs" />
-    <Compile Include="Models\clsStorageYard.cs" />
-    <Compile Include="Models\clsStorageYardSummary.cs" />
-    <Compile Include="Models\clsUploadMonthlyPlanning.cs" />
-    <Compile Include="Models\clsUploadUnregularUnit.cs" />
     <Compile Include="Models\clsUserPrivilege.cs" />
     <Compile Include="Models\SelectUserPrivilegeEditorViewModel.cs" />
     <Compile Include="Models\clsUserStaff.cs" />
     <Compile Include="Models\clsUserSetup.cs" />
     <Compile Include="Models\clsUser.cs" />
     <Compile Include="Models\clsUserGroup.cs" />
-    <Compile Include="Models\clsVAOutKAP.cs" />
     <Compile Include="Models\Encryption.cs" />
     <Compile Include="Models\ReportParams.cs" />
     <Compile Include="Models\SessionExpireAttribute.cs" />
@@ -1229,51 +1117,9 @@
     <Compile Include="Reports\ReportViewer.aspx.designer.cs">
       <DependentUpon>ReportViewer.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Reports\Rpt\Kakudaihyo Code39.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Kakudaihyo Code39.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\Rpt\Kakudaihyo Toyota.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Kakudaihyo Toyota.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\Rpt\Kakudaihyo.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Kakudaihyo.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\Rpt\KAP_SJCC.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>KAP_SJCC.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Reports\Rpt\Kakudaihyo Code39.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>Kakudaihyo Code39.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Rpt\Kakudaihyo Toyota.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>Kakudaihyo Toyota.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Rpt\Kakudaihyo.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>Kakudaihyo.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\Rpt\KAP_SJCC.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>KAP_SJCC.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
