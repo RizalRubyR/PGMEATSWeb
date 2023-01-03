@@ -5,10 +5,10 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
-using ADLESKAP_API.Models;
+using PGMEATS_WEB_API.Models;
 using Newtonsoft.Json.Linq;
 
-namespace ADLESKAP_API.Controllers
+namespace PGMEATS_WEB_API.Controllers
 {
     public class HomeController : ApiController
     {

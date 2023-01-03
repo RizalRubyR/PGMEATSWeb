@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace ADLESKAP_API.Models
+namespace PGMEATS_WEB_API.Models
 {
     public class Menu
     {

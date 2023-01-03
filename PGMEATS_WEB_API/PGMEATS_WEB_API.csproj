@@ -154,8 +154,6 @@
   <ItemGroup>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <None Include="Properties\PublishProfiles\ADLESKAP.pubxml" />
-    <None Include="Properties\PublishProfiles\ADLESKAP_API.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />

@@ -4,7 +4,7 @@ using System.Data;
 using System.Configuration;
 using System.Security.Cryptography;
 
-namespace ADLESKAP_API.Models
+namespace PGMEATS_WEB_API.Models
 {
     public class Encryption
     {

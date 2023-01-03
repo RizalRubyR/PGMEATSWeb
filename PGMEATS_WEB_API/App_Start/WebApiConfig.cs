@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Web.Http;
 
-namespace ADLESKAP_API
+namespace PGMEATS_WEB_API
 {
     public static class WebApiConfig
     {

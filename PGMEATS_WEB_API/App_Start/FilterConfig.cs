@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace ADLESKAP_API
+namespace PGMEATS_WEB_API
 {
     public class FilterConfig
     {

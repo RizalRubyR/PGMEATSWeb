@@ -1,6 +1,6 @@
 ﻿using System.Web.Optimization;
 
-namespace ADLESKAP_API
+namespace PGMEATS_WEB_API
 {
     public class BundleConfig
     {
