@@ -30,25 +30,6 @@ namespace PGMEATS_WEB.Controllers
                     clsMenuDB MenuDB = new clsMenuDB();
                     MenuDat = MenuDB.MenuList().ToList();
                     return PartialView("_Aside", MenuDat);
-
-                    #region OldCodeWhenUsingAPI
-                    //var uri = new Uri(string.Format(ConfigurationManager.AppSettings["ApiURL"], string.Empty));
-
-                    //var client = new HttpClient();
-                    //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    //HttpResponseMessage resp = client.GetAsync(uri + "Menu/MenuList?UserID=" + WebUtility.UrlEncode(userID)).GetAwaiter().GetResult();
-                    //if (resp.IsSuccessStatusCode)
-                    //{
-                    //    string js = resp.Content.ReadAsStringAsync().Result;
-                    //    List<clsMenu> menus = JsonConvert.DeserializeObject<List<clsMenu>>(js);
-
-                    //    return PartialView("_Aside", menus);
-                    //}
-                    //else
-                    //{
-                    //    return RedirectToAction("Home", "Login");
-                    //}
-                    #endregion OldCodeWhenUsingAPI
                 }
                 else
                 {
