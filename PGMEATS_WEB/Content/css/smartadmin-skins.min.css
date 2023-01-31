@@ -230,9 +230,13 @@
 .smart-style-1 .jarviswidget-color-purple>header{
     background:#736086
 }
-.smart-style-1 .jarviswidget-color-red > header {
+/*.smart-style-1 .jarviswidget-color-red > header {
     background: #ff6060;
     border-color: #ff6060!important
+}*/
+.smart-style-1 .jarviswidget-color-red > header {
+    background: #4CBFBC;
+    border-color: #4CBFBC !important
 }
 .smart-style-1 .jarviswidget .bg-color-red{
     background:#C02631!important
@@ -272,8 +276,11 @@
 
 /*Untuk setting page*/
 .smart-style-1 .pagination > .active > a, .smart-style-1 .pagination > .active > a:focus, .smart-style-1 .pagination > .active > a:hover, .smart-style-1 .pagination > .active > span, .smart-style-1 .pagination > .active > span:focus, .smart-style-1 .pagination > .active > span:hover {
-    background-color: #ff6060;
-    border-color: #ff6060
+    /*background-color: #ff6060;
+    border-color: #ff6060;*/
+
+    background-color: #4CBFBC;
+    border-color: #4CBFBC
 }
 .smart-style-1.minified .login-info a{
     margin-top:6px
@@ -379,16 +386,18 @@
 
 /*Untuk setting background color menu*/
 .smart-style-1.menu-on-top aside {
-    background: #ff6060
+    /*background: #ff6060*/
+    background: #4CBFBC
 }
 
 /*Untuk setting border color menu*/
-.smart-style-1.menu-on-top aside#left-panel {
-    -webkit-box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);
-    border-bottom: 1px solid #ff6060;
-    border-top: 1px solid #333
-}
+    .smart-style-1.menu-on-top aside#left-panel {
+        -webkit-box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);
+        /*border-bottom: 1px solid #ff6060;*/
+        border-bottom: 1px solid #4CBFBC;
+        border-top: 1px solid #333
+    }
 
 /*Untuk setting border and width menu*/
 .smart-style-1.menu-on-top aside#left-panel nav>ul>li{
@@ -424,12 +433,19 @@
     background:linear-gradient(to bottom,#04070c,#2e3e57 66%);
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#04070C', endColorstr='#2E3E57', GradientType=0)*/
 
-    border-right-color: #ff6060;
+    /*border-right-color: #ff6060;
     border-left-color: #ff6060;
     background: #ff6060;
     background: -o-linear-gradient(top,#ff6060 0,#ff6060 66%);
     background: -ms-linear-gradient(top,#ff6060 0,#ff6060 66%);
-    background: linear-gradient(to bottom,#ff6060,#ff6060 66%);
+    background: linear-gradient(to bottom,#ff6060,#ff6060 66%);*/
+
+    border-right-color: #4CBFBC;
+    border-left-color: #4CBFBC;
+    background: #4CBFBC;
+    background: -o-linear-gradient(top,#4CBFBC 0,#4CBFBC 66%);
+    background: -ms-linear-gradient(top,#4CBFBC 0,#4CBFBC 66%);
+    background: linear-gradient(to bottom,#4CBFBC,#4CBFBC 66%);
 }
 
 /*Untuk setting border color jika mouse diarahkan ke menu*/
@@ -453,7 +469,9 @@
     color: #fff;
     /*background-color: #f0f0f0!important;*/
     width: 100%;
-    background-color: #ff6060!important
+    /*background-color: #ff6060!important*/
+    background-color: #4CBFBC !important
+
 }
 
 /*Untuk setting background color submenu*/

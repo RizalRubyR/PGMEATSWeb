@@ -13,8 +13,6 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web.Routing;
 using Newtonsoft.Json;
-using OfficeOpenXml;
-using OfficeOpenXml.Style;
 using System.IO;
 using System.Drawing;
 using ClosedXML.Excel;
@@ -53,41 +51,59 @@ namespace PGMEATS_WEB.Controllers
             }
         }
 
-        [HttpPost]
+        //Commnet,causing issue when login without API
+        //[HttpPost]
         public ActionResult Login(clsUser User)
         {
             string message = "";
+            Encryption encrypt = new Encryption();
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var uri = new Uri(string.Format(ConfigurationManager.AppSettings["ApiURL"], string.Empty));
-
-                    var client = new HttpClient();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    HttpResponseMessage resp = client.GetAsync(uri + "Home/UserCheck?UserID=" + WebUtility.UrlEncode(User.UserID) + "&Password=" + WebUtility.UrlEncode(User.Password)).GetAwaiter().GetResult();
-                    if (resp.IsSuccessStatusCode)
+                    clsUserDB db = new clsUserDB();
+                    string UserID = User.UserID;
+                    string Password = User.Password;
+                    User = db.GetUser(UserID);
+                    if (Password == User.Password)
                     {
-
-                        string js = resp.Content.ReadAsStringAsync().Result;
-                        clsUserResponse data = JsonConvert.DeserializeObject<clsUserResponse>(js);
-
-                        if (data.RespID == 0)
-                        {
-                            message = "Success";
-                            Session["LogUserID"] = User.UserID.ToString();
-                        }
-                        else
-                        {
-                            message = "User ID or Password is incorrect!";
-                        }
+                        message = "Success";
+                        Session["LogUserID"] = User.UserID.ToString();
                     }
                     else
                     {
-                        message = JsonConvert.DeserializeObject<dynamic>(resp.Content.ReadAsStringAsync().Result);
+                        message = "User ID or Password is incorrect!";
                     }
+
+                    #region OldCodeLoginWithAPI
+                    //var uri = new Uri(string.Format(ConfigurationManager.AppSettings["ApiURL"], string.Empty));
+
+                    //var client = new HttpClient();
+                    //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    //HttpResponseMessage resp = client.GetAsync(uri + "Home/UserCheck?UserID=" + WebUtility.UrlEncode(User.UserID) + "&Password=" + WebUtility.UrlEncode(User.Password)).GetAwaiter().GetResult();
+                    //if (resp.IsSuccessStatusCode)
+                    //{
+
+                    //    string js = resp.Content.ReadAsStringAsync().Result;
+                    //    clsUserResponse data = JsonConvert.DeserializeObject<clsUserResponse>(js);
+
+                    //    if (data.RespID == 0)
+                    //    {
+                    //        message = "Success";
+                    //        Session["LogUserID"] = User.UserID.ToString();
+                    //    }
+                    //    else
+                    //    {
+                    //        message = "User ID or Password is incorrect!";
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    message = JsonConvert.DeserializeObject<dynamic>(resp.Content.ReadAsStringAsync().Result);
+                    //}
+                    #endregion OldCodeLoginWithAPI
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     message = ex.Message.ToString().Trim();
                 }

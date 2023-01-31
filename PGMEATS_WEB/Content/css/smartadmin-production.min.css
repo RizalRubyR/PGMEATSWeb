@@ -317,7 +317,8 @@ aside{display:block;background:#3a3633;background:url(data:image/svg+xml;base64,
 /*Untuk setting warna ketik menu di klik*/
 nav ul li a:active {
     /*background:#616161!important*/
-    background: #ff6060!important
+    /*background: #ff6060!important*/
+    background: #4CBFBC !important
 }
 nav ul{width:100%;padding:40px 28px 25px 0;padding:0;margin:0;font-size:13px;line-height:.5em;list-style:none;position:relative}
 nav ul .active>a{color:#fff!important;position:relative}

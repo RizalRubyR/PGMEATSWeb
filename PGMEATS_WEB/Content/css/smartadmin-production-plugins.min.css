@@ -91,7 +91,8 @@ div.DTTT .btn{color:#333!important;font-size:12px}div.DTTT .btn:hover{text-decor
     width: 100%;
     background-color: #232323;
     /*background-color: rgba(0,0,0,.8);*/
-    background-color: #ff6060;
+    /*background-color: #ff6060;*/
+    background-color: #4CBFBC;
     padding: 20px;
     font-family: 'Poppins-Regular';
 }
