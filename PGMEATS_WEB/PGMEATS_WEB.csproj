@@ -1060,6 +1060,8 @@
     <Content Include="Views\Shared\_TermsAndConditions.cshtml" />
     <Content Include="Views\Shared\_Tiles.cshtml" />
     <Content Include="Views\Shared\_TopRight.cshtml" />
+    <Content Include="Views\MyComplaint\IssueTypeMaster.cshtml" />
+    <Content Include="Views\MyComplaint\CanteenComplaintList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Helpers\DashRouteHandler.cs" />
@@ -1076,12 +1078,14 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\MultipleButtonAttribute.cs" />
+    <Compile Include="Controllers\MyComplaintController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserStaffController.cs" />
     <Compile Include="Controllers\UserSetupController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\clsIssueTypeMaster.cs" />
     <Compile Include="Models\clsAccessPrivilege.cs" />
     <Compile Include="Models\clsJSOXSetup.cs" />
     <Compile Include="Models\clsMenu.cs" />
