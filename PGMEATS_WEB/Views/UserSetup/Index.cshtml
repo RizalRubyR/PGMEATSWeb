@@ -274,6 +274,7 @@
                 type: "post",
                 dataType: "json"
             }).done(function (result) {
+                console.log(result);
                 $("#tableID").DataTable().clear();
                 $("#tableID").DataTable().rows.add(result).draw(false);
                 setTimeout(function () {

@@ -1092,6 +1092,7 @@
     <Compile Include="Models\clsMenuDB.cs" />
     <Compile Include="Models\clsMessage.cs" />
     <Compile Include="Models\clsPasswordHistory.cs" />
+    <Compile Include="Models\clsResponse.cs" />
     <Compile Include="Models\clsUserDB.cs" />
     <Compile Include="Models\clsUserStaff.cs" />
     <Compile Include="Models\clsUserSetup.cs" />

@@ -20,11 +20,10 @@ namespace PGMEATS_WEB.Models
 
     public class clsIssueTypeMaterDB
     {
-        public IEnumerable<clsIssueTypeMaster> IssueTypeList(String IssueTypeID)
+        public clsResponse IssueTypeList(String IssueTypeID)
         {
             List<clsIssueTypeMaster> Menus = new List<clsIssueTypeMaster>();
-            clsIssueTypeMaster Menu = new clsIssueTypeMaster();
-
+           clsResponse Response = new clsResponse();
             try
             {
                 string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
@@ -32,31 +31,38 @@ namespace PGMEATS_WEB.Models
                 {
                     SqlCommand cmd = new SqlCommand("usp_IssueType_List", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("IssueTypeID", IssueTypeID);
+                    cmd.Parameters.AddWithValue("IssueTypeID", IssueTypeID??"");
                     con.Open();
 
                     SqlDataReader rd = cmd.ExecuteReader();
                     while (rd.Read())
                     {
+                        clsIssueTypeMaster Menu = new clsIssueTypeMaster();
                         Menu.IssueTypeID = rd["IssueTypeID"].ToString();
-                        Menu.IssueTypeDesc = rd["IssueTypeDescription"].ToString();
+                        Menu.IssueTypeDesc = rd["IssueTypeDesc"].ToString();
                         Menu.ActiveStatus = rd["ActiveStatus"].ToString();
                         Menu.LastUser = rd["UpdateUser"].ToString();
                         Menu.LastUpdate = rd["UpdateDate"].ToString();
                         Menus.Add(Menu);
                     }
-                    return Menus;
+
+                    Response.Message = "Success";
+                    Response.Contents = Menus;                
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                Response.ID = 0;
+                Response.Message = ex.Message;
+                Response.Contents = "";
+                
             }
-
+            return Response;
         }
 
-        public int IssueTypeUpd(string IssueTypeID, string IssueTypeDesc, string ActiveStatus, string User)
+        public clsResponse IssueTypeUpd(string IssueTypeID, string IssueTypeDesc, string ActiveStatus, string User)
         {
+            clsResponse Response = new clsResponse();
             try
             {
                 string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
@@ -71,18 +77,28 @@ namespace PGMEATS_WEB.Models
                     con.Open();
                     int i = cmd.ExecuteNonQuery();
 
-                    return i;
+                    if (i == 0)
+                    {
+                        Response.Message = "Success";
+                    }
+                    else
+                    {
+                        Response.Message = "Error - Query Insert Issue Type!";
+                    }
 
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                Response.Message = ex.Message;
             }
+
+            return Response;
         }
 
-        public string IssueTypeDel(string IssueTypeID)
+        public clsResponse IssueTypeDel(string IssueTypeID)
         {
+            clsResponse Response = new clsResponse();
             try
             {
                 string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
@@ -100,13 +116,16 @@ namespace PGMEATS_WEB.Models
                     cmd.Dispose();
                     con.Close();
 
-                    return dt.Rows[0]["Msg"].ToString();
+                    Response.Message = dt.Rows[0]["Msg"].ToString();
+          
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                Response.Message = ex.Message;
             }
+
+            return Response;
         }
 
     }

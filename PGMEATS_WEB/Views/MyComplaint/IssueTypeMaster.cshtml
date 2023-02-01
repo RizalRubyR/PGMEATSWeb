@@ -1,4 +1,4 @@
-﻿@model PGMEATS_WEB.Models.clsUserSetup
+﻿@model PGMEATS_WEB.Models.clsIssueTypeMaster
 @{
     ViewBag.Title = "IssueTypeMaster";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -28,7 +28,7 @@
                                     <tr>
                                         <td>
                                             <div style="padding-left:-10px"></div>
-                                            <button id="btnAdd" class="btn btn-primary" style="width:85px;" type="button" data-toggle="modal" data-target="#myModal" value="New" disabled onclick="AddNewData()">
+                                            <button id="btnAdd" class="btn btn-primary" style="width:85px;" type="button" data-toggle="modal" data-target="#myModal" value="New" onclick="AddNewData()">
                                                 <span style="font-size:13px">New</span>
                                             </button>
                                         </td>
@@ -48,21 +48,20 @@
                                         <th style="text-align:center;width:35%;">
                                             Issue Description
                                         </th>
-                                        <th style="text-align:center;width:10%;">
+                                        <th style="text-align:center;width:15%;">
                                             Icon For Eats Mobile
                                         </th>
-                                        <th style="text-align:center;width:10%;">
+                                        <th style="text-align:center;width:5%;">
                                             Active Status
                                         </th>
                                         <th style="text-align:center;width:15%;">
                                             Last User
                                         </th>
-                                        <th style="text-align:center;width:15%;">
+                                        <th style="text-align:center;">
                                             Last Update
                                         </th>
                                     </tr>
                                 </thead>
-
                                 <tbody></tbody>
                             </table>
 
@@ -70,12 +69,10 @@
                             <div class="modal fade" id="MyModal">
                                 <div class="modal-dialog" style="width:400px">
                                     <div class="modal-content">
-
                                         <div class="modal-header">
                                             <a href="#" class="close" data-dismiss="modal">&times;</a>
                                             <h4 style="font-family:'Poppins-Regular'" id="ModalTitle"></h4>
                                         </div>
-
                                         <div class="modal-body">
                                             <form id="form" class="smart-form">
                                                 <fieldset id="SubmitForm">
@@ -84,55 +81,28 @@
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group ">
-                                                                    <label style="font-weight:500" for="UserID">User ID</label>
-                                                                    @Html.TextBoxFor(m => m.UserID, new { @id = "UserID", @class = "form-control input-md", placeholder = "Enter user id", required = "required", @style = "height:20px; width:150px" })
-                                                                    @Html.ValidationMessageFor(m => m.UserID, "", new { @class = "text-danger" })
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="UserID">Issue Description</label>
+                                                                    @Html.TextAreaFor(m => m.IssueTypeDesc, new { @id = "IssueTypeDesc", @class = "form-control input-md", placeholder = "Enter Issue Description", @style = "height:50px; width:300px; font-family:'Segoe UI'" })
                                                                 </div>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group">
-                                                                    <label style="font-weight:500" for="FullName">Full Name</label>
-                                                                    @Html.TextBoxFor(m => m.UserName, new { @id = "UserName", @class = "form-control input-md", placeholder = "Enter full name", required = "required", @style = "height:20px; width:300px" })
-                                                                    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                                                                    <label style="font-weight: 500; margin-bottom: 0.5em;" for="FullName">Icon for EATS Mobile</label>
+                                                                    <input type="file" accept="" />
                                                                 </div>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group">
-                                                                    <label style="font-weight:500" for="Password">Password</label>
-                                                                    @Html.PasswordFor(m => m.Password, new { @id = "Password", @class = "form-control input-md password", @required = "required", @style = "height:20px; width:150px" })
-                                                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                                                                    <div id="hdn" style="display:none"></div>
-                                                                    <div>
-                                                                        <input type="checkbox" id="showHide" />
-                                                                        <span id="showHide" style="font-family:'Poppins-Regular'">show password</span>
-                                                                    </div>
+                                                                    <label style="font-weight: 500; margin-bottom: 0.5em;" for="Password">Active Status</label>
+                                                                    @Html.DropDownList("ActiveStatus", new SelectList(string.Empty, "Value", "Text"), "", new { @id = "ActiveStatus", @class = "form-control input-md", @style = "height:15px; width:30" +
+                                                                   "0px; font-family:'Segoe UI'" })
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-group">
-                                                                    <label style="font-weight:500" for="AdminStatus">Admin Status</label>
-                                                                    @Html.DropDownList("AdminStatus", new SelectList(string.Empty, "Value", "Text"), "", new { @id = "AdminStatus", required = "required", @class = "form-control input-md", @style = "height:20px; width:150px" })
-                                                                    @Html.ValidationMessageFor(m => m.AdminStatus, "", new { @class = "text-danger" })
-                                                                </div>
-                                                            </td>
-                                                            <td>&nbsp;</td>
-                                                        </tr>
-                                                        @*
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="form-group">
-                                                                        <label style="font-weight:500" for="GroupID">Group</label>
-                                                                        @Html.DropDownList("GroupID", new SelectList(string.Empty, "Value", "Text"), "", new { @id = "GroupID", required = "required", @class = "form-control input-md", @style = "height:20px; width:300px" })
-                                                                        @Html.ValidationMessageFor(m => m.GroupID, "", new { @class = "text-danger" })
-                                                                    </div>
-                                                                </td>
-                                                            </tr>*@
                                                     </table>
                                                 </fieldset>
                                             </form>
@@ -210,85 +180,115 @@
     // DO NOT REMOVE : GLOBAL FUNCTIONS!
     $(document).ready(function () {
         loadData();
-    });
 
-    /* BASIC ;*/
-    var responsiveHelper_dt_basic = undefined;
-    var breakpointDefinition = {
-        tablet: 1024,
-        phone: 480
-    };
+        /* BASIC ;*/
+        var responsiveHelper_dt_basic = undefined;
+        var breakpointDefinition = {
+            tablet: 1024,
+            phone: 480
+        };
 
-    $("#tableID").dataTable({
-        bDestroy: true,
-        data: [],
-        columns: [
-            {
-                "data": "Action", className: "txtAlignCenter", "render": function (data, type, row) {
-                    return '<a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.UserID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteRecord(\'' + row.UserID + '\')"></a>'
+        $("#tableID").dataTable({
+            bDestroy: true,
+            data: [],
+            columns: [
+                {
+                    "data": "Action", className: "txtAlignCenter", "render": function (data, type, row) {
+                        return '<a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.UserID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteRecord(\'' + row.UserID + '\')"></a>'
+                    }
+                },
+                { "data": "IssueTypeID", "autoWidth": true, className: "txtAlignCenter" },
+                { "data": "IssueTypeDesc", "autoWidth": true, className: "txtAlignLeft" },
+                { "data": "FileName", "autoWidth": true, className: "txtAlignLeft" },
+                { "data": "ActiveStatus", "autoWidth": true, className: "txtAlignCenter" },
+                { "data": "LastUser", "autoWidth": true, className: "txtAlignCenter" },
+                { "data": "LastUpdate", "autoWidth": true, className: "txtAlignCenter" }
+
+            ],
+
+            rowCallback: function (row, data) { responsiveHelper_dt_basic.createExpandIcon(row) },
+            filter: true,
+            info: true,
+            ordering: true,
+            processing: true,
+            retrieve: true,
+            bLengthChange: false,
+            lengthMenu: [[15, 20, -1], [15, 20, "All"]],
+            bFilter: true,
+            bSort: true,
+            bPaginate: true,
+            scrollX: false,
+            //scrollX: "100%",
+            //scrollY: "350px",
+            autoWidth: true,
+            preDrawCallback: function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_basic) {
+                    responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#tableID'), breakpointDefinition);
                 }
             },
-            { "data": "IssueTypeID", "autoWidth": true, className: "txtAlignCenter" },
-            { "data": "IssueTypeDesc", "autoWidth": true, className: "txtAlignLeft" },
-            { "data": "FileName", "autoWidth": true, className: "txtAlignLeft" },
-            { "data": "ActiveStatus", "autoWidth": true, className: "txtAlignLeft" },
-            { "data": "LastUser", "autoWidth": true, className: "txtAlignLeft" },
-            { "data": "LastUpdate", "autoWidth": true, className: "txtAlignLeft" }
-
-        ],
-
-        rowCallback: function (row, data) { responsiveHelper_dt_basic.createExpandIcon(row) },
-        filter: true,
-        info: true,
-        ordering: true,
-        processing: true,
-        retrieve: true,
-        bLengthChange: false,
-        lengthMenu: [[15, 20, -1], [15, 20, "All"]],
-        bFilter: true,
-        bSort: true,
-        bPaginate: true,
-        scrollX: false,
-        //scrollX: "100%",
-        //scrollY: "350px",
-        autoWidth: true,
-        preDrawCallback: function () {
-            // Initialize the responsive datatables helper once.
-            if (!responsiveHelper_dt_basic) {
-                responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#tableID'), breakpointDefinition);
+            drawCallback: function (oSettings) {
+                responsiveHelper_dt_basic.respond();
             }
-        },
-        drawCallback: function (oSettings) {
-            responsiveHelper_dt_basic.respond();
-        }
-    });
+        });
         /* END BASIC */
 
         //load datatable function
-
-    function loadData() {
-            waitingDialog.show("Please wait retrieving data...");
-
+        function loadData() {
+              waitingDialog.show("Please wait retrieving data...");
             $.ajax({
-                url: "@Url.Action("IssueTypeList", "MyComplaint")",
-                type: "post",
-                dataType: "json"
-            }).done(function (result) {
-                $("#tableID").DataTable().clear();
-                $("#tableID").DataTable().rows.add(result).draw(false);
-                setTimeout(function () {
-                    waitingDialog.hide();
-                }, 1000);
-
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                //toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
-                setTimeout(function () {
-                    waitingDialog.hide();
-                }, 1000);
+                type: "POST",
+                url: "/MyComplaint/IssueTypeList/",
+                datatype: 'json',
+                success: function (result) {
+                    /* console.log(result.Message);*/
+                    console.log(result.Contents);
+                    if (result.Message.toLowerCase().includes("success")) {
+                        if (result.Contents != "") {
+                            Object.values(result.Contents).forEach(function (dt) {
+                                $("#tableID").DataTable().clear();
+                                    $("#tableID").DataTable().rows.add(result.Contents).draw(false);
+                                    setTimeout(function () {
+                                        waitingDialog.hide();
+                                    }, 1000);
+                                }
+                            );
+                        } else {
+                            toastr.warning("Data not found!", 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                            setTimeout(function () {
+                                waitingDialog.hide();
+                            }, 1000);
+                        }
+                    }
+                    else {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                        setTimeout(function () {
+                            waitingDialog.hide();
+                        }, 1000);
+                    }
+                },
+                error: function (ex) {
+                    toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                }
             });
+        }
+    });
+
+    function AddNewData() {
+        $("#IssueTypeID").val();
+        $("#IssueTypeDesc").val();
+        $("#ActiveStatus").val();
+        $("#ModalTitle").html("Create Issue Type");
+        $("#MyModal").modal();
+        $('#InsertData').show();
+        $('#UpdateData').hide();
     }
 
-    //insert event click
+
+    @*//insert event click
     $("#InsertData").click(function () {
             if ($("#form").valid()) {
                 $('#hdn').css({ display: 'none' });
@@ -388,7 +388,7 @@
                         //console.log(data);
                     }
             })
-        });
+        });*@
 
     //function PopulateAdminStatus() {
     //    $('#AdminStatus').empty();
