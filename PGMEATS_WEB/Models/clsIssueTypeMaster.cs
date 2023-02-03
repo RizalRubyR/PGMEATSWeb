@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 
 namespace PGMEATS_WEB.Models
 {
+
     public class clsIssueTypeMaster
     {
         public string IssueTypeID { get; set; }
