@@ -9,22 +9,14 @@
 <aside id="left-panel">
     <nav>
         <ul>
-            <li class="@Html.RouteIf("index", "active")">
-                <a href="@Url.Action("Index", "Home")" title="Dashboard">
-                    <i class="fa fa-home" style="color:white; font-size:15px">
-                        <span class="menu-on-top" style="font-family:'Poppins-Regular'; color:white; font-weight:400; font-size:13px">&nbsp;Dashboard</span>
-                    </i>
-                </a>
-            </li>
-
-            <li class="@Html.RouteIf("Master", "active")">
+            <li class="@Html.RouteIf("My Complaint", "active")">
                 @foreach (var menu in Model)
                 {
-                    if (cpcheck == 0 && menu.MenuGroup == "Master")
+                    if (cpcheck == 0 && menu.MenuGroup == "My Complaint")
                     {
                         <a href="#">
-                            <i class="fa fa-cog" style="color:white; font-size:15px">
-                                <span class="menu-on-top" style="font-family:'Poppins-Regular'; color:white; font-weight:400; font-size:13px">&nbsp;Master</span>
+                            <i style="color:white; font-size:15px">
+                                <span class="menu-on-top" style="font-family:'Poppins-Regular'; color:white; font-weight:400; font-size:13px">&nbsp;My Complaint</span>
                             </i>
                         </a>
                         cpcheck = cpcheck + 1;
@@ -34,10 +26,11 @@
                 @{
                     cpcheck = 0;
                 }
+
                 <ul>
                     @foreach (var menu in Model)
                     {
-                        if (menu.GroupIndex == 1 && menu.AllowAccess == 1)
+                        if (menu.GroupIndex == 1)
                         {
                             <li>
                                 <a href=@menu.MenuName class="fa fa-lg">
@@ -49,26 +42,28 @@
                 </ul>
             </li>
 
-            <li class="@Html.RouteIf("KAP Operation","active")">
+            <li class="@Html.RouteIf("My News", "active")">
                 @foreach (var menu in Model)
                 {
-                    if (cpcheck == 0 && menu.MenuGroup == "KAP Operation")
+                    if (cpcheck == 0 && menu.MenuGroup == "My News")
                     {
                         <a href="#">
-                            <i class="fa fa-cog" style="color:white; font-size:15px">
-                                <span class="menu-on-top" style="font-family:'Poppins-Regular'; color:white; font-weight:500; font-size:13px">&nbsp;KAP Operation</span>
+                            <i style="color:white; font-size:15px">
+                                <span class="menu-on-top" style="font-family:'Poppins-Regular'; color:white; font-weight:400; font-size:13px">&nbsp;My News</span>
                             </i>
                         </a>
                         cpcheck = cpcheck + 1;
                     }
                 }
+
                 @{
                     cpcheck = 0;
                 }
+
                 <ul>
                     @foreach (var menu in Model)
                     {
-                        if (menu.GroupIndex == 2 && menu.AllowAccess == 1)
+                        if (menu.GroupIndex == 2)
                         {
                             <li>
                                 <a href=@menu.MenuName class="fa fa-lg">
@@ -80,26 +75,28 @@
                 </ul>
             </li>
 
-            <li class="@Html.RouteIf("PORT Operation","active")">
+            <li class="@Html.RouteIf("Survey & Polls", "active")">
                 @foreach (var menu in Model)
                 {
-                    if (cpcheck == 0 && menu.MenuGroup == "PORT Operation")
+                    if (cpcheck == 0 && menu.MenuGroup == "Survey & Polls")
                     {
                         <a href="#">
-                            <i class="fa fa-cog" style="color:white; font-size:15px">
-                                <span class="menu-on-top" style="font-family:'Poppins-Regular'; color:white; font-weight:400; font-size:13px">&nbsp;PORT Operation</span>
+                            <i style="color:white; font-size:15px">
+                                <span class="menu-on-top" style="font-family:'Poppins-Regular'; color:white; font-weight:400; font-size:13px">&nbsp;Survey & Polls</span>
                             </i>
                         </a>
                         cpcheck = cpcheck + 1;
                     }
                 }
+
                 @{
                     cpcheck = 0;
                 }
+
                 <ul>
                     @foreach (var menu in Model)
                     {
-                        if (menu.GroupIndex == 3 && menu.AllowAccess == 1)
+                        if (menu.GroupIndex == 3)
                         {
                             <li>
                                 <a href=@menu.MenuName class="fa fa-lg">
@@ -111,27 +108,94 @@
                 </ul>
             </li>
 
-
-            <li class="@Html.RouteIf("Andon","active")">
+            <li class="@Html.RouteIf("Clinic Information", "active")">
                 @foreach (var menu in Model)
                 {
-                    if (cpcheck == 0 && menu.MenuGroup == "Andon")
+                    if (cpcheck == 0 && menu.MenuGroup == "Clinic Information")
                     {
                         <a href="#">
-                            <i class="fa fa-cog" style="color:white; font-size:15px">
-                                <span class="menu-on-top" style="font-family:'Poppins-Regular'; color:white; font-weight:400; font-size:13px">&nbsp;Andon</span>
+                            <i style="color:white; font-size:15px">
+                                <span class="menu-on-top" style="font-family:'Poppins-Regular'; color:white; font-weight:400; font-size:13px">&nbsp;Clinic Info</span>
                             </i>
                         </a>
                         cpcheck = cpcheck + 1;
                     }
                 }
+
                 @{
                     cpcheck = 0;
                 }
+
                 <ul>
                     @foreach (var menu in Model)
                     {
-                        if (menu.GroupIndex == 4 && menu.AllowAccess == 1)
+                        if (menu.GroupIndex == 4)
+                        {
+                            <li>
+                                <a href=@menu.MenuName class="fa fa-lg">
+                                    <i style="font-family:'Poppins-Regular';font-style:normal">@menu.MenuDescription</i>
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </li>
+
+            <li class="@Html.RouteIf("My KY", "active")">
+                @foreach (var menu in Model)
+                {
+                    if (cpcheck == 0 && menu.MenuGroup == "My KY")
+                    {
+                        <a href="#">
+                            <i style="color:white; font-size:15px">
+                                <span class="menu-on-top" style="font-family:'Poppins-Regular'; color:white; font-weight:400; font-size:13px">&nbsp;My KY</span>
+                            </i>
+                        </a>
+                        cpcheck = cpcheck + 1;
+                    }
+                }
+
+                @{
+                    cpcheck = 0;
+                }
+
+                <ul>
+                    @foreach (var menu in Model)
+                    {
+                        if (menu.GroupIndex == 5)
+                        {
+                            <li>
+                                <a href=@menu.MenuName class="fa fa-lg">
+                                    <i style="font-family:'Poppins-Regular';font-style:normal">@menu.MenuDescription</i>
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </li>
+
+            <li class="@Html.RouteIf("Birthday Notification", "active")">
+                @foreach (var menu in Model)
+                {
+                    if (cpcheck == 0 && menu.MenuGroup == "Birthday Notification")
+                    {
+                        <a href="#">
+                            <i style="color:white; font-size:15px">
+                                <span class="menu-on-top" style="font-family:'Poppins-Regular'; color:white; font-weight:400; font-size:13px">&nbsp;Birthday Notification</span>
+                            </i>
+                        </a>
+                        cpcheck = cpcheck + 1;
+                    }
+                }
+
+                @{
+                    cpcheck = 0;
+                }
+
+                <ul>
+                    @foreach (var menu in Model)
+                    {
+                        if (menu.GroupIndex == 6)
                         {
                             <li>
                                 <a href=@menu.MenuName class="fa fa-lg">
@@ -149,7 +213,7 @@
                     if (cpcheck == 0 && menu.MenuGroup == "Security")
                     {
                         <a href="#">
-                            <i class="fa fa-lg fa-fw fa-wrench" style="color:white; font-size:15px">
+                            <i style="color:white; font-size:15px">
                                 <span class="menu-on-top" style="font-family:'Poppins-Regular'; color:white; font-weight:400; font-size:13px">&nbsp;Security</span>
                             </i>
                         </a>
@@ -164,46 +228,7 @@
                 <ul>
                     @foreach (var menu in Model)
                     {
-                        if (menu.GroupIndex == 99 && menu.AllowAccess == 1)
-                        {
-                            <li>
-                                <a href=@menu.MenuName class="fa fa-lg">
-                                    <i style="font-family:'Poppins-Regular';font-style:normal">@menu.MenuDescription</i>
-                                </a>
-                            </li>
-                        }
-                    }
-                </ul>
-            </li>
-
-            <li>
-                @*@foreach (var menu in Model)
-                {
-                    if (cpcheck == 0 && menu.MenuGroup == "Security")
-                    {
-                        <a href="#">
-                            <i class="fa fa-lg fa-fw fa-money" style="color:white; font-size:15px">
-                                <span class="menu-on-top" style="font-family:'Poppins-Regular'; color:white; font-weight:400; font-size:13px">&nbsp;Security</span>
-                            </i>
-                        </a>
-                        cpcheck = cpcheck + 1;
-                    }
-                }*@
-
-                <a href="#">
-                    <i class="fa fa-lg" style="color:white; font-size:15px">
-                        <span class="menu-on-top" style="font-family:'Poppins-Regular'; color:white; font-weight:400; font-size:13px">&nbsp;Clinic Info</span>
-                    </i>
-                </a>
-
-                @{
-                    cpcheck = 0;
-                }
-
-                <ul>
-                    @foreach (var menu in Model)
-                    {
-                        if (menu.GroupIndex == 4 && menu.AllowAccess == 1)
+                        if (menu.GroupIndex == 7)
                         {
                             <li>
                                 <a href=@menu.MenuName class="fa fa-lg">
@@ -215,8 +240,6 @@
                 </ul>
             </li>
         </ul>
-            
-
     </nav>
 
     <script type="text/javascript">

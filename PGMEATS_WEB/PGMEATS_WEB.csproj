@@ -1070,6 +1070,8 @@
     <Content Include="Views\Shared\_Tiles.cshtml" />
     <Content Include="Views\Shared\_TopRight.cshtml" />
     <Content Include="Views\ClinicInformationList\index.cshtml" />
+    <Content Include="Views\MyComplaint\CanteenComplaintList.cshtml" />
+    <Content Include="Views\MyComplaint\IssueTypeMaster.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Helpers\DashRouteHandler.cs" />
@@ -1087,6 +1089,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\MultipleButtonAttribute.cs" />
+    <Compile Include="Controllers\MyComplaintController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserPrivilegeController.cs" />
     <Compile Include="Controllers\UserGroupController.cs" />
@@ -1098,11 +1101,14 @@
     <Compile Include="Models\clsClinicInformationList.cs" />
     <Compile Include="Models\clsClinicInformationListDB.cs" />
     <Compile Include="Models\clsAccessPrivilege.cs" />
+    <Compile Include="Models\clsIssueTypeMaster.cs" />
     <Compile Include="Models\clsJSOXSetup.cs" />
     <Compile Include="Models\clsMenu.cs" />
     <Compile Include="Models\clsMenuDB.cs" />
     <Compile Include="Models\clsMessage.cs" />
+    <Compile Include="Models\clsMyComplaint.cs" />
     <Compile Include="Models\clsPasswordHistory.cs" />
+    <Compile Include="Models\clsResponse.cs" />
     <Compile Include="Models\clsUserDB.cs" />
     <Compile Include="Models\clsUserPrivilege.cs" />
     <Compile Include="Models\SelectUserPrivilegeEditorViewModel.cs" />

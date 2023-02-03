@@ -1,0 +1,558 @@
+﻿@model PGMEATS_WEB.Models.clsIssueTypeMaster
+@{
+    ViewBag.Title = "IssueTypeMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-xs-12 col-md-12">
+                <div class="jarviswidget jarviswidget-color-red" id="wid-id-1"
+                     data-widget-colorbutton="false"
+                     data-widget-editbutton="false"
+                     data-widget-togglebutton="false"
+                     data-widget-deletebutton="false"
+                     data-widget-custombutton="false"
+                     data-widget-collapsed="false"
+                     data-widget-sortable="false">
+
+                    <header style="border-top-left-radius:8px; border-top-right-radius:8px">
+                        <h2 style="font-family:'Poppins-Regular';font-weight:500;font-size:13px">Issue Type Master</h2>
+                    </header>
+
+                    <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
+                        <div class="widget-body">
+                            <div class="table-toolbar" style="padding-bottom:10px">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <div style="padding-left:-10px"></div>
+                                            <button id="btnAdd" class="btn btn-save" style="width:85px;" type="button" data-toggle="modal" data-target="#myModal" value="New" onclick="AddNewData()">
+                                                <span style="font-size:13px">New</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <table id="tableID" data-page-size='3' class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr role="row">
+                                        <th style="text-align:center;width:7%;">
+                                            Action
+                                        </th>
+                                        <th style="text-align:center;width:13%;">
+                                            Issue ID
+                                        </th>
+                                        <th style="text-align:center;width:25%;">
+                                            Issue Description
+                                        </th>
+                                        <th style="text-align:center;width:20%;">
+                                            Icon For Eats Mobile
+                                        </th>
+                                        <th style="text-align:center;width:5%;">
+                                            Active Status
+                                        </th>
+                                        <th style="text-align:center;width:15%;">
+                                            Last User
+                                        </th>
+                                        <th style="text-align:center;">
+                                            Last Update
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+
+                            <div class="modal fade" id="MyModal">
+                                <div class="modal-dialog" style="width:400px">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                            <h4 style="font-family:'Poppins-Regular'" id="ModalTitle"></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="form" class="smart-form">
+                                                <fieldset id="SubmitForm">
+                                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                    <table style="border:0px solid black; width:100%">
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group ">
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="UserID">Issue Description</label>
+                                                                    @Html.TextBoxFor(m => m.IssueTypeDesc, new { @id = "IssueTypeDesc", @class = "form-control input-md", placeholder = "Enter Issue Description", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
+                                                                    @Html.HiddenFor(m => m.IssueTypeID, new { @id = "IssueTypeID"})
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <label style="font-weight: 500; margin-bottom: 0.5em;" for="FullName">Icon for EATS Mobile</label>
+                                                                    <input type="file" id="IconImg" onclick="performClick()" />
+                                                                    <canvas id="canvas" style="display:none"></canvas>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <label style="font-weight: 500; margin-bottom: 0.5em;" for="Password">Active Status</label>
+                                                                    <select  id = "ActiveStatus", class = "form-control input-md", style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;"></select>
+                                                                    @*@Html.DropDownList("ActiveStatus", new SelectList(string.Empty, "Value", "Text"), "", new { @id = "ActiveStatus", @class = "form-control input-md", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })*@
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </fieldset>
+                                            </form>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal" style="width:85px; font-size:13px; border-width:thin;" onclick="return clearTextBox()">Cancel</button>
+                                            @if (ViewBag.AllowWrite == "0")
+                                            {
+                                                <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px" disabled>Save</button>
+                                                <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;" disabled>Update</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px;">Save</button>
+                                                <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;">Update</button>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="DeleteConfirmation">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                            <h4 style="font-family:'Poppins-Regular'">Delete Data Issue Type</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h4 style="font-family:'Poppins-Regular'">Are you sure to delete this data?</h4>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="#" class="btn btn-save" style="width:85px; font-size:13px" id="DeleteData">Confirm</a>
+                                            <a href="#" class="btn btn-default" style="width: 85px; font-size: 13px; border-width: thin;" data-dismiss="modal" id="DeleteCancel">Cancel</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="ShowImg">
+                                <div class="modal-dialog" style="width:360px;">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                            <h4 style="font-family:'Poppins-Regular'" id="IconTitle"></h4>
+                                        </div>
+                                        <div class="modal-body" style="display:flex; justify-content:center">
+                                            <img alt=ICON-IMG id="IconShow" style="height: 300px; width: 300px; max-width: 300%; max-height: 100%; object-fit: cover;"/>
+                                        </div>                                     
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+
+<style type="text/css">
+    a.disable {
+        cursor: not-allowed;
+    }
+    .hidden {
+        display: none;
+    }
+    .txtAlignCenter {
+        text-align: center;
+    }
+    .txtAlignLeft {
+        text-align: left;
+    }
+    .txtAlignRight {
+        text-align: right;
+    }
+    .btn-save {
+        color: #fff;
+        background-color: #4CBFBC;
+        border-color: #4CBFBC;
+    }
+</style>
+
+<script src="~/Scripts/plugin/bootstrap-waitingfor/bootstrap-waitingfor.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/bootstrap/bootstrap.min.js"></script>
+<script>
+
+    // DO NOT REMOVE : GLOBAL FUNCTIONS!
+    $(document).ready(function () {
+        loadData();
+
+        /* BASIC ;*/
+        var responsiveHelper_dt_basic = undefined;
+        var breakpointDefinition = {
+            tablet: 1024,
+            phone: 480
+        };
+
+        $("#tableID").dataTable({
+            bDestroy: true,
+            data: [],
+            columns: [
+                {
+                    "data": "Action", className: "txtAlignCenter", "render": function (data, type, row) {
+                        return '<a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.IssueTypeID + '|' + row.IssueTypeDesc + '|'+row.ActiveStatus + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteRecord(\'' + row.IssueTypeID + '\')"></a>'
+                    }
+                },
+                { "data": "IssueTypeID", "autoWidth": true, className: "txtAlignLeft" },
+                { "data": "IssueTypeDesc", "autoWidth": true, className: "txtAlignLeft" },
+                {
+                    "data": "FileName", className: "txtAlignLeft", "render": function (data, type, row) {
+                        return '<a href="#" onclick="IconImgShow(\'' + row.FileName + '|' + row.IssueTypeDesc + '\')">' + row.FileName + '</a>'
+                    }
+                },
+              /*  { "data": "FileName", "autoWidth": true, className: "txtAlignLeft" },*/
+                { "data": "ActiveStatus", "autoWidth": true, className: "txtAlignCenter" },
+                { "data": "LastUser", "autoWidth": true, className: "txtAlignCenter" },
+                { "data": "LastUpdate", "autoWidth": true, className: "txtAlignCenter" }
+
+            ],
+
+            rowCallback: function (row, data) { responsiveHelper_dt_basic.createExpandIcon(row) },
+            filter: true,
+            info: true,
+            ordering: true,
+            processing: true,
+            retrieve: true,
+            bLengthChange: false,
+            lengthMenu: [[15, 20, -1], [15, 20, "All"]],
+            bFilter: true,
+            bSort: true,
+            bPaginate: true,
+            scrollX: false,
+            //scrollX: "100%",
+            //scrollY: "350px",
+            autoWidth: true,
+            preDrawCallback: function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_basic) {
+                    responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#tableID'), breakpointDefinition);
+                }
+            },
+            drawCallback: function (oSettings) {
+                responsiveHelper_dt_basic.respond();
+            }
+        });
+        /* END BASIC */
+
+        //load datatable function
+        function loadData() {
+            waitingDialog.show("Please wait retrieving data...");
+            $.ajax({
+                type: "POST",
+                url: "/MyComplaint/IssueTypeList/",
+                datatype: 'json',
+                success: function (result) {
+                    if (result.Message.toLowerCase().includes("success")) {
+                        if (result.Contents != "") {
+                            Object.values(result.Contents).forEach(function (dt) {
+                                $("#tableID").DataTable().clear();
+                                $("#tableID").DataTable().rows.add(result.Contents).draw(false);
+                                setTimeout(function () {
+                                    waitingDialog.hide();
+                                }, 1000);
+                            });
+                        } else {
+                            toastr.warning("Data not found!", 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                            setTimeout(function () {
+                                waitingDialog.hide();
+                            }, 1000);
+                        }
+                    }
+                    else {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                        setTimeout(function () {
+                            waitingDialog.hide();
+                        }, 1000);
+                    }
+                },
+                error: function (ex) {
+                    toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                }
+            });
+        }
+    });
+
+    $("#InsertData").click(function () {
+        var fileDataImg = $("#IconImg").get(0).files;    
+        var IssueTypeDesc = $("#IssueTypeDesc").val();
+        var IssueTypeID = $("#IssueTypeID").val();
+        var ActiveStatus = $("#ActiveStatus option:selected").val();
+
+        if (IssueTypeDesc == "") {
+            toastr.warning("Please, enter issue type description!", 'Warning', { timeOut: 3000, closeButton: true });
+        } else if (fileDataImg.length <= 0) {
+            toastr.warning("Please, attach file image!", 'Warning', { timeOut: 3000, closeButton: true });
+        } else if (ActiveStatus == ""){
+            toastr.warning("Please, select active status!", 'Warning', { timeOut: 3000, closeButton: true });
+        }else {
+
+            var formData = new FormData();
+            formData.append("IssueTypeDesc", IssueTypeDesc) ?? "";
+            formData.append("IssueTypeID", IssueTypeID) ?? "";
+            formData.append("ActiveStatus", ActiveStatus ?? "");
+            saveData(formData);
+        }
+        
+    })
+
+    $("#UpdateData").click(function () {
+        var IssueTypeDesc = $("#IssueTypeDesc").val()?? "";
+        var IssueTypeID = $("#IssueTypeID").val() ?? "";
+        var ActiveStatus = $("#ActiveStatus").val() ?? "";
+
+        if (IssueTypeDesc == "") {
+            toastr.warning("Please, enter issue type description!", 'Warning', { timeOut: 3000, closeButton: true });
+        } else if (ActiveStatus == "") {
+            toastr.warning("Please, select active status!", 'Warning', { timeOut: 3000, closeButton: true });
+        } else {
+
+            var formData = new FormData();
+            formData.append("IssueTypeDesc", IssueTypeDesc);
+            formData.append("IssueTypeID", IssueTypeID);
+            formData.append("ActiveStatus", ActiveStatus);
+            saveData(formData);
+        }
+    })
+
+    $("#DeleteData").click(function () {
+        var issuetypeID = $("#IssueTypeID").val();
+        $.ajax({
+            type: "POST",
+            url: "/MyComplaint/IssueTypeDel",
+            datatype: 'json',
+            data: { IssueTypeID : issuetypeID},
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+                    toastr.success(result.Message, 'Success', { timeOut: 3000, closeButton: true });
+                    $('#MyModal').modal('hide');
+                    millisecondsToWait = 1000;
+                    setTimeout(function () {
+                        window.location.reload(true);
+                    }, millisecondsToWait);
+                } else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                }
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+            }
+        });
+    })
+
+    function AddNewData() {
+        clearTextBox();
+        $("#ModalTitle").html("Create Data Issue Type");
+        $("#MyModal").modal();
+        $('#InsertData').show();
+        $('#UpdateData').hide();
+        FillCombo_ActiveStatus('');
+    }
+
+    function EditRecord(data) {
+        console.log(data);
+        var IssueTypeID = data.split('|')[0];
+        var IssueTypeDesc = data.split('|')[1];
+        var ActiveStatus = data.split('|')[2];
+
+        clearTextBox();
+        $("#ModalTitle").html("Edit Data Issue Type");
+        $("#MyModal").modal();
+        $('#InsertData').hide();
+        $('#UpdateData').show();
+
+        $("#IssueTypeID").val(IssueTypeID);
+        $("#IssueTypeDesc").val(IssueTypeDesc);
+        FillCombo_ActiveStatus(ActiveStatus);
+    }
+
+    function DeleteRecord (data) {
+        $("#IssueTypeID").val(data);
+        $("#DeleteConfirmation").modal("show");
+    }
+
+    function FillCombo_ActiveStatus(code) {
+        $.ajax({
+            type: "POST",
+            url: "/MyComplaint/FillCombo/",
+            datatype: 'json',
+            data: { Type: "ActiveStatus" },
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+                    $('#ActiveStatus').empty();
+                    $.each(result.Contents, function (i, dt) {
+                        if (code == dt.ID) {
+                            $("#ActiveStatus").append('<option value="' + dt.Code + '" selected >' + dt.Description + '</option>');
+                        } else {
+                            $("#ActiveStatus").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
+                        }
+                    });
+                } else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                }
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                setTimeout(function () {
+                    waitingDialog.hide();
+                }, 1000);
+            }
+        });
+    }
+
+    function clearTextBox() {
+        $("#IssueTypeID").val('');
+        $("#IssueTypeDesc").val('');
+        $("#ActiveStatus").val('');
+    }
+
+    function performClick() {
+        var elem = document.getElementById('IconImg');
+        elem.accept = '.jpg,.jpeg,.png'
+
+        IconImg.onchange = evt => {
+                var tgt = evt.target || window.event.srcElement,
+                    files = tgt.files;
+
+                if (FileReader && files && files.length) {
+                    var fr = new FileReader();
+                    fr.onload = function () {
+                        cropImage(fr.result);
+                    }
+                    fr.readAsDataURL(files[0]);
+                }
+            }
+    }
+
+    function saveData(formData) {
+        $.ajax({
+            type: "POST",
+            url: "/MyComplaint/IssueTypeIns/",
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+
+                    var ImgSave = document.getElementById('canvas').toDataURL("image/png", 0.9);
+                    var ImgFiles = ImgSave.split(',')[1];
+                    var fileDataImg = $("#IconImg").get(0).files;
+                    var fileData = new FormData();
+
+                    if (fileDataImg.length > 0) {
+                        fileData.append("IssueTypeID", result.Contents);
+                        fileData.append("files", ImgFiles);
+                        uploadImg(fileData) //upload img complaint
+                    } else {
+                        toastr.success(result.Message, 'Success', { timeOut: 3000, closeButton: true });
+                        $('#MyModal').modal('hide');
+                        millisecondsToWait = 1000;
+                        setTimeout(function () {
+                            window.location.reload(true);
+                        }, millisecondsToWait);
+                    }
+                } else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                }
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+            }
+        });
+    }
+
+    function cropImage(imagePath) {
+        const image = new Image();
+        image.src = imagePath;
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        image.addEventListener('load', function () {
+
+            var Width = 0;
+            var Height = 0;
+            var originalWidth = image.width;
+            var originalHeight = image.height;
+            var cropheight = 0;
+            var cropwitdh = 0;
+
+            if (originalWidth > originalHeight) {
+                Width = originalHeight;
+                Height = originalHeight;
+                cropwitdh = (originalWidth - Width) / 2;
+            } else if (originalWidth < originalHeight) {
+                Height = originalWidth;
+                Width = originalWidth
+                cropheight = (originalHeight - Height) / 2;
+            } else {
+                Width = originalWidth;
+                Height = originalHeight;
+            }
+
+            canvas.width = Width;
+            canvas.height = Height;
+
+            ctx.drawImage(image, cropwitdh, cropheight, Width, Height, 0, 0, Width, Height);
+        });
+    }
+
+    function uploadImg(fileData) {
+        $.ajax({
+            url: '/MyComplaint/ImgSave',
+            type: "POST",
+            contentType: false,
+            processData: false,
+            data: fileData,
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+                    toastr.success(result.Message, 'Warning', { timeOut: 3000, closeButton: true});
+                    millisecondsToWait = 3000;
+                    setTimeout(function () {
+                        window.location.reload(true);
+                    }, millisecondsToWait);
+                }
+                else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true});
+                }
+            },
+            error: function (err) {
+                toastr.warning(err.statusText, 'Warning', { timeOut: 3000, closeButton: true });
+            }
+        });
+    }
+
+    function IconImgShow(data) {
+        var FileName = data.split('|')[0];
+        var Title = data.split('|')[1];
+ 
+        $("#ShowImg").modal();
+        var path = "/Image/IssueTypeMaster/" + FileName;
+        document.getElementById('IconShow').src = path;
+        $("#IconTitle").html(Title);
+    }
+</script>
+
+
