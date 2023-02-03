@@ -452,8 +452,6 @@
     <Content Include="Scripts\devexpress\css\icons\dxiconsmaterial.ttf" />
     <Content Include="Scripts\devexpress\css\icons\dxiconsmaterial.woff" />
     <Content Include="Scripts\devexpress\css\icons\dxiconsmaterial.woff2" />
-    <Content Include="Files\Template\PORT-01 - PORT UPLOAD.xlsx" />
-    <Content Include="Files\Upload\PORT UPLOAD\PORT-01 - PORT UPLOAD_03112021_052534.xlsx" />
     <Content Include="Content\css\your_style.less" />
     <Content Include="Content\fonts\OpenSans-Regular.ttf" />
     <Content Include="Content\fonts\Poppins-Regular.ttf" />
@@ -1105,6 +1103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Image\IssueTypeMaster\" />
     <Folder Include="Reports\" />
   </ItemGroup>
   <ItemGroup>

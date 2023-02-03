@@ -28,7 +28,7 @@
                                     <tr>
                                         <td>
                                             <div style="padding-left:-10px"></div>
-                                            <button id="btnAdd" class="btn btn-primary" style="width:85px;" type="button" data-toggle="modal" data-target="#myModal" value="New" onclick="AddNewData()">
+                                            <button id="btnAdd" class="btn btn-save" style="width:85px;" type="button" data-toggle="modal" data-target="#myModal" value="New" onclick="AddNewData()">
                                                 <span style="font-size:13px">New</span>
                                             </button>
                                         </td>
@@ -45,10 +45,10 @@
                                         <th style="text-align:center;width:13%;">
                                             Issue ID
                                         </th>
-                                        <th style="text-align:center;width:35%;">
+                                        <th style="text-align:center;width:25%;">
                                             Issue Description
                                         </th>
-                                        <th style="text-align:center;width:15%;">
+                                        <th style="text-align:center;width:20%;">
                                             Icon For Eats Mobile
                                         </th>
                                         <th style="text-align:center;width:5%;">
@@ -65,7 +65,6 @@
                                 <tbody></tbody>
                             </table>
 
-                            @*Create A Popup Modal*@
                             <div class="modal fade" id="MyModal">
                                 <div class="modal-dialog" style="width:400px">
                                     <div class="modal-content">
@@ -82,7 +81,8 @@
                                                             <td>
                                                                 <div class="form-group ">
                                                                     <label style="font-weight:500; margin-bottom:0.5em;" for="UserID">Issue Description</label>
-                                                                    @Html.TextAreaFor(m => m.IssueTypeDesc, new { @id = "IssueTypeDesc", @class = "form-control input-md", placeholder = "Enter Issue Description", @style = "height:50px; width:300px; font-family:'Segoe UI'" })
+                                                                    @Html.TextBoxFor(m => m.IssueTypeDesc, new { @id = "IssueTypeDesc", @class = "form-control input-md", placeholder = "Enter Issue Description", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
+                                                                    @Html.HiddenFor(m => m.IssueTypeID, new { @id = "IssueTypeID"})
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -90,7 +90,8 @@
                                                             <td>
                                                                 <div class="form-group">
                                                                     <label style="font-weight: 500; margin-bottom: 0.5em;" for="FullName">Icon for EATS Mobile</label>
-                                                                    <input type="file" accept="" />
+                                                                    <input type="file" id="IconImg" onclick="performClick()" />
+                                                                    <canvas id="canvas" style="display:none"></canvas>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -98,8 +99,8 @@
                                                             <td>
                                                                 <div class="form-group">
                                                                     <label style="font-weight: 500; margin-bottom: 0.5em;" for="Password">Active Status</label>
-                                                                    @Html.DropDownList("ActiveStatus", new SelectList(string.Empty, "Value", "Text"), "", new { @id = "ActiveStatus", @class = "form-control input-md", @style = "height:15px; width:30" +
-                                                                   "0px; font-family:'Segoe UI'" })
+                                                                    <select  id = "ActiveStatus", class = "form-control input-md", style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;"></select>
+                                                                    @*@Html.DropDownList("ActiveStatus", new SelectList(string.Empty, "Value", "Text"), "", new { @id = "ActiveStatus", @class = "form-control input-md", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })*@
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -109,17 +110,17 @@
                                         </div>
 
                                         <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal" style="width:85px; font-size:13px; border-width:thin;" onclick="return clearTextBox()">Cancel</button>
                                             @if (ViewBag.AllowWrite == "0")
                                             {
-                                                <button type="button" class="btn btn-primary" id="InsertData" style="width:85px; font-size:13px" disabled>Save</button>
-                                                <button type="button" class="btn btn-primary" id="UpdateData" style="width:85px; font-size:13px; display:none;" disabled>Update</button>
+                                                <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px" disabled>Save</button>
+                                                <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;" disabled>Update</button>
                                             }
                                             else
                                             {
-                                                <button type="button" class="btn btn-primary" id="InsertData" style="width:85px; font-size:13px">Save</button>
-                                                <button type="button" class="btn btn-primary" id="UpdateData" style="width:85px; font-size:13px; display:none;">Update</button>
+                                                <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px;">Save</button>
+                                                <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;">Update</button>
                                             }
-                                            <button type="button" class="btn btn-default" data-dismiss="modal" style="width:85px; font-size:13px" onclick="return clearTextBox()">Close</button>
                                         </div>
                                     </div>
                                 </div>
@@ -130,18 +131,33 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                            <h4 style="font-family:'Poppins-Regular'">Delete Data User Setup</h4>
+                                            <h4 style="font-family:'Poppins-Regular'">Delete Data Issue Type</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <h4 style="font-family:'Poppins-Regular'">Are You Sure? You Want To Delete Data.</h4>
+                                            <h4 style="font-family:'Poppins-Regular'">Are you sure to delete this data?</h4>
                                         </div>
                                         <div class="modal-footer">
-                                            <a href="#" class="btn btn-default" style="width:85px; font-size:13px" data-dismiss="modal" id="CancelDelete">Cancel</a>
-                                            <a href="#" class="btn btn-primary" style="width:85px; font-size:13px" id="ConfirmDelete">Confirm</a>
+                                            <a href="#" class="btn btn-save" style="width:85px; font-size:13px" id="DeleteData">Confirm</a>
+                                            <a href="#" class="btn btn-default" style="width: 85px; font-size: 13px; border-width: thin;" data-dismiss="modal" id="DeleteCancel">Cancel</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="modal fade" id="ShowImg">
+                                <div class="modal-dialog" style="width:360px;">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                            <h4 style="font-family:'Poppins-Regular'" id="IconTitle"></h4>
+                                        </div>
+                                        <div class="modal-body" style="display:flex; justify-content:center">
+                                            <img alt=ICON-IMG id="IconShow" style="height: 300px; width: 300px; max-width: 300%; max-height: 100%; object-fit: cover;"/>
+                                        </div>                                     
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -154,21 +170,22 @@
     a.disable {
         cursor: not-allowed;
     }
-
     .hidden {
         display: none;
     }
-
     .txtAlignCenter {
         text-align: center;
     }
-
     .txtAlignLeft {
         text-align: left;
     }
-
     .txtAlignRight {
         text-align: right;
+    }
+    .btn-save {
+        color: #fff;
+        background-color: #4CBFBC;
+        border-color: #4CBFBC;
     }
 </style>
 
@@ -194,12 +211,17 @@
             columns: [
                 {
                     "data": "Action", className: "txtAlignCenter", "render": function (data, type, row) {
-                        return '<a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.UserID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteRecord(\'' + row.UserID + '\')"></a>'
+                        return '<a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.IssueTypeID + '|' + row.IssueTypeDesc + '|'+row.ActiveStatus + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteRecord(\'' + row.IssueTypeID + '\')"></a>'
                     }
                 },
-                { "data": "IssueTypeID", "autoWidth": true, className: "txtAlignCenter" },
+                { "data": "IssueTypeID", "autoWidth": true, className: "txtAlignLeft" },
                 { "data": "IssueTypeDesc", "autoWidth": true, className: "txtAlignLeft" },
-                { "data": "FileName", "autoWidth": true, className: "txtAlignLeft" },
+                {
+                    "data": "FileName", className: "txtAlignLeft", "render": function (data, type, row) {
+                        return '<a href="#" onclick="IconImgShow(\'' + row.FileName + '|' + row.IssueTypeDesc + '\')">' + row.FileName + '</a>'
+                    }
+                },
+              /*  { "data": "FileName", "autoWidth": true, className: "txtAlignLeft" },*/
                 { "data": "ActiveStatus", "autoWidth": true, className: "txtAlignCenter" },
                 { "data": "LastUser", "autoWidth": true, className: "txtAlignCenter" },
                 { "data": "LastUpdate", "autoWidth": true, className: "txtAlignCenter" }
@@ -235,24 +257,21 @@
 
         //load datatable function
         function loadData() {
-              waitingDialog.show("Please wait retrieving data...");
+            waitingDialog.show("Please wait retrieving data...");
             $.ajax({
                 type: "POST",
                 url: "/MyComplaint/IssueTypeList/",
                 datatype: 'json',
                 success: function (result) {
-                    /* console.log(result.Message);*/
-                    console.log(result.Contents);
                     if (result.Message.toLowerCase().includes("success")) {
                         if (result.Contents != "") {
                             Object.values(result.Contents).forEach(function (dt) {
                                 $("#tableID").DataTable().clear();
-                                    $("#tableID").DataTable().rows.add(result.Contents).draw(false);
-                                    setTimeout(function () {
-                                        waitingDialog.hide();
-                                    }, 1000);
-                                }
-                            );
+                                $("#tableID").DataTable().rows.add(result.Contents).draw(false);
+                                setTimeout(function () {
+                                    waitingDialog.hide();
+                                }, 1000);
+                            });
                         } else {
                             toastr.warning("Data not found!", 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
                             setTimeout(function () {
@@ -277,205 +296,263 @@
         }
     });
 
+    $("#InsertData").click(function () {
+        var fileDataImg = $("#IconImg").get(0).files;    
+        var IssueTypeDesc = $("#IssueTypeDesc").val();
+        var IssueTypeID = $("#IssueTypeID").val();
+        var ActiveStatus = $("#ActiveStatus option:selected").val();
+
+        if (IssueTypeDesc == "") {
+            toastr.warning("Please, enter issue type description!", 'Warning', { timeOut: 3000, closeButton: true });
+        } else if (fileDataImg.length <= 0) {
+            toastr.warning("Please, attach file image!", 'Warning', { timeOut: 3000, closeButton: true });
+        } else if (ActiveStatus == ""){
+            toastr.warning("Please, select active status!", 'Warning', { timeOut: 3000, closeButton: true });
+        }else {
+
+            var formData = new FormData();
+            formData.append("IssueTypeDesc", IssueTypeDesc) ?? "";
+            formData.append("IssueTypeID", IssueTypeID) ?? "";
+            formData.append("ActiveStatus", ActiveStatus ?? "");
+            saveData(formData);
+        }
+        
+    })
+
+    $("#UpdateData").click(function () {
+        var IssueTypeDesc = $("#IssueTypeDesc").val()?? "";
+        var IssueTypeID = $("#IssueTypeID").val() ?? "";
+        var ActiveStatus = $("#ActiveStatus").val() ?? "";
+
+        if (IssueTypeDesc == "") {
+            toastr.warning("Please, enter issue type description!", 'Warning', { timeOut: 3000, closeButton: true });
+        } else if (ActiveStatus == "") {
+            toastr.warning("Please, select active status!", 'Warning', { timeOut: 3000, closeButton: true });
+        } else {
+
+            var formData = new FormData();
+            formData.append("IssueTypeDesc", IssueTypeDesc);
+            formData.append("IssueTypeID", IssueTypeID);
+            formData.append("ActiveStatus", ActiveStatus);
+            saveData(formData);
+        }
+    })
+
+    $("#DeleteData").click(function () {
+        var issuetypeID = $("#IssueTypeID").val();
+        $.ajax({
+            type: "POST",
+            url: "/MyComplaint/IssueTypeDel",
+            datatype: 'json',
+            data: { IssueTypeID : issuetypeID},
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+                    toastr.success(result.Message, 'Success', { timeOut: 3000, closeButton: true });
+                    $('#MyModal').modal('hide');
+                    millisecondsToWait = 1000;
+                    setTimeout(function () {
+                        window.location.reload(true);
+                    }, millisecondsToWait);
+                } else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                }
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+            }
+        });
+    })
+
     function AddNewData() {
-        $("#IssueTypeID").val();
-        $("#IssueTypeDesc").val();
-        $("#ActiveStatus").val();
-        $("#ModalTitle").html("Create Issue Type");
+        clearTextBox();
+        $("#ModalTitle").html("Create Data Issue Type");
         $("#MyModal").modal();
         $('#InsertData').show();
         $('#UpdateData').hide();
+        FillCombo_ActiveStatus('');
     }
 
+    function EditRecord(data) {
+        console.log(data);
+        var IssueTypeID = data.split('|')[0];
+        var IssueTypeDesc = data.split('|')[1];
+        var ActiveStatus = data.split('|')[2];
 
-    @*//insert event click
-    $("#InsertData").click(function () {
-            if ($("#form").valid()) {
-                $('#hdn').css({ display: 'none' });
-                var formData = new FormData();
+        clearTextBox();
+        $("#ModalTitle").html("Edit Data Issue Type");
+        $("#MyModal").modal();
+        $('#InsertData').hide();
+        $('#UpdateData').show();
 
-                formData.append("UserID", $("#UserID").val());
-                formData.append("UserName", $("#UserName").val());
-                formData.append("Password", $("#Password").val());
-                formData.append("AdminStatus", $("#AdminStatus").val());
+        $("#IssueTypeID").val(IssueTypeID);
+        $("#IssueTypeDesc").val(IssueTypeDesc);
+        FillCombo_ActiveStatus(ActiveStatus);
+    }
 
-                $.ajax({
-                    type: "Post",
-                    url: "@Url.Action("InsertData", "UserSetup")",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (data) {
-                        if (!data.Success) {
-                            toastr.warning(data.ErrorMessage, 'Warning', { timeOut: 3000, "closeButton": true });
+    function DeleteRecord (data) {
+        $("#IssueTypeID").val(data);
+        $("#DeleteConfirmation").modal("show");
+    }
+
+    function FillCombo_ActiveStatus(code) {
+        $.ajax({
+            type: "POST",
+            url: "/MyComplaint/FillCombo/",
+            datatype: 'json',
+            data: { Type: "ActiveStatus" },
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+                    $('#ActiveStatus').empty();
+                    $.each(result.Contents, function (i, dt) {
+                        if (code == dt.ID) {
+                            $("#ActiveStatus").append('<option value="' + dt.Code + '" selected >' + dt.Description + '</option>');
                         } else {
-                            loadData();
-                            toastr.success("Data Saved Successfully!", 'Success', { timeOut: 3000, "closeButton": true });
-                            $('#MyModal').modal('hide');
-                            $('body').removeClass('modal-open');
-                            $('.modal-backdrop').remove();
+                            $("#ActiveStatus").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
                         }
-                    },
-                    error: function (jqXHR, error, errorThrown) {
-                        toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
-                    }
-                })
-            } else {
-                $('#hdn').css({ display: 'block' });
+                    });
+                } else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                }
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                setTimeout(function () {
+                    waitingDialog.hide();
+                }, 1000);
             }
         });
+    }
 
-    //update
-    $("#UpdateData").click(function () {
-            if ($("#form").valid()) {
-                var formData = new FormData();
+    function clearTextBox() {
+        $("#IssueTypeID").val('');
+        $("#IssueTypeDesc").val('');
+        $("#ActiveStatus").val('');
+    }
 
-                formData.append("UserID", $("#UserID").val());
-                formData.append("UserName", $("#UserName").val());
-                formData.append("Password", $("#Password").val());
-                formData.append("AdminStatus", $("#AdminStatus").val());
+    function performClick() {
+        var elem = document.getElementById('IconImg');
+        elem.accept = '.jpg,.jpeg,.png'
 
-                $.ajax({
-                    type: "Post",
-                    url: "@Url.Action("UpdateData", "UserSetup")",
-                    dataType: "json",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (data) {
-                        if (!data.Success) {
-                            toastr.warning(data.ErrorMessage, 'Warning', { timeOut: 3000, "closeButton": true });
-                        } else {
-                            toastr.success("Data Update Successfully!", 'Success', { timeOut: 3000, "closeButton": true });
-                            loadData();
-                            $('#MyModal').modal('hide');
-                            $('body').removeClass('modal-open');
-                            $('.modal-backdrop').remove();
-                        }
-                    },
-                    error: function (jqXHR, error, errorThrown) {
-                        toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
-                        //console.log(data);
+        IconImg.onchange = evt => {
+                var tgt = evt.target || window.event.srcElement,
+                    files = tgt.files;
+
+                if (FileReader && files && files.length) {
+                    var fr = new FileReader();
+                    fr.onload = function () {
+                        cropImage(fr.result);
                     }
-                })
+                    fr.readAsDataURL(files[0]);
+                }
             }
-        })
+    }
 
-    //confirm delete
-    $("#ConfirmDelete").click(function () {
-            var UserID = $("#UserID").val();
-            var data = $("#SubmitForm").serialize();
+    function saveData(formData) {
+        $.ajax({
+            type: "POST",
+            url: "/MyComplaint/IssueTypeIns/",
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
 
-            $.ajax({
-                type: "Post",
-                url: '@Url.Action("DeleteData", "UserSetup")',
-                dataType: "json",
-                data: data,
-                success: function (data) {
-                    if (!data.Success) {
-                        toastr.warning(data.ErrorMessage, 'Warning', { timeOut: 3000, "closeButton": true });
-                        $("#DeleteConfirmation").modal("hide");
+                    var ImgSave = document.getElementById('canvas').toDataURL("image/png", 0.9);
+                    var ImgFiles = ImgSave.split(',')[1];
+                    var fileDataImg = $("#IconImg").get(0).files;
+                    var fileData = new FormData();
+
+                    if (fileDataImg.length > 0) {
+                        fileData.append("IssueTypeID", result.Contents);
+                        fileData.append("files", ImgFiles);
+                        uploadImg(fileData) //upload img complaint
+                    } else {
+                        toastr.success(result.Message, 'Success', { timeOut: 3000, closeButton: true });
+                        $('#MyModal').modal('hide');
+                        millisecondsToWait = 1000;
+                        setTimeout(function () {
+                            window.location.reload(true);
+                        }, millisecondsToWait);
                     }
-                    else {
-                        toastr.success("Data Delete Successfully!", 'Success', { timeOut: 3000, "closeButton": true });
-                        $("#DeleteConfirmation").modal("hide");
-                        $(".row_" + UserID).remove();
-                        loadData();
-                    }
-                },
-                error: function (jqXHR, error, errorThrown) {
-                        toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
-                        //console.log(data);
-                    }
-            })
-        });*@
+                } else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                }
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+            }
+        });
+    }
 
-    //function PopulateAdminStatus() {
-    //    $('#AdminStatus').empty();
-    //    $("#AdminStatus").append('<option value="0" >No</option>');
-    //    $("#AdminStatus").append('<option value="1" >Yes</option>');
-    //}
+    function cropImage(imagePath) {
+        const image = new Image();
+        image.src = imagePath;
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
 
-    //function resetForm() {
-    //    var $form = $('#form');
-    //    $form.validate().resetForm();
-    //    $("#form").find('.form-group').removeClass("state-error");
-    //    $("#form").find('.form-group').removeClass("state-success");
-    //}
+        image.addEventListener('load', function () {
 
-    ////Show The Popup Modal Add New
-    //function AddNewData() {
-    //    resetForm();
-    //    //PopulateUserType('');
-    //    PopulateAdminStatus();
-    //    //PopulateUserGroup('');
-    //    $("#UserID").val();
-    //    $("#UserName").val();
-    //    $("#Password").val();
-    //    $("#ModalTitle").html("Create Data User Setup");
-    //    $("#MyModal").modal();
-    //    $('#InsertData').show();
-    //    $('#UpdateData').hide();
-    //    $(".password").attr("type", "password");
-    //    $("#UserID").prop('readonly', false);
-    //}
+            var Width = 0;
+            var Height = 0;
+            var originalWidth = image.width;
+            var originalHeight = image.height;
+            var cropheight = 0;
+            var cropwitdh = 0;
 
-    ////Show The Popup Modal For Edit
-    //function EditRecord(User) {
-    //    resetForm();
-    //    $("#ModalTitle").html("Edit Data User Setup");
-    //    $("#MyModal").modal();
-    //    $.ajax({
-    //        type: "GET",
-    //        url: "/UserSetup/GetListByUserID?",
-    //        cache: false,
-    //        data: ({ UserID: User }),
-    //        success: function (data) {
+            if (originalWidth > originalHeight) {
+                Width = originalHeight;
+                Height = originalHeight;
+                cropwitdh = (originalWidth - Width) / 2;
+            } else if (originalWidth < originalHeight) {
+                Height = originalWidth;
+                Width = originalWidth
+                cropheight = (originalHeight - Height) / 2;
+            } else {
+                Width = originalWidth;
+                Height = originalHeight;
+            }
 
-    //            var obj = JSON.parse(data);
+            canvas.width = Width;
+            canvas.height = Height;
 
-    //            $.each(obj, function (key, val) {
-    //                $("#UserID").val(val.UserID).prop('readonly', true);
-    //                PopulateAdminStatus();
-    //                if (val.AdminStatus == 'Yes') {
-    //                    $("#AdminStatus").val(1);
-    //                }
-    //                else {
-    //                    $("#AdminStatus").val(0);
-    //                }
-    //                //PopulateUserType(val.UserType);
-    //                //PopulateUserGroup(val.GroupID);
-    //            })
-    //            $('#InsertData').hide();
-    //            $('#UpdateData').show();
-    //        }
-    //    })
-    //}
+            ctx.drawImage(image, cropwitdh, cropheight, Width, Height, 0, 0, Width, Height);
+        });
+    }
 
-    ////Show The Popup Modal For DeleteComfirmation
-    //var DeleteRecord = function (User) {
-    //    $("#UserID").val(User);
-    //    $("#DeleteConfirmation").modal("show");
-    //}
+    function uploadImg(fileData) {
+        $.ajax({
+            url: '/MyComplaint/ImgSave',
+            type: "POST",
+            contentType: false,
+            processData: false,
+            data: fileData,
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+                    toastr.success(result.Message, 'Warning', { timeOut: 3000, closeButton: true});
+                    millisecondsToWait = 3000;
+                    setTimeout(function () {
+                        window.location.reload(true);
+                    }, millisecondsToWait);
+                }
+                else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true});
+                }
+            },
+            error: function (err) {
+                toastr.warning(err.statusText, 'Warning', { timeOut: 3000, closeButton: true });
+            }
+        });
+    }
 
-    //function Privilege(UserID) {
-    //    window.location.href = "/UserPrivilege/Index?UserID=" + UserID;
-    //}
-
-    ////Function for clearing the textboxes
-    //function clearTextBox() {
-    //    resetForm();
-    //    PopulateAdminStatus();
-    //    //PopulateUserGroup();
-    //    $("#UserID").val();
-    //    $("#UserName").val();
-    //    $("#Password").val();
-    //    $('#UpdateData').hide();
-    //    $('#InsertData').show();
-    //    $('#myModal').show();
-    //    $("#UserID").prop('readonly', false);
-    //}
-
+    function IconImgShow(data) {
+        var FileName = data.split('|')[0];
+        var Title = data.split('|')[1];
+ 
+        $("#ShowImg").modal();
+        var path = "/Image/IssueTypeMaster/" + FileName;
+        document.getElementById('IconShow').src = path;
+        $("#IconTitle").html(Title);
+    }
 </script>
 
 

@@ -11,4 +11,10 @@ namespace PGMEATS_WEB.Models
         public string Message { get; set; }
         public object Contents { get; set; }
     }
+
+    public class clsFillCombo
+    {
+        public string Code { get; set; }
+        public string Description { get; set; }
+    }
 }
