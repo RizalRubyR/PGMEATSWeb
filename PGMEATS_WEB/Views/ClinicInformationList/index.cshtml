@@ -1,0 +1,149 @@
+﻿@model IEnumerable<PGMEATS_WEB.Models.clsClinicInformationList>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+
+            <article class="col-xs-12 col-md-12">
+                <div class="jarviswidget jarviswidget-color-red" id="wid-id-1"
+                     data-widget-colorbutton="false"
+                     data-widget-editbutton="false"
+                     data-widget-togglebutton="false"
+                     data-widget-deletebutton="false"
+                     data-widget-custombutton="false"
+                     data-widget-collapsed="false"
+                     data-widget-sortable="false">
+
+                    <header style="border-top-left-radius:8px; border-top-right-radius:8px">
+                        <h2 style="font-family:'Poppins-Regular';font-weight:500;font-size:15px">List Of Clinic Information</h2>
+                    </header>
+
+                    <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
+                        <div style="padding: 5px 5px 5px 5px">
+                            <table style="width: 100%;">
+                                <tr style="height: 50px">
+                                    <td>
+                                        <button id="btnNew" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #4CBFBC; width:10%"><span style="color:white">New</span></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                                <input type="text" class="form-control" id="txtSearch" style="width:20%">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table id="table-fixed" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center"></th>
+                                        <th style="text-align: center">
+                                            @Html.DisplayNameFor(model => model.Region)
+                                        </th>
+                                        <th style="text-align: center">
+                                            @Html.DisplayNameFor(model => model.ClinicName)
+                                        </th>
+                                        <th style="text-align: center">
+                                            @Html.DisplayNameFor(model => model.Description)
+                                        </th>
+                                        <th style="text-align: center">
+                                            @Html.DisplayNameFor(model => model.URL)
+                                        </th>
+                                        <th style="text-align: center">
+                                            @Html.DisplayNameFor(model => model.URLDisplay)
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+
+<script src="~/Scripts/plugin/bootstrap-waitingfor/bootstrap-waitingfor.min.js"></script>
+<script src="~/Scripts/plugin/chartjs/chart.min.js"></script>
+<script src="~/Scripts/plugin/chartjs/chartjs-plugin-annotation.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var otable = $('#table-fixed').DataTable({
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6 hidden-xs'f><'col-sm-6 col-xs-12 hidden-xs'<'toolbar'>>r>" +
+                    "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+            "paging": true,
+            "bPaginate": false,
+            "ordering": false,
+            "processing": true,
+            "serverSide": true,
+            "stateSave": true,
+            "bAutoWidth": false,
+            "searching": true,
+            "bFilter": true,
+            "scrollY": "370px",
+            "scrollX": "100%",
+            "scrollCollapse": true,
+            "ajax":{
+                "url": "@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"))/ClinicInformationList/AjaxGetJsonData",
+                "type": "POST"
+            },
+            "columns": [
+                { "data": "IAMIPartNumber", "orderable": true },
+                { "data": "BasePartNumber", "orderable": true },
+                { "data": "MaterialNumber", "orderable": true },
+                { "data": "PartName", "orderable": true },
+                { "data": "Source", "orderable": true },
+                { "data": "VendorInitial", "orderable": true },
+                { "data": "VendorInitial2", "orderable": true },
+                { "data": "PartNumber2", "orderable": true },
+                { "data": "VendorInitial3", "orderable": true },
+                { "data": "PartNumber3", "orderable": true },
+                { "data": "QtyPacking", "orderable": true },
+                { "data": "MaterialCategory", "orderable": true },
+                { "data": "ActiveName", "orderable": true },
+                { "data": "SAPStatusName", "orderable": true },
+                { "data": "strLastUpdate", "orderable": true },
+                { "data": "UserUpdate", "orderable": true },
+                {
+                    "data": "IAMIPartNumber",
+                    "bSearchable": false,
+                    "bSortable": false,
+                    'mRender': function (data) {
+                        return '<a href="@Url.Action("Edit", "ClinicInformationList")?IAMIPartNumber=' + escape(data) + '" @ViewBag.UpdateHidden >Edit</a>' + '&nbsp;|&nbsp;' +
+                            '<a href="@Url.Action("Delete", "ClinicInformationList")?IAMIPartNumber=' + escape(data) + '" @ViewBag.DeleteHidden onclick="return validateDelete(' + data + ')">Delete</a>';
+                    }
+                },
+                ],
+                "order": [[0, "asc"]]
+            });
+
+            $("#table-fixed thead th input[type=text]").on('keyup change', function () {
+                otable
+                    .column($(this).parent().index() + ':visible')
+                    .search(this.value)
+                    .draw();
+
+            });
+
+            $("#table-fixed thead th input[type=text]").on('keyup change', function () {
+                otable
+                    .column($(this).parent().index() + ':visible')
+                    .search(this.value)
+                    .draw();
+
+            });
+    }
+</script>
