@@ -423,6 +423,9 @@
     <Content Include="Content\zebra_datepicker.min.css" />
     <Content Include="DevExpress.Data.Portions.dll" />
     <Content Include="Global.asax" />
+    <Content Include="Image\IssueTypeMaster\00001_20230203151314_.png" />
+    <Content Include="Image\IssueTypeMaster\00002_20230203151243_.png" />
+    <Content Include="Image\IssueTypeMaster\00003_20230203152251_.png" />
     <Content Include="Scripts\app.config.js" />
     <Content Include="Scripts\app.min.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
@@ -1039,15 +1042,10 @@
     </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\User\ChangePassword.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
     <Content Include="Scripts\pdf.js.map" />
     <Content Include="Scripts\pdf.worker.js.map" />
     <Content Include="Scripts\viewer.js.map" />
     <Content Include="Scripts\libs\jquery-2.1.1.min.map" />
-    <Content Include="Views\UserGroup\Detail.cshtml" />
-    <Content Include="Views\UserGroup\EditorTemplates\SelectUserPrivilegeEditorViewModel.cshtml" />
-    <Content Include="Views\UserGroup\Index.cshtml" />
     <Content Include="Views\Home\_JobAssignment.cshtml" />
     <Content Include="Views\Home\_KAPOperation.cshtml" />
     <Content Include="Views\Home\_PatimbanOperation.cshtml" />
@@ -1055,8 +1053,6 @@
     <Content Include="Views\UserSetup\UserSetup.cshtml" />
     <Content Include="Views\UserSetup\Index.cshtml" />
     <Content Include="Views\UserStaff\Index.cshtml" />
-    <Content Include="Views\UserPrivilege\Index.cshtml" />
-    <Content Include="Views\UserPrivilege\EditorTemplates\clsUserPrivilege.cshtml" />
     <Content Include="Views\Shared\_Aside.cshtml" />
     <Content Include="Views\Shared\_CurrentUser.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
@@ -1090,9 +1086,6 @@
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\MultipleButtonAttribute.cs" />
     <Compile Include="Controllers\MyComplaintController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\UserPrivilegeController.cs" />
-    <Compile Include="Controllers\UserGroupController.cs" />
     <Compile Include="Controllers\UserStaffController.cs" />
     <Compile Include="Controllers\UserSetupController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1110,12 +1103,10 @@
     <Compile Include="Models\clsPasswordHistory.cs" />
     <Compile Include="Models\clsResponse.cs" />
     <Compile Include="Models\clsUserDB.cs" />
-    <Compile Include="Models\clsUserPrivilege.cs" />
     <Compile Include="Models\SelectUserPrivilegeEditorViewModel.cs" />
     <Compile Include="Models\clsUserStaff.cs" />
     <Compile Include="Models\clsUserSetup.cs" />
     <Compile Include="Models\clsUser.cs" />
-    <Compile Include="Models\clsUserGroup.cs" />
     <Compile Include="Models\Encryption.cs" />
     <Compile Include="Models\ReportParams.cs" />
     <Compile Include="Models\SessionExpireAttribute.cs" />
@@ -1125,7 +1116,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Reports\" />
     <Folder Include="Views\Clinic\" />
   </ItemGroup>
   <ItemGroup>
