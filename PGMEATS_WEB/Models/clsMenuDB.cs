@@ -17,7 +17,7 @@ namespace PGMEATS_WEB.Models
             string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
             using (SqlConnection con = new SqlConnection(constr))
             {
-                SqlCommand cmd = new SqlCommand("usp_UserMenu_Sel", con);
+                SqlCommand cmd = new SqlCommand("sp_UserMenu_Sel", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 con.Open();
 

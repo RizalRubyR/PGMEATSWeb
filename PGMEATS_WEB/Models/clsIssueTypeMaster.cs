@@ -30,7 +30,7 @@ namespace PGMEATS_WEB.Models
                 string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(constr))
                 {
-                    SqlCommand cmd = new SqlCommand("usp_IssueType_List", con);
+                    SqlCommand cmd = new SqlCommand("sp_IssueType_List", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     con.Open();
 
@@ -70,7 +70,7 @@ namespace PGMEATS_WEB.Models
                 string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(constr))
                 {
-                    SqlCommand cmd = new SqlCommand("usp_IssueType_Ins", con);
+                    SqlCommand cmd = new SqlCommand("sp_IssueType_Ins", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("IssueTypeDesc", dataFrom.IssueTypeDesc ?? "");
                     cmd.Parameters.AddWithValue("ActiveStatus", dataFrom.ActiveStatus ?? "");
@@ -104,7 +104,7 @@ namespace PGMEATS_WEB.Models
                 string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(constr))
                 {
-                    SqlCommand cmd = new SqlCommand("usp_IssueType_Upd", con);
+                    SqlCommand cmd = new SqlCommand("sp_IssueType_Upd", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("IssueTypeID", dataFrom.IssueTypeID ?? "");
                     cmd.Parameters.AddWithValue("IssueTypeDesc", dataFrom.IssueTypeDesc ?? "");
@@ -138,7 +138,7 @@ namespace PGMEATS_WEB.Models
                 string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(constr))
                 {
-                    SqlCommand cmd = new SqlCommand("usp_IssueType_Del", con);
+                    SqlCommand cmd = new SqlCommand("sp_IssueType_Del", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("IssueTypeID", IssueTypeID);
                     con.Open();
