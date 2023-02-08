@@ -1094,6 +1094,7 @@
     <Compile Include="Models\clsClinicInformationList.cs" />
     <Compile Include="Models\clsClinicInformationListDB.cs" />
     <Compile Include="Models\clsAccessPrivilege.cs" />
+    <Compile Include="Models\clsConPathFolder.cs" />
     <Compile Include="Models\clsIssueTypeMaster.cs" />
     <Compile Include="Models\clsJSOXSetup.cs" />
     <Compile Include="Models\clsMenu.cs" />

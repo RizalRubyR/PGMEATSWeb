@@ -80,8 +80,8 @@
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group ">
-                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="UserID">Issue Description</label>
-                                                                    @Html.TextBoxFor(m => m.IssueTypeDesc, new { @id = "IssueTypeDesc", @class = "form-control input-md", placeholder = "Enter Issue Description", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;">Issue Description</label>
+                                                                    <input id="IssueTypeDesc" class="form-control input-md" placeholder="Enter issue description" style="height: 20px; width: 300px; font-family: 'Segoe UI'; font-weight: 500;"/>
                                                                     @Html.HiddenFor(m => m.IssueTypeID, new { @id = "IssueTypeID"})
                                                                 </div>
                                                             </td>
@@ -89,7 +89,7 @@
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group">
-                                                                    <label style="font-weight: 500; margin-bottom: 0.5em;" for="FullName">Icon for EATS Mobile</label>
+                                                                    <label style="font-weight: 500; margin-bottom: 0.5em;">Icon for EATS Mobile</label>
                                                                     <input type="file" id="IconImg" onclick="performClick()" />
                                                                     <canvas id="canvas" style="display:none"></canvas>
                                                                 </div>
@@ -98,7 +98,7 @@
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group">
-                                                                    <label style="font-weight: 500; margin-bottom: 0.5em;" for="Password">Active Status</label>
+                                                                    <label style="font-weight: 500; margin-bottom: 0.5em;">Active Status</label>
                                                                     <select  id = "ActiveStatus", class = "form-control input-md", style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;"></select>
                                                                     @*@Html.DropDownList("ActiveStatus", new SelectList(string.Empty, "Value", "Text"), "", new { @id = "ActiveStatus", @class = "form-control input-md", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })*@
                                                                 </div>
@@ -255,6 +255,7 @@
         });
         /* END BASIC */
 
+
         //load datatable function
         function loadData() {
             waitingDialog.show("Please wait retrieving data...");
@@ -273,14 +274,14 @@
                                 }, 1000);
                             });
                         } else {
-                            toastr.warning("Data not found!", 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                            toastr.warning("Data not found!", 'Warning', { timeOut: 3000, closeButton: true });
                             setTimeout(function () {
                                 waitingDialog.hide();
                             }, 1000);
                         }
                     }
                     else {
-                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true});
                         setTimeout(function () {
                             waitingDialog.hide();
                         }, 1000);
@@ -334,7 +335,7 @@
             formData.append("IssueTypeDesc", IssueTypeDesc);
             formData.append("IssueTypeID", IssueTypeID);
             formData.append("ActiveStatus", ActiveStatus);
-            saveData(formData);
+            UpdateData(formData);
         }
     })
 
@@ -362,6 +363,11 @@
             }
         });
     })
+
+    var IssueType = document.getElementById("IssueTypeDesc")
+    IssueType.addEventListener('input', () => {
+        IssueType.value = IssueType.value.toUpperCase();
+    });
 
     function AddNewData() {
         clearTextBox();
@@ -435,7 +441,8 @@
 
         IconImg.onchange = evt => {
                 var tgt = evt.target || window.event.srcElement,
-                    files = tgt.files;
+                files = tgt.files;
+            console.log(files[0]);
 
                 if (FileReader && files && files.length) {
                     var fr = new FileReader();
@@ -484,7 +491,45 @@
         });
     }
 
+    function UpdateData(formData) {
+        $.ajax({
+            type: "POST",
+            url: "/MyComplaint/IssueTypeUpd/",
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+
+                    var ImgSave = document.getElementById('canvas').toDataURL("image/png", 0.9);
+                    var ImgFiles = ImgSave.split(',')[1];
+                    var fileDataImg = $("#IconImg").get(0).files;
+                    var fileData = new FormData();
+
+                    if (fileDataImg.length > 0) {
+                        fileData.append("IssueTypeID", result.Contents);
+                        fileData.append("files", ImgFiles);
+                        uploadImg(fileData) //upload img complaint
+                    } else {
+                        toastr.success(result.Message, 'Success', { timeOut: 3000, closeButton: true });
+                        $('#MyModal').modal('hide');
+                        millisecondsToWait = 1000;
+                        setTimeout(function () {
+                            window.location.reload(true);
+                        }, millisecondsToWait);
+                    }
+                } else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                }
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+            }
+        });
+    }
+
     function cropImage(imagePath) {
+        console.log(imagePath);
         const image = new Image();
         image.src = imagePath;
         const canvas = document.getElementById('canvas');
