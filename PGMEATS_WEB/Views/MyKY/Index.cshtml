@@ -1,8 +1,9 @@
-﻿@model PGMEATS_WEB.Models.clsMyComplaint
+﻿@model PGMEATS_WEB.Models.clsMyKY
 @{
-    ViewBag.Title = "CanteenComplaintList";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div id="content">
     <section id="widget-grid" class="">
         <div class="row">
@@ -17,7 +18,7 @@
                      data-widget-sortable="false">
 
                     <header style="border-top-left-radius:8px; border-top-right-radius:8px">
-                        <h2 style="font-family:'Poppins-Regular';font-weight:500;font-size:13px">List of My Complaint</h2>
+                        <h2 style="font-family:'Poppins-Regular';font-weight:500;font-size:13px">List of MyKY</h2>
                     </header>
 
                     <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
@@ -38,26 +39,22 @@
                                             <input id="toDate" type="text" class="form-control input-md" style="background-color:white; width:150px" />
                                         </td>
                                         <td width="120px">
-                                            <p style="font-weight:600; margin-left:20px">Issue Type</p>
+                                            <p style="font-weight:600; margin-left:20px">Status</p>
                                         </td>
                                         <td>
-                                            <select id="IssueTypeID" class="form-control input-md" style="height:30px; width:200px; margin-right:20px"></select>
+                                            <select id="Status" class="form-control input-md" style="height:30px; width:200px; margin-right:20px"></select>
                                         </td>
                                         <td>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p style="font-weight:600">Department</p>
+                                            <p style="font-weight:600">Location</p>
                                         </td>
                                         <td colspan="3">
-                                            <select id="Department" class="form-control input-md" style="height:30px; width:340px;"></select>
+                                            <select id="Location" class="form-control input-md" style="height:30px; width:340px;"></select>
                                         </td>
                                         <td>
-                                            <p style="font-weight: 600; margin-left: 20px">Status</p>
-                                        </td>
-                                        <td>
-                                            <select id="ComplaintStatus" class="form-control input-md" style="height: 30px; width: 200px; margin-right: 20px"></select>
                                         </td>
                                         <td>
                                             <button class="btn btn-save" id="refresh"> Refresh </button>
@@ -76,10 +73,10 @@
                                             Date
                                         </th>
                                         <th style="text-align: center; width: 100px;">
-                                            Department
+                                            Location
                                         </th>
                                         <th style="text-align: center; width: 100px;">
-                                            IssueType
+                                            Specific Location
                                         </th>
                                         <th style="text-align: center; width: 300px;">
                                             Description
@@ -126,16 +123,16 @@
                                                             <td>
                                                                 <div class="form-group ">
                                                                     <label style="font-weight:500; margin-bottom:0.5em;">Date</label>
-                                                                    @Html.TextBoxFor(m => m.CreatedDate, new { @id = "CreatedDate", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled" })
-                                                                    @Html.HiddenFor(m => m.ComplaintID, new { @id = "ComplaintID" })
+                                                                    @Html.TextBoxFor(m => m.CreateDate, new { @id = "CreateDate", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled" })
+                                                                    @Html.HiddenFor(m => m.MyKYID, new { @id = "MyKYID" })
                                                                 </div>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group ">
-                                                                    <label style="font-weight:500; margin-bottom:0.5em;">Department</label>
-                                                                    @Html.TextBoxFor(m => m.Department, new { @id = "DepartmentDet", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled" })
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;">Location</label>
+                                                                    @Html.TextBoxFor(m => m.MyKYLocation, new { @id = "MyKYLocation", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled" })
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -143,7 +140,7 @@
                                                             <td>
                                                                 <div class="form-group ">
                                                                     <label style="font-weight:500; margin-bottom:0.5em;">Issue Type</label>
-                                                                    @Html.TextBoxFor(m => m.IssueTypeDesc, new { @id = "IssueTypeDesc", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled", })
+                                                                    @Html.TextBoxFor(m => m.MyKYSpecLocation, new { @id = "MyKYSpecLocation", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled", })
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -151,7 +148,7 @@
                                                             <td>
                                                                 <div class="form-group ">
                                                                     <label style="font-weight:500; margin-bottom:0.5em;">Description</label>
-                                                                    @Html.TextAreaFor(m => m.ComplaintDesc, new { @id = "ComplaintDesc", @class = "form-control input-md", @style = "height:100px; width:300px;", disabled = "disabled" })
+                                                                    @Html.TextAreaFor(m => m.MyKYDesc, new { @id = "MyKYDesc", @class = "form-control input-md", @style = "height:100px; width:300px;", disabled = "disabled" })
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -159,7 +156,7 @@
                                                             <td>
                                                                 <div class="form-group ">
                                                                     <label style="font-weight:500; margin-bottom:0.5em;">Created By</label>
-                                                                    @Html.TextBoxFor(m => m.CreatedUser, new { @id = "CreatedUser", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled" })
+                                                                    @Html.TextBoxFor(m => m.CreateUser, new { @id = "CreateUser", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled" })
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -167,7 +164,7 @@
                                                             <td>
                                                                 <div class="form-group ">
                                                                     <label style="font-weight:500; margin-bottom:0.5em;"> Response </label>
-                                                                    @Html.TextAreaFor(m => m.ComplaintReply, new { @id = "ComplaintReplyDet", @class = "form-control input-md", @placeholder = "Enter your response", @style = "height:100px; width:300px;" })
+                                                                    @Html.TextAreaFor(m => m.MyKYReply, new { @id = "MyKYReply", @class = "form-control input-md", @placeholder = "Enter your response", @style = "height:100px; width:300px;" })
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -196,7 +193,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                            <h4 style="font-family:'Poppins-Regular'">Delete Data Complaint</h4>
+                                            <h4 style="font-family:'Poppins-Regular'">Delete Data MyKY</h4>
                                         </div>
                                         <div class="modal-body">
                                             <h4 style="font-family:'Poppins-Regular'">Are you sure to delete this data?</h4>
@@ -229,6 +226,7 @@
         </div>
     </section>
 </div>
+
 
 <style type="text/css">
     a.disable {
@@ -265,11 +263,11 @@
 <script src="~/Scripts/zebra_datepicker.min.js"></script>
 <script src="~/Scripts/zebra_datepicker.src.js"></script>
 
+
 <script type="text/javascript">
     $(document).ready(function () {
-        FillCombo_Department();
-        FillCombo_ComplaintStatus()
-        FillCombo_IssueType()
+        FillCombo_Loc();
+        FillCombo_Status()
 
         $("#fromDate").val(today)
         $("#toDate").val(today)
@@ -292,21 +290,21 @@
             columns: [
                 {
                     "data": "Action", className: "txtAlignCenter", "render": function (data, type, row) {
-                        return '<a href="#" class="fa fa-pencil" onclick="ReplyComplaint(\'' + row.ComplaintID + '|' + row.CreatedDate + '|' + row.Department + '|' + row.IssueTypeDesc + '|' + row.ComplaintDesc + '|' + row.CreatedUser + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteComplaint(\'' + row.ComplaintID + '\')"></a>'
+                        return '<a href="#" class="fa fa-pencil" onclick="ReplyMyKY(\'' + row.MyKYID + '|' + row.CreateDate + '|' + row.MyKYLocationDesc + '|' + row.MyKYSpecLocation + '|' + row.MyKYDesc + '|' + row.CreateUser + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteMyKY(\'' + row.MyKYID + '\')"></a>'
                     }
                 },
-                { "data": "CreatedDate", "autoWidth": true, className: "txtAlignCenter" },
-                { "data": "Department", "autoWidth": true, className: "txtAlignCenter" },
-                { "data": "IssueTypeDesc", "autoWidth": true, className: "txtAlignCenter" },
-                { "data": "ComplaintDesc", "autoWidth": true, className: "txtAlignLeft" },
+                { "data": "CreateDate", "autoWidth": true, className: "txtAlignCenter" },
+                { "data": "MyKYLocationDesc", "autoWidth": true, className: "txtAlignCenter" },
+                { "data": "MyKYSpecLocation", "autoWidth": true, className: "txtAlignCenter" },
+                { "data": "MyKYDesc", "autoWidth": true, className: "txtAlignLeft" },
                 {
                     "data": "FileName", className: "txtAlignLeft", "render": function (data, type, row) {
                         return '<a href="#" onclick="ImgShow(\'' + row.Evidence + '\')">' + row.Evidence + '</a>'
                     }
                 },
-                { "data": "CreatedUser", "autoWidth": true, className: "txtAlignCenter" },
-                { "data": "ReplyStatus", "autoWidth": true, className: "txtAlignCenter" },
-                { "data": "ComplaintReply", "autoWidth": true, className: "txtAlignLeft" },
+                { "data": "CreateUser", "autoWidth": true, className: "txtAlignCenter" },
+                { "data": "MyKYStatusDesc", "autoWidth": true, className: "txtAlignCenter" },
+                { "data": "MyKYReply", "autoWidth": true, className: "txtAlignLeft" },
                 { "data": "LastUser", "autoWidth": true, className: "txtAlignCenter" },
                 { "data": "LastUser", "autoWidth": true, className: "txtAlignCenter" },
                 { "data": "LastUpdate", "autoWidth": true, className: "txtAlignCenter" },
@@ -342,9 +340,8 @@
     function loadData() {
         //var fromDate = $("#fromDate").val();
         //var toDate = $("#toDate").val();
-        var department = $("#Department").val();
-        var issuetypeID = $("#IssueTypeID").val();
-        var complaintStatus = $("#ComplaintStatus").val();
+        var location = $("#Location").val();
+        var status = $("#Status").val();
 
         var months = {
             Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
@@ -360,14 +357,13 @@
         var formdata = new FormData();
         formdata.append("FromDate", fromDate);
         formdata.append("toDate", toDate);
-        formdata.append("Department", department);
-        formdata.append("IssueTypeID", issuetypeID);
-        formdata.append("ComplaintStatus", complaintStatus);
+        formdata.append("MyKYLocation", location);
+        formdata.append("MyKYStatus", status);
 
         waitingDialog.show("Please wait retrieving data...");
         $.ajax({
             type: "POST",
-            url: "/MyComplaint/ReplyComplaintList/",
+            url: "/MyKY/ReplyMyKYList/",
             contentType: false,
             processData: false,
             data: formdata,
@@ -444,39 +440,39 @@
         //load datatable function
     })
 
-    function ReplyComplaint(data) {
-        var complaintID = data.split('|')[0];
-        var createdDate = data.split('|')[1];
-        var department = data.split('|')[2];
-        var issuetypeDesc = data.split('|')[3];
-        var complaintDesc = data.split('|')[4];
-        var createdUser = data.split('|')[5];
+    function ReplyMyKY(data) {
+        var myKYID = data.split('|')[0];
+        var createDate = data.split('|')[1];
+        var myKYLoc = data.split('|')[2];
+        var myKYSpecLoc = data.split('|')[3];
+        var myKYDesc = data.split('|')[4];
+        var createUser = data.split('|')[5];
 
         clearTextBox();
-        $("#ModalTitle").html("Response Complaint");
+        $("#ModalTitle").html("Response MyKY");
         $("#MyModal").modal();
-        $("#CreatedDate").val(createdDate);
-        $("#ComplaintID").val(complaintID);
-        $("#DepartmentDet").val(department);
-        $("#IssueTypeDesc").val(issuetypeDesc);
-        $("#ComplaintDesc").val(complaintDesc);
-        $("#CreatedUser").val(createdUser);
+        $("#CreateDate").val(createDate);
+        $("#MyKYID").val(myKYID);
+        $("#MyKYLocation").val(myKYLoc);
+        $("#MyKYSpecLocation").val(myKYSpecLoc);
+        $("#MyKYDesc").val(myKYDesc);
+        $("#CreateUser").val(createUser);
     }
 
     $("#InsertData").click(function () {
-        var complaintID = $("#ComplaintID").val();
-        var complaintReply = $("#ComplaintReplyDet").val();
+        var MyKYID = $("#MyKYID").val();
+        var complaintReply = $("#MyKYReply").val();
 
         if (complaintReply == "") {
             toastr.warning("Please, enter your response!", 'Warning', { timeOut: 3000, closeButton: true });
         } else {
             var formdata = new FormData();
-            formdata.append("ComplaintID", complaintID);
-            formdata.append("ComplaintReply", complaintReply);
+            formdata.append("MyKYID", MyKYID);
+            formdata.append("MyKYReply", complaintReply);
 
             $.ajax({
                 type: "POST",
-                url: "/MyComplaint/ReplyComplaintUpd/",
+                url: "/MyKY/ReplyMyKYUpd/",
                 contentType: false,
                 processData: false,
                 data: formdata,
@@ -500,18 +496,18 @@
         }
     })
 
-    function DeleteComplaint(data) {
-        $("#ComplaintID").val(data);
+    function DeleteMyKY(data) {
+        $("#MyKYID").val(data);
         $("#DeleteConfirmation").modal("show");
     }
 
     $("#DeleteData").click(function () {
-        var complaintID = $("#ComplaintID").val();
+        var MyKYID = $("#MyKYID").val();
         $.ajax({
             type: "POST",
-            url: "/MyComplaint/ReplyComplaintDel/",
+            url: "/MyKY/ReplyMyKYDel/",
             datatype: 'json',
-            data: { ComplaintID: complaintID },
+            data: { MyKYID: MyKYID },
             success: function (result) {
                 if (result.Message.toLowerCase().includes("success")) {
                     toastr.success(result.Message, 'Success', { timeOut: 3000, closeButton: true });
@@ -529,17 +525,17 @@
         });
     })
 
-    function FillCombo_Department() {
+    function FillCombo_Loc() {
         $.ajax({
             type: "POST",
-            url: "/MyComplaint/FillCombo/",
+            url: "/MyKY/FillCombo/",
             datatype: 'json',
-            data: { Type: "Department" },
+            data: { Type: "CostCenter" },
             success: function (result) {
                 if (result.Message.toLowerCase().includes("success")) {
-                    $('#Department').empty();
+                    $('#Location').empty();
                     $.each(result.Contents, function (i, dt) {
-                        $("#Department").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
+                        $("#Location").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
                     });
                 } else {
                     toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
@@ -551,17 +547,17 @@
         });
     }
 
-    function FillCombo_IssueType() {
+    function FillCombo_Status() {
         $.ajax({
             type: "POST",
-            url: "/MyComplaint/FillCombo/",
+            url: "/MyKY/FillCombo/",
             datatype: 'json',
-            data: { Type: "IssueType_Web" },
+            data: { Type: "MyKYStatus" },
             success: function (result) {
                 if (result.Message.toLowerCase().includes("success")) {
-                    $('#IssueTypeID').empty();
+                    $('#Status').empty();
                     $.each(result.Contents, function (i, dt) {
-                        $("#IssueTypeID").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
+                        $("#Status").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
                     });
                 } else {
                     toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
@@ -573,43 +569,23 @@
         });
     }
 
-    function FillCombo_ComplaintStatus() {
-        $.ajax({
-            type: "POST",
-            url: "/MyComplaint/FillCombo/",
-            datatype: 'json',
-            data: { Type: "StatusComplaint" },
-            success: function (result) {
-                if (result.Message.toLowerCase().includes("success")) {
-                    $('#ComplaintStatus').empty();
-                    $.each(result.Contents, function (i, dt) {
-                        $("#ComplaintStatus").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
-                    });
-                } else {
-                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
-                }
-            },
-            error: function (ex) {
-                toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
-            }
-        });
-    }
 
     function clearTextBox() {
-        $("#CreatedDate").val('');
-        $("#DepartmentDet").val('');
-        $("#IssueTypeDesc").val('');
-        $("#ComplaintDesc").val('');
-        $("#CreatedUser").val('');
-        $("#ComplaintReply").val('');
+        $("#CreateDate").val('');
+        $("#MyKYLocation").val('');
+        $("#MyKYSpecLocation").val('');
+        $("#MyKYDesc").val('');
+        $("#CreateUser").val('');
+        $("#MyKYReply").val('');
     }
 
     function ImgShow(data) {
         var FileName = data.split('|')[0];
 
         $("#ShowImg").modal();
-        var path = "/Image/MyComplaint/" + FileName;
+        var path = "/Image/MyKY/" + FileName;
         document.getElementById('EvidenceShow').src = path;
     }
 
 </script>
+

@@ -19,11 +19,19 @@ namespace PGMEATS_WEB.Controllers
         // GET: MyComplaint
         public ActionResult IssueTypeMaster()
         {
+            if (Session["LogUserID"] is null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
         public ActionResult CanteenComplaintList()
         {
+            if (Session["LogUserID"] is null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
