@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PGMEATS_WEB.Models.clsClinicInformationList>
+﻿@model PGMEATS_WEB.Models.clsClinicInformationList
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -27,17 +27,7 @@
                             <table style="width: 100%;">
                                 <tr style="height: 50px">
                                     <td>
-                                        <button id="btnNew" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #4CBFBC; width:10%"><span style="color:white">New</span></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                                <input type="text" class="form-control" id="txtSearch" style="width:20%">
-                                            </div>
-                                        </div>
+                                        <button id="btnNew" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #4CBFBC; width:85px" data-toggle="modal" data-target="#myModal" onclick="AddNewData()"><span style="color:white">New</span></button>
                                     </td>
                                 </tr>
                             </table>
@@ -45,25 +35,115 @@
                             <table id="table-fixed" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th style="text-align: center"></th>
+                                        <th style="text-align: center;width: 7%">Action</th>
                                         <th style="text-align: center">
-                                            @Html.DisplayNameFor(model => model.Region)
+                                            Region
                                         </th>
                                         <th style="text-align: center">
-                                            @Html.DisplayNameFor(model => model.ClinicName)
+                                            Clinic Name
                                         </th>
                                         <th style="text-align: center">
-                                            @Html.DisplayNameFor(model => model.Description)
+                                            Description
                                         </th>
                                         <th style="text-align: center">
-                                            @Html.DisplayNameFor(model => model.URL)
+                                            URL
                                         </th>
                                         <th style="text-align: center">
-                                            @Html.DisplayNameFor(model => model.URLDisplay)
+                                            URLDisplay
                                         </th>
                                     </tr>
                                 </thead>
                             </table>
+
+
+                            <div class="modal fade" id="MyModal">
+                                <div class="modal-dialog" style="width:400px">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                            <h4 style="font-family:'Poppins-Regular'" id="ModalTitle"></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="form" class="smart-form">
+                                                <fieldset id="SubmitForm">
+                                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                    <table style="border:0px solid black; width:100%">
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group ">
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="UserID">Region</label>
+                                                                    @Html.TextBoxFor(Model => Model.Region, new { @id = "Region", @class = "form-control input-md", placeholder = "Enter Region", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
+                                                                    @Html.HiddenFor(Model => Model.ClinicID, new { @id = "ClinicID" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group ">
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="UserID">Clinic Name</label>
+                                                                    @Html.TextBoxFor(Model => Model.ClinicName, new { @id = "ClinicName", @class = "form-control input-md", placeholder = "Enter Clinic Name", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group ">
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="UserID">Description</label>
+                                                                    @Html.TextBoxFor(Model => Model.Description, new { @id = "Description", @class = "form-control input-md", placeholder = "Enter Description", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group ">
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="UserID">URL</label>
+                                                                    @Html.TextBoxFor(Model => Model.URL, new { @id = "URL", @class = "form-control input-md", placeholder = "Enter URL", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group ">
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="UserID">URLDisplay</label>
+                                                                    @Html.TextBoxFor(Model => Model.URLDisplay, new { @id = "URLDisplay", @class = "form-control input-md", placeholder = "Enter URL Display", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </fieldset>
+                                            </form>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal" style="width:85px; font-size:13px; border-width:thin;" onclick="return clearTextBox()">Cancel</button>
+                                            <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px;">Save</button>
+                                            <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;">Update</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="DeleteConfirmation">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                            <h4 style="font-family:'Poppins-Regular'">Delete Data Clinic</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h4 style="font-family:'Poppins-Regular'">Are you sure to delete this data?</h4>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="#" class="btn btn-save" style="width:85px; font-size:13px" id="DeleteData">Confirm</a>
+                                            <a href="#" class="btn btn-default" style="width: 85px; font-size: 13px; border-width: thin;" data-dismiss="modal" id="DeleteCancel">Cancel</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
                     </div>
@@ -73,59 +153,60 @@
     </section>
 </div>
 
+<style type="text/css">
+    .txtAlignCenter {
+        text-align: center;
+    }
+    .btn-save {
+        color: #fff;
+        background-color: #4CBFBC;
+        border-color: #4CBFBC;
+    }
+</style>
+
+
 <script src="~/Scripts/plugin/bootstrap-waitingfor/bootstrap-waitingfor.min.js"></script>
 <script src="~/Scripts/plugin/chartjs/chart.min.js"></script>
 <script src="~/Scripts/plugin/chartjs/chartjs-plugin-annotation.min.js"></script>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        var otable = $('#table-fixed').DataTable({
-            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6 hidden-xs'f><'col-sm-6 col-xs-12 hidden-xs'<'toolbar'>>r>" +
-                    "t" +
-                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-            "paging": true,
-            "bPaginate": false,
-            "ordering": false,
-            "processing": true,
-            "serverSide": true,
-            "stateSave": true,
-            "bAutoWidth": false,
-            "searching": true,
-            "bFilter": true,
-            "scrollY": "370px",
-            "scrollX": "100%",
-            "scrollCollapse": true,
-            "ajax":{
-                "url": "@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"))/ClinicInformationList/AjaxGetJsonData",
-                "type": "POST"
-            },
-            "columns": [
-                { "data": "IAMIPartNumber", "orderable": true },
-                { "data": "BasePartNumber", "orderable": true },
-                { "data": "MaterialNumber", "orderable": true },
-                { "data": "PartName", "orderable": true },
-                { "data": "Source", "orderable": true },
-                { "data": "VendorInitial", "orderable": true },
-                { "data": "VendorInitial2", "orderable": true },
-                { "data": "PartNumber2", "orderable": true },
-                { "data": "VendorInitial3", "orderable": true },
-                { "data": "PartNumber3", "orderable": true },
-                { "data": "QtyPacking", "orderable": true },
-                { "data": "MaterialCategory", "orderable": true },
-                { "data": "ActiveName", "orderable": true },
-                { "data": "SAPStatusName", "orderable": true },
-                { "data": "strLastUpdate", "orderable": true },
-                { "data": "UserUpdate", "orderable": true },
-                {
-                    "data": "IAMIPartNumber",
-                    "bSearchable": false,
-                    "bSortable": false,
-                    'mRender': function (data) {
-                        return '<a href="@Url.Action("Edit", "ClinicInformationList")?IAMIPartNumber=' + escape(data) + '" @ViewBag.UpdateHidden >Edit</a>' + '&nbsp;|&nbsp;' +
-                            '<a href="@Url.Action("Delete", "ClinicInformationList")?IAMIPartNumber=' + escape(data) + '" @ViewBag.DeleteHidden onclick="return validateDelete(' + data + ')">Delete</a>';
-                    }
+
+@section pagespecific
+{
+    <script>
+        $(document).ready(function () {
+            var otable = $('#table-fixed').DataTable({
+                bLengthChange: false,
+                "paging": true,
+                "bPaginate": false,
+                "ordering": false,
+                "processing": true,
+                "serverSide": true,
+                "stateSave": true,
+                "bAutoWidth": false,
+                "searching": true,
+                "bFilter": true,
+                "scrollCollapse": true,
+                ajax: {
+                    url: "@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"))/ClinicInformationList/ClinicInformationLists",
+                    type: "POST"
                 },
+                columns: [
+                    {
+                        "data": "ACTION",
+                        className: "txtAlignCenter",
+                        "bSearchable": false,
+                        "bSortable": false,
+                        'mRender': function (data, type, row) {
+                            return '<a class="fa fa-pencil" style="font-size: x-large;" href="#" onclick="EditData(\'' + row.ClinicID + '|' + row.Region + '|' + row.ClinicName + '|' + row.Description + '|' + row.URL + '|' + row.URLDisplay + '\')" @ViewBag.UpdateHidden ></a>' + '<div style="display: inline-block; padding: 0px 10px 0px 10px; font-size: 20px;">|</div>' +
+                                '<a class="fa fa-trash-o" style="font-size: x-large;" href="#" @ViewBag.DeleteHidden onclick="DeleteData(\'' + row.ClinicID + '\')"></a>';
+                        }
+                    },
+                    { "data": "Region", "orderable": true },
+                    { "data": "ClinicName", "orderable": true },
+                    { "data": "Description", "orderable": true },
+                    { "data": "URL", "orderable": true },
+                    { "data": "URLDisplay", "orderable": true },
                 ],
                 "order": [[0, "asc"]]
             });
@@ -145,5 +226,233 @@
                     .draw();
 
             });
-    }
-</script>
+
+            
+        });
+
+        function clearTextBox() {
+            $("#Region").val('');
+            $("#Description").val('');
+            $("#ClinicName").val('');
+            $("#Region").val('');
+            $("#URL").val('');
+            $("#URLDisplay").val('');
+        }
+
+        function AddNewData() {
+            clearTextBox();
+            $("#ModalTitle").html("Create Data Clinic");
+            $("#MyModal").modal();
+            $('#InsertData').show();
+            $('#UpdateData').hide();
+        }
+
+        $("#InsertData").click(function () {
+            var Region = $("#Region").val();
+            var ClinicName = $("#ClinicName").val();
+            var Description = $("#Description").val();
+            var URL = $("#URL").val();
+            var URLDisplay = $("#URLDisplay").val();
+
+            if (Region == "") {
+                toastr.warning("Please, enter region name!", 'Warning', { timeOut: 3000, closeButton: true });
+            } else if (ClinicName == "") {
+                toastr.warning("Please, enter clinic name!", 'Warning', { timeOut: 3000, closeButton: true });
+            } else {
+                var formDatax = new FormData();
+                formDatax.append("Region", Region) ?? "";
+                formDatax.append("ClinicName", ClinicName) ?? "";
+                formDatax.append("Description", Description) ?? "";
+                formDatax.append("URL", URL) ?? "";
+                formDatax.append("URLDisplay", URLDisplay) ?? "";
+
+                saveData(formDatax);
+            }
+
+            
+
+            //var bIsDataExist = false;
+            //bIsDataExist = ValidateBeforeInsert(Region, ClinicName);
+            
+            //if (bIsDataExist == false) {
+
+            //    var formDatax = new FormData();
+            //    formDatax.append("Region", Region) ?? "";
+            //    formDatax.append("ClinicName", ClinicName) ?? "";
+            //    formDatax.append("Description", Description) ?? "";
+            //    formDatax.append("URL", URL) ?? "";
+            //    formDatax.append("URLDisplay", URLDisplay) ?? "";
+
+            //    saveData(formDatax);
+            //} else {
+            //    toastr.warning("Data Already Exist!", 'Warning', { timeOut: 3000, closeButton: true });
+            //}
+
+        });
+
+        function saveData(formdata) {
+            $.ajax({
+                type: "POST",
+                url: "/ClinicInformationList/ClinicInformationIns/",
+                contentType: false,
+                processData: false,
+                data: formdata,
+                success: function (result) {
+                    if (result.Message.toLowerCase().includes("success")) {
+
+                        toastr.success(result.Message, 'Success', { timeOut: 3000, closeButton: true });
+                        $('#MyModal').modal('hide');
+                        millisecondsToWait = 1000;
+                        setTimeout(function () {
+                            window.location.reload(true);
+                        }, millisecondsToWait);
+
+                    } else {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                    }
+                },
+                error: function (ex) {
+                    toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                }
+            });
+        }
+
+        function EditData(data){
+            var ClinicID = data.split('|')[0]
+            var Region = data.split('|')[1];
+            var ClinicName = data.split('|')[2];
+            var Description = data.split('|')[3];
+            var URL = data.split('|')[4];
+            var URLDisplay = data.split('|')[5];
+
+            clearTextBox();
+            $("#ModalTitle").html("Edit Data Clinic Information");
+            $("#MyModal").modal();
+            $('#InsertData').hide();
+            $('#UpdateData').show();
+
+            $("#ClinicID").val(ClinicID);
+            $("#Region").val(Region);
+            $("#ClinicName").val(ClinicName);
+            $("#Description").val(Description);
+            $("#URL").val(URL);
+            $("#URLDisplay").val(URLDisplay);
+        }
+
+        $("#UpdateData").click(function () {
+            var ClinicID = $("#ClinicID").val() ?? "";
+            var Region = $("#Region").val() ?? "";
+            var ClinicName = $("#ClinicName").val() ?? "";
+            var Description = $("#Description").val() ?? "";
+            var URL = $("#URL").val() ?? "";
+            var URLDisplay = $("#URLDisplay").val() ?? "";
+
+            var formData = new FormData();
+            formData.append("ClinicID", ClinicID) ?? "";
+            formData.append("Region", Region) ?? "";
+            formData.append("ClinicName", ClinicName) ?? "";
+            formData.append("Description", Description) ?? "";
+            formData.append("URL", URL) ?? "";
+            formData.append("URLDisplay", URLDisplay) ?? "";
+            updateData(formData);
+        })
+
+        function updateData(formdata) {
+            $.ajax({
+                type: "POST",
+                url: "/ClinicInformationList/ClinicInformationUpd/",
+                contentType: false,
+                processData: false,
+                data: formdata,
+                success: function (result) {
+                    if (result.Message.toLowerCase().includes("success")) {
+
+                        toastr.success(result.Message, 'Success', { timeOut: 3000, closeButton: true });
+                        $('#MyModal').modal('hide');
+                        millisecondsToWait = 1000;
+                        setTimeout(function () {
+                            window.location.reload(true);
+                        }, millisecondsToWait);
+
+                    } else {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                    }
+                },
+                error: function (ex) {
+                    toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                }
+            });
+        }
+
+        function DeleteData(data) {
+            //var ClinicID = data.split('|')[0];
+
+            var ClinicID = data;
+            console.log("Data ID Buat Delete  " + data);
+
+
+            //var Region = data.split('|')[0];
+            //var ClinicName = data.split('|')[1];
+
+            //$("#Region").val(Region);
+            //$("#ClinicName").val(ClinicName);
+
+            $("#ClinicID").val(ClinicID);
+            
+            $("#DeleteConfirmation").modal("show");
+        }
+
+        $("#DeleteData").click(function () {
+            var Region = $("#Region").val() ?? "";
+            var ClinicName = $("#ClinicName").val() ?? "";
+            var pClinicID = $("#ClinicID").val() ?? "";
+            $.ajax({
+                type: "POST",
+                url: "/ClinicInformationList/ClinicInformationDel",
+                datatype: 'json',
+                data: { ClinicID: pClinicID},
+                success: function (result) {
+                    if (result.Message.toLowerCase().includes("success")) {
+                        toastr.success(result.Message, 'Success', { timeOut: 3000, closeButton: true });
+                        $('#MyModal').modal('hide');
+                        millisecondsToWait = 1000;
+                        setTimeout(function () {
+                            window.location.reload(true);
+                        }, millisecondsToWait);
+                    } else {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                    }
+                },
+                error: function (ex) {
+                    toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                }
+            });
+        })
+
+        function ValidateBeforeInsert(pCLinicID) {
+            var pParam = pCLinicID;
+            var bIsDataExist;
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "/ClinicInformationList/ClinicInformationValidateBeforeInsert",
+                datatype: 'json',
+                data: { pParam: pParam },
+                success: function (result) {
+                    if (result.Contents == true) {
+                        bIsDataExist = true;
+                    } else {
+                        bIsDataExist = false;
+                    }
+                },
+                error: function (ex) {
+                    toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                }
+            });
+
+            return bIsDataExist;
+        }
+    </script>
+
+}
+

@@ -1,15 +1,19 @@
-﻿using PGMEATS_WEB.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
+using PGMEATS_WEB.Models;
+using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Configuration;
+using System.Net;
+using Newtonsoft.Json;
+using System.Web.Helpers;
 
 namespace PGMEATS_WEB.Controllers
 {
-    [SessionExpire]
-    [SessionTimeout]
     public class ClinicInformationListController : Controller
     {
         // GET: ClinicInformationList
@@ -18,93 +22,155 @@ namespace PGMEATS_WEB.Controllers
             return View();
         }
 
-
+        [AcceptVerbs("GET", "POST")]
         [HttpPost]
-        public ActionResult Create(string pRegion,string pClinicName,string pDescription,string pURL,string pURLDisplay)
+        public ActionResult ClinicInformationLists(int draw,int start,int length)
         {
-            clsClinicInformationList clsClinic = new clsClinicInformationList();
-            clsClinic.Region = pRegion;
-            clsClinic.ClinicName = pClinicName;
-            clsClinic.Description = pDescription;
-            clsClinic.URL = pURL;
-            clsClinic.URLDisplay = pURLDisplay;
-            clsClinic.UserCreate = Session["LogUserID"].ToString();
-            clsClinic.CreateDate = DateTime.Now;
+            List<clsClinicInformationList> data = new List<clsClinicInformationList>();
+            clsClinicInformationListDB db = new clsClinicInformationListDB();
+            clsResponse response = new clsResponse();
+            DataTableData dataTableData = new DataTableData();
             try
             {
-                clsClinicInformationListDB db = new clsClinicInformationListDB();
-                db.Insert(clsClinic);
+                //response = db.ClinicInformationList();
 
-                TempData["Message"] = "Data saved successfully!";
+                string search = Request.Form.GetValues("search[value]").FirstOrDefault();
+                int n = Request.QueryString.Count;
+                int sortColumn = -1;
+                string sortDirection = "asc";
+                if (Request.QueryString["order[0][column]"] != null)
+                {
+                    sortColumn = int.Parse(Request.QueryString["order[0][column]"]);
+                }
+                if (Request.QueryString["order[0][dir]"] != null)
+                {
+                    sortDirection = Request.QueryString["order[0][dir]"];
+                }
+                dataTableData.draw = draw;
 
-                return RedirectToAction("Index");
+                clsClinicInformationListDB mdb = new clsClinicInformationListDB();
+                List<clsClinicInformationList> models = mdb.ClinicInformationListx.ToList();
+                dataTableData.recordsTotal = models.Count;
+
+                int recordsFiltered = 0;
+                dataTableData.data = FilterData(models, ref recordsFiltered, start, length, search, sortColumn, sortDirection);
+                dataTableData.recordsFiltered = recordsFiltered;
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = ex.Message.ToString();
-                return View();
+                response.Message = ex.Message;
             }
+            return Json(dataTableData, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        [ActionName("Edit")]
-        public ActionResult Edit_Post(string pClinicName)
+        private List<clsClinicInformationList> FilterData(List<clsClinicInformationList> models, ref int recordFiltered, int start, int length, string search, int sortColumn, string sortDirection)
         {
-            TempData["CreatePartlist"] = "1";
-            ViewBag.Message = "";
-
-            clsClinicInformationListDB db = new clsClinicInformationListDB();
-            clsClinicInformationList clsClinic = db.Clinic.Single(usr => usr.ClinicName == pClinicName);
-            UpdateModel(clsClinic, null, null, new string[] { "ClinicName" });
-            if (ModelState.IsValid)
+            List<clsClinicInformationList> list;
+            if (search == null)
             {
-                try
-                {
-                    clsClinic.UserUpdate = Session["LogUserId"].ToString();
-                    db.Update(clsClinic);
-
-                    TempData["Message"] = "Data updated successfully!";
-
-                    return RedirectToAction("Index");
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError(string.Empty, ex.Message.ToString());
-
-                    return View(clsClinic);
-                }
-            }
-            return View(clsClinic);
-        }
-
-        [HttpPost]
-        public JsonResult ValidateInsert(string pClinicName)
-        {
-            bool status = false;
-            clsClinicInformationListDB db = new clsClinicInformationListDB();
-            clsClinicInformationList model = db.GetData(pClinicName);
-            if (model == null)
-            {
-                status = true;
+                list = models;
             }
             else
             {
-                status = false;
+                list = new List<clsClinicInformationList>();
+                foreach (clsClinicInformationList dataItem in models)
+                {
+                    if (dataItem.Region.ToUpper().Contains(search.ToUpper()) ||
+                        dataItem.Description.ToUpper().Contains(search.ToUpper()) ||
+                        dataItem.ClinicName.ToUpper().Contains(search.ToUpper()) ||
+                        dataItem.URL.ToUpper().Contains(search.ToUpper()) ||
+                        dataItem.URLDisplay.ToUpper().Contains(search.ToUpper())
+                       )
+                    {
+                        list.Add(dataItem);
+                    }
+                }
             }
-            return new JsonResult { Data = new { status = status } };
+            recordFiltered = list.Count;
+            list = list.GetRange(start, Math.Min(length, list.Count - start));
+            return list;
         }
 
+        [AcceptVerbs("GET", "POST")]
         [HttpPost]
-        [ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete_Post(string pRegion,string pClinicName)
+        public JsonResult ClinicInformationIns(clsClinicInformationList data)
         {
-            TempData["CreateCliniclist"] = "1";
-            ViewBag.Message = "";
-            clsClinicInformationListDB db = new clsClinicInformationListDB();
-            db.Delete(pRegion,pClinicName);
-            TempData["Message"] = "Data deleted successfully!";
-            return RedirectToAction("Index");
+            data.CreateUser = Session["LogUserID"].ToString();
+            clsResponse response = new clsResponse();
+            clsClinicInformationListDB DB = new clsClinicInformationListDB();
+            try
+            {
+                response = DB.ClinicInformationIns(data);
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [HttpPost]
+        public JsonResult ClinicInformationUpd(clsClinicInformationList data)
+        {
+            data.UpdateUser = Session["LogUserID"].ToString();
+            clsResponse response = new clsResponse();
+            clsClinicInformationListDB DB = new clsClinicInformationListDB();
+            try
+            {
+                response = DB.ClinicInformationUpd(data);
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [AcceptVerbs("GET", "POST")]
+        [HttpPost]
+        public JsonResult ClinicInformationDel(String ClinicID)
+        {
+            clsResponse response = new clsResponse();
+            clsClinicInformationListDB DB = new clsClinicInformationListDB();
+            try
+            {
+                response = DB.ClinicInformationDel(ClinicID);
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [HttpPost]
+        public JsonResult ClinicInformationValidateBeforeInsert(String pParam)
+        {
+            var param = pParam.Split('|');
+            string Region = param[0];
+            string ClinicName = param[1];
+            clsResponse response = new clsResponse();
+            clsClinicInformationListDB DB = new clsClinicInformationListDB();
+            try
+            {
+                response = DB.ClinicInformationValidateBeforeInsert(Region,ClinicName);
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        public class DataTableData
+        {
+            public int draw { get; set; }
+            public int recordsTotal { get; set; }
+            public int recordsFiltered { get; set; }
+            public List<clsClinicInformationList> data { get; set; }
         }
     }
 }
