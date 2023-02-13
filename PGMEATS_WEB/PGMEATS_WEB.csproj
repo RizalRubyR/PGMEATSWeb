@@ -378,6 +378,7 @@
     <Content Include="Content\img\tagline_Rocky_slice_banner.png" />
     <Content Include="Content\img\V.png" />
     <Content Include="Content\img\X.png" />
+    <Content Include="Content\jquery.inputpicker.css" />
     <Content Include="Content\loadingAnimation.gif" />
     <Content Include="Content\login\bootstrap-combined.min.css" />
     <Content Include="Content\login\login.css" />

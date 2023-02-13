@@ -76,8 +76,11 @@ namespace PGMEATS_WEB.Controllers
                 foreach (clsClinicInformationList dataItem in models)
                 {
                     if (dataItem.Region.ToUpper().Contains(search.ToUpper()) ||
-                        dataItem.Description.ToUpper().Contains(search.ToUpper()) ||
+                        dataItem.Remark.ToUpper().Contains(search.ToUpper()) ||
                         dataItem.ClinicName.ToUpper().Contains(search.ToUpper()) ||
+                        dataItem.State.ToUpper().Contains(search.ToUpper()) ||
+                        dataItem.Address.ToUpper().Contains(search.ToUpper()) ||
+                        dataItem.Phone_No.ToUpper().Contains(search.ToUpper()) ||
                         dataItem.URL.ToUpper().Contains(search.ToUpper()) ||
                         dataItem.URLDisplay.ToUpper().Contains(search.ToUpper())
                        )

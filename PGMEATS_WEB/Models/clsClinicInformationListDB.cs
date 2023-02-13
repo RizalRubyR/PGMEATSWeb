@@ -27,9 +27,12 @@ namespace PGMEATS_WEB.Models
                     while (rd.Read())
                     {
                         clsClinicInformationList clsClinic = new clsClinicInformationList();
-                        clsClinic.Region = rd["Region"].ToString();
                         clsClinic.ClinicName = rd["ClinicName"].ToString();
-                        clsClinic.Description = rd["Description"].ToString();
+                        clsClinic.Region = rd["Region"].ToString();
+                        clsClinic.State = rd["State"].ToString();
+                        clsClinic.Address = rd["Address"].ToString();
+                        clsClinic.Phone_No = rd["Phone_No"].ToString();
+                        clsClinic.Remark = rd["Remark"].ToString();
                         clsClinic.URL = rd["URL"].ToString();
                         clsClinic.URLDisplay = rd["URLDisplay"].ToString();
                         GroupClinic.Add(clsClinic);
@@ -69,9 +72,12 @@ namespace PGMEATS_WEB.Models
                         {
                             clsClinicInformationList clsClinic = new clsClinicInformationList();
                             clsClinic.ClinicID = Convert.ToInt16(rd["ClinicID"]);
-                            clsClinic.Region = rd["Region"].ToString();
                             clsClinic.ClinicName = rd["ClinicName"].ToString();
-                            clsClinic.Description = rd["Description"].ToString();
+                            clsClinic.Region = rd["Region"].ToString();
+                            clsClinic.State = rd["State"].ToString();
+                            clsClinic.Address = rd["Address"].ToString();
+                            clsClinic.Phone_No = rd["Phone_No"].ToString();
+                            clsClinic.Remark = rd["Remark"].ToString();
                             clsClinic.URL = rd["URL"].ToString();
                             clsClinic.URLDisplay = rd["URLDisplay"].ToString();
                             GroupClinic.Add(clsClinic);
@@ -141,9 +147,12 @@ namespace PGMEATS_WEB.Models
                     SqlCommand cmd = new SqlCommand("sp_ClinicInformation_Ins", con);
 
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("Region", dataFrom.Region ?? "");
                     cmd.Parameters.AddWithValue("ClinicName", dataFrom.ClinicName ?? "");
-                    cmd.Parameters.AddWithValue("Description", dataFrom.Description ?? "");
+                    cmd.Parameters.AddWithValue("Region", dataFrom.Region ?? "");
+                    cmd.Parameters.AddWithValue("State", dataFrom.State ?? "");
+                    cmd.Parameters.AddWithValue("Address", dataFrom.Address ?? "");
+                    cmd.Parameters.AddWithValue("PhoneNo", dataFrom.Phone_No ?? "");
+                    cmd.Parameters.AddWithValue("Remark", dataFrom.Remark ?? "");
                     cmd.Parameters.AddWithValue("URL", dataFrom.URL ?? "");
                     cmd.Parameters.AddWithValue("URLDisplay", dataFrom.URLDisplay ?? "");
                     cmd.Parameters.AddWithValue("CreateUser", dataFrom.CreateUser ?? "");
@@ -178,9 +187,12 @@ namespace PGMEATS_WEB.Models
 
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("ClinicID", dataFrom.ClinicID);
-                    cmd.Parameters.AddWithValue("Region", dataFrom.Region ?? "");
                     cmd.Parameters.AddWithValue("ClinicName", dataFrom.ClinicName ?? "");
-                    cmd.Parameters.AddWithValue("Description", dataFrom.Description ?? "");
+                    cmd.Parameters.AddWithValue("Region", dataFrom.Region ?? "");
+                    cmd.Parameters.AddWithValue("State", dataFrom.State ?? "");
+                    cmd.Parameters.AddWithValue("Address", dataFrom.Address ?? "");
+                    cmd.Parameters.AddWithValue("PhoneNo", dataFrom.Phone_No ?? "");
+                    cmd.Parameters.AddWithValue("Remark", dataFrom.Remark ?? "");
                     cmd.Parameters.AddWithValue("URL", dataFrom.URL ?? "");
                     cmd.Parameters.AddWithValue("URLDisplay", dataFrom.URLDisplay ?? "");
                     cmd.Parameters.AddWithValue("UpdateUser", dataFrom.UpdateUser ?? "");

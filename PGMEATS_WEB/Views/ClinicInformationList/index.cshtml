@@ -37,13 +37,22 @@
                                     <tr>
                                         <th style="text-align: center;width: 7%">Action</th>
                                         <th style="text-align: center">
-                                            Region
-                                        </th>
-                                        <th style="text-align: center">
                                             Clinic Name
                                         </th>
                                         <th style="text-align: center">
-                                            Description
+                                            Region
+                                        </th>
+                                        <th style="text-align: center">
+                                            State
+                                        </th>
+                                        <th style="text-align: center">
+                                            Address
+                                        </th>
+                                        <th style="text-align: center">
+                                            Phone No
+                                        </th>
+                                        <th style="text-align: center">
+                                            Remark
                                         </th>
                                         <th style="text-align: center">
                                             URL
@@ -68,10 +77,20 @@
                                                 <fieldset id="SubmitForm">
                                                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                                     <table style="border:0px solid black; width:100%">
+
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group ">
-                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="UserID">Region</label>
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="ClinicName">Clinic Name</label>
+                                                                    @Html.TextBoxFor(Model => Model.ClinicName, new { @id = "ClinicName", @class = "form-control input-md", placeholder = "Enter Clinic Name", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group ">
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="Region">Region</label>
                                                                     @Html.TextBoxFor(Model => Model.Region, new { @id = "Region", @class = "form-control input-md", placeholder = "Enter Region", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
                                                                     @Html.HiddenFor(Model => Model.ClinicID, new { @id = "ClinicID" })
                                                                 </div>
@@ -81,8 +100,8 @@
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group ">
-                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="UserID">Clinic Name</label>
-                                                                    @Html.TextBoxFor(Model => Model.ClinicName, new { @id = "ClinicName", @class = "form-control input-md", placeholder = "Enter Clinic Name", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="State">State</label>
+                                                                    @Html.TextBoxFor(Model => Model.State, new { @id = "State", @class = "form-control input-md", placeholder = "Enter State", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -90,8 +109,26 @@
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group ">
-                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="UserID">Description</label>
-                                                                    @Html.TextBoxFor(Model => Model.Description, new { @id = "Description", @class = "form-control input-md", placeholder = "Enter Description", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="Address">Address</label>
+                                                                    @Html.TextBoxFor(Model => Model.Address, new { @id = "Address", @class = "form-control input-md", placeholder = "Enter State", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group ">
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="PhoneNo">Phone No</label>
+                                                                    @Html.TextBoxFor(Model => Model.Phone_No, new { @id = "PhoneNo", @class = "form-control input-md", placeholder = "Enter Phone Number", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group ">
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="Remark">Description</label>
+                                                                    @Html.TextBoxFor(Model => Model.Remark, new { @id = "Remark", @class = "form-control input-md", placeholder = "Enter Remark", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -198,13 +235,16 @@
                         "bSearchable": false,
                         "bSortable": false,
                         'mRender': function (data, type, row) {
-                            return '<a class="fa fa-pencil" style="font-size: x-large;" href="#" onclick="EditData(\'' + row.ClinicID + '|' + row.Region + '|' + row.ClinicName + '|' + row.Description + '|' + row.URL + '|' + row.URLDisplay + '\')" @ViewBag.UpdateHidden ></a>' + '<div style="display: inline-block; padding: 0px 10px 0px 10px; font-size: 20px;">|</div>' +
+                            return '<a class="fa fa-pencil" style="font-size: x-large;" href="#" onclick="EditData(\'' + row.ClinicID + '|' + row.ClinicName + '|' + row.Region + '|' + row.State + '|' + row.Address + '|' + row.Phone_No + '|' + row.Remark + '|' + row.URL + '|' + row.URLDisplay + '\')" @ViewBag.UpdateHidden ></a>' + '<div style="display: inline-block; padding: 0px 10px 0px 10px; font-size: 20px;">|</div>' +
                                 '<a class="fa fa-trash-o" style="font-size: x-large;" href="#" @ViewBag.DeleteHidden onclick="DeleteData(\'' + row.ClinicID + '\')"></a>';
                         }
                     },
-                    { "data": "Region", "orderable": true },
                     { "data": "ClinicName", "orderable": true },
-                    { "data": "Description", "orderable": true },
+                    { "data": "Region", "orderable": true },
+                    { "data": "State", "orderable": true },
+                    { "data": "Address", "orderable": true },
+                    { "data": "Phone_No", "orderable": true },
+                    { "data": "Remark", "orderable": true },
                     { "data": "URL", "orderable": true },
                     { "data": "URLDisplay", "orderable": true },
                 ],
@@ -231,10 +271,12 @@
         });
 
         function clearTextBox() {
-            $("#Region").val('');
-            $("#Description").val('');
             $("#ClinicName").val('');
             $("#Region").val('');
+            $("#State").val('');
+            $("#Address").val('');
+            $("#PhoneNo").val('');
+            $("#Remark").val('');
             $("#URL").val('');
             $("#URLDisplay").val('');
         }
@@ -248,11 +290,16 @@
         }
 
         $("#InsertData").click(function () {
-            var Region = $("#Region").val();
             var ClinicName = $("#ClinicName").val();
-            var Description = $("#Description").val();
+            var Region = $("#Region").val();
+            var State = $("#State").val();
+            var Address = $("#Address").val();
+            var PhoneNo = $("#PhoneNo").val();
+            var Remark = $("#Remark").val();
             var URL = $("#URL").val();
             var URLDisplay = $("#URLDisplay").val();
+
+            console.log("InsertData () " + PhoneNo);
 
             if (Region == "") {
                 toastr.warning("Please, enter region name!", 'Warning', { timeOut: 3000, closeButton: true });
@@ -260,9 +307,12 @@
                 toastr.warning("Please, enter clinic name!", 'Warning', { timeOut: 3000, closeButton: true });
             } else {
                 var formDatax = new FormData();
-                formDatax.append("Region", Region) ?? "";
                 formDatax.append("ClinicName", ClinicName) ?? "";
-                formDatax.append("Description", Description) ?? "";
+                formDatax.append("Region", Region) ?? "";
+                formDatax.append("State", State) ?? "";
+                formDatax.append("Address", Address) ?? "";
+                formDatax.append("Phone_No", PhoneNo) ?? "";
+                formDatax.append("Remark", Remark) ?? "";
                 formDatax.append("URL", URL) ?? "";
                 formDatax.append("URLDisplay", URLDisplay) ?? "";
 
@@ -317,13 +367,18 @@
             });
         }
 
-        function EditData(data){
-            var ClinicID = data.split('|')[0]
-            var Region = data.split('|')[1];
-            var ClinicName = data.split('|')[2];
-            var Description = data.split('|')[3];
-            var URL = data.split('|')[4];
-            var URLDisplay = data.split('|')[5];
+        function EditData(data) {
+            var ClinicID = data.split('|')[0];
+            var ClinicName = data.split('|')[1];
+            var Region = data.split('|')[2];
+            var State = data.split('|')[3];
+            var Address = data.split('|')[4];
+            var PhoneNo = data.split('|')[5];
+            var Remark = data.split('|')[6];
+            var URL = data.split('|')[7];
+            var URLDisplay = data.split('|')[8];
+
+            console.log("EditData() " + PhoneNo);
 
             clearTextBox();
             $("#ModalTitle").html("Edit Data Clinic Information");
@@ -332,26 +387,37 @@
             $('#UpdateData').show();
 
             $("#ClinicID").val(ClinicID);
-            $("#Region").val(Region);
             $("#ClinicName").val(ClinicName);
-            $("#Description").val(Description);
+            $("#Region").val(Region);
+            $("#State").val(State);
+            $("#Address").val(Address);
+            $("#PhoneNo").val(PhoneNo);
+            $("#Remark").val(Remark);
             $("#URL").val(URL);
             $("#URLDisplay").val(URLDisplay);
         }
 
         $("#UpdateData").click(function () {
             var ClinicID = $("#ClinicID").val() ?? "";
-            var Region = $("#Region").val() ?? "";
             var ClinicName = $("#ClinicName").val() ?? "";
-            var Description = $("#Description").val() ?? "";
+            var Region = $("#Region").val() ?? "";
+            var State = $("#State").val() ?? "";
+            var Address = $("#Address").val() ?? "";
+            var PhoneNo = $("#PhoneNo").val() ?? "";
+            var Remark = $("#Remark").val() ?? "";
             var URL = $("#URL").val() ?? "";
             var URLDisplay = $("#URLDisplay").val() ?? "";
 
+            console.log("UpdateData " + PhoneNo);
+
             var formData = new FormData();
             formData.append("ClinicID", ClinicID) ?? "";
-            formData.append("Region", Region) ?? "";
             formData.append("ClinicName", ClinicName) ?? "";
-            formData.append("Description", Description) ?? "";
+            formData.append("Region", Region) ?? "";
+            formData.append("State", State) ?? "";
+            formData.append("Address", Address) ?? "";
+            formData.append("Phone_No", PhoneNo) ?? "";
+            formData.append("Remark", Remark) ?? "";
             formData.append("URL", URL) ?? "";
             formData.append("URLDisplay", URLDisplay) ?? "";
             updateData(formData);
