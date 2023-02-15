@@ -1071,6 +1071,8 @@
     <Content Include="Views\MyComplaint\IssueTypeMaster.cshtml" />
     <Content Include="Views\MyKY\Index.cshtml" />
     <Content Include="Views\NewsList\Index.cshtml" />
+    <Content Include="Views\SurveyPollsList\Index.cshtml" />
+    <Content Include="Views\SurveyPollsList\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Helpers\DashRouteHandler.cs" />
@@ -1091,6 +1093,7 @@
     <Compile Include="Controllers\MyComplaintController.cs" />
     <Compile Include="Controllers\MyKYController.cs" />
     <Compile Include="Controllers\NewsListController.cs" />
+    <Compile Include="Controllers\SurveyPollsListController.cs" />
     <Compile Include="Controllers\UserStaffController.cs" />
     <Compile Include="Controllers\UserSetupController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1119,6 +1122,7 @@
     <Compile Include="Models\ReportParams.cs" />
     <Compile Include="Models\SessionExpireAttribute.cs" />
     <Compile Include="Models\SessionTimeoutAttribute.cs" />
+    <Compile Include="Models\SurveyAndPolls.cs" />
     <Compile Include="Models\UserPrivilegeViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

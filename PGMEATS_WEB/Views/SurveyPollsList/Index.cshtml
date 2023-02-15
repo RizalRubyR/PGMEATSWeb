@@ -1,0 +1,178 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-xs-12 col-md-12">
+                <div class="jarviswidget jarviswidget-color-red" id="wid-id-1" data-widget-colorbutton="false"
+                     data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false"
+                     data-widget-custombutton="false" data-widget-collapsed="false" data-widget-sortable="false">
+                    <header style="border-top-left-radius:8px; border-top-right-radius:8px">
+                        <h2 style="font-family:'Poppins-Regular';font-weight:500;font-size:15px">
+                            List Of Survey & Polls
+                        </h2>
+                    </header>
+
+                    <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
+                        <div style="padding: 5px 5px 5px 5px">
+                            <table style="width: 100%;">
+                                <tr style="height: 50px">
+                                    <td>
+                                        <button id="btnNew" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #4CBFBC; width:85px" data-toggle="modal" data-target="#myModal" onclick="AddNewData()"><span style="color:white">New</span></button>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table id="tableID" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center;width: 7%">Action</th>
+                                        <th style="text-align: center" class="hidden">
+                                            Survey ID
+                                        </th>
+                                        <th style="text-align: center">
+                                            Survey Title
+                                        </th>
+                                        <th style="text-align: center">
+                                            Start Date
+                                        </th>
+                                        <th style="text-align: center">
+                                            End Date
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+
+<style type="text/css">
+    .hidden {
+        display: none;
+    }
+
+    .txtAlignCenter {
+        text-align: center;
+    }
+
+    .txtAlignLeft {
+        text-align: left;
+    }
+
+    .btn-save {
+        color: #fff;
+        background-color: #4CBFBC;
+        border-color: #4CBFBC;
+    }
+</style>
+
+<link rel="stylesheet" href="~/Content/zebra_datepicker.min.css" type="text/css">
+<script src="~/Scripts/plugin/bootstrap-waitingfor/bootstrap-waitingfor.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/bootstrap/bootstrap.min.js"></script>
+<script src="~/Scripts/zebra_datepicker.min.js"></script>
+<script src="~/Scripts/zebra_datepicker.src.js"></script>
+<script src="~/Scripts/plugin/summernote/summernote.min.js"></script>
+
+@section pagespecific
+{
+    <script>
+        $(document).ready(function () {
+            loadData();
+
+            var responsiveHelper_dt_basic = undefined;
+            var breakpointDefinition = {
+                tablet: 1024,
+                phone: 480
+            };
+
+            $("#tableID").dataTable({
+                bDestroy: true,
+                data: [],
+                columns: [
+                    {
+                        "data": "Action", className: "txtAlignCenter", "render": function (data, type, row) {
+                            if ('@ViewBag.AllowUpdate' == '0') {
+                                return '<a href="#" class="fa fa-pencil disable"></a> &nbsp; | &nbsp; <a class="fa fa-trash-o disable"></a>'
+                            } else {
+                                return '<a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.NewsID +'\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteRecord(\'' + row.NewsID + '\')"></a>'
+                            }
+                        }
+                    },
+                    { "data": "SurveyID",     "autoWidth": true, className: "hidden" },
+                    { "data": "SurveyTitle",  "autoWidth": true, className: "txtAlignLeft" },
+                    { "data": "StartDate",   "autoWidth": true, className: "txtAlignCenter" },
+                    { "data": "EndDate",     "autoWidth": true, className: "txtAlignCenter" }
+                ],
+                rowCallback: function (row, data) { responsiveHelper_dt_basic.createExpandIcon(row) },
+                filter: true,
+                info: true,
+                ordering: true,
+                processing: true,
+                retrieve: true,
+                bLengthChange: false,
+                lengthMenu: [[15, 20, -1], [15, 20, "All"]],
+                searching: true,
+                bFilter: true,
+                bSort: true,
+                bPaginate: true,
+                scrollX: false,
+                //scrollX: "100%",
+                //scrollY: "350px",
+                autoWidth: true,
+                preDrawCallback: function () {
+                    if (!responsiveHelper_dt_basic) {
+                        responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#tableID'), breakpointDefinition);
+                    }
+                },
+                drawCallback: function (oSettings) {
+                    responsiveHelper_dt_basic.respond();
+                }
+            });
+
+            function loadData() {
+                waitingDialog.show("Please wait retrieving data...");
+
+                $.ajax({
+                    url: "@Url.Action("SurveyAndPolls", "SurveyPollsList")",
+                    type: "post",
+                    dataType: "json"
+                }).done(function (result) {
+                    $("#tableID").DataTable().clear();
+
+                    if (result.ID == '0') {
+                        toastr.error(result.Message, 'Error', { timeOut: 3000, "closeButton": true });
+                    }
+                    else {
+                        $("#tableID").DataTable().rows.add(result.Contents).draw(false);
+                    }
+
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    //toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                });
+
+            }
+        })
+
+        function AddNewData() {
+            var url = "/SurveyPollsList/Create";
+            window.location.href = url;
+        };
+    </script> 
+}
