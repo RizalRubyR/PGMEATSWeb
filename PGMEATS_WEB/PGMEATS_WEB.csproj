@@ -1070,6 +1070,7 @@
     <Content Include="Views\MyComplaint\CanteenComplaintList.cshtml" />
     <Content Include="Views\MyComplaint\IssueTypeMaster.cshtml" />
     <Content Include="Views\MyKY\Index.cshtml" />
+    <Content Include="Views\NewsList\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Helpers\DashRouteHandler.cs" />
@@ -1089,6 +1090,7 @@
     <Compile Include="Controllers\MultipleButtonAttribute.cs" />
     <Compile Include="Controllers\MyComplaintController.cs" />
     <Compile Include="Controllers\MyKYController.cs" />
+    <Compile Include="Controllers\NewsListController.cs" />
     <Compile Include="Controllers\UserStaffController.cs" />
     <Compile Include="Controllers\UserSetupController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1105,6 +1107,7 @@
     <Compile Include="Models\clsMessage.cs" />
     <Compile Include="Models\clsMyComplaint.cs" />
     <Compile Include="Models\clsMyKY.cs" />
+    <Compile Include="Models\clsNews.cs" />
     <Compile Include="Models\clsPasswordHistory.cs" />
     <Compile Include="Models\clsResponse.cs" />
     <Compile Include="Models\clsUserDB.cs" />
