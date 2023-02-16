@@ -26,7 +26,7 @@
                                             Survey ID
                                         </td>
                                         <td width="250px">
-                                            <input id="txtid" type="text" class="form-control" style="background-color: #e9ecef !important; color:white !important; width:40px" readonly />
+                                            <input id="txtsurveyid" type="text" class="form-control" style="background-color: #e9ecef !important; color:white !important; width:40px" />
                                         </td>
                                     </tr>
                                     <tr style="height:35px">
@@ -68,20 +68,62 @@
                                     <tr>
                                         <th style="text-align: center;width: 7%">Action</th>
                                         <th style="text-align: center" class="hidden">
+                                            ID
+                                        </th>
+                                        <th style="text-align: center" class="hidden">
+                                            Question ID
+                                        </th>
+                                        <th style="text-align: center" class="hidden">
                                             Survey ID
                                         </th>
-                                        <th style="text-align: center">
-                                            Survey Title
+                                        <th style="text-align: center" class="hidden">
+                                            Question Seq No
                                         </th>
                                         <th style="text-align: center">
-                                            Start Date
+                                            Question Description
                                         </th>
                                         <th style="text-align: center">
-                                            End Date
+                                            Parent Question ID
+                                        </th>
+                                        <th style="text-align: center">
+                                            Parent Answer Seq No
                                         </th>
                                     </tr>
                                 </thead>
                             </table>
+
+                            @*Create A Popup Modal*@
+                            <div class="modal fade" id="MyModal">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                            <h4 style="font-family:'Poppins-Regular'" id="ModalTitle"></h4>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <form id="form" class="smart-form">
+
+                                            </form>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal" style="width:85px; font-size:13px; border-width:thin;">Cancel</button>
+                                            @if (ViewBag.AllowWrite == "0")
+                                            {
+                                                <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px" disabled>Save</button>
+                                                <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;" disabled>Update</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px">Save</button>
+                                                <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;">Update</button>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -109,17 +151,21 @@
         border-color: #4CBFBC;
     }
 </style>
+
 <link rel="stylesheet" href="~/Content/zebra_datepicker.min.css" type="text/css">
 <script src="~/Scripts/plugin/bootstrap-waitingfor/bootstrap-waitingfor.min.js"></script>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/bootstrap/bootstrap.min.js"></script>
 <script src="~/Scripts/zebra_datepicker.min.js"></script>
 <script src="~/Scripts/zebra_datepicker.src.js"></script>
+<script src="~/Scripts/plugin/summernote/summernote.min.js"></script>
 
 @section pagespecific
 {
     <script>
         $(document).ready(function () {
+            loadData();
+
             $('#startdate').Zebra_DatePicker({
                 format: 'd M Y', //'d M Y'
                 onSelect: function () {
@@ -133,8 +179,153 @@
                 }
             });
 
+            var d = new Date();
+            var month = new Array();
+            month[0] = "Jan";
+            month[1] = "Feb";
+            month[2] = "Mar";
+            month[3] = "Apr";
+            month[4] = "May";
+            month[5] = "Jun";
+            month[6] = "Jul";
+            month[7] = "Aug";
+            month[8] = "Sep";
+            month[9] = "Oct";
+            month[10] = "Nov";
+            month[11] = "Dec";
+
+            var dd = String(d.getDate()).padStart(2, '0');
+            var dmonth = month[d.getMonth()];
+            var dyear = d.getFullYear();
+            var today = dd + " " + dmonth + " " + dyear;
+
             $("#startdate").val(today)
             $("#enddate").val(today)
+
+
+            var responsiveHelper_dt_basic = undefined;
+            var breakpointDefinition = {
+                tablet: 1024,
+                phone: 480
+            };
+
+            $("#tableID").dataTable({
+                bDestroy: true,
+                data: [],
+                columns: [
+                    {
+                        "data": "Action", className: "txtAlignCenter", "render": function (data, type, row) {
+                            if ('@ViewBag.AllowUpdate' == '0') {
+                                return '<a href="#" class="fa fa-pencil disable"></a> &nbsp; | &nbsp; <a class="fa fa-trash-o disable"></a>'
+                            } else {
+                                return '<a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.id +'\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteRecord(\'' + row.id + '\')"></a>'
+                            }
+                        }
+                    },
+                    { "data": "id", "autoWidth": true, className: "hidden" },
+                    { "data": "QuestionID", "autoWidth": true, className: "hidden" },
+                    { "data": "SurveyID", "autoWidth": true, className: "hidden" },
+                    { "data": "QuestionSeqNo", "autoWidth": true, className: "hidden" },
+                    { "data": "QuestionDesc", "autoWidth": true, className: "txtAlignLeft" },
+                    { "data": "ParentQuestionID", "autoWidth": true, className: "txtAlignCenter" },
+                    { "data": "ParentAnswerSeqNo", "autoWidth": true, className: "txtAlignCenter" }
+                ],
+                rowCallback: function (row, data) { responsiveHelper_dt_basic.createExpandIcon(row) },
+                filter: true,
+                info: true,
+                ordering: true,
+                processing: true,
+                retrieve: true,
+                bLengthChange: false,
+                lengthMenu: [[15, 20, -1], [15, 20, "All"]],
+                searching: true,
+                bFilter: true,
+                bSort: true,
+                bPaginate: true,
+                scrollX: false,
+                //scrollX: "100%",
+                //scrollY: "350px",
+                autoWidth: true,
+                preDrawCallback: function () {
+                    if (!responsiveHelper_dt_basic) {
+                        responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#tableID'), breakpointDefinition);
+                    }
+                },
+                drawCallback: function (oSettings) {
+                    responsiveHelper_dt_basic.respond();
+                }
+            });
+
+            function loadData() {
+                getsurveyid();
+                waitingDialog.show("Please wait retrieving data...");
+
+                $.ajax({
+                    url: "@Url.Action("SurveyAndPolls", "SurveyPollsList")",
+                    type: "post",
+                    dataType: "json"
+                }).done(function (result) {
+                    $("#tableID").DataTable().clear();
+
+                    if (result.ID == '0') {
+                        toastr.error(result.Message, 'Error', { timeOut: 3000, "closeButton": true });
+                    }
+                    else {
+                        $("#tableID").DataTable().rows.add(result.Contents).draw(false);
+                    }
+
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    //toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                });
+
+            }
+
         })
-    </script>    
+
+        function getsurveyid() {
+            $.ajax({
+                    url: "@Url.Action("getsurveyid", "SurveyPollsList")",
+                    type: "post",
+                    dataType: "json"
+            }).done(function (result) {
+                $("#txtsurveyid").val(result.Contents);
+
+                //if (result.ID == '0') {
+                //    toastr.error(result.Message, 'Error', { timeOut: 3000, "closeButton": true });
+                //}
+                //else {
+                //    $("#tableID").DataTable().rows.add(result.Contents).draw(false);
+                //}
+
+                setTimeout(function () {
+                    waitingDialog.hide();
+                }, 1000);
+
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                //toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
+                setTimeout(function () {
+                    waitingDialog.hide();
+                }, 1000);
+            });
+        }
+        function AddNewData() {
+            //clearTextBox();
+            //$("#NewsID").val('0');
+
+            //$("#DateFrom").val(today)
+            //$("#DateTo").val(today)
+
+            $("#ModalTitle").html("Create Question Survey & Polls");
+            $("#MyModal").modal();
+            $('#InsertData').show();
+            $('#UpdateData').hide();
+        };
+    </script>
 }

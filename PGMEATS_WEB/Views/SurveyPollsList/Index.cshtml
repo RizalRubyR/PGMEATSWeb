@@ -34,13 +34,13 @@
                                         <th style="text-align: center" class="hidden">
                                             Survey ID
                                         </th>
-                                        <th style="text-align: center">
+                                        <th style="text-align: center;">
                                             Survey Title
                                         </th>
-                                        <th style="text-align: center">
+                                        <th style="text-align: center;">
                                             Start Date
                                         </th>
-                                        <th style="text-align: center">
+                                        <th style="text-align: center;">
                                             End Date
                                         </th>
                                     </tr>
@@ -104,7 +104,7 @@
                             if ('@ViewBag.AllowUpdate' == '0') {
                                 return '<a href="#" class="fa fa-pencil disable"></a> &nbsp; | &nbsp; <a class="fa fa-trash-o disable"></a>'
                             } else {
-                                return '<a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.NewsID +'\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteRecord(\'' + row.NewsID + '\')"></a>'
+                                return '<a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.SurveyID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteRecord(\'' + row.SurveyID + '\')"></a>'
                             }
                         }
                     },
