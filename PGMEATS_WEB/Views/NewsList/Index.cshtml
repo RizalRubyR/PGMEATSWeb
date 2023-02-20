@@ -33,10 +33,10 @@
                                 </tr>
                             </table>
 
-                            <table id="tableID" class="table table-bordered table-striped">
+                            <table id="tableID" class="table table-bordered table-striped" width="100%">
                                 <thead>
                                     <tr>
-                                        <th style="text-align: center;width: 7%">Action</th>
+                                        <th style="text-align: center;width: 8%">Action</th>
                                         <th style="text-align: center" class="hidden">
                                             News ID
                                         </th>
@@ -49,13 +49,13 @@
                                         <th style="text-align: center">
                                             Attachment
                                         </th>
-                                        <th style="text-align: center">
+                                        <th style="text-align: center;width: 11%">
                                             Active Date From
                                         </th>
-                                        <th style="text-align: center">
+                                        <th style="text-align: center;width: 9%">
                                             Active Date To
                                         </th>
-                                        <th style="text-align: center">
+                                        <th style="text-align: center;width: 8%">
                                             Target Participant
                                         </th>
                                     </tr>
@@ -99,7 +99,7 @@
                                                             <td>
                                                                 <div class="form-group">
                                                                     <label style="font-weight:500">News Decription</label>
-                                                                    @Html.TextAreaFor(m => m.NewsDesc, new { @id = "NewsDesc", rows = "40", style = "resize:none;", placeholder = "Input News Description", @class = "form-control input-lg textarea-editor" })
+                                                                    @Html.TextAreaFor(m => m.NewsDescCode, new { @id = "NewsDesc", rows = "40", style = "resize:none;", placeholder = "Input News Description", @class = "form-control input-lg textarea-editor" })
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -161,6 +161,7 @@
                                 </div>
                             </div>
 
+                            <!-- Modal Delete Data -->
                             <div class="modal fade" id="DeleteConfirmation">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -180,7 +181,31 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Modal Delete Data -->
 
+                            <!-- Modal Delete Data Attachment -->
+                            <div class="modal fade" id="DeleteConfirmationAttachment">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                            <h4 style="font-family:'Poppins-Regular'">
+                                                Delete Attachment
+                                            </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h4 style="font-family:'Poppins-Regular'">Are you sure to delete Attachment this data?</h4>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal" style="width:85px; font-size:13px; border-width:thin;">Cancel</button>
+                                            <a href="#" class="btn btn-save" style="width:85px; font-size:13px" id="DeleteDataAttachment">Confirm</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal Delete Data Attachment -->
+
+                            <!-- Modal Show Attachment -->
                             <div class="modal fade" id="DialogPdf">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -202,7 +227,30 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Modal Show Attachment -->
 
+                            <!-- Modal Show Read a Long Text -->
+                            <div class="modal fade" id="ReadMore">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                            <h4 style="font-family:'Poppins-Regular'">
+                                                News Description
+                                            </h4>
+                                        </div>
+                                        <div class="modal-body" id="div-modal-readMore">
+                                            <h4 style="font-family:'Poppins-Regular'">
+                                                Are you sure to delete Attachment this data?
+                                            </h4>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal" style="width:85px; font-size:13px; border-width:thin;">close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal Show Read a Long Text -->
 
                         </div>
                     </div>
@@ -240,8 +288,6 @@
 <script src="~/Scripts/zebra_datepicker.src.js"></script>
 <script src="~/Scripts/plugin/summernote/summernote.min.js"></script>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf_viewer.min.css" rel="stylesheet" type="text/css" />
 <script>
     $('#NewsDesc').summernote({ height: 140 });
 </script>
@@ -249,12 +295,6 @@
 @section pagespecific
 {
     <script>
-        var pdfjsLib = window['pdfjs-dist/build/pdf'];
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
-        var pdfDoc = null;
-        var scale = 1; //Set Scale for zooming PDF.
-        var resolution = 1; //Set Resolution to Adjust PDF clarity.
-
         $(document).ready(function () {
             loadData();
 
@@ -272,26 +312,49 @@
                     {
                         "data": "Action", className: "txtAlignCenter", "render": function (data, type, row) {
                             if ('@ViewBag.AllowUpdate' == '0') {
-                                return '<a href="#" class="fa fa-pencil disable"></a> &nbsp; | &nbsp; <a class="fa fa-trash-o disable"></a>'
+                                return '<a href="#" class="fa fa-pencil disable"></a> &nbsp; | &nbsp; <a class="fa fa-trash-o disable"></a> &nbsp; | &nbsp; <a class="fa fa-unlink disable"></a>'
                             } else {
-                                return '<a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.NewsID +'\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteRecord(\'' + row.NewsID + '\')"></a>'
+                                return '<a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.NewsID +'\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteRecord(\'' + row.NewsID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-unlink" onclick="DeleteAttachment(\'' + row.NewsID + '|' + row.Attachment +'\')"></a>'
                             }
                         }
                     },
                     { "data": "NewsID",     "autoWidth": true, className: "hidden" },
                     { "data": "NewsTitle",  "autoWidth": true, className: "txtAlignLeft" },
-                    { "data": "NewsDesc",   "autoWidth": true, className: "txtAlignLeft" },
-                    {
-                        "data": "Attachment", "autoWidth": true, className: "txtAlignCenter", "render": function (data, type, row)
-                        {
+                    { "data": "NewsDescText", "autoWidth": true, className: "txtAlignLeft", "render": function (data, type, row) {
+                            if (row.NewsDescText == "" || row.NewsDescText.length <= 30) {
+                                return row.NewsDescText
+                            }
+                            else {
+                                var shortText = row.NewsDescText.substring(0, 30);
+                                var cleanStr = row.NewsDescText.replace(/["']/g, "")
+                                var string = shortText;
+                                if (shortText.substr(-1) == ' ') {
+                                    string = shortText.substring(0, shortText.length - 1);
+                                }
+                                return string + "<a id=\"toggleButton\" onclick=\"readFunction('" + cleanStr + "');\" href=\"javascript:void(0);\">... Read more</a>"
+                            }
 
-                            return '<a href="#" onclick="DownloadFile(\'' + row.Attachment + '\')">' + row.Attachment + '</a>'
                         }
                     },
-                    { "data": "DateFrom",   "autoWidth": true, className: "txtAlignCenter" },
-                    { "data": "DateTo",     "autoWidth": true, className: "txtAlignCenter" },
+                    {
+                        "data": "Attachment", "autoWidth": true, className: "txtAlignCenter", "render": function (data, type, row) {
+
+                            return '<a href="javascript:void(0);" onclick="DownloadFile(\'' + row.Attachment + '\')">' + row.Attachment + '</a>'
+                        }
+                    },
+                    { "data": "DateFrom", "autoWidth": true, className: "txtAlignCenter" },
+                    { "data": "DateTo", "autoWidth": true, className: "txtAlignCenter" },
                     { "data": "TargetPart", "autoWidth": true, className: "txtAlignCenter" }
                 ],
+                "columnDefs": [{
+                    "targets": 3,
+                    "data": "NewsDescText",
+                    "render": function (data, type) {
+                        return data.length > 100 ?
+                            '<span id="outer" title="' + data + '">' + data.substr(0, 95) + '</span><span id="show">...</span>' :
+                            data;
+                    }
+                }],
                 rowCallback: function (row, data) { responsiveHelper_dt_basic.createExpandIcon(row) },
                 filter: true,
                 info: true,
@@ -380,6 +443,15 @@
                 }, 1000);
             });
         }
+
+        function readFunction(dataNews) {
+            var htmltmp = "";
+            $('#div-modal-readMore').empty();
+
+            $('#div-modal-readMore').append(dataNews);
+
+            $("#ReadMore").modal("show");
+        };
 
         $('#DateFrom').Zebra_DatePicker({
             format: 'd M Y', //'d M || F Y'
@@ -514,9 +586,16 @@
             $("#DeleteConfirmation").modal("show");
         }
 
+        //Show The Popup Modal For Delete Attachment
+        function DeleteAttachment(data) {
+            $("#NewsID").val(data);
+
+            $("#DeleteConfirmationAttachment").modal("show");
+        }
+
         function performClick() {
-            var elem = document.getElementById('IconImg');
-            elem.accept = 'application/pdf, application/vnd.ms-excel, application/msword, application/vnd.ms-powerpoint, text/plain, image/jpeg'
+            //var elem = document.getElementById('IconImg');
+            //elem.accept = 'application/pdf, application/vnd.ms-excel, application/msword, application/vnd.ms-powerpoint, text/plain, image/jpeg'
 
             IconImg.onchange = evt =>
             {
@@ -545,7 +624,8 @@
         $("#InsertData").click(function () {
             var NewsID = $("#NewsID").val();
             var NewsTitle = $("#NewsTitle").val();
-            var NewsDesc = $("#NewsDesc").code();
+            var NewsDescCode = $("#NewsDesc").code();
+            var NewsDescText = $($("#NewsDesc").code()).text()
             var DateFrom = $("#DateFrom").val().split(' ');
             var DateTo = $("#DateTo").val().split(' ');;
             var TargetPart = $("#TargetPart").val();
@@ -566,7 +646,8 @@
                 var dataxJson = {
                     NewsID: NewsID,
                     NewsTitle: NewsTitle,
-                    NewsDesc: NewsDesc,
+                    NewsDescCode: NewsDescCode,
+                    NewsDescText: NewsDescText,
                     DateFrom: DateFrom,
                     DateTo: DateTo,
                     TargetPart: TargetPart
@@ -606,7 +687,8 @@
             debugger
             var NewsID = $("#NewsID").val();
             var NewsTitle = $("#NewsTitle").val();
-            var NewsDesc = String($("#NewsDesc").code());//$("#NewsDesc").val();
+            var NewsDescCode = $("#NewsDesc").code();
+            var NewsDescText = $($("#NewsDesc").code()).text()
             var DateFrom = $("#DateFrom").val().split(' ');
             var DateTo = $("#DateTo").val().split(' ');;
             var TargetPart = $("#TargetPart").val();
@@ -627,7 +709,8 @@
                 var dataxJson = {
                     NewsID: NewsID,
                     NewsTitle: NewsTitle,
-                    NewsDesc: NewsDesc,
+                    NewsDescCode: NewsDescCode,
+                    NewsDescText: NewsDescText,
                     DateFrom: DateFrom,
                     DateTo: DateTo,
                     TargetPart: TargetPart
@@ -644,6 +727,19 @@
             formDatax.append("NewsID", NewsID) ?? "";
 
             DeleteData(formDatax);
+        });
+
+        $("#DeleteDataAttachment").click(function () {
+            var data = $("#NewsID").val();
+
+            var NewsID = data.split('|')[0];
+            var Filename = data.split('|')[1];
+
+            var formDatax = new FormData();
+            formDatax.append("NewsID", NewsID) ?? "";
+            formDatax.append("Attachment", Filename) ?? "";
+
+            DeleteDataAttachment(formDatax);
         });
 
         function DeleteData(formData) {
@@ -664,24 +760,32 @@
                         setTimeout(function () {
                             loadDataAfterSend();
                         }, millisecondsToWait);
+                    }
+                },
+                error: function (ex) {
+                    toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                }
+            });
+        }
 
-                        //var ImgSave = document.getElementById('canvas').toDataURL("image/png", 0.9);
-                        //var ImgFiles = ImgSave.split(',')[1];
-                        //var fileDataImg = $("#IconImg").get(0).files;
-                        //var fileData = new FormData();
-
-                        //if (fileDataImg.length > 0) {
-                        //    fileData.append("IssueTypeID", result.Contents);
-                        //    fileData.append("files", ImgFiles);
-                        //    uploadImg(fileData) //upload img complaint
-                        //} else {
-                        //    toastr.success(result.Message, 'Success', { timeOut: 3000, closeButton: true });
-                        //    $('#MyModal').modal('hide');
-                        //    millisecondsToWait = 1000;
-                        //    setTimeout(function () {
-                        //        window.location.reload(true);
-                        //    }, millisecondsToWait);
-                        //}
+        function DeleteDataAttachment(formData) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteAttachment", "NewsList")",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (result) {
+                    if (result.ID == '0') {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                        $("#DeleteConfirmationAttachment").modal("hide");
+                    } else {
+                        toastr.success(result.Message, 'Success', { timeOut: 3000, closeButton: true });
+                        $('#DeleteConfirmationAttachment').modal('hide');
+                        millisecondsToWait = 500;
+                        setTimeout(function () {
+                            loadDataAfterSend();
+                        }, millisecondsToWait);
                     }
                 },
                 error: function (ex) {
@@ -697,126 +801,34 @@
                 canvas.id = 'pdf-' + num;
                 ctx = canvas.getContext('2d');
                 pdf_container.appendChild(canvas);
- 
+
                 //Create and add empty DIV to add SPACE between pages.
                 var spacer = document.createElement("div");
                 spacer.style.height = "20px";
                 pdf_container.appendChild(spacer);
- 
+
                 //Set the Canvas dimensions using ViewPort and Scale.
                 var viewport = page.getViewport({ scale: scale });
                 canvas.height = resolution * viewport.height;
                 canvas.width = resolution * viewport.width;
- 
+
                 //Render the PDF page.
                 var renderContext = {
                     canvasContext: ctx,
                     viewport: viewport,
                     transform: [resolution, 0, 0, resolution, 0, 0]
                 };
- 
+
                page.render(renderContext);
             });
         };
 
         function DownloadFile(fileName) {
-            var extension = fileName.substr((fileName.lastIndexOf('.') + 1));
             var path = "/Image/News/" + fileName;
-
-            if (extension.toLowerCase() == 'jpg') {
-                $("#iFramePDF").hide();
-                $("#IconShow").show();
-
-                var path = "/Image/News/" + fileName;
-                $("#IconShow").attr("src", path);
-            }
-            else {
-                $("#iFramePDF").show();
-                $("#IconShow").hide();
-
-                //window.open(path,'_blank');
-                //Read PDF from URL.
-                pdfjsLib.getDocument(path).promise.then(function (pdfDoc_) {
-                    pdfDoc = pdfDoc_;
-
-                    //Reference the Container DIV.
-                    var pdf_container = document.getElementById("pdf_container");
-                    pdf_container.style.display = "block";
-
-                    //Loop and render all pages.
-                    for (var i = 1; i <= pdfDoc.numPages; i++) {
-                        RenderPage(pdf_container, i);
-                    }
-                });
-            }
-
-            $("#DialogPdf").modal("show");
-            @*$.ajax({
-                url: "@Url.Action("DownloadFile", "NewsList")",
-                type: "post",
-                dataType: "json",
-                data: { FileName: fileName },
-            }).done(function (result) {
-                debugger
-                if (result.ID == '0') {
-                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
-                } else {
-                    $("#DialogPdf").modal("show");
-
-                    //var path = "/Image/News/BUKTI PEMBELIAN_00012.pdf";
-                    //document.getElementById('iFramePDF').src = path;
-                    //document.getElementById('iFramePDF').type = "application/pdf";
-                    //$("#iFramePDF").html(Title);
-
-                    //window.open("@Href("~/Image/News/BUKTI PEMBELIAN_00012.pdf")", "width=500,height=500,top=100,left=500")
-                    //var path = result.Contents.split('|')[0];
-                    //var types = result.Contents.split('|')[1];
-                    //var filename = result.Contents.split('|')[2];
-
-                    //var xhr = new XMLHttpRequest();
-                    //xhr.open("GET", path, true);
-                    //xhr.responseType = "blob";
-
-                    //xhr.onload = function (e) {
-                    //    if (this.status === 200) {
-                    //        var blob = new Blob([this.response], { type: types });
-                    //        var link = document.createElement("a");
-                    //        link.href = URL.createObjectURL(blob);
-                    //        link.download = filename;
-                    //        link.click();
-                    //    }
-                    //};
-
-                    //xhr.send();
-
-                    //debugger
-                    ////Convert Base64 string to Byte Array.
-                    //var bytes = Base64ToBytes(result.Contents);
-
-                    ////Convert Byte Array to BLOB.
-                    //var blob = new Blob([result.Contents], { type: "application/octetstream" });
-
-                    ////Check the Browser type and download the File.
-                    //var isIE = false || !!document.documentMode;
-                    //if (isIE) {
-                    //    window.navigator.msSaveBlob(blob, fileName);
-                    //} else {
-                    //    var url = window.URL || window.webkitURL;
-                    //    link = url.createObjectURL(blob);
-                    //    var a = $("<a />");
-                    //    a.attr("download", fileName);
-                    //    a.attr("href", link);
-                    //    $("body").append(a);
-                    //    a[0].click();
-                    //    $("body").remove(a);
-                    //}
-                }
-
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                setTimeout(function () {
-                    waitingDialog.hide();
-                }, 1000);
-            });*@
+            let link = document.createElement("a");
+            link.download = fileName;
+            link.href = path;
+            link.click();
         };
 
         function Base64ToBytes(base64) {
@@ -882,7 +894,6 @@
                 }
             });
         };
-
     </script>
 
 }

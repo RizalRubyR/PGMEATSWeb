@@ -13,7 +13,8 @@ namespace PGMEATS_WEB.Models
         public string User { get; set; }
         public string NewsID { get; set; }
         public string NewsTitle { get; set; }
-        public string NewsDesc { get; set; }
+        public string NewsDescCode { get; set; }
+        public string NewsDescText { get; set; }
         public string Attachment { get; set; }
         public string DateFrom { get; set; }
         public string DateTo { get; set; }
@@ -47,7 +48,8 @@ namespace PGMEATS_WEB.Models
                     {
                         NewsID = x.Field<Int64>("NewsID").ToString(),
                         NewsTitle = x.Field<string>("NewsTitle"),
-                        NewsDesc = x.Field<string>("NewsDesc"),
+                        NewsDescCode = x.Field<string>("NewsDescCode"),
+                        NewsDescText = x.Field<string>("NewsDescText"),
                         Attachment = x.Field<string>("Attachment"),
                         DateFrom = x.Field<string>("DateFrom"),
                         DateTo = x.Field<string>("DateTo"),
@@ -92,7 +94,7 @@ namespace PGMEATS_WEB.Models
 
                     List<string> data = new List<string>();
                     data.Add(dt.Rows[0]["NewsTitle"].ToString());
-                    data.Add(dt.Rows[0]["NewsDesc"].ToString());
+                    data.Add(dt.Rows[0]["NewsDescCode"].ToString());
                     data.Add(dt.Rows[0]["DateFrom"].ToString());
                     data.Add(dt.Rows[0]["DateTo"].ToString());
                     data.Add(dt.Rows[0]["TargetPart"].ToString());
@@ -167,7 +169,8 @@ namespace PGMEATS_WEB.Models
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("NewsID", data.NewsID ?? "0");
                     cmd.Parameters.AddWithValue("NewsTitle", data.NewsTitle ?? "");
-                    cmd.Parameters.AddWithValue("NewsDesc", data.NewsDesc ?? "");
+                    cmd.Parameters.AddWithValue("NewsDescCode", data.NewsDescCode ?? "");
+                    cmd.Parameters.AddWithValue("NewsDescText", data.NewsDescText ?? "");
                     //cmd.Parameters.AddWithValue("IssueTypeDesc", data.NewsID ?? "");
                     cmd.Parameters.AddWithValue("DateFrom", data.DateFrom ?? "");
                     cmd.Parameters.AddWithValue("DateTo", data.DateTo ?? "");
@@ -208,6 +211,45 @@ namespace PGMEATS_WEB.Models
                     SqlCommand cmd = new SqlCommand("sp_News_Delete", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("NewsID", data.NewsID);
+                    cmd.Parameters.AddWithValue("Type", 0);
+                    con.Open();
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    da.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                    Response.ID = 1;
+                    Response.Message = dt.Rows[0]["Message"].ToString();
+                    Response.Contents = "";
+
+                    data.Attachment = dt.Rows[0]["OldFile"].ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.ID = 0;
+                Response.Message = ex.Message;
+                Response.Contents = "";
+            }
+
+            return Response;
+        }
+
+        public clsResponse DeleteAttachment(clsNews data)
+        {
+            clsResponse Response = new clsResponse();
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_News_Delete", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("NewsID", data.NewsID);
+                    cmd.Parameters.AddWithValue("Type", 1);
                     con.Open();
 
                     DataTable dt = new DataTable();

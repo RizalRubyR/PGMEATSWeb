@@ -157,6 +157,29 @@ namespace PGMEATS_WEB.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [HttpPost]
+        public JsonResult DeleteAttachment(clsNews data)
+        {
+            clsResponse response = new clsResponse();
+            clsNewsDB DB = new clsNewsDB();
+            try
+            {
+                response = DB.DeleteAttachment(data);
+                if (response.ID != 0)
+                {
+                    DeleteFile(data);
+                }
+            }
+            catch (Exception ex)
+            {
+                response.ID = 0;
+                response.Message = ex.Message;
+                response.Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [HttpPost]
         public JsonResult UploadFile(string NewsID, string type, string oldAttachment)
         {
             clsConPathFolderDB dbPath = new clsConPathFolderDB();
