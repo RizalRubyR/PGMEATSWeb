@@ -28,6 +28,10 @@ namespace PGMEATS_WEB.Controllers
 
         public ActionResult Create()
         {
+            if (Session["LogUserID"] is null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -39,7 +43,39 @@ namespace PGMEATS_WEB.Controllers
             clsResponse response = new clsResponse();
             try
             {
-                response = db.GetSurveyAndPolls();
+                response = db.GetSurveyAndPollsList();
+            }
+            catch (Exception ex)
+            {
+                response.ID = 0;
+                response.Message = ex.Message;
+                response.Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult SurveyAndPollsCreate()
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            clsResponse response = new clsResponse();
+            try
+            {
+                response = db.GetSurveyAndPollsCreate();
+            }
+            catch (Exception ex)
+            {
+                response.ID = 0;
+                response.Message = ex.Message;
+                response.Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult getsurveyid()
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            clsResponse response = new clsResponse();
+            try
+            {
+                response = db.getsurveyid();
             }
             catch (Exception ex)
             {
