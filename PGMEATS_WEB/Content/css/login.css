@@ -64,7 +64,7 @@ body {
 
 .title {
     font-size: 38px;
-    font-family: 'Poppins-Regular';
+    font-family: 'Poppins';
     font-weight: bold;
     /*-webkit-text-stroke: 0.5px thin gray;*/
     color: white;
@@ -72,7 +72,7 @@ body {
 
 .description {
     font-size: 26px;
-    font-family: 'Poppins-Regular';
+    font-family: 'Poppins';
     font-weight: 400;
     /*-webkit-text-stroke: 0.5px thin gray;*/
     color: white;
@@ -80,7 +80,7 @@ body {
 
 .titlelogin {
     font-size: 30px;
-    font-family: 'Poppins-Regular';
+    font-family: 'Poppins';
     font-weight: bold;
     color: black;
     text-align: center;
@@ -95,7 +95,7 @@ body {
 
 .titlecopyright {
     font-size: 14px;
-    font-family: 'Poppins-Regular';
+    font-family: 'Poppins';
     font-weight: 400;
     color: black;
     text-align: center;
@@ -126,14 +126,14 @@ body {
         padding-top: 80px;
         text-align: center;
         font-size: 23.5px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
     .left_side .description {
         text-align: center;
         font-size: 13.5px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
@@ -156,7 +156,7 @@ body {
 
     .titlelogin {
         font-size: 23.5px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: bold;
         color: white;
         text-align: center;
@@ -171,7 +171,7 @@ body {
 
     .titlecopyright {
         font-size: 12px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: 400;
         color: white;
         text-align: center;
@@ -201,14 +201,14 @@ body {
         padding-top: 145px;
         text-align: center;
         font-size: 30px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
     .left_side .description {
         text-align: center;
         font-size: 17px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
@@ -231,7 +231,7 @@ body {
 
     .titlelogin {
         font-size: 28px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: bold;
         color: white;
         text-align: center;
@@ -246,7 +246,7 @@ body {
 
     .titlecopyright {
         font-size: 16px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: 400;
         color: white;
         text-align: center;
@@ -279,14 +279,14 @@ body {
         padding-top: 80px;
         text-align: center;
         font-size: 23.5px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
     .left_side .description {
         text-align: center;
         font-size: 13.5px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
@@ -309,7 +309,7 @@ body {
 
     .titlelogin {
         font-size: 23.5px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: bold;
         color: white;
         text-align: center;
@@ -324,7 +324,7 @@ body {
 
     .titlecopyright {
         font-size: 12px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: 400;
         color: white;
         text-align: center;
@@ -351,14 +351,14 @@ body {
         padding-top: 145px;
         text-align: center;
         font-size: 30px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
     .left_side .description {
         text-align: center;
         font-size: 17px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
@@ -381,7 +381,7 @@ body {
 
     .titlelogin {
         font-size: 28px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: bold;
         color: white;
         text-align: center;
@@ -396,7 +396,7 @@ body {
 
     .titlecopyright {
         font-size: 16px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: 400;
         color: white;
         text-align: center;
@@ -429,14 +429,14 @@ body {
         padding-top: 80px;
         text-align: center;
         font-size: 23.5px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
     .left_side .description {
         text-align: center;
         font-size: 13.5px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
@@ -459,7 +459,7 @@ body {
 
     .titlelogin {
         font-size: 23.5px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: bold;
         color: white;
         text-align: center;
@@ -474,7 +474,7 @@ body {
 
     .titlecopyright {
         font-size: 12px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: 400;
         color: white;
         text-align: center;
@@ -501,14 +501,14 @@ body {
         padding-top: 165px;
         text-align: center;
         font-size: 30px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
     .left_side .description {
         text-align: center;
         font-size: 17px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
@@ -531,7 +531,7 @@ body {
 
     .titlelogin {
         font-size: 28px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: bold;
         color: white;
         text-align: center;
@@ -546,7 +546,7 @@ body {
 
     .titlecopyright {
         font-size: 16px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: 400;
         color: white;
         text-align: center;
@@ -576,14 +576,14 @@ body {
         padding-top: 115px;
         text-align: center;
         font-size: 23.5px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
     .left_side .description {
         text-align: center;
         font-size: 13.5px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
@@ -606,7 +606,7 @@ body {
 
     .titlelogin {
         font-size: 23.5px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: bold;
         color: white;   
         text-align: center;
@@ -621,7 +621,7 @@ body {
 
     .titlecopyright {
         font-size: 12.5px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: 400;
         color: white;
         text-align: center;
@@ -648,14 +648,14 @@ body {
         padding-top: 200px;
         text-align: center;
         font-size: 28px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
     .left_side .description {
         text-align: center;
         font-size: 16px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
@@ -678,7 +678,7 @@ body {
 
     .titlelogin {
         font-size: 28px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: bold;
         color: white;
         text-align: center;
@@ -693,7 +693,7 @@ body {
 
     .titlecopyright {
         font-size: 16px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: 400;
         color: white;
         text-align: center;
@@ -723,14 +723,14 @@ body {
         padding-top: 165px;
         text-align: center;
         font-size: 28px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
     .left_side .description {
         text-align: center;
         font-size: 16px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
@@ -753,7 +753,7 @@ body {
 
     .titlelogin {
         font-size: 28px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: bold;
         color: white;
         text-align: center;
@@ -768,7 +768,7 @@ body {
 
     .titlecopyright {
         font-size: 14.5px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: 400;
         color: white;
         text-align: center;
@@ -795,14 +795,14 @@ body {
         padding-top: 150px;
         text-align: center;
         font-size: 23px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
     .left_side .description {
         text-align: center;
         font-size: 13px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
@@ -825,7 +825,7 @@ body {
 
     .titlelogin {
         font-size: 23px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: bold;
         color: white;
         text-align: center;
@@ -840,7 +840,7 @@ body {
 
     .titlecopyright {
         font-size: 11.5px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: 400;
         color: white;
         text-align: center;
@@ -873,14 +873,14 @@ body {
         padding-top: 0px;
         text-align: left;
         font-size: 34px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
     .left_side .description {
         text-align: left;
         font-size: 26px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         color: white;
     }
 
@@ -906,7 +906,7 @@ body {
 
     .titlecopyright {
         font-size: 26px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: 400;
         color: white;
         text-align: center;
@@ -946,7 +946,7 @@ body {
 
     .titlelogin {
         font-size: 36px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: bold;
         color: white;
         text-align: center;
@@ -960,7 +960,7 @@ body {
 
     .titlecopyright {
         font-size: 24px;
-        font-family: 'Poppins-Regular';
+        font-family: 'Poppins';
         font-weight: 400;
         color: white;
         text-align: center;
