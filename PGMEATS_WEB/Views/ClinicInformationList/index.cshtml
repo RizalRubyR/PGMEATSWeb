@@ -19,7 +19,7 @@
                      data-widget-sortable="false">
 
                     <header style="border-top-left-radius:8px; border-top-right-radius:8px">
-                        <h2 style="font-family:'Poppins-Regular';font-weight:500;font-size:15px">List Of Clinic Information</h2>
+                        <h2 style="font-family:'Poppins';font-weight:500;font-size:15px">List Of Clinic Information</h2>
                     </header>
 
                     <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
@@ -27,7 +27,7 @@
                             <table style="width: 100%;">
                                 <tr style="height: 50px">
                                     <td>
-                                        <button id="btnNew" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #4CBFBC; width:85px" data-toggle="modal" data-target="#myModal" onclick="AddNewData()"><span style="color:white">New</span></button>
+                                        <button id="btnNew" class="btn borderradiusbtn" style="font-family: 'Poppins'; font-size: 15px; font-weight: 500; background-color: #4CBFBC; width:85px" data-toggle="modal" data-target="#myModal" onclick="AddNewData()"><span style="color:white">New</span></button>
                                     </td>
                                 </tr>
                             </table>
@@ -70,7 +70,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                            <h4 style="font-family:'Poppins-Regular'" id="ModalTitle"></h4>
+                                            <h4 style="font-family:'Poppins'" id="ModalTitle"></h4>
                                         </div>
                                         <div class="modal-body">
                                             <form id="form" class="smart-form">
@@ -169,10 +169,10 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                            <h4 style="font-family:'Poppins-Regular'">Delete Data Clinic</h4>
+                                            <h4 style="font-family:'Poppins'">Delete Data Clinic</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <h4 style="font-family:'Poppins-Regular'">Are you sure to delete this data?</h4>
+                                            <h4 style="font-family:'Poppins'">Are you sure to delete this data?</h4>
                                         </div>
                                         <div class="modal-footer">
                                             <a href="#" class="btn btn-save" style="width:85px; font-size:13px" id="DeleteData">Confirm</a>
@@ -267,7 +267,7 @@
 
             });
 
-            
+
         });
 
         function clearTextBox() {
@@ -319,11 +319,11 @@
                 saveData(formDatax);
             }
 
-            
+
 
             //var bIsDataExist = false;
             //bIsDataExist = ValidateBeforeInsert(Region, ClinicName);
-            
+
             //if (bIsDataExist == false) {
 
             //    var formDatax = new FormData();
@@ -343,7 +343,7 @@
         function saveData(formdata) {
             $.ajax({
                 type: "POST",
-                url: "/ClinicInformationList/ClinicInformationIns/",
+                url: "@Url.Action("ClinicInformationIns", "ClinicInformationList")", //"/ClinicInformationList/ClinicInformationIns/",
                 contentType: false,
                 processData: false,
                 data: formdata,
@@ -426,7 +426,7 @@
         function updateData(formdata) {
             $.ajax({
                 type: "POST",
-                url: "/ClinicInformationList/ClinicInformationUpd/",
+                url: "@Url.Action("ClinicInformationUpd", "ClinicInformationList")", //"/ClinicInformationList/ClinicInformationUpd/",
                 contentType: false,
                 processData: false,
                 data: formdata,
@@ -464,7 +464,7 @@
             //$("#ClinicName").val(ClinicName);
 
             $("#ClinicID").val(ClinicID);
-            
+
             $("#DeleteConfirmation").modal("show");
         }
 
@@ -474,7 +474,7 @@
             var pClinicID = $("#ClinicID").val() ?? "";
             $.ajax({
                 type: "POST",
-                url: "/ClinicInformationList/ClinicInformationDel",
+                url: "@Url.Action("ClinicInformationDel", "ClinicInformationList")", //"/ClinicInformationList/ClinicInformationDel",
                 datatype: 'json',
                 data: { ClinicID: pClinicID},
                 success: function (result) {
@@ -501,7 +501,7 @@
             $.ajax({
                 async: false,
                 type: "POST",
-                url: "/ClinicInformationList/ClinicInformationValidateBeforeInsert",
+                url: "@Url.Action("ClinicInformationValidateBeforeInsert", "ClinicInformationList")", //"/ClinicInformationList/ClinicInformationValidateBeforeInsert",
                 datatype: 'json',
                 data: { pParam: pParam },
                 success: function (result) {

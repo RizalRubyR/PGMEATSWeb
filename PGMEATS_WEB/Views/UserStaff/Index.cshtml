@@ -18,7 +18,7 @@
                      data-widget-sortable="false">
 
                     <header style="border-top-left-radius:8px; border-top-right-radius:8px">
-                        <h2 style="font-family:'Poppins-Regular';font-weight:500;font-size:13px">User Staff</h2>
+                        <h2 style="font-family:'Poppins';font-weight:500;font-size:13px">User Staff</h2>
                     </header>
 
                     <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
@@ -67,7 +67,7 @@
 
                                         <div class="modal-header">
                                             <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                            <h4 style="font-family:'Poppins-Regular'" id="ModalTitle"></h4>
+                                            <h4 style="font-family:'Poppins'" id="ModalTitle"></h4>
                                         </div>
 
                                         <div class="modal-body">
@@ -119,10 +119,10 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                            <h4 style="font-family:'Poppins-Regular'">Disabled Data User Staff</h4>
+                                            <h4 style="font-family:'Poppins'">Disabled Data User Staff</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <h4 style="font-family:'Poppins-Regular'">Are You Sure? You Want To Disasbled Data.</h4>
+                                            <h4 style="font-family:'Poppins'">Are You Sure? You Want To Disasbled Data.</h4>
                                         </div>
                                         <div class="modal-footer">
                                             <a href="#" class="btn btn-default" style="width:85px; font-size:13px" data-dismiss="modal" id="CancelDisabled">Cancel</a>
@@ -137,10 +137,10 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                            <h4 style="font-family:'Poppins-Regular'">Enabled Data User Staff</h4>
+                                            <h4 style="font-family:'Poppins'">Enabled Data User Staff</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <h4 style="font-family:'Poppins-Regular'">Are You Sure? You Want To Enabled Data.</h4>
+                                            <h4 style="font-family:'Poppins'">Are You Sure? You Want To Enabled Data.</h4>
                                         </div>
                                         <div class="modal-footer">
                                             <a href="#" class="btn btn-default" style="width:85px; font-size:13px" data-dismiss="modal" id="CancelEnabled">Cancel</a>
@@ -273,7 +273,7 @@
 
             $.ajax({
                 type: "Post",
-                url: '@Url.Action("Disabled", "UserStaff")',
+                url: "@Url.Action("Disabled", "UserStaff")",
                 dataType: "json",
                 data: data,
                 success: function (data) {
@@ -392,7 +392,7 @@
         $("#MyModal").modal();
         $.ajax({
             type: "GET",
-            url: "/UserStaff/GetListByStaffID?",
+            url: '@Url.Action("GetListByStaffID", "UserStaff")', //"/UserStaff/GetListByStaffID?",
             cache: false,
             data: ({ StaffID: User }),
             success: function (data) {

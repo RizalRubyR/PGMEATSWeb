@@ -18,7 +18,7 @@
                      data-widget-sortable="false">
 
                     <header style="border-top-left-radius:8px; border-top-right-radius:8px">
-                        <h2 style="font-family:'Poppins-Regular';font-weight:500;font-size:13px">Issue Type Master</h2>
+                        <h2 style="font-family:'Poppins';font-weight:500;font-size:13px">Issue Type Master</h2>
                     </header>
 
                     <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
@@ -70,7 +70,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                            <h4 style="font-family:'Poppins-Regular'" id="ModalTitle"></h4>
+                                            <h4 style="font-family:'Poppins'" id="ModalTitle"></h4>
                                         </div>
                                         <div class="modal-body">
                                             <form id="form" class="smart-form">
@@ -131,10 +131,10 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                            <h4 style="font-family:'Poppins-Regular'">Delete Data Issue Type</h4>
+                                            <h4 style="font-family:'Poppins'">Delete Data Issue Type</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <h4 style="font-family:'Poppins-Regular'">Are you sure to delete this data?</h4>
+                                            <h4 style="font-family:'Poppins'">Are you sure to delete this data?</h4>
                                         </div>
                                         <div class="modal-footer">
                                             <a href="#" class="btn btn-save" style="width:85px; font-size:13px" id="DeleteData">Confirm</a>
@@ -149,7 +149,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                            <h4 style="font-family:'Poppins-Regular'" id="IconTitle"></h4>
+                                            <h4 style="font-family:'Poppins'" id="IconTitle"></h4>
                                         </div>
                                         <div class="modal-body" style="display:flex; justify-content:center">
                                             <img alt=ICON-IMG id="IconShow" style="height: 300px; width: 300px; max-width: 300%; max-height: 100%; object-fit: cover;"/>
@@ -261,7 +261,7 @@
             waitingDialog.show("Please wait retrieving data...");
             $.ajax({
                 type: "POST",
-                url: "/MyComplaint/IssueTypeList/",
+                url:  "@Url.Action("IssueTypeList", "MyComplaint")", // "/MyComplaint/IssueTypeList/",
                 datatype: 'json',
                 success: function (result) {
                     if (result.Message.toLowerCase().includes("success")) {
@@ -298,7 +298,7 @@
     });
 
     $("#InsertData").click(function () {
-        var fileDataImg = $("#IconImg").get(0).files;    
+        var fileDataImg = $("#IconImg").get(0).files;
         var IssueTypeDesc = $("#IssueTypeDesc").val();
         var IssueTypeID = $("#IssueTypeID").val();
         var ActiveStatus = $("#ActiveStatus option:selected").val();
@@ -317,7 +317,7 @@
             formData.append("ActiveStatus", ActiveStatus ?? "");
             saveData(formData);
         }
-        
+
     })
 
     $("#UpdateData").click(function () {
@@ -343,7 +343,7 @@
         var issuetypeID = $("#IssueTypeID").val();
         $.ajax({
             type: "POST",
-            url: "/MyComplaint/IssueTypeDel",
+            url:  "@Url.Action("IssueTypeDel", "MyComplaint")", // "/MyComplaint/IssueTypeDel",
             datatype: 'json',
             data: { IssueTypeID : issuetypeID},
             success: function (result) {
@@ -403,7 +403,7 @@
     function FillCombo_ActiveStatus(code) {
         $.ajax({
             type: "POST",
-            url: "/MyComplaint/FillCombo/",
+            url:  "@Url.Action("FillCombo", "MyComplaint")", //"/MyComplaint/FillCombo/",
             datatype: 'json',
             data: { Type: "ActiveStatus" },
             success: function (result) {
@@ -457,7 +457,7 @@
     function saveData(formData) {
         $.ajax({
             type: "POST",
-            url: "/MyComplaint/IssueTypeIns/",
+            url:   "@Url.Action("IssueTypeIns", "MyComplaint")", // "/MyComplaint/IssueTypeIns/",
             contentType: false,
             processData: false,
             data: formData,
@@ -494,7 +494,7 @@
     function UpdateData(formData) {
         $.ajax({
             type: "POST",
-            url: "/MyComplaint/IssueTypeUpd/",
+            url:  "@Url.Action("IssueTypeUpd", "MyComplaint")", // "/MyComplaint/IssueTypeUpd/",
             contentType: false,
             processData: false,
             data: formData,
@@ -566,7 +566,7 @@
 
     function uploadImg(fileData) {
         $.ajax({
-            url: '/MyComplaint/ImgSave',
+            url: "@Url.Action("ImgSave", "MyComplaint")", //'/MyComplaint/ImgSave',
             type: "POST",
             contentType: false,
             processData: false,
@@ -592,9 +592,9 @@
     function IconImgShow(data) {
         var FileName = data.split('|')[0];
         var Title = data.split('|')[1];
- 
+
         $("#ShowImg").modal();
-        var path = "/Image/IssueTypeMaster/" + FileName;
+        var path = "MyPGM_Web/Image/IssueTypeMaster/" + FileName;
         document.getElementById('IconShow').src = path;
         $("#IconTitle").html(Title);
     }

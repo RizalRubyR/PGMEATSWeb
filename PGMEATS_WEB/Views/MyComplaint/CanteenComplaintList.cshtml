@@ -17,7 +17,7 @@
                      data-widget-sortable="false">
 
                     <header style="border-top-left-radius:8px; border-top-right-radius:8px">
-                        <h2 style="font-family:'Poppins-Regular';font-weight:500;font-size:13px">List of My Complaint</h2>
+                        <h2 style="font-family:'Poppins';font-weight:500;font-size:13px">List of My Complaint</h2>
                     </header>
 
                     <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
@@ -115,7 +115,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                            <h4 style="font-family:'Poppins-Regular'" id="ModalTitle"></h4>
+                                            <h4 style="font-family:'Poppins'" id="ModalTitle"></h4>
                                         </div>
                                         <div style="padding-left:20px; padding-right:20px">
                                             <form id="form" class="smart-form">
@@ -196,10 +196,10 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                            <h4 style="font-family:'Poppins-Regular'">Delete Data Complaint</h4>
+                                            <h4 style="font-family:'Poppins'">Delete Data Complaint</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <h4 style="font-family:'Poppins-Regular'">Are you sure to delete this data?</h4>
+                                            <h4 style="font-family:'Poppins'">Are you sure to delete this data?</h4>
                                         </div>
                                         <div class="modal-footer">
                                             <a href="#" class="btn btn-save" style="width:85px; font-size:13px" id="DeleteData">Confirm</a>
@@ -367,7 +367,7 @@
         waitingDialog.show("Please wait retrieving data...");
         $.ajax({
             type: "POST",
-            url: "/MyComplaint/ReplyComplaintList/",
+            url: "@Url.Action("ReplyComplaintList", "MyComplaint")", //"/MyComplaint/ReplyComplaintList/",
             contentType: false,
             processData: false,
             data: formdata,
@@ -476,7 +476,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/MyComplaint/ReplyComplaintUpd/",
+                url: "@Url.Action("ReplyComplaintUpd", "MyComplaint")", //"/MyComplaint/ReplyComplaintUpd/",
                 contentType: false,
                 processData: false,
                 data: formdata,
@@ -509,7 +509,7 @@
         var complaintID = $("#ComplaintID").val();
         $.ajax({
             type: "POST",
-            url: "/MyComplaint/ReplyComplaintDel/",
+            url: "@Url.Action("ReplyComplaintDel", "MyComplaint")", // "/MyComplaint/ReplyComplaintDel/",
             datatype: 'json',
             data: { ComplaintID: complaintID },
             success: function (result) {
@@ -532,7 +532,7 @@
     function FillCombo_Department() {
         $.ajax({
             type: "POST",
-            url: "/MyComplaint/FillCombo/",
+            url: "@Url.Action("FillCombo", "MyComplaint")", // "/MyComplaint/FillCombo/",
             datatype: 'json',
             data: { Type: "Department" },
             success: function (result) {
@@ -554,7 +554,7 @@
     function FillCombo_IssueType() {
         $.ajax({
             type: "POST",
-            url: "/MyComplaint/FillCombo/",
+            url: "@Url.Action("FillCombo", "MyComplaint")", // "/MyComplaint/FillCombo/",
             datatype: 'json',
             data: { Type: "IssueType_Web" },
             success: function (result) {
@@ -576,7 +576,7 @@
     function FillCombo_ComplaintStatus() {
         $.ajax({
             type: "POST",
-            url: "/MyComplaint/FillCombo/",
+            url:  "@Url.Action("FillCombo", "MyComplaint")", // "/MyComplaint/FillCombo/",
             datatype: 'json',
             data: { Type: "StatusComplaint" },
             success: function (result) {
@@ -608,7 +608,7 @@
         var FileName = data.split('|')[0];
 
         $("#ShowImg").modal();
-        var path = "/Image/MyComplaint/" + FileName;
+        var path = "MyPGM_Web/Image/MyComplaint/" + FileName;
         document.getElementById('EvidenceShow').src = path;
     }
 

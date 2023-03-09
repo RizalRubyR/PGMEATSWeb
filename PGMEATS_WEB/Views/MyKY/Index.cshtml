@@ -18,7 +18,7 @@
                      data-widget-sortable="false">
 
                     <header style="border-top-left-radius:8px; border-top-right-radius:8px">
-                        <h2 style="font-family:'Poppins-Regular';font-weight:500;font-size:13px">List of MyKY</h2>
+                        <h2 style="font-family:'Poppins';font-weight:500;font-size:13px">List of MyKY</h2>
                     </header>
 
                     <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
@@ -112,7 +112,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                            <h4 style="font-family:'Poppins-Regular'" id="ModalTitle"></h4>
+                                            <h4 style="font-family:'Poppins'" id="ModalTitle"></h4>
                                         </div>
                                         <div style="padding-left:20px; padding-right:20px">
                                             <form id="form" class="smart-form">
@@ -193,10 +193,10 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                            <h4 style="font-family:'Poppins-Regular'">Delete Data MyKY</h4>
+                                            <h4 style="font-family:'Poppins'">Delete Data MyKY</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <h4 style="font-family:'Poppins-Regular'">Are you sure to delete this data?</h4>
+                                            <h4 style="font-family:'Poppins'">Are you sure to delete this data?</h4>
                                         </div>
                                         <div class="modal-footer">
                                             <a href="#" class="btn btn-save" style="width:85px; font-size:13px" id="DeleteData">Confirm</a>
@@ -363,7 +363,7 @@
         waitingDialog.show("Please wait retrieving data...");
         $.ajax({
             type: "POST",
-            url: "/MyKY/ReplyMyKYList/",
+            url:  "@Url.Action("ReplyMyKYList", "MyKY")", //"/MyKY/ReplyMyKYList/",
             contentType: false,
             processData: false,
             data: formdata,
@@ -472,7 +472,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/MyKY/ReplyMyKYUpd/",
+                url:  "@Url.Action("ReplyMyKYUpd", "MyKY")", //"/MyKY/ReplyMyKYUpd/",
                 contentType: false,
                 processData: false,
                 data: formdata,
@@ -505,7 +505,7 @@
         var MyKYID = $("#MyKYID").val();
         $.ajax({
             type: "POST",
-            url: "/MyKY/ReplyMyKYDel/",
+            url:   "@Url.Action("ReplyMyKYDel", "MyKY")", // "/MyKY/ReplyMyKYDel/",
             datatype: 'json',
             data: { MyKYID: MyKYID },
             success: function (result) {
@@ -528,7 +528,7 @@
     function FillCombo_Loc() {
         $.ajax({
             type: "POST",
-            url: "/MyKY/FillCombo/",
+            url:  "@Url.Action("FillCombo", "MyKY")", //"/MyKY/FillCombo/",
             datatype: 'json',
             data: { Type: "CostCenter" },
             success: function (result) {
@@ -550,7 +550,7 @@
     function FillCombo_Status() {
         $.ajax({
             type: "POST",
-            url: "/MyKY/FillCombo/",
+            url: "@Url.Action("FillCombo", "MyKY")", //"/MyKY/FillCombo/",
             datatype: 'json',
             data: { Type: "MyKYStatus" },
             success: function (result) {
@@ -583,7 +583,7 @@
         var FileName = data.split('|')[0];
 
         $("#ShowImg").modal();
-        var path = "/Image/MyKY/" + FileName;
+        var path = "MyPGM_Web/Image/MyKY/" + FileName;
         document.getElementById('EvidenceShow').src = path;
     }
 
