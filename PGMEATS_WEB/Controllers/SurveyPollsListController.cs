@@ -85,5 +85,40 @@ namespace PGMEATS_WEB.Controllers
             }
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult SurveyAndPollsDetail()
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            clsResponse response = new clsResponse();
+            try
+            {
+                response = db.GetSurveyAndPollsDetailList();
+            }
+            catch (Exception ex)
+            {
+                response.ID = 0;
+                response.Message = ex.Message;
+                response.Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [HttpPost]
+        public JsonResult FillCombo(string Type)
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            clsResponse response = new clsResponse();
+            try
+            {
+                response = db.FillCombo(Type);
+            }
+            catch (Exception ex)
+            {
+                response.ID = 0;
+                response.Message = ex.Message;
+                response.Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
     }
 }

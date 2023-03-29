@@ -104,6 +104,142 @@
                                         <div class="modal-body">
                                             <form id="form" class="smart-form">
 
+                                                <div class="table-toolbar" style="padding-bottom:10px">
+                                                    <table>
+                                                        <tr style="height:35px">
+                                                            <td width="100px">
+                                                                Survey Title
+                                                            </td>
+                                                            <td width="250px">
+                                                                @*<input id="txtSurveyTitle" type="text" class="form-control" style="background-color: white !important; width: 240px " />*@
+                                                                <select id="SurveyTitle" , class="form-control input-md" , style="height: 20px; width: 240px; font-family: 'Segoe UI'; font-weight: 500;"></select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>&nbsp;</td>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                        <tr style="height:35px">
+                                                            <td width="100px">
+                                                                Parent Question
+                                                            </td>
+                                                            <td>
+                                                                @*<input id="txttitle" type="text" class="form-control input-md" style="background-color:white; width:240px" />*@
+                                                                <select id="ParentQuestion" , class="form-control input-md" , style="height: 20px; width: 240px; font-family: 'Segoe UI'; font-weight: 500;"></select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>&nbsp;</td>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                        <tr style="height:35px">
+                                                            <td width="100px">
+                                                                Parent Answer
+                                                            </td>
+                                                            <td>
+                                                                @*<input id="startdate" type="text" class="form-control input-md" style="background-color:white; width:130px" />*@
+                                                                <select id="ParentAnswer" , class="form-control input-md" , style="height: 20px; width: 240px; font-family: 'Segoe UI'; font-weight: 500;"></select>
+
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>&nbsp;</td>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                        <tr style="height:35px">
+                                                            <td width="100px">
+                                                                Question ID
+                                                            </td>
+                                                            <td>
+                                                                <input id="txtQuestionID" type="text" class="form-control" style="background-color: #e9ecef !important; color:black !important; width:40px" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>&nbsp;</td>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                        <tr style="height:35px">
+                                                            <td width="100px">
+                                                                Question Description
+                                                            </td>
+                                                            <td>
+                                                                <textarea id="QuestionDescription" class="form-control input-md" style="background-color: white; width: 363px; height: 166px; resize: none;"></textarea>
+                                                                @*@Html.TextAreaFor(m => m.NewsDescCode, new { @id = "NewsDesc", rows = "40", style = "resize:none;", placeholder = "Input News Description", @class = "form-control input-lg textarea-editor" })*@
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>&nbsp;</td>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                        <tr style="height:35px">
+                                                            <td width="100px">
+                                                                Answer Type
+                                                            </td>
+                                                            <td>
+                                                                @*<input id="enddate" type="text" class="form-control input-md" style="background-color:white; width:130px" />*@
+                                                                <select id="AnswerType" , class="form-control input-md" , style="height: 20px; width: 240px; font-family: 'Segoe UI'; font-weight: 500;"></select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>&nbsp;</td>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                        <tr style="height:35px">
+                                                            <td width="100px">
+                                                                Free Text
+                                                            </td>
+                                                            <td>
+                                                                <textarea id="txtFreeText" class="form-control input-md" style="background-color: white; width: 363px; height: 166px; resize: none;" ></textarea>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>&nbsp;</td>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                        <tr style="height:35px">
+                                                            <td width="100px">
+                                                                Multiple Choice
+                                                            </td>
+                                                            <td>
+                                                                <input id="enddate" type="text" class="form-control input-md" style="background-color:white; width:130px" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>&nbsp;</td>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                        <tr style="height:35px">
+                                                            <td width="100px">
+                                                            </td>
+                                                            <td>
+                                                                <input id="enddate" type="text" class="form-control input-md" style="background-color:white; width:130px" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>&nbsp;</td>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                        <tr style="height:35px">
+                                                            <td width="100px">
+                                                            </td>
+                                                            <td>
+                                                                <input id="enddate" type="text" class="form-control input-md" style="background-color:white; width:130px" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>&nbsp;</td>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                        <tr style="height:35px">
+                                                            <td width="100px">
+                                                            </td>
+                                                            <td>
+                                                                <input id="enddate" type="text" class="form-control input-md" style="background-color:white; width:130px" />
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+
                                             </form>
                                         </div>
 
@@ -258,10 +394,11 @@
 
             function loadData() {
                 getsurveyid();
+                FillCombo_SurveyTitle('SurveyPoll_Title','');
                 waitingDialog.show("Please wait retrieving data...");
 
                 $.ajax({
-                    url: "@Url.Action("SurveyAndPolls", "SurveyPollsList")",
+                    url: "@Url.Action("SurveyAndPollsDetail", "SurveyPollsList")",
                     type: "post",
                     dataType: "json"
                 }).done(function (result) {
@@ -296,6 +433,7 @@
                     dataType: "json"
             }).done(function (result) {
                 $("#txtsurveyid").val(result.Contents);
+                $("#txtQuestionID").val(result.Contents);
 
                 //if (result.ID == '0') {
                 //    toastr.error(result.Message, 'Error', { timeOut: 3000, "closeButton": true });
@@ -327,5 +465,34 @@
             $('#InsertData').show();
             $('#UpdateData').hide();
         };
+
+        function FillCombo_SurveyTitle(type, code) {
+            $.ajax({
+                type: "POST",
+                url: "/SurveyPollsList/FillCombo/",
+                datatype: 'json',
+                data: { Type: type },
+                success: function (result) {
+                    if (result.ID == '0') {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    } else {
+                        $('#SurveyTitle').empty();
+                        $.each(result.Contents, function (i, dt) {
+                            if (code == dt.Code) {
+                                $("#SurveyTitle").append('<option value="' + dt.Code + '" selected >' + dt.Description + '</option>');
+                            } else {
+                                $("#SurveyTitle").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
+                            }
+                        });
+                    }
+                },
+                error: function (ex) {
+                    toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                }
+            });
+        }
     </script>
 }

@@ -17,6 +17,16 @@ namespace PGMEATS_WEB.Models
         public string StartDate { get; set; }
         public string EndDate { get; set; }
     }
+    public class SurveyAndPollsDetailList
+    {
+        public string ID { get; set; }
+        public string QuestionID { get; set; }
+        public string SurveyID { get; set; }
+        public string QuestionSeqNo { get; set; }
+        public string QuestionDesc { get; set; }
+        public string ParentQuestionID { get; set; }
+        public string ParentAnswerSeqNo { get; set; }
+    }
     public class SurveyAndPollsCreate
     {
         public string id { get; set; }
@@ -152,6 +162,94 @@ namespace PGMEATS_WEB.Models
                     Response.ID = 1;
                     Response.Message = "Success";
                     Response.Contents = surveyid;
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.ID = 0;
+                Response.Message = ex.Message;
+                Response.Contents = "";
+
+            }
+            return Response;
+        }
+        public clsResponse FillCombo(string type)
+        {
+            List<clsFillCombo> ComboList = new List<clsFillCombo>();
+            clsResponse Response = new clsResponse();
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_FilterCombo", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("Type", type);
+                    con.Open();
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    da.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                    ComboList = dt.AsEnumerable().Select(x =>
+                    new clsFillCombo
+                    {
+                        Code = x.Field<string>("Code"),
+                        Description = x.Field<string>("Description")
+                    }).ToList();
+
+                    Response.ID = 1;
+                    Response.Message = "Success";
+                    Response.Contents = ComboList;
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.ID = 0;
+                Response.Message = ex.Message;
+                Response.Contents = "";
+
+            }
+            return Response;
+        }
+        public clsResponse GetSurveyAndPollsDetailList()
+        {
+            List<SurveyAndPollsDetailList> SurveyPollsDetailList = new List<SurveyAndPollsDetailList>();
+            clsResponse Response = new clsResponse();
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_SurveyAndPollsDetail_List", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    da.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                    SurveyPollsDetailList = dt.AsEnumerable().Select(x =>
+                    new SurveyAndPollsDetailList
+                    {
+                        ID = x.Field<Int64>("id").ToString(),
+                        QuestionID = x.Field<Int32>("QuestionID").ToString(),
+                        SurveyID = x.Field<Int32>("SurveyID").ToString(),
+                        QuestionSeqNo = x.Field<Int32>("QuestionSeqNo").ToString(),
+                        QuestionDesc = x.Field<string>("QuestionDesc"),
+                        ParentQuestionID = x.Field<Int32>("ParentQuestionID").ToString(),
+                        ParentAnswerSeqNo = x.Field<Int32>("ParentAnswerSeqNo").ToString(),
+                    }).ToList();
+
+                    Response.ID = 1;
+                    Response.Message = "Success";
+                    Response.Contents = SurveyPollsDetailList;
                 }
             }
             catch (Exception ex)
