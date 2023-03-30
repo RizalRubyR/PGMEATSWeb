@@ -25,9 +25,12 @@ namespace PGMEATS_WEB.Controllers
         [SessionTimeout]
         public ActionResult Index()
         {
-            string userID = Session["LogUserID"] + "";
-            ViewBag.UserID = userID;
+            if (Session["LogUserID"] is null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
+            ViewBag.UserID = Session["LogUserID"];
             return View();
         }
 

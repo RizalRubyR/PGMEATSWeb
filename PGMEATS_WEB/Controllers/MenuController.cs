@@ -25,6 +25,7 @@ namespace PGMEATS_WEB.Controllers
                 if (Session["LogUserID"] != null)
                 {
                     userID = Session["LogUserID"].ToString();
+                    ViewBag.UserID = userID;
 
                     List<clsMenu> MenuDat = new List<clsMenu>();
                     clsMenuDB MenuDB = new clsMenuDB();

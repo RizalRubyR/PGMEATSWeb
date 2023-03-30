@@ -19,7 +19,13 @@ namespace PGMEATS_WEB.Controllers
         // GET: ClinicInformationList
         public ActionResult Index()
         {
-            return View();
+            if (Session["LogUserID"] is null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.UserID = Session["LogUserID"];
+            return View();           
         }
 
         [AcceptVerbs("GET", "POST")]

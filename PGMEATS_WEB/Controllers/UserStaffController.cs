@@ -21,6 +21,11 @@ namespace PGMEATS_WEB.Controllers
         {
             try
             {
+                if (Session["LogUserID"] is null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
                 string write = "";
                 string userID = Session["LogUserID"] + "";
                 ViewBag.UserID = userID;

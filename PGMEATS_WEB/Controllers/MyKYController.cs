@@ -23,6 +23,7 @@ namespace PGMEATS_WEB.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            ViewBag.UserID = Session["LogUserID"];
             return View();
         }
 
