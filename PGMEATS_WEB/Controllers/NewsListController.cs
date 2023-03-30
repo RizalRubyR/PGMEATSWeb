@@ -34,7 +34,8 @@ namespace PGMEATS_WEB.Controllers
             clsResponse response = new clsResponse();
             try
             {
-                response = db.NewsList();
+                var user = Session["LogUserID"].ToString();
+                response = db.NewsList(user);
             }
             catch (Exception ex)
             {

@@ -23,7 +23,7 @@ namespace PGMEATS_WEB.Models
 
     public class clsNewsDB
     {
-        public clsResponse NewsList()
+        public clsResponse NewsList(string User)
         {
             List<clsNews> NewsList = new List<clsNews>();
             clsResponse Response = new clsResponse();
@@ -34,6 +34,7 @@ namespace PGMEATS_WEB.Models
                 {
                     SqlCommand cmd = new SqlCommand("sp_News_List", con);
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("User", User);
                     con.Open();                    
 
                     DataTable dt = new DataTable();
