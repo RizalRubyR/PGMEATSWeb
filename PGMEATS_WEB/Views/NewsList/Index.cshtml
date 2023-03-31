@@ -63,16 +63,16 @@
                             </table>
 
                             @*Create A Popup Modal*@
-                            <div class="modal fade" id="MyModal">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
+                            <div class="modal fade" id="MyModal" style="overflow-y: initial !important">
+                                <div class="modal-dialog" style="width: 100%;height: 100%;margin: 0;padding: 0;">
+                                    <div class="modal-content" style="height: auto;min-height: 100%;border: 0 none;border-radius: 0;box-shadow: none;">
 
                                         <div class="modal-header">
                                             <a href="#" class="close" data-dismiss="modal">&times;</a>
                                             <h4 style="font-family:'Poppins-Regular'" id="ModalTitle"></h4>
                                         </div>
 
-                                        <div class="modal-body">
+                                        <div class="modal-body" style="padding:0">
                                             <form id="form" class="smart-form">
                                                 <fieldset id="SubmitForm">
                                                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -90,7 +90,7 @@
                                                             <td>
                                                                 <div class="form-group">
                                                                     <label style="font-weight:500">News Title</label>
-                                                                    @Html.TextBoxFor(m => m.NewsTitle, new { @id = "NewsTitle", @class = "form-control input-md", placeholder = "News Title", @style = "height:20px; width:300px", @maxlength = "50" })
+                                                                    @Html.TextBoxFor(m => m.NewsTitle, new { @id = "NewsTitle", @class = "form-control input-md", placeholder = "News Title", @style = "height:20px; width:98%", @maxlength = "50" })
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -289,7 +289,7 @@
 <script src="~/Scripts/plugin/summernote/summernote.min.js"></script>
 
 <script>
-    $('#NewsDesc').summernote({ height: 140 });
+    $('#NewsDesc').summernote({ height: 320 });
 </script>
 
 @section pagespecific
@@ -558,7 +558,6 @@
                         //DateFrom = result.Contents[2];
                         //DateTo = result.Contents[3];
                         //TargetPart = result.Contents[4];
-                        debugger
                         $("#NewsID").val(data);
                         $("#NewsTitle").val(result.Contents[0]);
                         $("#NewsDesc").code(result.Contents[1]);
@@ -625,10 +624,23 @@
             var NewsID = $("#NewsID").val();
             var NewsTitle = $("#NewsTitle").val();
             var NewsDescCode = $("#NewsDesc").code();
-            var NewsDescText = $($("#NewsDesc").code()).text()
+            var NewsDescText = $($("#NewsDesc").code()).text();
+            var NewsDescImg = '';
             var DateFrom = $("#DateFrom").val().split(' ');
             var DateTo = $("#DateTo").val().split(' ');;
             var TargetPart = $("#TargetPart").val();
+
+            // Membuat elemen sementara untuk menyimpan string HTML
+            var tempElem = document.createElement('div');
+            tempElem.innerHTML = NewsDescCode;
+
+            // Mengambil elemen <img> menggunakan metode DOM
+            var imgElem = tempElem.querySelector('img');
+
+            if (imgElem != null) {
+                // Mengambil nilai "src" dari elemen <img>
+                NewsDescImg = imgElem.getAttribute('src');
+            }
 
             if (NewsTitle == "") {
                 toastr.warning("Please, enter News Title!", 'Warning', { timeOut: 3000, closeButton: true });
@@ -648,12 +660,14 @@
                     NewsTitle: NewsTitle,
                     NewsDescCode: NewsDescCode,
                     NewsDescText: NewsDescText,
+                    NewsDescImg : NewsDescImg,
                     DateFrom: DateFrom,
                     DateTo: DateTo,
                     TargetPart: TargetPart
                 };
 
                 saveData(dataxJson);
+                $('#UpdateData').attr("data-dismiss", "modal");
             }
         });
 
@@ -675,7 +689,7 @@
                         var message = result.Message;
 
                         uploadFile(newsID, message, attachmentOld);
-                    }
+                    }                    
                 },
                 error: function (ex) {
                     toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
@@ -688,10 +702,23 @@
             var NewsID = $("#NewsID").val();
             var NewsTitle = $("#NewsTitle").val();
             var NewsDescCode = $("#NewsDesc").code();
-            var NewsDescText = $($("#NewsDesc").code()).text()
+            var NewsDescText = $($("#NewsDesc").code()).text();
+            var NewsDescImg = '';
             var DateFrom = $("#DateFrom").val().split(' ');
             var DateTo = $("#DateTo").val().split(' ');;
             var TargetPart = $("#TargetPart").val();
+            
+            // Membuat elemen sementara untuk menyimpan string HTML
+            var tempElem = document.createElement('div');
+            tempElem.innerHTML = NewsDescCode;
+
+            // Mengambil elemen <img> menggunakan metode DOM
+            var imgElem = tempElem.querySelector('img');
+
+            if (imgElem != null) {
+                // Mengambil nilai "src" dari elemen <img>
+                NewsDescImg = imgElem.getAttribute('src');
+            }
 
             if (NewsTitle == "") {
                 toastr.warning("Please, enter News Title!", 'Warning', { timeOut: 3000, closeButton: true });
@@ -711,12 +738,14 @@
                     NewsTitle: NewsTitle,
                     NewsDescCode: NewsDescCode,
                     NewsDescText: NewsDescText,
+                    NewsDescImg : NewsDescImg,
                     DateFrom: DateFrom,
                     DateTo: DateTo,
                     TargetPart: TargetPart
                 };
 
                 saveData(dataxJson);
+                $('#UpdateData').attr("data-dismiss", "modal");
             }
         });
 

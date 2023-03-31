@@ -15,6 +15,7 @@ namespace PGMEATS_WEB.Models
         public string NewsTitle { get; set; }
         public string NewsDescCode { get; set; }
         public string NewsDescText { get; set; }
+        public string NewsDescImg { get; set; }
         public string Attachment { get; set; }
         public string DateFrom { get; set; }
         public string DateTo { get; set; }
@@ -172,6 +173,7 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("NewsTitle", data.NewsTitle ?? "");
                     cmd.Parameters.AddWithValue("NewsDescCode", data.NewsDescCode ?? "");
                     cmd.Parameters.AddWithValue("NewsDescText", data.NewsDescText ?? "");
+                    cmd.Parameters.AddWithValue("NewsDescImg", data.NewsDescImg ?? "");
                     //cmd.Parameters.AddWithValue("IssueTypeDesc", data.NewsID ?? "");
                     cmd.Parameters.AddWithValue("DateFrom", data.DateFrom ?? "");
                     cmd.Parameters.AddWithValue("DateTo", data.DateTo ?? "");
