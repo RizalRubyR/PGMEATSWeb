@@ -148,7 +148,7 @@
                                         </div>
 
                                         <div class="modal-footer">
-                                            @if (ViewBag.AllowWrite == "0")
+                                            @if (ViewBag.AllowUpdate == "0")
                                             {
                                                 <button type="button" class="btn btn-primary" id="InsertData" style="width:85px; font-size:13px" disabled>Save</button>
                                                 <button type="button" class="btn btn-primary" id="UpdateData" style="width:85px; font-size:13px; display:none;" disabled>Update</button>
@@ -199,6 +199,12 @@
     .txtAlignCenter {
         text-align: center;
     }
+    .txtAlignLeft {
+        text-align: left;
+    }
+    .txtAlignRight {
+        text-align: right;
+    }
 </style>
 
 <script src="~/Scripts/plugin/bootstrap-waitingfor/bootstrap-waitingfor.min.js"></script>
@@ -224,7 +230,7 @@
                 {
                     "data": "Action", className: "txtAlignCenter", "render": function (data, type, row) {
                         if ('@ViewBag.AllowUpdate' == '0') {
-                            return '<a href="#" class="fa fa-user"></a> | &nbsp; <a href="#" class="fa fa-pencil disable"></a> &nbsp; | &nbsp; <a class="fa fa-trash-o disable"></a>'
+                            return '<a href="#" class="fa fa-user disable"></a> | &nbsp; <a href="#" class="fa fa-pencil disable"></a> &nbsp; | &nbsp; <a class="fa fa-trash-o disable"></a>'
                         } else {
                             return '<a href="#" class="fa fa-user" onclick="Privilege(\'' + row.UserID + '\')" ></a> &nbsp; | &nbsp; <a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.UserID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteRecord(\'' + row.UserID + '\')"></a>'
                         }
@@ -235,9 +241,7 @@
                 { "data": "AdminStatus", "autoWidth": true, className: "txtAlignLeft" },
                 { "data": "LastUser", "autoWidth": true, className: "txtAlignLeft" },
                 { "data": "LastUpdate", "autoWidth": true, className: "txtAlignCenter" }
-
             ],
-
             rowCallback: function (row, data) { responsiveHelper_dt_basic.createExpandIcon(row) },
             filter: true,
             info: true,
@@ -274,6 +278,7 @@
                 type: "post",
                 dataType: "json"
             }).done(function (result) {
+                console.log(result);
                 $("#tableID").DataTable().clear();
                 $("#tableID").DataTable().rows.add(result).draw(false);
                 setTimeout(function () {
@@ -485,7 +490,8 @@
     }
 
     function Privilege(UserID) {
-        window.location.href = "MyPGM_Web/UserPrivilege/Index?UserID=" + UserID;
+      /*  window.location.href = "MyPGM_Web/UserPrivilege/Index?UserID=" + UserID;*/
+        window.location.href = "/MyPGM_Web/UserSetup/UserPrivilege?UserID=" + UserID +"";
     }
 
     //Function for clearing the textboxes

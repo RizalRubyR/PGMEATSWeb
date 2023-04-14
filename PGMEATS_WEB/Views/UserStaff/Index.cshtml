@@ -64,32 +64,28 @@
                             <div class="modal fade" id="MyModal">
                                 <div class="modal-dialog" style="width:400px">
                                     <div class="modal-content">
-
                                         <div class="modal-header">
                                             <a href="#" class="close" data-dismiss="modal">&times;</a>
                                             <h4 style="font-family:'Poppins'" id="ModalTitle"></h4>
                                         </div>
-
                                         <div class="modal-body">
                                             <form id="form" class="smart-form">
                                                 <fieldset id="SubmitForm">
-                                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                                     <table style="border:0px solid black; width:100%">
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group ">
                                                                     <label style="font-weight:500" for="StaffID">Staff ID</label>
-                                                                    @Html.TextBoxFor(m => m.StaffID, new { @id = "StaffID", @class = "form-control input-md", placeholder = "Enter staff id", required = "required", @style = "height:20px; width:150px" })
-                                                                    @Html.ValidationMessageFor(m => m.StaffID, "", new { @class = "text-danger" })
+                                                                    @Html.TextBoxFor(m => m.StaffID, new { @id = "StaffID", @class = "form-control input-md", @style = "height:20px; width:150px" })
+                                                                    @Html.TextBoxFor(m => m.ICNo, new { @id = "ICNo", @style = "display:none;" })
                                                                 </div>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group">
-                                                                    <label style="font-weight:500" for="ApprovalStatus">Approval Status</label>
-                                                                    @Html.DropDownList("ApprovalStatus", new SelectList(string.Empty, "Value", "Text"), "", new { @id = "ApprovalStatus", required = "required", @class = "form-control input-md", @style = "height:20px; width:150px" })
-                                                                    @Html.ValidationMessageFor(m => m.ApprovalStatus, "", new { @class = "text-danger" })
+                                                                    <label style="font-weight:500" for="Email">Email</label>
+                                                                    @Html.TextBoxFor(m => m.Email, new { @id = "Email", @class = "form-control input-md", placeholder = "Enter email", @style = "height:20px; width:250px" })
                                                                 </div>
                                                             </td>
                                                             <td>&nbsp;</td>
@@ -100,14 +96,7 @@
                                         </div>
 
                                         <div class="modal-footer">
-                                            @if (ViewBag.AllowWrite == "0")
-                                            {
-                                                <button type="button" class="btn btn-primary" id="UpdateData" style="width:85px; font-size:13px; display:none;" disabled>Update</button>
-                                            }
-                                            else
-                                            {
-                                                <button type="button" class="btn btn-primary" id="UpdateData" style="width:85px; font-size:13px; display:none;">Update</button>
-                                            }
+                                            <button type="button" class="btn btn-primary" id="UpdateData" style="width:85px; font-size:13px;">Update</button>
                                             <button type="button" class="btn btn-default" data-dismiss="modal" style="width:85px; font-size:13px" onclick="return clearTextBox()">Close</button>
                                         </div>
                                     </div>
@@ -149,6 +138,24 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="modal fade" id="ResetConfirmation">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                            <h4 style="font-family:'Poppins'">Reset Password User Staff</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h4 style="font-family:'Poppins'">Are You Sure? You Want To Reset Password.</h4>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="#" class="btn btn-default" style="width:85px; font-size:13px" data-dismiss="modal" id="CancelReset">Cancel</a>
+                                            <a href="#" class="btn btn-primary" style="width:85px; font-size:13px" id="ConfirmReset">Confirm</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -164,6 +171,7 @@
     .hidden {
         display: none;
     }
+
     .txtAlignCenter {
         text-align: center;
     }
@@ -191,16 +199,18 @@
             columns: [
                 {
                     "data": "Action", className: "txtAlignCenter", "render": function (data, type, row) {
-                        if ('@ViewBag.AllowUpdate' == '0') {
-                            return '<a href="#" class="fa fa-lock disable"></a> &nbsp; | &nbsp; <a class="fa fa-unlock disable"></a>'
-                        } else {
-                            /*return '<a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.StaffID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-lock" onclick="DisabledRecord(\'' + row.StaffID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-unlock" onclick="EnabledRecord(\'' + row.StaffID + '\')"></a>'*/
-                            /*return '<a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.StaffID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-lock" onclick="DisabledRecord(\'' + row.StaffID + '\')"></a>'*/
-                            console.log(row.ActiveStatus);
-                            if (row.ActiveStatus == "Active") {
-                                return '<a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.StaffID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-lock" onclick="DisabledRecord(\'' + row.StaffID + '\')"></a>'
+
+                        if (row.ActiveStatus == "Active") {
+                            if ('@ViewBag.AllowUpdate' == '0') {
+                                return '<a href="#" class="fa fa-pencil disable"></a> &nbsp; | &nbsp; <a class="fa fa-lock disable"></a> | &nbsp; <a class="fa fa-key disable"></a>'
                             } else {
-                                return '<a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.StaffID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-unlock" onclick="EnabledRecord(\'' + row.StaffID + '\')"></a>'
+                                return '<a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.StaffID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-lock" onclick="DisabledRecord(\'' + row.StaffID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-key" onclick="ResetPassword(\'' + row.StaffID + '|' + row.ICNo + '\')"></a>'
+                            }
+                        } else {
+                             if ('@ViewBag.AllowUpdate' == '0') {
+                                 return '<a href="#" class="fa fa-pencil disable"></a> &nbsp; | &nbsp; <a class="fa fa-unlock disable"></a> | &nbsp; <a class="fa fa-key disable"></a>'
+                             } else {
+                                 return '<a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.StaffID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-unlock" onclick="EnabledRecord(\'' + row.StaffID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-key" onclick="ResetPassword(\'' + row.StaffID + '|' + row.ICNo + '\')"></a>'
                             }
                         }
                     }
@@ -324,15 +334,48 @@
             })
         });
 
+        /*CONFIRM RESET PASSWORD*/
+        $("#ConfirmReset").click(function () {
+
+            var formData = new FormData();
+            formData.append("StaffID", $("#StaffID").val());
+            formData.append("ICNo", $("#ICNo").val());
+
+            $.ajax({
+                type: "Post",
+                url: '@Url.Action("ResetPassword", "UserStaff")',
+                dataType: "json",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (!data.Success) {
+                        toastr.warning(data.ErrorMessage, 'Warning', { timeOut: 3000, "closeButton": true });
+                        $("#ResetConfirmation").modal("hide");
+                    }
+                    else {
+                        toastr.success("Reset password successfully!", 'Success', { timeOut: 3000, "closeButton": true });
+                        $("#ResetConfirmation").modal("hide");
+                        $(".row_" + StaffID).remove();
+                        loadData();
+                    }
+                },
+                error: function (jqXHR, error, errorThrown) {
+                        toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
+                    }
+            })
+        });
+
         //update
         $("#UpdateData").click(function () {
-            if ($("#form").valid()) {
-                var formData = new FormData();
+            var email = $("#Email").val();
+            var staffid = $("#StaffID").val();
 
-                formData.append("StaffID", $("#StaffID").val());
-                formData.append("ApprovalStatus", $("#ApprovalStatus").val());
+             var formData = new FormData();
+                formData.append("StaffID", staffid);
+                formData.append("Email", email);
 
-                $.ajax({
+                  $.ajax({
                     type: "Post",
                     url: "@Url.Action("UpdateData", "UserStaff")",
                     dataType: "json",
@@ -352,12 +395,41 @@
                     },
                     error: function (jqXHR, error, errorThrown) {
                         toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
-                        //console.log(data);
+                    }
+                  })
+
+            @*if (!EmailValidation(email)) {
+                toastr.warning('Invalid format email!', 'Warning', { timeOut: 3000, closeButton: true});
+            }
+            else {
+                var formData = new FormData();
+                formData.append("StaffID", staffid);
+                formData.append("Email", email);
+
+                  $.ajax({
+                    type: "Post",
+                    url: "@Url.Action("UpdateData", "UserStaff")",
+                    dataType: "json",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        if (!data.Success) {
+                            toastr.warning(data.ErrorMessage, 'Warning', { timeOut: 3000, "closeButton": true });
+                        } else {
+                            toastr.success("Data Update Successfully!", 'Success', { timeOut: 3000, "closeButton": true });
+                            loadData();
+                            $('#MyModal').modal('hide');
+                            $('body').removeClass('modal-open');
+                            $('.modal-backdrop').remove();
+                        }
+                    },
+                    error: function (jqXHR, error, errorThrown) {
+                        toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
                     }
                 })
-            }
+            }*@
         })
-
     });
 
     //for reset required field after closed modal
@@ -380,11 +452,23 @@
         $("#EnabledConfirmation").modal("show");
     }
 
-    function PopulateApprovalStatus() {
-        $('#ApprovalStatus').empty();
-        $("#ApprovalStatus").append('<option value="0" >No</option>');
-        $("#ApprovalStatus").append('<option value="1" >Yes</option>');
+    /*SHOW MODAL POPUP TO RESET PASSWORD*/
+    var ResetPassword = function (data) {
+        var user = data.split('|')[0];
+        var ICNo = data.split('|')[1];
+
+        console.log(data);
+
+        $("#StaffID").val(user);
+        $("#ICNo").val(ICNo)
+        $("#ResetConfirmation").modal("show");
     }
+
+    //function PopulateApprovalStatus() {
+    //    $('#ApprovalStatus').empty();
+    //    $("#ApprovalStatus").append('<option value="0" >No</option>');
+    //    $("#ApprovalStatus").append('<option value="1" >Yes</option>');
+    //}
 
     function EditRecord(User) {
         resetForm();
@@ -396,23 +480,21 @@
             cache: false,
             data: ({ StaffID: User }),
             success: function (data) {
-
-                var obj = JSON.parse(data);
-
-                $.each(obj, function (key, val) {
-                    $("#StaffID").val(val.StaffID).prop('readonly', true);
-                    PopulateApprovalStatus();
-                    if (val.ApprovalStatus == 'Yes') {
-                        $("#ApprovalStatus").val(1);
-                    }
-                    else {
-                        $("#ApprovalStatus").val(0);
-                    }
-                })
-                $('#UpdateData').show();
+                $("#StaffID").val(data[0].StaffID).prop('readonly', true);
+                $("#Email").val(data[0].Email);
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
             }
         })
     }
 
+    @*function EmailValidation(email) {
+        return String(email)
+            .toLowerCase()
+            .match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+}*@
 
 </script>

@@ -21,39 +21,29 @@ namespace PGMEATS_WEB.Controllers
         {
             try
             {
+                /*CHECK SESSION LOGIN*/
                 if (Session["LogUserID"] is null)
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                string userID = Session["LogUserID"] + "";
+                string MenuID = "G-01";
+
+                clsUserPrivilegeDB db = new clsUserPrivilegeDB();
+                clsUserPrivilege data = new clsUserPrivilege();
+                data.UserID = userID;
+                data.MenuID = MenuID;
+
+                /*CHECK PRIVILEGE*/
+                clsUserPrivilege Privilege = db.UserPrivilegeCheck("3", data);
+                if (Privilege.AllowAccess == "0")
                 {
                     return RedirectToAction("Index", "Home");
                 }
 
-                string write = "";
-                string userID = Session["LogUserID"] + "";
+                ViewBag.AllowUpdate = Privilege.AllowUpdate;
                 ViewBag.UserID = userID;
-
-                var uri = new Uri(string.Format(ConfigurationManager.AppSettings["ApiURL"], string.Empty));
-
-                var client = new HttpClient();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage resp = client.GetAsync(uri + "AccessPrivilege/CheckUserPrivilege?UserID=" + userID + "&MenuID=Z-01&AllowType=2").GetAwaiter().GetResult();
-                if (resp.IsSuccessStatusCode)
-                {
-                    string js = resp.Content.ReadAsStringAsync().Result;
-
-                    if (js.Contains("True"))
-                    {
-                        write = "True";
-                    }
-                    else
-                    {
-                        write = "False";
-                    }
-                    ViewBag.AllowUpdate = (write == "False") ? "0" : "1";
-                }
-                else
-                {
-                    write = "False";
-                    ViewBag.AllowUpdate = (write == "False") ? "0" : "1";
-                }
 
                 return View();
             }
@@ -62,6 +52,18 @@ namespace PGMEATS_WEB.Controllers
                 throw new System.Exception(ex.Message);
             }
         }
+
+        public ActionResult UserPrivilege(string userID)
+        {
+            if (Session["LogUserID"] is null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.UserID = userID;
+            return View();
+        }
+
         public JsonResult GetList()
         {
             try
@@ -69,8 +71,8 @@ namespace PGMEATS_WEB.Controllers
                 List<clsUserSetup> users = db.UserList().ToList();
 
                 var jsonResult = Json(users, JsonRequestBehavior.AllowGet);
-                    jsonResult.MaxJsonLength = int.MaxValue;
-                    return jsonResult;
+                jsonResult.MaxJsonLength = int.MaxValue;
+                return jsonResult;
             }
             catch (Exception ex)
             {
@@ -212,7 +214,7 @@ namespace PGMEATS_WEB.Controllers
                 bSuccess = true;
                 msg = "Delete Data Success";
                 ModelState.Clear();
-               
+
                 return new JsonResult
                 {
                     Data = new { ErrorMessage = msg, Success = bSuccess },
@@ -322,12 +324,12 @@ namespace PGMEATS_WEB.Controllers
                     {
                         clsPasswordHistoryDB PasswordHistoryDB = new clsPasswordHistoryDB();
                         List<clsPasswordHistory> PassList = PasswordHistoryDB.GetList(pUserID, jsox.ParamValue.ToString().Trim()).ToList();
-                        
+
                         Encryption encrypt = new Encryption();
 
                         foreach (var Pwd in PassList)
                         {
-                            string OldPwd = encrypt.DecryptData(Pwd.Password.ToString().Trim());
+                            string OldPwd = encrypt.DecryptData(Pwd.Password);
                             if (pPassword == OldPwd)
                             {
                                 sMsg = "Password cannot be the same with your last " + jsox.ParamValue + " passwords";
@@ -414,7 +416,7 @@ namespace PGMEATS_WEB.Controllers
 
                     foreach (var Pwd in PassList)
                     {
-                        string OldPwd = encrypt.DecryptData(Pwd.Password.ToString().Trim());
+                        string OldPwd = encrypt.DecryptData(Pwd.Password);
                         if (pPassword == OldPwd)
                         {
                             sMsg = "Password cannot be the same with your last " + jsox.ParamValue + " passwords";
@@ -430,5 +432,61 @@ namespace PGMEATS_WEB.Controllers
             }
         }
 
+        public JsonResult UserPrivilege_Sel(string UserID)
+        {
+            var typeAction = "1"; //GET USER PRIVILEGE SEL
+            clsUserPrivilegeDB db = new clsUserPrivilegeDB();
+            clsResponse resp = new clsResponse();
+            try
+            {
+                resp = db.UserPrivilegeSel(typeAction, UserID);               
+            }
+            catch (Exception ex)
+            {
+                resp.Message = ex.Message;
+                resp.Contents = "";
+            }
+            return Json(resp, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult UserPrivilege_Upd(List<clsUserPrivilege> data)
+        {
+            string Message = "";
+            string UserLogin = Session["LogUserID"].ToString();
+            var typeAction = "2"; //UPDATE USER PRIVILEGE
+            clsUserPrivilegeDB db = new clsUserPrivilegeDB();
+            clsResponse resp = new clsResponse();
+            try
+            {
+                foreach (var val in data)
+                {
+                    try
+                    {
+                        if (val.Access == true || val.Update == true )
+                        {
+                            if (val.Access == true) { val.AllowAccess = "1"; }
+                            else { val.AllowAccess = "0"; }
+
+                            if (val.Update == true) val.AllowUpdate = "1";
+                            else { val.AllowUpdate = "0"; }
+
+                            resp = db.UserPrivilegeUpd(typeAction, val, UserLogin);
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Message = ex.Message;
+                        return Json(Message, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                Message = "Success Updated data!";
+            }
+            catch (Exception ex)
+            {
+                resp.Message = ex.Message;
+            }
+            return Json(Message, JsonRequestBehavior.AllowGet);
+        }
     }
 }
