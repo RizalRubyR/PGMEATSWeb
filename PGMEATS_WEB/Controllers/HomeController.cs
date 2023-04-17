@@ -72,39 +72,12 @@ namespace PGMEATS_WEB.Controllers
                     {
                         message = "Success";
                         Session["LogUserID"] = User.UserID.ToString();
+                        Session["AdminStatus"] = User.AdminStatus.ToString();
                     }
                     else
                     {
                         message = "User ID or Password is incorrect!";
                     }
-
-                    #region OldCodeLoginWithAPI
-                    //var uri = new Uri(string.Format(ConfigurationManager.AppSettings["ApiURL"], string.Empty));
-
-                    //var client = new HttpClient();
-                    //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    //HttpResponseMessage resp = client.GetAsync(uri + "Home/UserCheck?UserID=" + WebUtility.UrlEncode(User.UserID) + "&Password=" + WebUtility.UrlEncode(User.Password)).GetAwaiter().GetResult();
-                    //if (resp.IsSuccessStatusCode)
-                    //{
-
-                    //    string js = resp.Content.ReadAsStringAsync().Result;
-                    //    clsUserResponse data = JsonConvert.DeserializeObject<clsUserResponse>(js);
-
-                    //    if (data.RespID == 0)
-                    //    {
-                    //        message = "Success";
-                    //        Session["LogUserID"] = User.UserID.ToString();
-                    //    }
-                    //    else
-                    //    {
-                    //        message = "User ID or Password is incorrect!";
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    message = JsonConvert.DeserializeObject<dynamic>(resp.Content.ReadAsStringAsync().Result);
-                    //}
-                    #endregion OldCodeLoginWithAPI
                 }
                 catch (Exception ex)
                 {

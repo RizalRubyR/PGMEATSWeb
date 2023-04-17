@@ -283,7 +283,7 @@
                 type: "post",
                 dataType: "json"
             }).done(function (result) {
-                console.log(result);
+               /* console.log(result);*/
                 $("#tableID").DataTable().clear();
                 $("#tableID").DataTable().rows.add(result).draw(false);
                 setTimeout(function () {
@@ -409,29 +409,7 @@
         $("#AdminStatus").append('<option value="1" >Yes</option>');
     }
 
-    //function PopulateUserGroup(code) {
-    //    $.ajax({
-    //        type: "POST",
-    //        url: '@Url.Action("GetComboUserGroup", "User")',
-    //        success: function (data) {
-    //            $('#GroupID').empty();
-    //            $.each(data, function (i, dt) {
-    //                 if (code == dt.Text) {
-    //                    $("#GroupID").append('<option value="' + dt.Value + '" selected="selected">' + dt.Text + '</option>');
-    //                } else {
-    //                    $("#GroupID").append('<option value="' + dt.Value + '" >' + dt.Text + '</option>');
-    //                }
-    //            });
-    //            $('#GroupID').focus();
-    //        },
-    //        error: function (ex) {
-    //            toastr.error('Failed to retrieve Group. ' + ex, 'Error', { timeOut: 3000, "closeButton": true });
-    //            //alert('Failed to retrieve GroupID. ' + ex);
-    //        }
-    //    });
-    //}
 
-    //for reset required field after closed modal
     function resetForm() {
         var $form = $('#form');
         $form.validate().resetForm();
@@ -471,7 +449,10 @@
                 var obj = JSON.parse(data);
 
                 $.each(obj, function (key, val) {
+           /*         console.log(val);*/
                     $("#UserID").val(val.UserID).prop('readonly', true);
+                    $("#Password").val(val.Password);
+                    $("#UserName").val(val.UserName);
                     PopulateAdminStatus();
                     if (val.AdminStatus == 'Yes') {
                         $("#AdminStatus").val(1);

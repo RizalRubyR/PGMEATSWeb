@@ -41,6 +41,7 @@ namespace PGMEATS_WEB.Models
                         UserDat.UserID = sdr["UserID"].ToString();
                         UserDat.Password = encrypt.DecryptData(sdr["Password"].ToString());
                         UserDat.FullName = sdr["UserName"].ToString();
+                        UserDat.AdminStatus = sdr["AdminStatus"].ToString();
                     }
 
                     return UserDat;

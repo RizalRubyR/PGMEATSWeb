@@ -20,20 +20,22 @@ namespace PGMEATS_WEB.Controllers
         public ActionResult Index()
         {
             try
-            {
+            {            
                 /*CHECK SESSION LOGIN*/
                 if (Session["LogUserID"] is null)
                 {
                     return RedirectToAction("Login", "Home");
                 }
 
-                string userID = Session["LogUserID"] + "";
+                string userID = Session["LogUserID"].ToString();
+                string AdminStatus = Session["AdminStatus"].ToString();
                 string MenuID = "G-01";
 
                 clsUserPrivilegeDB db = new clsUserPrivilegeDB();
                 clsUserPrivilege data = new clsUserPrivilege();
                 data.UserID = userID;
                 data.MenuID = MenuID;
+                data.AdminStatus = AdminStatus;
 
                 /*CHECK PRIVILEGE*/
                 clsUserPrivilege Privilege = db.UserPrivilegeCheck("3", data);
@@ -55,12 +57,31 @@ namespace PGMEATS_WEB.Controllers
 
         public ActionResult UserPrivilege(string userID)
         {
+            /*CHECK SESSION LOGIN*/
             if (Session["LogUserID"] is null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            string AdminStatus = Session["AdminStatus"].ToString();
+            string MenuID = "G-01";
+
+            clsUserPrivilegeDB db = new clsUserPrivilegeDB();
+            clsUserPrivilege data = new clsUserPrivilege();
+            data.UserID = userID;
+            data.MenuID = MenuID;
+            data.AdminStatus = AdminStatus;
+
+            /*CHECK PRIVILEGE*/
+            clsUserPrivilege Privilege = db.UserPrivilegeCheck("3", data);
+            if (Privilege.AllowAccess == "0")
             {
                 return RedirectToAction("Index", "Home");
             }
 
+            ViewBag.AllowUpdate = Privilege.AllowUpdate;
             ViewBag.UserID = userID;
+
             return View();
         }
 

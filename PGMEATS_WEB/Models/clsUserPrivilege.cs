@@ -18,6 +18,7 @@ namespace PGMEATS_WEB.Models
         public string UserLogin { get; set; }
         public Boolean Access { get; set; }
         public Boolean Update { get; set; }
+        public string AdminStatus{ get; set; }
     }
     public class clsUserPrivilegeDB
     {
@@ -108,6 +109,7 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("Func", Func);
                     cmd.Parameters.AddWithValue("UserID", data.UserID);
                     cmd.Parameters.AddWithValue("MenuID", data.MenuID);
+                    cmd.Parameters.AddWithValue("AdminStatus", data.AdminStatus);
                     con.Open();
 
                     SqlDataReader rd = cmd.ExecuteReader();

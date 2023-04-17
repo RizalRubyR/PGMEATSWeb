@@ -10,32 +10,39 @@ namespace PGMEATS_WEB.Models
 {
     public class clsMenuDB
     {
-        public IEnumerable<clsMenu> MenuList()
+        public IEnumerable<clsMenu> MenuList(string UserID, String AdminStatus)
         {
             List<clsMenu> Menus = new List<clsMenu>();
-
-            string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
-            using (SqlConnection con = new SqlConnection(constr))
+            try
             {
-                SqlCommand cmd = new SqlCommand("sp_UserMenu_Sel", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                con.Open();
-
-                SqlDataReader rd = cmd.ExecuteReader();
-                while (rd.Read())
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
                 {
-                    clsMenu Menu = new clsMenu();
-                    Menu.MenuID = rd["MenuID"].ToString();
-                    Menu.MenuName = rd["MenuName"].ToString();
-                    Menu.MenuDescription = rd["MenuDesc"].ToString();
-                    Menu.MenuGroup = rd["GroupID"].ToString();
-                    Menu.GroupIndex = Convert.ToInt16(rd["GroupIndex"]);
-                    Menu.MenuIndex = Convert.ToInt16(rd["MenuIndex"]);
-                    Menu.AllowAccess = Convert.ToInt16(rd["ActiveStatus"]);
-                    Menus.Add(Menu);
+                    SqlCommand cmd = new SqlCommand("sp_UserMenu_Sel", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("UserID", UserID);
+                    cmd.Parameters.AddWithValue("AdminStatus", AdminStatus);
+                    con.Open();
+
+                    SqlDataReader rd = cmd.ExecuteReader();
+                    while (rd.Read())
+                    {
+                        clsMenu Menu = new clsMenu();
+                        Menu.MenuID = rd["MenuID"].ToString();
+                        Menu.MenuName = rd["MenuName"].ToString();
+                        Menu.MenuDescription = rd["MenuDesc"].ToString();
+                        Menu.MenuGroup = rd["GroupID"].ToString();
+                        Menu.GroupIndex = Convert.ToInt16(rd["GroupIndex"]);
+                        Menu.MenuIndex = Convert.ToInt16(rd["MenuIndex"]);
+                        Menus.Add(Menu);
+                    }
                 }
-                return Menus;
             }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return Menus;
         }
     }
 }

@@ -19,12 +19,32 @@ namespace PGMEATS_WEB.Controllers
         // GET: NewsList
         public ActionResult Index()
         {
+            /*CHECK SESSION LOGIN*/
             if (Session["LogUserID"] is null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            string userID = Session["LogUserID"].ToString();
+            string AdminStatus = Session["AdminStatus"].ToString();
+            string MenuID = "B-01";
+
+            clsUserPrivilegeDB db = new clsUserPrivilegeDB();
+            clsUserPrivilege data = new clsUserPrivilege();
+            data.UserID = userID;
+            data.MenuID = MenuID;
+            data.AdminStatus = AdminStatus;
+
+            /*CHECK PRIVILEGE*/
+            clsUserPrivilege Privilege = db.UserPrivilegeCheck("3", data);
+            if (Privilege.AllowAccess == "0")
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewBag.UserID = Session["LogUserID"];
+            ViewBag.AllowUpdate = Privilege.AllowUpdate;
+            ViewBag.UserID = userID;
+
             return View();
         }
 

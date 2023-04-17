@@ -19,22 +19,65 @@ namespace PGMEATS_WEB.Controllers
         // GET: MyComplaint
         public ActionResult IssueTypeMaster()
         {
+            /*CHECK SESSION LOGIN*/
             if (Session["LogUserID"] is null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            string userID = Session["LogUserID"].ToString();
+            string AdminStatus = Session["AdminStatus"].ToString();
+            string MenuID = "A-01";
+
+            clsUserPrivilegeDB db = new clsUserPrivilegeDB();
+            clsUserPrivilege data = new clsUserPrivilege();
+            data.UserID = userID;
+            data.MenuID = MenuID;
+            data.AdminStatus = AdminStatus;
+
+            /*CHECK PRIVILEGE*/
+            clsUserPrivilege Privilege = db.UserPrivilegeCheck("3", data);
+            if (Privilege.AllowAccess == "0")
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.UserID = Session["LogUserID"];
+
+            ViewBag.AllowUpdate = Privilege.AllowUpdate;
+            ViewBag.UserID = userID;
+
             return View();
         }
 
         public ActionResult CanteenComplaintList()
         {
+            /*CHECK SESSION LOGIN*/
             if (Session["LogUserID"] is null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            string userID = Session["LogUserID"].ToString();
+            string AdminStatus = Session["AdminStatus"].ToString();
+            string MenuID = "A-02";
+
+            clsUserPrivilegeDB db = new clsUserPrivilegeDB();
+            clsUserPrivilege data = new clsUserPrivilege();
+            data.UserID = userID;
+            data.MenuID = MenuID;
+            data.AdminStatus = AdminStatus;
+
+            /*CHECK PRIVILEGE*/
+            clsUserPrivilege Privilege = db.UserPrivilegeCheck("3", data);
+            if (Privilege.AllowAccess == "0")
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.UserID = Session["LogUserID"];
+
+            ViewBag.AllowUpdate = Privilege.AllowUpdate;
+            ViewBag.UserID = userID;
+
             return View();
+
         }
 
         [AcceptVerbs("GET", "POST")]
@@ -229,7 +272,7 @@ namespace PGMEATS_WEB.Controllers
             try
             {
                 clsConPathFolderDB dbPath = new clsConPathFolderDB();
-                string PathWeb = dbPath.PathFolder("Web","IssueType"); //Jika Web
+                string PathWeb = dbPath.PathFolder("Web", "IssueType"); //Jika Web
                 string PathMobile = dbPath.PathFolder("Mobile", "IssueType"); //Jika Mobile 
 
                 string date = DateTime.Now.ToString("yyyyMMddHHmmss");

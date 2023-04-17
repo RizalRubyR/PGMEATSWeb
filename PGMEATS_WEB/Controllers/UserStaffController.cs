@@ -27,14 +27,16 @@ namespace PGMEATS_WEB.Controllers
                     return RedirectToAction("Login", "Home");
                 }
 
-                string userID = Session["LogUserID"] + "";
-                string MenuID = "G-02 ";
+                string userID = Session["LogUserID"].ToString();
+                string AdminStatus = Session["AdminStatus"].ToString();
+                string MenuID = "G-02";
 
                 clsUserPrivilegeDB db = new clsUserPrivilegeDB();
                 clsUserPrivilege data = new clsUserPrivilege();
                 data.UserID = userID;
                 data.MenuID = MenuID;
-             
+                data.AdminStatus = AdminStatus;
+
                 /*CHECK PRIVILEGE*/
                 clsUserPrivilege Privilege = db.UserPrivilegeCheck("3", data);
                 if(Privilege.AllowAccess == "0")
