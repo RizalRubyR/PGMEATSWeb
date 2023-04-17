@@ -32,14 +32,14 @@
                                             @if (ViewBag.AllowUpdate == "0")
                                             {
                                                 <div style="padding-left:-10px"></div>
-                                                <button id="btnAdd" class="btn btn-primary" style="width:85px;" type="button" data-toggle="modal" data-target="#myModal" value="New" disabled onclick="AddNewData()">
+                                                <button id="btnAdd" class="btn btn-save" style="width:85px;" type="button" data-toggle="modal" data-target="#myModal" value="New" disabled onclick="AddNewData()">
                                                     <span style="font-size:13px">New</span>
                                                 </button>
                                             }
                                             else
                                             {
                                                 <div style="padding-left:-10px"></div>
-                                                <button id="btnAdd" class="btn btn-primary" style="width:85px;" type="button" data-toggle="modal" data-target="#myModal" value="New" onclick="AddNewData()">
+                                                <button id="btnAdd" class="btn btn-save" style="width:85px;" type="button" data-toggle="modal" data-target="#myModal" value="New" onclick="AddNewData()">
                                                     <span style="font-size:13px">New</span>
                                                 </button>
                                             }
@@ -148,15 +148,15 @@
                                         </div>
 
                                         <div class="modal-footer">
-                                            @if (ViewBag.AllowWrite == "0")
+                                            @if (ViewBag.AllowUpdate == "0")
                                             {
-                                                <button type="button" class="btn btn-primary" id="InsertData" style="width:85px; font-size:13px" disabled>Save</button>
-                                                <button type="button" class="btn btn-primary" id="UpdateData" style="width:85px; font-size:13px; display:none;" disabled>Update</button>
+                                                <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px" disabled>Save</button>
+                                                <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;" disabled>Update</button>
                                             }
                                             else
                                             {
-                                                <button type="button" class="btn btn-primary" id="InsertData" style="width:85px; font-size:13px">Save</button>
-                                                <button type="button" class="btn btn-primary" id="UpdateData" style="width:85px; font-size:13px; display:none;">Update</button>
+                                                <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px">Save</button>
+                                                <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;">Update</button>
                                             }
                                             <button type="button" class="btn btn-default" data-dismiss="modal" style="width:85px; font-size:13px" onclick="return clearTextBox()">Close</button>
                                         </div>
@@ -176,7 +176,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <a href="#" class="btn btn-default" style="width:85px; font-size:13px" data-dismiss="modal" id="CancelDelete">Cancel</a>
-                                            <a href="#" class="btn btn-primary" style="width:85px; font-size:13px" id="ConfirmDelete">Confirm</a>
+                                            <a href="#" class="btn btn-save" style="width:85px; font-size:13px" id="ConfirmDelete">Confirm</a>
                                         </div>
                                     </div>
                                 </div>
@@ -198,6 +198,17 @@
     }
     .txtAlignCenter {
         text-align: center;
+    }
+    .txtAlignLeft {
+        text-align: left;
+    }
+    .txtAlignRight {
+        text-align: right;
+    }
+    .btn-save {
+        color: #fff;
+        background-color: #4CBFBC;
+        border-color: #4CBFBC;
     }
 </style>
 
@@ -224,7 +235,7 @@
                 {
                     "data": "Action", className: "txtAlignCenter", "render": function (data, type, row) {
                         if ('@ViewBag.AllowUpdate' == '0') {
-                            return '<a href="#" class="fa fa-user"></a> | &nbsp; <a href="#" class="fa fa-pencil disable"></a> &nbsp; | &nbsp; <a class="fa fa-trash-o disable"></a>'
+                            return '<a href="#" class="fa fa-user disable"></a> | &nbsp; <a href="#" class="fa fa-pencil disable"></a> &nbsp; | &nbsp; <a class="fa fa-trash-o disable"></a>'
                         } else {
                             return '<a href="#" class="fa fa-user" onclick="Privilege(\'' + row.UserID + '\')" ></a> &nbsp; | &nbsp; <a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.UserID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteRecord(\'' + row.UserID + '\')"></a>'
                         }
@@ -235,9 +246,7 @@
                 { "data": "AdminStatus", "autoWidth": true, className: "txtAlignLeft" },
                 { "data": "LastUser", "autoWidth": true, className: "txtAlignLeft" },
                 { "data": "LastUpdate", "autoWidth": true, className: "txtAlignCenter" }
-
             ],
-
             rowCallback: function (row, data) { responsiveHelper_dt_basic.createExpandIcon(row) },
             filter: true,
             info: true,
@@ -274,6 +283,7 @@
                 type: "post",
                 dataType: "json"
             }).done(function (result) {
+               /* console.log(result);*/
                 $("#tableID").DataTable().clear();
                 $("#tableID").DataTable().rows.add(result).draw(false);
                 setTimeout(function () {
@@ -399,29 +409,7 @@
         $("#AdminStatus").append('<option value="1" >Yes</option>');
     }
 
-    //function PopulateUserGroup(code) {
-    //    $.ajax({
-    //        type: "POST",
-    //        url: '@Url.Action("GetComboUserGroup", "User")',
-    //        success: function (data) {
-    //            $('#GroupID').empty();
-    //            $.each(data, function (i, dt) {
-    //                 if (code == dt.Text) {
-    //                    $("#GroupID").append('<option value="' + dt.Value + '" selected="selected">' + dt.Text + '</option>');
-    //                } else {
-    //                    $("#GroupID").append('<option value="' + dt.Value + '" >' + dt.Text + '</option>');
-    //                }
-    //            });
-    //            $('#GroupID').focus();
-    //        },
-    //        error: function (ex) {
-    //            toastr.error('Failed to retrieve Group. ' + ex, 'Error', { timeOut: 3000, "closeButton": true });
-    //            //alert('Failed to retrieve GroupID. ' + ex);
-    //        }
-    //    });
-    //}
 
-    //for reset required field after closed modal
     function resetForm() {
         var $form = $('#form');
         $form.validate().resetForm();
@@ -461,7 +449,10 @@
                 var obj = JSON.parse(data);
 
                 $.each(obj, function (key, val) {
+           /*         console.log(val);*/
                     $("#UserID").val(val.UserID).prop('readonly', true);
+                    $("#Password").val(val.Password);
+                    $("#UserName").val(val.UserName);
                     PopulateAdminStatus();
                     if (val.AdminStatus == 'Yes') {
                         $("#AdminStatus").val(1);
@@ -485,7 +476,8 @@
     }
 
     function Privilege(UserID) {
-        window.location.href = "MyPGM_Web/UserPrivilege/Index?UserID=" + UserID;
+      /*  window.location.href = "MyPGM_Web/UserPrivilege/Index?UserID=" + UserID;*/
+        window.location.href = "/MyPGM_Web/UserSetup/UserPrivilege?UserID=" + UserID +"";
     }
 
     //Function for clearing the textboxes

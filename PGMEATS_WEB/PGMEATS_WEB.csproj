@@ -342,42 +342,8 @@
     <Content Include="Content\images\treeitem-expanded-dark.svg" />
     <Content Include="Content\images\treeitem-expanded.png" />
     <Content Include="Content\images\treeitem-expanded.svg" />
-    <Content Include="Content\img\bg-banner.jpg" />
-    <Content Include="Content\img\bg-banner2.jpg" />
-    <Content Include="Content\img\bg-banner4.jpg" />
-    <Content Include="Content\img\btn_Calc.png" />
-    <Content Include="Content\img\btn_Stop.png" />
-    <Content Include="Content\img\Car_Raize_slice_banner.png" />
-    <Content Include="Content\img\Car_Rocky_slice_banner.png" />
-    <Content Include="Content\img\CCBackground.jpg" />
-    <Content Include="Content\img\CCHeader.png" />
-    <Content Include="Content\img\CCNo.png" />
-    <Content Include="Content\img\CCRefresh.png" />
-    <Content Include="Content\img\CCYes.png" />
-    <Content Include="Content\img\Daihatsu-Logo.png" />
-    <Content Include="Content\img\Daihatsu.png" />
-    <Content Include="Content\img\details_close.png" />
-    <Content Include="Content\img\details_open.png" />
-    <Content Include="Content\img\Download.png" />
-    <Content Include="Content\img\LoadingPortPatimban.png" />
-    <Content Include="Content\img\LoadingPortPatimban2.png" />
-    <Content Include="Content\img\logo-daihatsu.ico" />
-    <Content Include="Content\img\Logo_Rocky_slice_banner.png" />
-    <Content Include="Content\img\PIO.png" />
-    <Content Include="Content\img\raize-turquoise-mm-black.png" />
-    <Content Include="Content\img\RaizeAqua.png" />
-    <Content Include="Content\img\RaizeBlue.png" />
-    <Content Include="Content\img\RaizeLime.png" />
-    <Content Include="Content\img\RaizeModel.png" />
-    <Content Include="Content\img\RaizeRed.png" />
-    <Content Include="Content\img\RaizeYellow.png" />
-    <Content Include="Content\img\refresh.png" />
-    <Content Include="Content\img\Refresh2.png" />
-    <Content Include="Content\img\Refresh3.png" />
-    <Content Include="Content\img\scroll.png" />
-    <Content Include="Content\img\tagline_Rocky_slice_banner.png" />
-    <Content Include="Content\img\V.png" />
-    <Content Include="Content\img\X.png" />
+    <Content Include="Content\img\Perodua Logo.png" />
+    <Content Include="Content\img\PGMSB.png" />
     <Content Include="Content\jquery.inputpicker.css" />
     <Content Include="Content\loadingAnimation.gif" />
     <Content Include="Content\login\bootstrap-combined.min.css" />
@@ -424,9 +390,6 @@
     <Content Include="Content\zebra_datepicker.min.css" />
     <Content Include="DevExpress.Data.Portions.dll" />
     <Content Include="Global.asax" />
-    <Content Include="Image\IssueTypeMaster\00001_20230203151314_.png" />
-    <Content Include="Image\IssueTypeMaster\00002_20230203151243_.png" />
-    <Content Include="Image\IssueTypeMaster\00003_20230203152251_.png" />
     <Content Include="Scripts\app.config.js" />
     <Content Include="Scripts\app.min.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
@@ -457,8 +420,6 @@
     <Content Include="Scripts\devexpress\css\icons\dxiconsmaterial.ttf" />
     <Content Include="Scripts\devexpress\css\icons\dxiconsmaterial.woff" />
     <Content Include="Scripts\devexpress\css\icons\dxiconsmaterial.woff2" />
-    <Content Include="Files\Template\PORT-01 - PORT UPLOAD.xlsx" />
-    <Content Include="Files\Upload\PORT UPLOAD\PORT-01 - PORT UPLOAD_03112021_052534.xlsx" />
     <Content Include="Content\css\your_style.less" />
     <Content Include="Content\fonts\OpenSans-Regular.ttf" />
     <Content Include="Content\fonts\Poppins-Regular.ttf" />
@@ -1047,9 +1008,6 @@
     <Content Include="Scripts\pdf.worker.js.map" />
     <Content Include="Scripts\viewer.js.map" />
     <Content Include="Scripts\libs\jquery-2.1.1.min.map" />
-    <Content Include="Views\Home\_JobAssignment.cshtml" />
-    <Content Include="Views\Home\_KAPOperation.cshtml" />
-    <Content Include="Views\Home\_PatimbanOperation.cshtml" />
     <Content Include="Views\Home\Error500.cshtml" />
     <Content Include="Views\UserSetup\UserSetup.cshtml" />
     <Content Include="Views\UserSetup\Index.cshtml" />
@@ -1073,6 +1031,7 @@
     <Content Include="Views\NewsList\Index.cshtml" />
     <Content Include="Views\SurveyPollsList\Index.cshtml" />
     <Content Include="Views\SurveyPollsList\Create.cshtml" />
+    <Content Include="Views\UserSetup\UserPrivilege.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Helpers\DashRouteHandler.cs" />
@@ -1114,6 +1073,8 @@
     <Compile Include="Models\clsPasswordHistory.cs" />
     <Compile Include="Models\clsResponse.cs" />
     <Compile Include="Models\clsUserDB.cs" />
+    <Compile Include="Models\clsUserPrivilege.cs" />
+    <Compile Include="Models\EncryptionUserStaff.cs" />
     <Compile Include="Models\SelectUserPrivilegeEditorViewModel.cs" />
     <Compile Include="Models\clsUserStaff.cs" />
     <Compile Include="Models\clsUserSetup.cs" />
@@ -1128,6 +1089,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Image\IssueTypeMaster\" />
     <Folder Include="Views\Clinic\" />
   </ItemGroup>
   <ItemGroup>

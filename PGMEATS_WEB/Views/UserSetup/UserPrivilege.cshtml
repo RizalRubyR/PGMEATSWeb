@@ -1,0 +1,262 @@
+﻿@{
+    ViewBag.Title = "UserPrivilege";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12">
+                <div class="jarviswidget jarviswidget-color-red" id="wid-id-1"
+                     data-widget-colorbutton="false"
+                     data-widget-editbutton="false"
+                     data-widget-togglebutton="false"
+                     data-widget-deletebutton="false"
+                     data-widget-custombutton="false"
+                     data-widget-collapsed="false"
+                     data-widget-sortable="false">
+
+                    <header style="border-top-left-radius:8px; border-top-right-radius:8px">
+                        <h2 style="font-family:'Poppins';font-weight:500;font-size:13px">User Privilege</h2>
+                    </header>
+
+                    <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
+                        <table id="tableData" class="table table-striped" style="width:800px">
+                            <thead class="dataTableHead">
+                                <tr>
+                                    <th style="vertical-align:middle;font-size:14px; width:80px">
+                                        Menu ID
+                                    </th>
+                                    <th style="vertical-align:middle;font-size:14px">
+                                        Description
+                                    </th>
+                                    <th style="text-align: center; font-size: 14px; width: 30px">
+                                        Access<br />
+                                        <div style="text-align:center">
+                                            <input type="checkbox" id="checkallaccess" />
+                                        </div>
+                                    </th>
+                                    <th style="text-align: center; font-size: 14px; width: 30px">
+                                        Update<br />
+                                        <div style="text-align:center">
+                                            <input type="checkbox" id="checkallupdate" />
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <hr />
+                        <div class="form-horizontal active">
+                            <div class="form-group active">
+                                <div class="col col-lg-5" style="margin-top:4vh">
+                                    @if (ViewBag.AllowUpdate == "0")
+                                    {
+                                        <button id="btnsubmit" type="submit" value="Save" class="btn btn-save" style="width:85px; font-size:13px" disabled="disabled"> Save </button>
+                                    }
+                                    else
+                                    {
+                                        <button id="btnsubmit" type="submit" value="Save" class="btn btn-save" style="width:85px; font-size:13px"> Save </button>
+                                    }
+                                    &nbsp;
+                                    <button id="btnback" type="button" value="Back" onclick="back()" class="btn btn-default" style="width:85px; font-size:12px; background-color:lightgray;"> Back  </button>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+
+            </article>
+        </div>
+    </section>
+</div>
+
+<style type="text/css">
+    .txtAlignCenter {
+        text-align: center;
+    }
+
+    .txtAlignLeft {
+        text-align: left;
+    }
+
+    .txtAlignRight {
+        text-align: right;
+    }
+    .btn-save {
+        color: #fff;
+        background-color: #4CBFBC;
+        border-color: #4CBFBC;
+    }
+</style>
+
+<link href="~/Content/css/toastr.css" rel="stylesheet" />
+<link href="~/Content/css/toastr.min.css" rel="stylesheet" />
+<script src="~/Scripts/toastr.js"></script>
+<script src="~/Scripts/toastr.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/plugin/bootstrap-waitingfor/bootstrap-waitingfor.min.js"></script>
+<script src="~/Scripts/plugin/bootstrap-waitingfor/bootstrap-waitingfor.min.js"></script>
+<script type="text/javascript">
+
+    var oTable;
+    var responsiveHelper_dt_basic = undefined;
+    var breakpointDefinition = {
+        tablet: 1024,
+        phone: 480
+    };
+
+
+    $(document).ready(function () {
+
+        /* BASIC ;*/
+        oTable = $("#tableData").dataTable({
+            bDestroy: true,
+            data: [],
+            columns: [
+                { "data": "MenuID", "autoWidth": true},
+                { "data": "MenuDesc", "autoWidth": true},
+                { "data": "Access", "autoWidth": true, className: "txtAlignCenter" },
+                { "data": "Update", "autoWidth": true, className: "txtAlignCenter"}
+            ],
+            columnDefs: [{
+                            'targets': [2],
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            "mRender": function (data, type, full, meta) {
+                                //console.log(data);
+                                return '<input id="AllowAccess" type="checkbox" ' + (data ? ' checked' : '') + '/>';
+
+                            }
+                          },
+                                {
+                                'targets': [3],
+                                'searchable': false,
+                                'orderable': false,
+                                'className': 'dt-body-center',
+                                "mRender": function (data, type, full, meta) {
+                                    //console.log(data);
+                                    return '<input id="AllowUpdate" type="checkbox" ' + (data ? ' checked' : '') + '/>';
+
+                                }
+                            }],
+            rowCallback: function (row, data) { responsiveHelper_dt_basic.createExpandIcon(row) },
+            filter: true,
+            info: true,
+            ordering: true,
+            processing: true,
+            retrieve: true,
+            bLengthChange: false,
+            lengthMenu: [[15, 20, -1], [15, 20, "All"]],
+            bFilter: true,
+            bSort: true,
+            bPaginate: true,
+            scrollX: false,
+            //scrollX: "100%",
+            //scrollY: "350px",
+            autoWidth: true,
+            preDrawCallback: function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_basic) {
+                    responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#tableData'), breakpointDefinition);
+                }
+            },
+            drawCallback: function (oSettings) {
+                responsiveHelper_dt_basic.respond();
+            }
+        });
+         //END BASIC
+
+        loadData();
+    })
+
+    function back() {
+        window.location.href = "/UserSetup/Index"
+    }
+
+    function loadData() {
+            waitingDialog.show("Please wait retrieving data...");
+            var userid = '@ViewBag.UserID';
+            $.ajax({
+                url: "@Url.Action("UserPrivilege_Sel", "UserSetup")",
+                type: "post",
+                dataType: "json",
+                data: { "UserID": userid},
+            }).done(function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+                    console.log(result.Contents);
+                    $("#tableData").DataTable().clear();
+                    $("#tableData").DataTable().rows.add(result.Contents).draw(false);
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                }
+                else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                setTimeout(function () {
+                    waitingDialog.hide();
+                }, 1000);
+            });
+    }
+
+    $('#checkallaccess').on('click', function () {
+        $('input[id="AllowAccess"]').prop('checked', this.checked);
+
+    });
+
+    $('#checkallupdate').on('click', function () {
+        $('input[id="AllowUpdate"]').prop('checked', this.checked);
+
+    });
+
+
+    $("#btnsubmit").click(function (e) {
+        e.preventDefault();
+
+        var data = [];
+        data.length = 0;
+
+        $.each($("#tableData tbody tr"), function () {
+            data.push({
+                UserID : '@ViewBag.UserID',
+                MenuID: $(this).find('td:eq(0)').html(),
+                Access: $(this).find('input:eq(0):checked').prop('checked'),
+                Update: $(this).find('input:eq(1):checked').prop('checked')
+            });
+        });
+
+        var dataPost = JSON.stringify({
+            data: data
+        });
+
+
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            type: 'POST',
+            url: "@Url.Action("UserPrivilege_Upd", "UserSetup")",
+            data: dataPost,
+            success: function (result) {
+                if (result.toLowerCase().includes("success")) {
+                    toastr.success(result, 'Success', { timeOut: 3000, closeButton: true });
+                } else {
+                    toastr.warning(result, 'Warning', { timeOut: 3000, closeButton: true });
+                }
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+            }
+        });
+
+    });
+
+
+</script>

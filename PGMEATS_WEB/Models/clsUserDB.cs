@@ -29,7 +29,7 @@ namespace PGMEATS_WEB.Models
                     SqlCommand cmd = new SqlCommand(sql, con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("UserID", UserID.ToString());
-                    cmd.Parameters.AddWithValue("Func", 1);
+                    cmd.Parameters.AddWithValue("Func", 2);
                     
                     //Old SP need to pass password, different type of Encrypt make stored procedure need to be differnt
                     //cmd.Parameters.AddWithValue("Password", encrypt.EncryptData(Password));
@@ -41,6 +41,7 @@ namespace PGMEATS_WEB.Models
                         UserDat.UserID = sdr["UserID"].ToString();
                         UserDat.Password = encrypt.DecryptData(sdr["Password"].ToString());
                         UserDat.FullName = sdr["UserName"].ToString();
+                        UserDat.AdminStatus = sdr["AdminStatus"].ToString();
                     }
 
                     return UserDat;
