@@ -32,14 +32,14 @@
                                             @if (ViewBag.AllowUpdate == "0")
                                             {
                                                 <div style="padding-left:-10px"></div>
-                                                <button id="btnAdd" class="btn btn-primary" style="width:85px;" type="button" data-toggle="modal" data-target="#myModal" value="New" disabled onclick="AddNewData()">
+                                                <button id="btnAdd" class="btn btn-save" style="width:85px;" type="button" data-toggle="modal" data-target="#myModal" value="New" disabled onclick="AddNewData()">
                                                     <span style="font-size:13px">New</span>
                                                 </button>
                                             }
                                             else
                                             {
                                                 <div style="padding-left:-10px"></div>
-                                                <button id="btnAdd" class="btn btn-primary" style="width:85px;" type="button" data-toggle="modal" data-target="#myModal" value="New" onclick="AddNewData()">
+                                                <button id="btnAdd" class="btn btn-save" style="width:85px;" type="button" data-toggle="modal" data-target="#myModal" value="New" onclick="AddNewData()">
                                                     <span style="font-size:13px">New</span>
                                                 </button>
                                             }
@@ -150,13 +150,13 @@
                                         <div class="modal-footer">
                                             @if (ViewBag.AllowUpdate == "0")
                                             {
-                                                <button type="button" class="btn btn-primary" id="InsertData" style="width:85px; font-size:13px" disabled>Save</button>
-                                                <button type="button" class="btn btn-primary" id="UpdateData" style="width:85px; font-size:13px; display:none;" disabled>Update</button>
+                                                <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px" disabled>Save</button>
+                                                <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;" disabled>Update</button>
                                             }
                                             else
                                             {
-                                                <button type="button" class="btn btn-primary" id="InsertData" style="width:85px; font-size:13px">Save</button>
-                                                <button type="button" class="btn btn-primary" id="UpdateData" style="width:85px; font-size:13px; display:none;">Update</button>
+                                                <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px">Save</button>
+                                                <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;">Update</button>
                                             }
                                             <button type="button" class="btn btn-default" data-dismiss="modal" style="width:85px; font-size:13px" onclick="return clearTextBox()">Close</button>
                                         </div>
@@ -176,7 +176,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <a href="#" class="btn btn-default" style="width:85px; font-size:13px" data-dismiss="modal" id="CancelDelete">Cancel</a>
-                                            <a href="#" class="btn btn-primary" style="width:85px; font-size:13px" id="ConfirmDelete">Confirm</a>
+                                            <a href="#" class="btn btn-save" style="width:85px; font-size:13px" id="ConfirmDelete">Confirm</a>
                                         </div>
                                     </div>
                                 </div>
@@ -204,6 +204,11 @@
     }
     .txtAlignRight {
         text-align: right;
+    }
+    .btn-save {
+        color: #fff;
+        background-color: #4CBFBC;
+        border-color: #4CBFBC;
     }
 </style>
 

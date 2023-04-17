@@ -53,11 +53,11 @@
                                 <div class="col col-lg-5" style="margin-top:4vh">
                                     @if (ViewBag.AllowUpdate == "0")
                                     {
-                                        <button id="btnsubmit" type="submit" value="Save" class="btn btn-primary" style="width:85px; font-size:13px" disabled="disabled"> Save </button>
+                                        <button id="btnsubmit" type="submit" value="Save" class="btn btn-save" style="width:85px; font-size:13px" disabled="disabled"> Save </button>
                                     }
                                     else
                                     {
-                                        <button id="btnsubmit" type="submit" value="Save" class="btn btn-primary" style="width:85px; font-size:13px"> Save </button>
+                                        <button id="btnsubmit" type="submit" value="Save" class="btn btn-save" style="width:85px; font-size:13px"> Save </button>
                                     }
                                     &nbsp;
                                     <button id="btnback" type="button" value="Back" onclick="back()" class="btn btn-default" style="width:85px; font-size:12px; background-color:lightgray;"> Back  </button>
@@ -84,6 +84,11 @@
 
     .txtAlignRight {
         text-align: right;
+    }
+    .btn-save {
+        color: #fff;
+        background-color: #4CBFBC;
+        border-color: #4CBFBC;
     }
 </style>
 
