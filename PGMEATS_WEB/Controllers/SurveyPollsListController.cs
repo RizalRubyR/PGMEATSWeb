@@ -11,6 +11,8 @@ using System.Configuration;
 using System.Net;
 using Newtonsoft.Json;
 using System.Web.Helpers;
+using System.Data;
+using System.Collections;
 
 namespace PGMEATS_WEB.Controllers
 {
@@ -58,7 +60,7 @@ namespace PGMEATS_WEB.Controllers
 
             string userID = Session["LogUserID"].ToString();
             string AdminStatus = Session["AdminStatus"].ToString();
-            string MenuID = "C-01";
+            string MenuID = "C-02";
 
             clsUserPrivilegeDB db = new clsUserPrivilegeDB();
             clsUserPrivilege data = new clsUserPrivilege();
@@ -76,6 +78,35 @@ namespace PGMEATS_WEB.Controllers
             ViewBag.AllowUpdate = Privilege.AllowUpdate;
             ViewBag.UserID = userID;
 
+            return View();
+        }
+
+        public ActionResult Update(string id)
+        {
+            if (Session["LogUserID"] is null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            string userID = Session["LogUserID"].ToString();
+            string AdminStatus = Session["AdminStatus"].ToString();
+            string MenuID = "C-03";
+            clsResponse Response = new clsResponse();
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            Response = db.getDataEdit(id);
+
+            List<LoadEditSurvey> data = new List<LoadEditSurvey>();
+            data = ((IEnumerable)Response.Contents).Cast<LoadEditSurvey>().ToList();
+
+            for(int i = 0; i < data.Count; i++)
+            {
+                ViewBag.SurveyID = data[i].SurveyID;
+                ViewBag.SurveyDesc = data[i].SurveyDesc;
+                ViewBag.StartDate = data[i].StartDate;
+                ViewBag.EndDate = data[i].EndDate;
+                ViewBag.ViewResult = data[i].ViewResult;
+            }
+
+            ViewBag.SurveyID = id;
             return View();
         }
 
@@ -263,6 +294,7 @@ namespace PGMEATS_WEB.Controllers
             }
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+        
         [AcceptVerbs("GET", "POST")]
         [HttpPost]
         public ActionResult SaveDetail(SurveyAndPollsDetail param, SurveyAndPollsAnswer param2)
@@ -293,11 +325,11 @@ namespace PGMEATS_WEB.Controllers
                         }
                         else if (i == 2)
                         {
-                            p.AnswerDesc = param2.txtmlt2;
+                            p.AnswerDesc = param2.txtmlt3;
                         }
                         else if (i == 3)
                         {
-                            p.AnswerDesc = param2.txtmlt3;
+                            p.AnswerDesc = param2.txtmlt4;
                         }
                         cls.Add(p);
                     }
@@ -314,6 +346,142 @@ namespace PGMEATS_WEB.Controllers
 
 
                 response = db.saveDetailandAnswer(param, cls, UserLogin);
+            }
+            catch (Exception ex)
+            {
+                response.ID = 0;
+                response.Message = ex.Message;
+                response.Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [HttpPost]
+        public ActionResult UpdateDetail(string id,SurveyAndPollsDetail param, SurveyAndPollsAnswer param2)
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            clsResponse response = new clsResponse();
+
+
+            string UserLogin = Session["LogUserID"].ToString().Trim();
+            param.QuestionSeqNo = db.getQuestionSeqNo(param.SurveyID, param.ParentQuestionID);
+            try
+            {
+                List<surveyAnswer> cls = new List<surveyAnswer>();
+                if (param.AnswerType == "0")
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        surveyAnswer p = new surveyAnswer();
+                        p.SurveyID = param2.SurveyID;
+                        p.QuestionID = param2.QuestionID;
+                        p.AnswerSeqNo = (i + 1).ToString();
+                        if (i == 0)
+                        {
+                            p.AnswerDesc = param2.txtmlt1;
+                        }
+                        else if (i == 1)
+                        {
+                            p.AnswerDesc = param2.txtmlt2;
+                        }
+                        else if (i == 2)
+                        {
+                            p.AnswerDesc = param2.txtmlt3;
+                        }
+                        else if (i == 3)
+                        {
+                            p.AnswerDesc = param2.txtmlt4;
+                        }
+                        cls.Add(p);
+                    }
+                }
+                else if (param.AnswerType == "1")
+                {
+                    surveyAnswer p = new surveyAnswer();
+                    p.SurveyID = param2.SurveyID;
+                    p.QuestionID = param2.QuestionID;
+                    p.AnswerSeqNo = "1";
+                    p.AnswerDesc = param2.txtFreeText;
+                    cls.Add(p);
+                }
+
+
+                response = db.updateDetailandAnswer(id,param, cls, UserLogin);
+            }
+            catch (Exception ex)
+            {
+                response.ID = 0;
+                response.Message = ex.Message;
+                response.Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [HttpPost]
+        public ActionResult Finalized(string SurveyID)
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            clsResponse response = new clsResponse();
+            try
+            {
+                response = db.FillComboParentQuestion(SurveyID);
+            }
+            catch (Exception ex)
+            {
+                response.ID = 0;
+                response.Message = ex.Message;
+                response.Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [HttpPost]
+        public ActionResult Delete(string param)
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            clsResponse response = new clsResponse();
+            try
+            {
+                response = db.delete(param);
+            }
+            catch (Exception ex)
+            {
+                response.ID = 0;
+                response.Message = ex.Message;
+                response.Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult DeleteSurvey(string param)
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            clsResponse response = new clsResponse();
+            try
+            {
+                response = db.DeleteSurvey(param);
+            }
+            catch (Exception ex)
+            {
+                response.ID = 0;
+                response.Message = ex.Message;
+                response.Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [HttpPost]
+        public ActionResult Load_Edit(string param)
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            clsResponse response = new clsResponse();
+            try
+            {
+                response = db.getEdit(param);
             }
             catch (Exception ex)
             {

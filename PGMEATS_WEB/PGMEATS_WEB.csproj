@@ -1032,6 +1032,7 @@
     <Content Include="Views\SurveyPollsList\Index.cshtml" />
     <Content Include="Views\SurveyPollsList\Create.cshtml" />
     <Content Include="Views\UserSetup\UserPrivilege.cshtml" />
+    <Content Include="Views\SurveyPollsList\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Helpers\DashRouteHandler.cs" />

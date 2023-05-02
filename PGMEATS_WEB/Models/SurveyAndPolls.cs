@@ -82,6 +82,26 @@ namespace PGMEATS_WEB.Models
         public string AnswerDesc { get; set; }
     }
 
+    public class loadEdit
+    {
+        public string QuestionID { get; set; }
+        public string QuestionDesc { get; set; }
+        public string AnswerType { get; set; }
+        public string ParentQuestionID { get; set; }
+        public string ParentAnswerSeqNo { get; set; }
+        public string AnswerSeqNo { get; set; }
+        public string AnswerDesc { get; set; }
+
+    }
+    public class LoadEditSurvey
+    {
+        public string SurveyID { get; set; }
+        public string SurveyDesc { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public string ViewResult { get; set; }
+    }
+
     public class SurveyAndPollsDB
     {
         public clsResponse GetSurveyAndPollsList()
@@ -302,7 +322,40 @@ namespace PGMEATS_WEB.Models
             }
             return Response;
         }
+        public clsResponse Finalized(string SurveyID)
+        {
+            clsResponse Response = new clsResponse();
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_SurveyandpollsHeader_Ins", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SurveyID", SurveyID);
+                    con.Open();
 
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    da.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                    Response.ID = 1;
+                    Response.Message = "Success";
+                    Response.Contents = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.ID = 0;
+                Response.Message = ex.Message;
+                Response.Contents = "";
+
+            }
+            return Response;
+        }
         public clsResponse FillComboParentAnswer(string SurveyID, string ParentQuestionID)
         {
             List<clsFillCombo> ComboList = new List<clsFillCombo>();
@@ -434,6 +487,163 @@ namespace PGMEATS_WEB.Models
             return Response;
         }
 
+        public clsResponse delete(string id)
+        {
+            clsResponse Response = new clsResponse();
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    con.Open();
+                    SqlCommand cmd;
+                    cmd = new SqlCommand("sp_detailandAnswer_del", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    int j = cmd.ExecuteNonQuery();
+
+                    Response.ID = 1;
+                    Response.Message = "Success delete data";
+                    Response.Contents = "";
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.ID = 0;
+                Response.Message = ex.Message;
+                Response.Contents = "";
+            }
+
+            return Response;
+        }
+
+        public clsResponse DeleteSurvey(string SurveyID)
+        {
+            clsResponse Response = new clsResponse();
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    con.Open();
+                    SqlCommand cmd;
+                    cmd = new SqlCommand("sp_SurveyAndPollS_Del", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SurveyID", SurveyID);
+
+                    int j = cmd.ExecuteNonQuery();
+
+                    Response.ID = 1;
+                    Response.Message = "Success delete Survey";
+                    Response.Contents = "";
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.ID = 0;
+                Response.Message = ex.Message;
+                Response.Contents = "";
+            }
+
+            return Response;
+        }
+        
+        public clsResponse getEdit(string id)
+        {
+            clsResponse Response = new clsResponse();
+
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    con.Open();
+                    SqlCommand cmd;
+                    cmd = new SqlCommand("sp_detailandanswer_get", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id", id);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+
+                    List<loadEdit> data = new List<loadEdit>();
+
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        loadEdit detail = new loadEdit();
+                        detail.QuestionID = dr["QuestionID"].ToString().Trim();
+                        detail.QuestionDesc = dr["QuestionDesc"].ToString().Trim();
+                        detail.AnswerType = dr["AnswerType"].ToString().Trim();
+                        detail.ParentQuestionID = dr["ParentQuestionID"].ToString().Trim();
+                        detail.ParentAnswerSeqNo = dr["ParentAnswerSeqNo"].ToString().Trim();
+                        detail.AnswerSeqNo = dr["AnswerSeqNo"].ToString().Trim();
+                        detail.AnswerDesc = dr["AnswerDesc"].ToString().Trim();
+
+                        data.Add(detail);
+                    }
+                    Response.ID = 1;
+                    Response.Message = "Success";
+                    Response.Contents = data;
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.ID = 0;
+                Response.Message = ex.Message;
+                Response.Contents = "";
+            }
+
+            return Response;
+        }
+
+        public clsResponse getDataEdit(string SurveyID)
+        {
+            clsResponse Response = new clsResponse();
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    con.Open();
+                    SqlCommand cmd;
+                    cmd = new SqlCommand("sp_Surveyandpolls_Edit_Get", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SurveyID", SurveyID);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+
+                    List<LoadEditSurvey> data = new List<LoadEditSurvey>();
+
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        LoadEditSurvey detail = new LoadEditSurvey();
+                        detail.SurveyID = dr["SurveyID"].ToString().Trim();
+                        detail.SurveyDesc = dr["SurveyTitle"].ToString().Trim();
+                        detail.StartDate = dr["StartDate"].ToString().Trim();
+                        detail.EndDate = dr["EndDate"].ToString().Trim();
+                        detail.ViewResult = dr["ViewChart"].ToString().Trim();
+
+                        data.Add(detail);
+                    }
+                    Response.ID = 1;
+                    Response.Message = "Success";
+                    Response.Contents = data;
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.ID = 0;
+                Response.Message = ex.Message;
+                Response.Contents = "";
+            }
+
+            return Response;
+        }
+
         public clsResponse Saveheader(SurveyAndPollsHeader param, string UserLogin)
         {
             clsResponse Response = new clsResponse();
@@ -517,6 +727,59 @@ namespace PGMEATS_WEB.Models
                 }
             }
             catch(Exception ex)
+            {
+                Response.ID = 0;
+                Response.Message = ex.Message;
+                Response.Contents = "";
+            }
+
+            return Response;
+        }
+
+        public clsResponse updateDetailandAnswer(string id,SurveyAndPollsDetail param, List<surveyAnswer> param2, string UserLogin)
+        {
+            clsResponse Response = new clsResponse();
+
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    con.Open();
+                    SqlCommand cmd;
+                    cmd = new SqlCommand("sp_SurveyAndPollS_Detail_Upd", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@QuestionID", param.QuestionID);
+                    cmd.Parameters.AddWithValue("@SurveyID", param.SurveyID);
+                    cmd.Parameters.AddWithValue("@QuestionSeqNo", param.QuestionSeqNo);
+                    cmd.Parameters.AddWithValue("@QuestionDesc", param.QuestionDesc);
+                    cmd.Parameters.AddWithValue("@ParentQuestionID", param.ParentQuestionID);
+                    cmd.Parameters.AddWithValue("@ParentAnswerSeqNo", param.ParentAnswerSeqNo);
+                    cmd.Parameters.AddWithValue("@AnswerType", param.AnswerType);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+
+                    //cmd = new SqlCommand("sp_SurveyAndPollS_Answer_Upd", con);
+                    //for (int i = 0; i < param2.Count; i++)
+                    //{
+                    //    cmd.Parameters.Clear();
+                    //    cmd.CommandType = CommandType.StoredProcedure;
+                    //    cmd.Parameters.AddWithValue("@SurveyID", param2[i].SurveyID);
+                    //    cmd.Parameters.AddWithValue("@QuestionID", param2[i].QuestionID);
+                    //    cmd.Parameters.AddWithValue("@AnswerSeqNo", param2[i].AnswerSeqNo);
+                    //    cmd.Parameters.AddWithValue("@AnswerDesc", param2[i].AnswerDesc);
+                    //    int j = cmd.ExecuteNonQuery();
+                    //}
+
+                    //Response.ID = 1;
+                    //Response.Message = "Success submit data";
+                    //Response.Contents = "";
+
+                }
+            }
+            catch (Exception ex)
             {
                 Response.ID = 0;
                 Response.Message = ex.Message;
@@ -626,17 +889,31 @@ namespace PGMEATS_WEB.Models
                     cmd.Dispose();
                     con.Close();
 
-                    SurveyPollsDetailList = dt.AsEnumerable().Select(x =>
-                    new SurveyAndPollsDetailList
+                    foreach(DataRow dr in dt.Rows)
                     {
-                        ID = x.Field<Int64>("id").ToString(),
-                        QuestionID = x.Field<Int32>("QuestionID").ToString(),
-                        SurveyID = x.Field<Int32>("SurveyID").ToString(),
-                        QuestionSeqNo = x.Field<Int32>("QuestionSeqNo").ToString(),
-                        QuestionDesc = x.Field<string>("QuestionDesc"),
-                        ParentQuestionID = x.Field<Int32>("ParentQuestionID").ToString(),
-                        ParentAnswerSeqNo = x.Field<Int32>("ParentAnswerSeqNo").ToString(),
-                    }).ToList();
+                        SurveyAndPollsDetailList data = new SurveyAndPollsDetailList();
+                        data.ID = dr["id"].ToString().Trim();
+                        data.QuestionID = dr["QuestionID"].ToString();
+                        data.SurveyID = dr["SurveyID"].ToString();
+                        data.QuestionSeqNo = dr["QuestionSeqNo"].ToString();
+                        data.QuestionDesc = dr["QuestionDesc"].ToString();
+                        data.ParentQuestionID = dr["ParentQuestionID"].ToString();
+                        data.ParentAnswerSeqNo = dr["ParentAnswerSeqNo"].ToString();
+
+                        SurveyPollsDetailList.Add(data);
+                    }
+
+                    //SurveyPollsDetailList = dt.AsEnumerable().Select(x =>
+                    //new SurveyAndPollsDetailList
+                    //{
+                    //    ID = x.Field<Int32>("id").ToString(),
+                    //    QuestionID = x.Field<Int32>("QuestionID").ToString(),
+                    //    SurveyID = x.Field<Int32>("SurveyID").ToString(),
+                    //    QuestionSeqNo = x.Field<Int64>("QuestionSeqNo").ToString(),
+                    //    QuestionDesc = x.Field<string>("QuestionDesc").ToString(),
+                    //    ParentQuestionID = x.Field<string>("ParentQuestionID").ToString(),
+                    //    ParentAnswerSeqNo = x.Field<string>("ParentAnswerSeqNo").ToString(),
+                    //}).ToList();
 
                     Response.ID = 1;
                     Response.Message = "Success";

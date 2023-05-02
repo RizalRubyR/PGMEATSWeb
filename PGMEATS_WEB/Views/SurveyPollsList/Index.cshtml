@@ -104,7 +104,7 @@
                             if ('@ViewBag.AllowUpdate' == '0') {
                                 return '<a href="#" class="fa fa-pencil disable"></a> &nbsp; | &nbsp; <a class="fa fa-trash-o disable"></a>'
                             } else {
-                                return '<a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.SurveyID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteRecord(\'' + row.SurveyID + '\')"></a>'
+                                return '<a href="#" class="fa fa-pencil" onclick="EditData(\'' + row.SurveyID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteData(\'' + row.SurveyID + '\')"></a>'
                             }
                         }
                     },
@@ -138,8 +138,9 @@
                     responsiveHelper_dt_basic.respond();
                 }
             });
+        })
 
-            function loadData() {
+        function loadData() {
                 waitingDialog.show("Please wait retrieving data...");
 
                 $.ajax({
@@ -168,11 +169,40 @@
                 });
 
             }
-        })
 
         function AddNewData() {
             var url = "/SurveyPollsList/Create";
             window.location.href = url;
         };
+
+        function EditData(id) {
+            var url = "/SurveyPollsList/Update?id=" + id;
+            window.location.href = url;
+        }
+        function DeleteData(id) {
+            $.ajax({
+                url: "@Url.Action("DeleteSurvey", "SurveyPollsList")",
+                type: "post",
+                dataType: "json",
+                data: { param: id },
+            }).done(function (result) {
+                if (result.ID == '0') {
+                    toastr.error(result.Message, 'Error', { timeOut: 3000, "closeButton": true });
+                }
+                else {
+                    toastr.success(result.Message, 'Succes', { timeOut: 3000, "closeButton": true });
+                    loadData();
+                }
+
+                setTimeout(function () {
+                    waitingDialog.hide();
+                }, 1000);
+
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                setTimeout(function () {
+                    waitingDialog.hide();
+                }, 1000);
+            });
+        }
     </script> 
 }

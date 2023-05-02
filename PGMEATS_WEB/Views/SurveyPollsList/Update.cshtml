@@ -13,7 +13,7 @@
                      data-widget-custombutton="false" data-widget-collapsed="false" data-widget-sortable="false">
                     <header style="border-top-left-radius:8px; border-top-right-radius:8px">
                         <h2 style="font-family:'Poppins-Regular';font-weight:500;font-size:15px">
-                            Create Survey & Polls
+                            Update Survey & Polls
                         </h2>
                     </header>
 
@@ -26,7 +26,7 @@
                                             Survey ID
                                         </td>
                                         <td width="250px">
-                                            <input id="txtsurveyid" type="text" class="form-control" style="background-color: #e9ecef !important; color:black !important; width:80px" />
+                                            <input id="txtsurveyid" type="text" class="form-control" style="background-color: #e9ecef !important; color:black !important; width:80px" value="@ViewBag.SurveyID" />
                                         </td>
                                     </tr>
                                     <tr style="height:35px">
@@ -34,7 +34,7 @@
                                             Survey Title
                                         </td>
                                         <td>
-                                            <input id="txttitle" type="text" class="form-control input-md" style="background-color:white; width:240px" />
+                                            <input id="txttitle" type="text" class="form-control input-md" style="background-color:white; width:240px" value="@ViewBag.SurveyDesc" />
                                         </td>
                                     </tr>
                                     <tr style="height:35px">
@@ -42,7 +42,7 @@
                                             Start Date
                                         </td>
                                         <td>
-                                            <input id="startdate" type="text" class="form-control input-md" style="background-color:white; width:130px" />
+                                            <input id="startdate" type="text" class="form-control input-md" style="background-color:white; width:130px" value="@ViewBag.StartDate" />
                                         </td>
                                     </tr>
                                     <tr style="height:35px">
@@ -50,7 +50,7 @@
                                             End Date
                                         </td>
                                         <td>
-                                            <input id="enddate" type="text" class="form-control input-md" style="background-color:white; width:130px" />
+                                            <input id="enddate" type="text" class="form-control input-md" style="background-color:white; width:130px" value="@ViewBag.EndDate" />
                                         </td>
                                     </tr>
                                     <tr style="height:35px">
@@ -58,19 +58,26 @@
                                             View Result
                                         </td>
                                         <td>
-                                            <input id="chkViewChart" name="chkViewChart" type="checkbox" />
+                                            @if (ViewBag.ViewResult == "1")
+                                            {
+                                                <input id="chkViewChart" name="chkViewChart" type="checkbox" checked="checked"/>
+                                            }
+                                            else
+                                            {
+                                                <input id="chkViewChart" name="chkViewChart" type="checkbox" />
+                                            }
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table style="width: 100%;">
+                            @*<table style="width: 100%;">
                                 <tr style="height: 50px">
                                     <td>
                                         <button id="btnNew" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #4CBFBC; width:85px" data-toggle="modal" data-target="#myModal" onclick="AddNewData()"><span style="color:white">New</span></button>
                                         <button id="btnFinalized" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #00db11; width: 85px" onclick="Finalized()"><span style="color:white">Finalized</span></button>
                                     </td>
                                 </tr>
-                            </table>
+                            </table>*@
 
                             <table id="tableID" class="table table-bordered table-striped">
                                 <thead>
@@ -107,7 +114,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                            <h4 style="font-family:'Poppins-Regular'" id="ModalTitle"></h4>
+                                            <h4 style="font-family:'Poppins-Regular' !important;" id="ModalTitle"></h4>
                                         </div>
 
                                         <div class="modal-body">
@@ -115,16 +122,9 @@
 
                                                 <div class="table-toolbar" style="padding-bottom:10px">
                                                     <table>
-                                                        @*<tr style="height:35px">
-                <td width="100px">
-                    Survey Title
-                </td>
-                <td width="250px">
-                    <select id="SurveyTitle" , class="form-control input-md" , style="height: 20px; width: 240px; font-family: 'Segoe UI'; font-weight: 500;"></select>
-                </td>
-            </tr>*@
                                                         <tr>
                                                             <td>&nbsp;</td>
+                                                            <input type="hidden" id="detailID" name="detailID">
                                                             <td>&nbsp;</td>
                                                         </tr>
                                                         <tr style="height:35px">
@@ -190,59 +190,6 @@
                                                             <td>&nbsp;</td>
                                                             <td>&nbsp;</td>
                                                         </tr>
-                                                        @*<tr style="height:35px">
-                <td width="100px">
-                    Free Text
-                </td>
-                <td>
-                    <textarea id="txtFreeText" class="form-control input-md" style="background-color: white; width: 363px; height: 166px; resize: none;" ></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>*@
-                                                        @*<tr style="height:35px">
-                                                            <td width="100px">
-                                                                Multiple Choice
-                                                            </td>
-                                                            <td>
-                                                                <input id="txtmlt1" type="text" class="form-control input-md" style="background-color:white; width:240px" />
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>&nbsp;</td>
-                                                            <td>&nbsp;</td>
-                                                        </tr>
-                                                        <tr style="height:35px">
-                                                            <td width="100px">
-                                                            </td>
-                                                            <td>
-                                                                <input id="txtmlt2" type="text" class="form-control input-md" style="background-color:white; width:240px" />
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>&nbsp;</td>
-                                                            <td>&nbsp;</td>
-                                                        </tr>
-                                                        <tr style="height:35px">
-                                                            <td width="100px">
-                                                            </td>
-                                                            <td>
-                                                                <input id="txtmlt3" type="text" class="form-control input-md" style="background-color:white; width:240px" />
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>&nbsp;</td>
-                                                            <td>&nbsp;</td>
-                                                        </tr>
-                                                        <tr style="height:35px">
-                                                            <td width="100px">
-                                                            </td>
-                                                            <td>
-                                                                <input id="txtmlt4" type="text" class="form-control input-md" style="background-color:white; width:240px" />
-                                                            </td>
-                                                        </tr>*@
                                                     </table>
                                                     <table id="tblFreetext" class="answer-type-hide">
                                                         <tr style="height:35px">
@@ -311,12 +258,12 @@
                                             @if (ViewBag.AllowWrite == "0")
                                             {
                                                 <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px" disabled onclick="savequestionanswer()">Save</button>
-                                                <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;" disabled>Update</button>
+                                                <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;" disabled onclick="Updatequestionanswer()">Update</button>
                                             }
                                             else
                                             {
                                                 <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px" onclick="savequestionanswer()">Save</button>
-                                                <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;">Update</button>
+                                                <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;" onclick="Updatequestionanswer()">Update</button>
                                             }
                                         </div>
                                     </div>
@@ -370,7 +317,6 @@
     <script>
         $(document).ready(function () {
             loadData();
-
             $('#startdate').Zebra_DatePicker({
                 format: 'd M Y', //'d M Y'
                 onSelect: function () {
@@ -398,15 +344,6 @@
             month[9] = "Oct";
             month[10] = "Nov";
             month[11] = "Dec";
-
-            //var dd = String(d.getDate()).padStart(2, '0');
-            //var dmonth = month[d.getMonth()];
-            //var dyear = d.getFullYear();
-            //var today = dd + " " + dmonth + " " + dyear;
-
-            //$("#startdate").val(today)
-            //$("#enddate").val(today)
-
 
             var responsiveHelper_dt_basic = undefined;
             var breakpointDefinition = {
@@ -463,7 +400,6 @@
             });
 
             function loadData() {
-                getsurveyid();
                 FillCombo_SurveyTitle('SurveyPoll_Title','');
                 waitingDialog.show("Please wait retrieving data...");
                 var SurveyID = $("#txtsurveyid").val();
@@ -474,7 +410,6 @@
                     data: { param: SurveyID },
                 }).done(function (result) {
                     $("#tableID").DataTable().clear();
-
                     if (result.ID == '0') {
                         toastr.error(result.Message, 'Error', { timeOut: 3000, "closeButton": true });
                     }
@@ -693,7 +628,6 @@
                 dataType: "json",
                 data: { SurveyID: SurveyID },
                 success: function (result) {
-                   // debugger
                     if (result.ID == '0') {
                         toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
                     } else {
@@ -724,7 +658,7 @@
                 dataType: "json",
                 data: { SurveyID: SurveyID, ParentQuestionID: ParentQuestionID },
                 success: function (result) {
-                   // debugger
+                    debugger
                     if (result.ID == '0') {
                         toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
                     } else {
@@ -923,56 +857,70 @@
 
         function EditRecord(id) {
             var SurveyID = $("#txtsurveyid").val();
+            FillCombo_ParentQuestion(SurveyID);
+            FillCombo_AnswerType();
+            var ParentAnswerSeqNo
+            var AnswerType
+            $("#detailID").val(id)
             $.ajax({
                 url: "@Url.Action("Load_Edit", "SurveyPollsList")",
                 type: "post",
                 dataType: "json",
                 data: { param: id },
-            }).done(function (result) {
-                if (result.ID == '0') {
-                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
-                } else {
-                    $("#ModalTitle").html("Create Question Survey & Polls");
-                    $("#MyModal").modal();
-                    $('#InsertData').show();
-                    $('#UpdateData').hide();
-                    FillCombo_ParentQuestion(SurveyID);
-                    fillCombo_ParentAnswer()
-                    FillCombo_AnswerType();
-                    var u = 1;
-                    var objDT = result.Contents;
-                    $("#ParentQuestion").val(objDT[0].ParentQuestionID);
-                    $("#ParentAnswer").val(objDT[0].ParentAnswerSeqNo);
-                    $("#AnswerType").val(objDT[0].AnswerType);
-                    debugger
-                    $.each(result.Contents, function (i, dt) {
-                        $("#QuestionDescription").val(dt.QuestionDesc);
-                        //$("#ParentQuestion").val(objDT[0].ParentQuestionID);
-                        if (u == 1) {
-                            $("#txtmlt1").val(dt.AnswerDesc);
-                            $("#txtFreeText").val(dt.AnswerDesc);
+                success: function (data) {
+                    ojk = data.Contents;
+                    if (data.ID == '0') {
+                        toastr.warning(data.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    } else {
+                        var objDT = data.Contents;
+                        $("#ModalTitle").html("Update Question Survey & Polls");
+                        $("#MyModal").modal();
+                        $('#InsertData').hide();
+                        $('#UpdateData').show();
+                        $("#ParentQuestion > [value=" + objDT[0].ParentQuestionID + "]").attr("selected", "true");
+                        var u = 1;
+                        ParentAnswerSeqNo = objDT[0].ParentAnswerSeqNo;
+                        AnswerType = objDT[0].AnswerType;
+                        $("#txtQuestionID").val(objDT[0].QuestionID);
+                        $("#QuestionDescription").val(objDT[0].QuestionDesc);
+
+                        combo(SurveyID, objDT[0].ParentQuestionID, ParentAnswerSeqNo, AnswerType);
+                        $("#AnswerType").val(AnswerType);
+                        if (AnswerType == "0") {
+                            $("#tblMulti").addClass("answer-type");
+                            $("#tblFreetext").addClass("answer-type-hide");
+                        } else if (AnswerType == "1") {
+                            $("#tblMulti").addClass("answer-type-hide");
+                            $("#tblFreetext").addClass("answer-type");
                         }
-                        if (u == 2) {
-                            $("#txtmlt2").val(dt.AnswerDesc);
-                        }
-                        if (u == 3) {
-                            $("#txtmlt3").val(dt.AnswerDesc)
-                        }
-                        if (u == 4) {;
-                            $("#txtmlt4").val(dt.AnswerDesc);
-                        }
-                        u += 1;
-                    });
+
+                        $.each(data.Contents, function (i, dt) {
+                            if (u == 1) {
+                                if (AnswerType == "0") {
+                                    $("#txtmlt1").val(dt.AnswerDesc);
+                                } else {
+                                    $("#txtFreeText").val(dt.AnswerDesc);
+                                }
+                            }
+                            if (u == 2) {
+                                $("#txtmlt2").val(dt.AnswerDesc);
+                            }
+                            if (u == 3) {
+                                $("#txtmlt3").val(dt.AnswerDesc)
+                            }
+                            if (u == 4) {;
+                                $("#txtmlt4").val(dt.AnswerDesc);
+                            }
+                            u += 1;
+                        });
+                    }
+                },
+                error: function () {
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
                 }
-
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                //toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
-                setTimeout(function () {
-                    waitingDialog.hide();
-                }, 1000);
             });
-
-            
         }
         function DeleteRecord(id) {
             $.ajax({
@@ -997,6 +945,92 @@
                 setTimeout(function () {
                     waitingDialog.hide();
                 }, 1000);
+            });
+        }
+
+        function Updatequestionanswer() {
+            debugger
+            var QuestionID = $("#txtQuestionID").val();
+            var SurveyID = $("#txtsurveyid").val();
+            var id = $("#detailID").val();
+            // Question
+            var QuestionDesc = $("#QuestionDescription").val();
+            var ParentQuestionID = $("#ParentQuestion").val();
+            var ParentAnswerSeqNo = $("#ParentAnswer").val();
+            var AnswerType = $("#AnswerType").val();
+
+            // Answer
+            var txtFreeText = $("#txtFreeText").val();
+
+            var txtmlt1 = $("#txtmlt1").val();
+            var txtmlt2 = $("#txtmlt2").val();
+            var txtmlt3 = $("#txtmlt3").val();
+            var txtmlt4 = $("#txtmlt4").val();
+
+
+            var dataQuestion = { SurveyID: SurveyID, QuestionID: QuestionID, QuestionDesc: QuestionDesc, ParentQuestionID: ParentQuestionID, ParentAnswerSeqNo: ParentAnswerSeqNo, AnswerType: AnswerType };
+            var dataAnswer = { SurveyID: SurveyID, QuestionID: QuestionID, txtFreeText: txtFreeText, txtmlt1: txtmlt1, txtmlt2: txtmlt2, txtmlt3: txtmlt3, txtmlt4: txtmlt4}
+
+            var pdata = { 'id':id, 'param': dataQuestion, 'param2': dataAnswer }
+            $.ajax({
+                url: "@Url.Action("UpdateDetail", "SurveyPollsList")",
+                type: "post",
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(pdata),
+                success: function (data) {
+                    if (data.ID == '0') {
+                        toastr.warning(data.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    } else {
+                        toastr.success(data.Message, 'Success', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+
+                        loadDataAftersave()
+                        $("#MyModal").modal("hide");
+                    }
+                },
+                error: function () {
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                }
+            }).done(function (result) {
+
+               /* $("#txtQuestionID").val(result.Contents);*/
+                setTimeout(function () {
+                    waitingDialog.hide();
+                }, 1000);
+
+            });
+        }
+
+        function combo(SurveyID, ParentQuestionID, pa, at) {
+            $.ajax({
+                url: "@Url.Action("FillComboParentAnswer", "SurveyPollsList")",
+                type: "post",
+                dataType: "json",
+                data: { SurveyID: SurveyID, ParentQuestionID: ParentQuestionID },
+                success: function (result) {
+                   // debugger
+                    if (result.ID == '0') {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    } else {
+                        $('#ParentAnswer')
+                            .find('option')
+                            .remove()
+                            .end()
+                            ;
+                        $.each(result.Contents, function (i, dt) {
+                            $("#ParentAnswer").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
+                        });
+                        $("#ParentAnswer").val(pa);
+                    }
+                },
+                error: function (ex) {
+                    toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                }
             });
         }
 
