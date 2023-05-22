@@ -271,27 +271,27 @@
                                 $("#tableID").DataTable().rows.add(result.Contents).draw(false);
                                 setTimeout(function () {
                                     waitingDialog.hide();
-                                }, 1000);
+                                }, 500);
                             });
                         } else {
-                            toastr.warning("Data not found!", 'Warning', { timeOut: 3000, closeButton: true });
+                            toastr.warning("Data not found!", 'Warning', { timeOut: 1000, closeButton: true });
                             setTimeout(function () {
                                 waitingDialog.hide();
-                            }, 1000);
+                            }, 500);
                         }
                     }
                     else {
-                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true});
+                        toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true});
                         setTimeout(function () {
                             waitingDialog.hide();
-                        }, 1000);
+                        }, 500);
                     }
                 },
                 error: function (ex) {
-                    toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                    toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
                     setTimeout(function () {
                         waitingDialog.hide();
-                    }, 1000);
+                    }, 500);
                 }
             });
         }
@@ -304,11 +304,11 @@
         var ActiveStatus = $("#ActiveStatus option:selected").val();
 
         if (IssueTypeDesc == "") {
-            toastr.warning("Please, enter issue type description!", 'Warning', { timeOut: 3000, closeButton: true });
+            toastr.warning("Please, enter issue type description!", 'Warning', { timeOut: 1000, closeButton: true });
         } else if (fileDataImg.length <= 0) {
-            toastr.warning("Please, attach file image!", 'Warning', { timeOut: 3000, closeButton: true });
+            toastr.warning("Please, attach file image!", 'Warning', { timeOut: 1000, closeButton: true });
         } else if (ActiveStatus == ""){
-            toastr.warning("Please, select active status!", 'Warning', { timeOut: 3000, closeButton: true });
+            toastr.warning("Please, select active status!", 'Warning', { timeOut: 1000, closeButton: true });
         }else {
 
             var formData = new FormData();
@@ -348,18 +348,18 @@
             data: { IssueTypeID : issuetypeID},
             success: function (result) {
                 if (result.Message.toLowerCase().includes("success")) {
-                    toastr.success(result.Message, 'Success', { timeOut: 3000, closeButton: true });
+                    toastr.success(result.Message, 'Success', { timeOut: 1000, closeButton: true });
                     $('#MyModal').modal('hide');
-                    millisecondsToWait = 1000;
+                    millisecondsToWait = 500;
                     setTimeout(function () {
                         window.location.reload(true);
                     }, millisecondsToWait);
                 } else {
-                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
                 }
             },
             error: function (ex) {
-                toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
             }
         });
     })
@@ -417,14 +417,14 @@
                         }
                     });
                 } else {
-                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true, positionClass: "toast-top-full-width" });
                 }
             },
             error: function (ex) {
-                toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
                 setTimeout(function () {
                     waitingDialog.hide();
-                }, 1000);
+                }, 500);
             }
         });
     }
@@ -474,19 +474,19 @@
                         fileData.append("files", ImgFiles);
                         uploadImg(fileData) //upload img complaint
                     } else {
-                        toastr.success(result.Message, 'Success', { timeOut: 3000, closeButton: true });
+                        toastr.success(result.Message, 'Success', { timeOut: 1000, closeButton: true });
                         $('#MyModal').modal('hide');
-                        millisecondsToWait = 1000;
+                        millisecondsToWait = 500;
                         setTimeout(function () {
                             window.location.reload(true);
                         }, millisecondsToWait);
                     }
                 } else {
-                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
                 }
             },
             error: function (ex) {
-                toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
             }
         });
     }
@@ -511,19 +511,19 @@
                         fileData.append("files", ImgFiles);
                         uploadImg(fileData) //upload img complaint
                     } else {
-                        toastr.success(result.Message, 'Success', { timeOut: 3000, closeButton: true });
+                        toastr.success(result.Message, 'Success', { timeOut: 1000, closeButton: true });
                         $('#MyModal').modal('hide');
-                        millisecondsToWait = 1000;
+                        millisecondsToWait = 500;
                         setTimeout(function () {
                             window.location.reload(true);
                         }, millisecondsToWait);
                     }
                 } else {
-                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
                 }
             },
             error: function (ex) {
-                toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
             }
         });
     }
@@ -573,18 +573,18 @@
             data: fileData,
             success: function (result) {
                 if (result.Message.toLowerCase().includes("success")) {
-                    toastr.success(result.Message, 'Warning', { timeOut: 3000, closeButton: true});
-                    millisecondsToWait = 3000;
+                    toastr.success(result.Message, 'Warning', { timeOut: 1000, closeButton: true});
+                    millisecondsToWait = 500;
                     setTimeout(function () {
                         window.location.reload(true);
                     }, millisecondsToWait);
                 }
                 else {
-                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true});
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true});
                 }
             },
             error: function (err) {
-                toastr.warning(err.statusText, 'Warning', { timeOut: 3000, closeButton: true });
+                toastr.warning(err.statusText, 'Warning', { timeOut: 1000, closeButton: true });
             }
         });
     }
