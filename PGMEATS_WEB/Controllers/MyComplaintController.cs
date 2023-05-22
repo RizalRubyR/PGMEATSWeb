@@ -163,6 +163,7 @@ namespace PGMEATS_WEB.Controllers
             clsIssueTypeMaterDB DB = new clsIssueTypeMaterDB();
             try
             {
+                string filename = "IMG" + IssueTypeID.Trim();
                 response = DB.IssueTypeDel(IssueTypeID);
 
                 if (response.Message.ToLower().Contains("success"))
@@ -176,8 +177,8 @@ namespace PGMEATS_WEB.Controllers
                     if (!Directory.Exists(PathWeb)) { Directory.CreateDirectory(PathWeb); } //jika path web tidak ditemukan makan buat path            
                     if (!Directory.Exists(PathMobile)) { Directory.CreateDirectory(PathMobile); } //jika path mobile tidak ditemukan makan buat path
 
-                    var ImgWeb = System.IO.Directory.GetFiles(PathWeb + @"\", "*" + IssueTypeID.Trim() + "*.PNG"); //get file Web
-                    var ImgMobile = System.IO.Directory.GetFiles(PathMobile + @"\", "*" + IssueTypeID.Trim() + "*.PNG"); //get file Mobile
+                    var ImgWeb = System.IO.Directory.GetFiles(PathWeb + @"\", "*" + filename + "*.PNG"); //get file Web
+                    var ImgMobile = System.IO.Directory.GetFiles(PathMobile + @"\", "*" + filename + "*.PNG"); //get file Mobile
 
                     //jika filenya ada maka hapus file web
                     if (ImgWeb.Length > 0)
@@ -276,7 +277,8 @@ namespace PGMEATS_WEB.Controllers
                 string PathMobile = dbPath.PathFolder("Mobile", "IssueType"); //Jika Mobile 
 
                 string date = DateTime.Now.ToString("yyyyMMddHHmmss");
-                string fileName = Convert.ToInt32(data.IssueTypeID.Trim()).ToString("00000");
+                string fileName = "IMG" + data.IssueTypeID.Trim();
+                //string fileName = data.IssueTypeID.Trim();
 
 
                 byte[] bytes = Convert.FromBase64String(data.files);
