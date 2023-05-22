@@ -255,7 +255,47 @@ namespace PGMEATS_WEB.Controllers
             clsResponse response = new clsResponse();
             try
             {
+                string filename = "IMG" + ComplaintID.Trim();
                 response = db.ReplyComplaintDel(ComplaintID);
+
+                if (response.Message.ToLower().Contains("success"))
+                {
+                    clsConPathFolderDB dbPath = new clsConPathFolderDB();
+                    string PathWeb = dbPath.PathFolder("Web", "MyComplaint"); //Jika Web
+                    string PathMobile = dbPath.PathFolder("Mobile", "MyComplaint"); //Jika Mobile
+
+                    string date = DateTime.Now.ToString("yyyyMMddHHmmss");
+
+                    if (!Directory.Exists(PathWeb)) { Directory.CreateDirectory(PathWeb); } //jika path web tidak ditemukan makan buat path            
+                    if (!Directory.Exists(PathMobile)) { Directory.CreateDirectory(PathMobile); } //jika path mobile tidak ditemukan makan buat path
+
+                    var ImgWeb = System.IO.Directory.GetFiles(PathWeb + @"\", "*" + filename + "*.PNG"); //get file Web
+                    var ImgMobile = System.IO.Directory.GetFiles(PathMobile + @"\", "*" + filename + "*.PNG"); //get file Mobile
+
+                    //jika filenya ada maka hapus file web
+                    if (ImgWeb.Length > 0)
+                    {
+                        for (int i = 0; i <= ImgWeb.Length - 1; i++)
+                        {
+                            var LastImgPath = ImgWeb[i];
+                            var LastImgName = System.IO.Path.GetFileName(LastImgPath);
+                            var LastImgFullPath = PathWeb + LastImgName;
+                            System.IO.File.Delete(LastImgFullPath);
+                        }
+                    }
+
+                    //jika filenya ada maka hapus file mobile
+                    if (ImgMobile.Length > 0)
+                    {
+                        for (int i = 0; i <= ImgMobile.Length - 1; i++)
+                        {
+                            var LastImgPath = ImgMobile[i];
+                            var LastImgName = System.IO.Path.GetFileName(LastImgPath);
+                            var LastImgFullPath = PathMobile + LastImgName;
+                            System.IO.File.Delete(LastImgFullPath);
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {

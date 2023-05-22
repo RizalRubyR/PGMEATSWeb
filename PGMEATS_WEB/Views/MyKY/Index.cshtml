@@ -272,7 +272,7 @@
         $("#fromDate").val(today)
         $("#toDate").val(today)
 
-        millisecondsToWait = 2000;
+        millisecondsToWait = 1500;
         setTimeout(function () {
             loadData(); //Get list complaint
         }, millisecondsToWait);
@@ -375,7 +375,7 @@
                             $("#tableID").DataTable().rows.add(result.Contents).draw(false);
                             setTimeout(function () {
                                 waitingDialog.hide();
-                            }, 1000);
+                            }, 500);
                         });
                     } else {
                         setTimeout(function () {
@@ -384,17 +384,17 @@
                     }
                 }
                 else {
-                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
                     setTimeout(function () {
                         waitingDialog.hide();
-                    }, 1000);
+                    }, 500);
                 }
             },
             error: function (ex) {
-                toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
                 setTimeout(function () {
                     waitingDialog.hide();
-                }, 1000);
+                }, 500);
             }
         });
     }
@@ -464,7 +464,7 @@
         var complaintReply = $("#MyKYReply").val();
 
         if (complaintReply == "") {
-            toastr.warning("Please, enter your response!", 'Warning', { timeOut: 3000, closeButton: true });
+            toastr.warning("Please, enter your response!", 'Warning', { timeOut: 1000, closeButton: true });
         } else {
             var formdata = new FormData();
             formdata.append("MyKYID", MyKYID);
@@ -478,19 +478,19 @@
                 data: formdata,
                 success: function (result) {
                     if (result.Message.toLowerCase().includes("success")) {
-                        toastr.success(result.Message, 'Success', { timeOut: 3000, closeButton: true });
+                        toastr.success(result.Message, 'Success', { timeOut: 1000, closeButton: true });
                         $('#MyModal').modal('hide');
-                        millisecondsToWait = 1000;
+                        millisecondsToWait = 500;
                         setTimeout(function () {
                             loadData();
                         }, millisecondsToWait);
                     }
                     else {
-                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                        toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
                     }
                 },
                 error: function (ex) {
-                    toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                    toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
                 }
             });
         }
@@ -510,17 +510,17 @@
             data: { MyKYID: MyKYID },
             success: function (result) {
                 if (result.Message.toLowerCase().includes("success")) {
-                    toastr.success(result.Message, 'Success', { timeOut: 3000, closeButton: true });
+                    toastr.success(result.Message, 'Success', { timeOut: 1000, closeButton: true });
                     $('#DeleteConfirmation').modal('hide');
                     setTimeout(function () {
-                        loadData();
-                    }, 3000);
+                        window.location.reload(true);
+                    }, 500);
                 } else {
-                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
                 }
             },
             error: function (ex) {
-                toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
             }
         });
     })
@@ -538,11 +538,11 @@
                         $("#Location").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
                     });
                 } else {
-                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
                 }
             },
             error: function (ex) {
-                toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
             }
         });
     }
@@ -560,11 +560,11 @@
                         $("#Status").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
                     });
                 } else {
-                    toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
                 }
             },
             error: function (ex) {
-                toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
             }
         });
     }
