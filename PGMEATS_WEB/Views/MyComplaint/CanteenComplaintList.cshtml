@@ -17,7 +17,7 @@
                      data-widget-sortable="false">
 
                     <header style="border-top-left-radius:8px; border-top-right-radius:8px">
-                        <h2 style="font-family:'Poppins';font-weight:500;font-size:13px">List of My Complaint</h2>
+                        <h2 style="font-family:'Poppins';font-weight:500;font-size:13px">List of Feedback</h2>
                     </header>
 
                     <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
@@ -456,7 +456,7 @@
                     if (result.Message.toLowerCase().includes("success")) {
                         console.log(result.Contents);
                         clearTextBox();
-                        $("#ModalTitle").html("Response Complaint");
+                        $("#ModalTitle").html("Response Feedback");
                         $("#MyModal").modal();
                         $("#CreatedDate").val(result.Contents.CreatedDate);
                         $("#ComplaintID").val(complaintID);
