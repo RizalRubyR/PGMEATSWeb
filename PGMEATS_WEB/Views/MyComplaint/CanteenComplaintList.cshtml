@@ -292,7 +292,8 @@
             columns: [
                 {
                     "data": "Action", className: "txtAlignCenter", "render": function (data, type, row) {
-                        return '<a href="#" class="fa fa-pencil" onclick="ReplyComplaint(\'' + row.ComplaintID + '|' + row.CreatedDate + '|' + row.Department + '|' + row.IssueTypeDesc + '|' + row.ComplaintDesc + '|' + row.CreatedUser + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteComplaint(\'' + row.ComplaintID + '\')"></a>'
+                        //return '<a href="#" class="fa fa-pencil" onclick="ReplyComplaint(\'' + row.ComplaintID + '\',\'' + row.CreatedDate + '\',\'' + row.Department + '\',\'' + row.IssueTypeDesc + '\',\'' + row.ComplaintDesc.replace(/\n|<br\s*\/?>/gi, "") + '\',\'' + row.CreatedUser + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteComplaint(\'' + row.ComplaintID + '\')"></a>'
+                        return '<a href="#" class="fa fa-pencil" onclick="ReplyComplaint(\'' + row.ComplaintID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteComplaint(\'' + row.ComplaintID + '\')"></a>'
                     }
                 },
                 { "data": "CreatedDate", "autoWidth": true, className: "txtAlignCenter" },
@@ -444,23 +445,42 @@
         //load datatable function
     })
 
-    function ReplyComplaint(data) {
-        var complaintID = data.split('|')[0];
-        var createdDate = data.split('|')[1];
-        var department = data.split('|')[2];
-        var issuetypeDesc = data.split('|')[3];
-        var complaintDesc = data.split('|')[4];
-        var createdUser = data.split('|')[5];
-
-        clearTextBox();
-        $("#ModalTitle").html("Response Complaint");
-        $("#MyModal").modal();
-        $("#CreatedDate").val(createdDate);
-        $("#ComplaintID").val(complaintID);
-        $("#DepartmentDet").val(department);
-        $("#IssueTypeDesc").val(issuetypeDesc);
-        $("#ComplaintDesc").val(complaintDesc);
-        $("#CreatedUser").val(createdUser);
+    function ReplyComplaint(complaintID) {
+        console.log(complaintID);
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ReplyComplaintSel", "MyComplaint")", //"/MyComplaint/ReplyComplaintUpd/",
+            datatype: 'json',
+            data: {ComplaintID : complaintID},
+                success: function (result) {
+                    if (result.Message.toLowerCase().includes("success")) {
+                        console.log(result.Contents);
+                        clearTextBox();
+                        $("#ModalTitle").html("Response Complaint");
+                        $("#MyModal").modal();
+                        $("#CreatedDate").val(result.Contents.CreatedDate);
+                        $("#ComplaintID").val(complaintID);
+                        $("#DepartmentDet").val(result.Contents.Department);
+                        $("#IssueTypeDesc").val(result.Contents.IssueTypeDesc);
+                        $("#ComplaintDesc").val(result.Contents.ComplaintDesc);
+                        $("#ComplaintReplyDet").val(result.Contents.ComplaintReply);
+                        $("#CreatedUser").val(result.Contents.CreatedUser);
+                    }
+                    else {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
+                    }
+                },
+                error: function (ex) {
+                    toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
+                }
+            });
+        //console.log(data);
+        //var complaintID = data.split('|')[0];
+        //var createdDate = data.split('|')[1];
+        //var department = data.split('|')[2];
+        //var issuetypeDesc = data.split('|')[3];
+        //var complaintDesc = data.split('|')[4];
+        //var createdUser = data.split('|')[5];
     }
 
     $("#InsertData").click(function () {

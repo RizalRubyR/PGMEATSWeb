@@ -82,6 +82,46 @@ namespace PGMEATS_WEB.Models
             return Response;
         }
 
+        public clsResponse ReplyMyKYSel(String MyKYID)
+        {
+            clsMyKY Menu = new clsMyKY();
+            clsResponse Response = new clsResponse();
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_ReplyMyKY_Sel", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("MyKYID", MyKYID);
+                    con.Open();
+
+                    SqlDataReader rd = cmd.ExecuteReader();
+                    while (rd.Read())
+                    {
+                       
+                        Menu.MyKYID = rd["MyKYID"].ToString();;
+                        Menu.MyKYLocationDesc = rd["MyKYLocationDesc"].ToString();
+                        Menu.MyKYSpecLocation = rd["MyKYSpecLocation"].ToString();
+                        Menu.MyKYDesc = rd["MyKYDesc"].ToString();
+                        Menu.MyKYReply = rd["MyKYReply"].ToString();
+                        Menu.CreateDate = rd["CreateDate"].ToString();
+                        Menu.CreateUser = rd["CreateUser"].ToString();
+                    }
+
+                    Response.Message = "Success";
+                    Response.Contents = Menu;
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Message = ex.Message;
+                Response.Contents = "";
+
+            }
+            return Response;
+        }
+
         public clsResponse ReplyMyKYUpd(clsMyKY data)
         {
             clsResponse Response = new clsResponse();

@@ -290,7 +290,8 @@
             columns: [
                 {
                     "data": "Action", className: "txtAlignCenter", "render": function (data, type, row) {
-                        return '<a href="#" class="fa fa-pencil" onclick="ReplyMyKY(\'' + row.MyKYID + '|' + row.CreateDate + '|' + row.MyKYLocationDesc + '|' + row.MyKYSpecLocation + '|' + row.MyKYDesc + '|' + row.CreateUser + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteMyKY(\'' + row.MyKYID + '\')"></a>'
+                        //return '<a href="#" class="fa fa-pencil" onclick="ReplyMyKY(\'' + row.MyKYID + '|' + row.CreateDate + '|' + row.MyKYLocationDesc + '|' + row.MyKYSpecLocation + '|' + row.MyKYDesc + '|' + row.CreateUser + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteMyKY(\'' + row.MyKYID + '\')"></a>'
+                        return '<a href="#" class="fa fa-pencil" onclick="ReplyMyKY(\'' + row.MyKYID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteMyKY(\'' + row.MyKYID + '\')"></a>'
                     }
                 },
                 { "data": "CreateDate", "autoWidth": true, className: "txtAlignCenter" },
@@ -440,23 +441,40 @@
         //load datatable function
     })
 
-    function ReplyMyKY(data) {
-        var myKYID = data.split('|')[0];
-        var createDate = data.split('|')[1];
-        var myKYLoc = data.split('|')[2];
-        var myKYSpecLoc = data.split('|')[3];
-        var myKYDesc = data.split('|')[4];
-        var createUser = data.split('|')[5];
-
-        clearTextBox();
-        $("#ModalTitle").html("Response MyKY");
-        $("#MyModal").modal();
-        $("#CreateDate").val(createDate);
-        $("#MyKYID").val(myKYID);
-        $("#MyKYLocation").val(myKYLoc);
-        $("#MyKYSpecLocation").val(myKYSpecLoc);
-        $("#MyKYDesc").val(myKYDesc);
-        $("#CreateUser").val(createUser);
+    function ReplyMyKY(myKYID) {
+         $.ajax({
+            type: "POST",
+            url: "@Url.Action("ReplyMyKYSel", "MyKY")", 
+            datatype: 'json',
+             data: { MyKYID: myKYID},
+                success: function (result) {
+                    if (result.Message.toLowerCase().includes("success")) {
+                        console.log(result.Contents);
+                        clearTextBox();
+                        $("#ModalTitle").html("Response MyKY");
+                        $("#MyModal").modal();
+                        $("#CreateDate").val(result.Contents.CreateDate);
+                        $("#MyKYID").val(myKYID);
+                        $("#MyKYLocation").val(result.Contents.MyKYLocationDesc);
+                        $("#MyKYSpecLocation").val(result.Contents.MyKYSpecLocation);
+                        $("#MyKYDesc").val(result.Contents.MyKYDesc);
+                        $("#MyKYReply").val(result.Contents.MyKYReply);
+                        $("#CreateUser").val(result.Contents.CreateUser);
+                    }
+                    else {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
+                    }
+                },
+                error: function (ex) {
+                    toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
+                }
+            });
+        //var myKYID = data.split('|')[0];
+        //var createDate = data.split('|')[1];
+        //var myKYLoc = data.split('|')[2];
+        //var myKYSpecLoc = data.split('|')[3];
+        //var myKYDesc = data.split('|')[4];
+        //var createUser = data.split('|')[5];
     }
 
     $("#InsertData").click(function () {

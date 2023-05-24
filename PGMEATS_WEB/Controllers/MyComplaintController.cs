@@ -231,6 +231,24 @@ namespace PGMEATS_WEB.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [HttpPost]
+        public JsonResult ReplyComplaintSel(String ComplaintID)
+        {
+            clsMyComplaintDB db = new clsMyComplaintDB();
+            clsResponse response = new clsResponse();
+            try
+            {
+                response = db.ReplyComplaintSel(ComplaintID);
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [HttpPost]
         public JsonResult ReplyComplaintUpd(clsMyComplaint dataFrom)
         {
             clsMyComplaintDB db = new clsMyComplaintDB();

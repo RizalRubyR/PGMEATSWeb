@@ -67,6 +67,23 @@ namespace PGMEATS_WEB.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [HttpPost]
+        public JsonResult ReplyMyKYSel(String MyKYID)
+        {
+            clsMyKYDB db = new clsMyKYDB();
+            clsResponse response = new clsResponse();
+            try
+            {
+                response = db.ReplyMyKYSel(MyKYID);
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [HttpPost]
         public JsonResult ReplyMyKYUpd(clsMyKY dataFrom)
         {
             clsMyKYDB db = new clsMyKYDB();

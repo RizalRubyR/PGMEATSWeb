@@ -54,7 +54,7 @@ namespace PGMEATS_WEB.Models
                     {
                         clsMyComplaint Menu = new clsMyComplaint();
                         Menu.ComplaintID = rd["ComplaintID"].ToString();
-                        Menu.ComplaintDesc = rd["ComplaintDesc"].ToString();
+                        Menu.ComplaintDesc = rd["ComplaintDesc"].ToString().Replace(System.Environment.NewLine," ");
                         Menu.ComplaintReply = rd["ComplaintReply"].ToString();
                         Menu.ComplaintStatus = rd["ComplaintStatus"].ToString();
                         Menu.ReplyStatus = rd["ReplyStatus"].ToString();
@@ -70,6 +70,45 @@ namespace PGMEATS_WEB.Models
 
                     Response.Message = "Success";
                     Response.Contents = Menus;
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Message = ex.Message;
+                Response.Contents = "";
+
+            }
+            return Response;
+        }
+
+        public clsResponse ReplyComplaintSel(String ComplaintID)
+        {
+            clsResponse Response = new clsResponse();
+            try
+            {
+                clsMyComplaint Menu = new clsMyComplaint();
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_ReplyComplaint_Sel", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("ComplaintID", ComplaintID);
+                    con.Open();
+
+                    SqlDataReader rd = cmd.ExecuteReader();
+                    while (rd.Read())
+                    {
+                        Menu.ComplaintID = rd["ComplaintID"].ToString();
+                        Menu.ComplaintDesc = rd["ComplaintDesc"].ToString().Replace(System.Environment.NewLine, " ");
+                        Menu.ComplaintReply = rd["ComplaintReply"].ToString();
+                        Menu.IssueTypeDesc = rd["IssueTypeDesc"].ToString();
+                        Menu.CreatedUser = rd["CreatedUser"].ToString();
+                        Menu.CreatedDate = rd["CreatedDate"].ToString();
+                        Menu.Department = rd["Department"].ToString();
+                    }
+
+                    Response.Message = "Success";
+                    Response.Contents = Menu;
                 }
             }
             catch (Exception ex)
