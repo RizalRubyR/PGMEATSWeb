@@ -596,7 +596,7 @@
         function FillCombo_SurveyTitle(type, code) {
             $.ajax({
                 type: "POST",
-                url: "/SurveyPollsList/FillCombo/",
+                url:"@Url.Action("FillCombo", "SurveyPollsList")",
                 datatype: 'json',
                 data: { Type: type },
                 success: function (result) {
