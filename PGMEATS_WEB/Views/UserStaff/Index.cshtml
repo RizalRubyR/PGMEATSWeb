@@ -461,12 +461,14 @@
     var ResetPassword = function (data) {
         var user = data.split('|')[0];
         var ICNo = data.split('|')[1];
-
-        console.log(data);
-
-        $("#StaffID").val(user);
-        $("#ICNo").val(ICNo)
-        $("#ResetConfirmation").modal("show");
+        console.log(ICNo);
+        if (ICNo == "") {
+            toastr.warning("You can not reset the password, ICNo is nothing please fill ICNo!", 'Warning', { timeOut: 1000, "closeButton": true });
+        } else {
+            $("#StaffID").val(user);
+            $("#ICNo").val(ICNo)
+            $("#ResetConfirmation").modal("show");
+        }
     }
 
     //function PopulateApprovalStatus() {

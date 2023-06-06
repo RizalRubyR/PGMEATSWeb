@@ -415,6 +415,8 @@
         $form.validate().resetForm();
         $("#form").find('.form-group').removeClass("state-error");
         $("#form").find('.form-group').removeClass("state-success");
+        $("#showHide").prop("checked", false);
+        $(".password").attr("type", "password");
     }
 
     //Show The Popup Modal Add New
@@ -496,7 +498,6 @@
 
     $("#showHide").click(function () {
         if ($(".password").attr("type") == "password") {
-
             $(".password").attr("type", "text");
         } else {
             $(".password").attr("type", "password");

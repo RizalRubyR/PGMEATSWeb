@@ -68,7 +68,7 @@ namespace PGMEATS_WEB.Controllers
 
             clsUserPrivilegeDB db = new clsUserPrivilegeDB();
             clsUserPrivilege data = new clsUserPrivilege();
-            data.UserID = userID;
+            data.UserID = Session["LogUserID"].ToString();
             data.MenuID = MenuID;
             data.AdminStatus = AdminStatus;
 
@@ -483,16 +483,13 @@ namespace PGMEATS_WEB.Controllers
                 {
                     try
                     {
-                        if (val.Access == true || val.Update == true )
-                        {
-                            if (val.Access == true) { val.AllowAccess = "1"; }
-                            else { val.AllowAccess = "0"; }
+                        if (val.Access == true) { val.AllowAccess = "1"; }
+                        else { val.AllowAccess = "0"; }
 
-                            if (val.Update == true) val.AllowUpdate = "1";
-                            else { val.AllowUpdate = "0"; }
+                        if (val.Update == true) val.AllowUpdate = "1";
+                        else { val.AllowUpdate = "0"; }
 
-                            resp = db.UserPrivilegeUpd(typeAction, val, UserLogin);
-                        }
+                        resp = db.UserPrivilegeUpd(typeAction, val, UserLogin);
 
                     }
                     catch (Exception ex)
