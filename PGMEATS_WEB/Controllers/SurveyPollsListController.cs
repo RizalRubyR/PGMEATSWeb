@@ -104,6 +104,7 @@ namespace PGMEATS_WEB.Controllers
                 ViewBag.StartDate = data[i].StartDate;
                 ViewBag.EndDate = data[i].EndDate;
                 ViewBag.ViewResult = data[i].ViewResult;
+                ViewBag.Type = data[i].Type;
             }
 
             ViewBag.SurveyID = id;
@@ -297,7 +298,7 @@ namespace PGMEATS_WEB.Controllers
         
         [AcceptVerbs("GET", "POST")]
         [HttpPost]
-        public ActionResult SaveDetail(SurveyAndPollsDetail param, SurveyAndPollsAnswer param2)
+        public ActionResult SaveDetail(SurveyAndPollsDetail param, SurveyAndPollsAnswer param2, SurveyAndPollsHeader param3)
         {
             SurveyAndPollsDB db = new SurveyAndPollsDB();
             clsResponse response = new clsResponse();
@@ -345,7 +346,7 @@ namespace PGMEATS_WEB.Controllers
                 }
 
 
-                response = db.saveDetailandAnswer(param, cls, UserLogin);
+                response = db.saveDetailandAnswer(param, cls, param3, UserLogin);
             }
             catch (Exception ex)
             {
@@ -358,7 +359,7 @@ namespace PGMEATS_WEB.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [HttpPost]
-        public ActionResult UpdateDetail(string id,SurveyAndPollsDetail param, SurveyAndPollsAnswer param2)
+        public ActionResult UpdateDetail(string id,SurveyAndPollsDetail param, SurveyAndPollsAnswer param2, SurveyAndPollsHeader param3)
         {
             SurveyAndPollsDB db = new SurveyAndPollsDB();
             clsResponse response = new clsResponse();
@@ -407,7 +408,7 @@ namespace PGMEATS_WEB.Controllers
                 }
 
 
-                response = db.updateDetailandAnswer(id,param, cls, UserLogin);
+                response = db.updateDetailandAnswer(id,param, cls,param3, UserLogin);
             }
             catch (Exception ex)
             {

@@ -54,6 +54,17 @@
                                         </td>
                                     </tr>
                                     <tr style="height:35px">
+                                        <td width="100px">Type</td>
+                                        <td>
+                                            <select id="Type" class="form-control input-md" style="height:30px; width:130px;">
+                                                <option value=""></option>
+                                                <option value="S">Survey</option>
+                                                <option value="P">Polls</option>
+                                            </select>
+
+                                        </td>
+                                    </tr>
+                                    <tr style="height:35px">
                                         <td width="100px">
                                             View Result
                                         </td>
@@ -686,7 +697,7 @@
                 }
             });
         }
-        function FillCombo_ParentQuestion(SurveyID) {
+        function FillCombo_ParentQuestion(SurveyID, selectedVal) {
             $.ajax({
                 url: "@Url.Action("FillParentQuestion", "SurveyPollsList")",
                 type: "post",
@@ -703,7 +714,15 @@
                             .end()
                             ;
                         $.each(result.Contents, function (i, dt) {
-                            $("#ParentQuestion").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
+                            if (selectedVal == null) {
+                                $("#ParentQuestion").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
+                            } else {
+                                if (selectedVal == dt.Code) {
+                                    $("#ParentQuestion").append('<option value="' + dt.Code + '" selected>' + dt.Description + '</option>');
+                                } else {
+                                    $("#ParentQuestion").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
+                                }
+                            }
                         });
                     }
                 },
@@ -715,7 +734,7 @@
                 }
             });
         }
-        function fillCombo_ParentAnswer() {
+        function fillCombo_ParentAnswer(selectedVal) {
             var SurveyID = $("#txtsurveyid").val();
             var ParentQuestionID = $('#ParentQuestion').val();
             $.ajax({
@@ -734,7 +753,15 @@
                             .end()
                             ;
                         $.each(result.Contents, function (i, dt) {
-                            $("#ParentAnswer").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
+                            if (selectedVal == null) {
+                                $("#ParentAnswer").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
+                            } else {
+                                if (selectedVal == dt.Code) {
+                                    $("#ParentAnswer").append('<option value="' + dt.Code + ' selected">' + dt.Description + '</option>');
+                                } else {
+                                    $("#ParentAnswer").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
+                                }
+                            }
                         });
                     }
                 },
@@ -780,6 +807,7 @@
             var SurveyStatus = "0";
             var StartDate = $("#startdate").val();
             var EndDate = $("#enddate").val();
+            var Type = $("#Type").val();
             var ViewChart;
 
             if ($('#chkViewChart').is(":checked")) {
@@ -793,7 +821,8 @@
                 SurveyStatus: SurveyStatus,
                 StartDate: StartDate,
                 EndDate: EndDate,
-                ViewChart: ViewChart
+                ViewChart: ViewChart,
+                Type: Type
             };
 
             var pdata = { 'param': param }
@@ -936,11 +965,12 @@
                     $("#MyModal").modal();
                     $('#InsertData').show();
                     $('#UpdateData').hide();
-                    FillCombo_ParentQuestion(SurveyID);
-                    fillCombo_ParentAnswer()
-                    FillCombo_AnswerType();
+                    
                     var u = 1;
                     var objDT = result.Contents;
+                    FillCombo_ParentQuestion(SurveyID, objDT[0].ParentQuestionID);
+                    fillCombo_ParentAnswer(objDT[0].ParentAnswerSeqNo)
+                    FillCombo_AnswerType();
                     $("#ParentQuestion").val(objDT[0].ParentQuestionID);
                     $("#ParentAnswer").val(objDT[0].ParentAnswerSeqNo);
                     $("#AnswerType").val(objDT[0].AnswerType);
