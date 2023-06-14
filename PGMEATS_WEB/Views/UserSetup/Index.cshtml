@@ -331,9 +331,8 @@
         //insert event click
         $("#InsertData").click(function () {
             if ($("#form").valid()) {
-
-                if ($("#UserType").val() == "2" && $("#CatererID").val() ? $("#CatererID").val() : "" == "") {
-                    toastr.success("Please fill catarerID!", 'Success', { timeOut: 3000, "closeButton": true });
+                if ($("#UserType").val() == "2" && ($("#CatererID").val() ? $("#CatererID").val() : "") == "") {
+                    toastr.warning("Please fill catarerID!", 'Warning', { timeOut: 3000, "closeButton": true });
                     return;
                 }
 
