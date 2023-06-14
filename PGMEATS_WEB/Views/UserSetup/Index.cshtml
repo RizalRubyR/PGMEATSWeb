@@ -128,7 +128,7 @@
                                                             <td>
                                                                 <div class="form-group">
                                                                     <label style="font-weight:500" for="Password">Password</label>
-                                                                    @Html.PasswordFor(m => m.Password, new { @id = "Password", @class = "form-control input-md password", placeholder = "Enter Password", @required = "required", @style = "height:20px; width:150px"})                                                     
+                                                                    @Html.PasswordFor(m => m.Password, new { @id = "Password", @class = "form-control input-md password", placeholder = "Enter Password", @required = "required", @style = "height:20px; width:150px" })
                                                                     <div id="hdn" style="display:none"></div>
                                                                     <div>
                                                                         <input type="checkbox" id="showHide" />
@@ -153,6 +153,15 @@
                                                                     <label style="font-weight:500" for="UserType">User Type</label>
                                                                     @Html.DropDownList("UserType", new SelectList(string.Empty, "Value", "Text"), "", new { @id = "UserType", required = "required", @class = "form-control input-md", @style = "height:20px; width:150px" })
                                                                     @Html.ValidationMessageFor(m => m.UserType, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </td>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <label style="font-weight:500" for="CatererID">Caterer ID</label>
+                                                                    @Html.DropDownList("CatererID", new SelectList(string.Empty, "Value", "Text"), "", new { @id = "CatererID", required = "required", @class = "form-control input-md", @style = "height:20px; width:150px" })
                                                                 </div>
                                                             </td>
                                                             <td>&nbsp;</td>
@@ -331,6 +340,11 @@
                 formData.append("UserType", $("#UserType").val());
                 formData.append("Department", $("#Department").val());
                 formData.append("AdminStatus", $("#AdminStatus").val());
+                formData.append("CatererID", $("#CatererID").val());
+
+                if ($("#UserType").val() == "01" && $("#CatererID").val() ? $("#CatererID").val() : "" == "" ) {
+
+                }
 
                 $.ajax({
                     type: "Post",
@@ -368,6 +382,7 @@
                 formData.append("UserType", $("#UserType").val());
                 formData.append("Department", $("#Department").val());
                 formData.append("AdminStatus", $("#AdminStatus").val());
+                formData.append("CatererID", $("#CatererID").val());
 
                 $.ajax({
                     type: "Post",
@@ -454,6 +469,7 @@
         $(".password").attr("type", "password");
         $("#UserID").prop('readonly', false);
         $("#Password").prop('readonly', false);
+        $("#CatererID").prop('disabled', true);
     }
 
     //Show The Popup Modal For Edit
@@ -475,10 +491,17 @@
                     FillCombo_AdminStatus(result.Content.AdminStatus);
                     FillCombo_UserType(result.Content.UserType);
                     $('#InsertData').hide();
-                    $('#UpdateData').show();                
+                    $('#UpdateData').show();
+                    if (result.Content.UserType == "Caterer") {
+                        $("#CatererID").prop('disabled', false);
+                        FillCombo_CatererID(result.Content.CatererID)
+                    } else {
+                        $("#CatererID").prop('disabled', true);
+                        $("#CatererID").val("");
+                    }
                 } else {
                     toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
-                }             
+                }
             },
             error: function (ex) {
                 toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
@@ -508,6 +531,7 @@
         $('#InsertData').show();
         $('#myModal').show();
         $("#UserID").prop('readonly', false);
+        $("#CatererID").prop('disabled', true);
     }
 
     $("#showHide").click(function () {
@@ -517,7 +541,6 @@
             $(".password").attr("type", "password");
         }
     });
-
 
     function FillCombo_Department(Department) {
         $.ajax({
@@ -530,7 +553,7 @@
                     $('#Department').empty();
                     $.each(result.Content, function (i, dt) {
                         if (dt.CodeDesc == Department) {
-                            $("#Department").append('<option value="' + dt.Code + '" Selected>' + dt.CodeDesc + '</option>');
+                            $("#Department").append('<option value="' + dt.Code + '" selected>' + dt.CodeDesc + '</option>');
                         } else {
                             $("#Department").append('<option value="' + dt.Code + '">' + dt.CodeDesc + '</option>');
                         }
@@ -545,7 +568,6 @@
         });
     }
 
-
     function FillCombo_AdminStatus(AdminStatus) {
         $.ajax({
             type: "GET",
@@ -557,7 +579,7 @@
                     $('#AdminStatus').empty();
                     $.each(result.Content, function (i, dt) {
                         if (dt.CodeDesc == AdminStatus) {
-                            $("#AdminStatus").append('<option value="' + dt.Code + '" Selected>' + dt.CodeDesc + '</option>');
+                            $("#AdminStatus").append('<option value="' + dt.Code + '" selected>' + dt.CodeDesc + '</option>');
                         } else {
                             $("#AdminStatus").append('<option value="' + dt.Code + '">' + dt.CodeDesc + '</option>');
                         }
@@ -572,7 +594,7 @@
         });
     }
 
-     function FillCombo_UserType(UserType) {
+    function FillCombo_UserType(UserType) {
         $.ajax({
             type: "GET",
             url: "@Url.Action("FillCombo", "UserSetup")", //"/MyKY/FillCombo/",
@@ -597,5 +619,41 @@
             }
         });
     }
+
+    function FillCombo_CatererID(CatererID) {
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("FillCombo", "UserSetup")", //"/MyKY/FillCombo/",
+            datatype: 'json',
+            data: { TypeAction: "04" },
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+                    $('#CatererID').empty();
+                    $.each(result.Content, function (i, dt) {
+                        if (dt.CodeDesc == CatererID) {
+                            $("#CatererID").append('<option value="' + dt.Code + '" selected>' + dt.CodeDesc + '</option>');
+                        } else {
+                            $("#CatererID").append('<option value="' + dt.Code + '">' + dt.CodeDesc + '</option>');
+                        }
+                    });
+                } else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
+                }
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
+            }
+        });
+    }
+
+    $("#UserType").change(function () {
+        if ($("#UserType").val() == "1") {
+            FillCombo_CatererID();
+            $("#CatererID").prop('disabled', false);
+        } else {
+            $("#CatererID").prop('disabled', true);
+            $("#CatererID").val("");
+        }
+    })
 
 </script>
