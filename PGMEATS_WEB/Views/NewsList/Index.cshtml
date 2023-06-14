@@ -530,7 +530,7 @@
         //Show The Popup Modal For Add Data
         function AddNewData() {
             clearTextBox();
-            FillCombo_TargetParticipant('Department','');
+            FillCombo_TargetParticipant('Group Department','');
             $("#NewsID").val('0');
 
             $("#DateFrom").val(today)
@@ -563,7 +563,7 @@
                         $("#NewsDesc").code(result.Contents[1]);
                         $("#DateFrom").val(result.Contents[2]);
                         $("#DateTo").val(result.Contents[3]);
-                        FillCombo_TargetParticipant('Department', result.Contents[4]);
+                        FillCombo_TargetParticipant('Group Department', result.Contents[4]);
                     }
                 },
                 error: function (ex) {
