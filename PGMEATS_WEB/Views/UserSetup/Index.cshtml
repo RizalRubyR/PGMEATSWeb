@@ -331,9 +331,14 @@
         //insert event click
         $("#InsertData").click(function () {
             if ($("#form").valid()) {
+
+                if ($("#UserType").val() == "2" && $("#CatererID").val() ? $("#CatererID").val() : "" == "") {
+                    toastr.success("Please fill catarerID!", 'Success', { timeOut: 3000, "closeButton": true });
+                    return;
+                }
+
                 $('#hdn').css({ display: 'none' });
                 var formData = new FormData();
-
                 formData.append("UserID", $("#UserID").val());
                 formData.append("UserName", $("#UserName").val());
                 formData.append("Password", $("#Password").val());
@@ -341,10 +346,6 @@
                 formData.append("Department", $("#Department").val());
                 formData.append("AdminStatus", $("#AdminStatus").val());
                 formData.append("CatererID", $("#CatererID").val());
-
-                if ($("#UserType").val() == "01" && $("#CatererID").val() ? $("#CatererID").val() : "" == "" ) {
-
-                }
 
                 $.ajax({
                     type: "Post",
@@ -647,7 +648,7 @@
     }
 
     $("#UserType").change(function () {
-        if ($("#UserType").val() == "1") {
+        if ($("#UserType").val() == "2") {
             FillCombo_CatererID();
             $("#CatererID").prop('disabled', false);
         } else {
