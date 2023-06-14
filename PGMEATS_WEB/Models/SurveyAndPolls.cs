@@ -16,6 +16,7 @@ namespace PGMEATS_WEB.Models
         public string StartDate { get; set; }
         public string EndDate { get; set; }
         public string ViewChart { get; set; }
+        public string Type { get; set; }
 
     }
     public class SurveyAndPollsList
@@ -100,6 +101,8 @@ namespace PGMEATS_WEB.Models
         public string StartDate { get; set; }
         public string EndDate { get; set; }
         public string ViewResult { get; set; }
+        public string Type { get; set; }
+
     }
 
     public class SurveyAndPollsDB
@@ -626,6 +629,7 @@ namespace PGMEATS_WEB.Models
                         detail.StartDate = dr["StartDate"].ToString().Trim();
                         detail.EndDate = dr["EndDate"].ToString().Trim();
                         detail.ViewResult = dr["ViewChart"].ToString().Trim();
+                        detail.Type = dr["Type"].ToString().Trim();
 
                         data.Add(detail);
                     }
@@ -660,6 +664,7 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("@StartDate", param.StartDate);
                     cmd.Parameters.AddWithValue("@EndDate", param.EndDate);
                     cmd.Parameters.AddWithValue("@ViewChart", param.ViewChart);
+                    cmd.Parameters.AddWithValue("Type", param.Type);
                     cmd.Parameters.AddWithValue("@CreateUser", UserLogin);
                     con.Open();
 
@@ -685,7 +690,7 @@ namespace PGMEATS_WEB.Models
             return Response;
         }
 
-        public clsResponse saveDetailandAnswer(SurveyAndPollsDetail param, List<surveyAnswer> param2, string UserLogin)
+        public clsResponse saveDetailandAnswer(SurveyAndPollsDetail param, List<surveyAnswer> param2, SurveyAndPollsHeader param3, string UserLogin)
         {
             clsResponse Response = new clsResponse();
 
@@ -736,7 +741,7 @@ namespace PGMEATS_WEB.Models
             return Response;
         }
 
-        public clsResponse updateDetailandAnswer(string id,SurveyAndPollsDetail param, List<surveyAnswer> param2, string UserLogin)
+        public clsResponse updateDetailandAnswer(string id,SurveyAndPollsDetail param, List<surveyAnswer> param2, SurveyAndPollsHeader param3,string UserLogin)
         {
             clsResponse Response = new clsResponse();
 
@@ -747,6 +752,21 @@ namespace PGMEATS_WEB.Models
                 {
                     con.Open();
                     SqlCommand cmd;
+
+                    cmd = new SqlCommand("sp_SurveyandpollsHeader_Upd", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SurveyID", param3.SurveyID);
+                    cmd.Parameters.AddWithValue("@SurveyTitle", param3.SurveyTitle);
+                    cmd.Parameters.AddWithValue("@StartDate", param3.StartDate);
+                    cmd.Parameters.AddWithValue("@EndDate", param3.EndDate);
+                    cmd.Parameters.AddWithValue("@ViewChart", param3.ViewChart);
+                    cmd.Parameters.AddWithValue("Type", param3.Type);
+                    cmd.Parameters.AddWithValue("@CreateUser", UserLogin);
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+
                     cmd = new SqlCommand("sp_SurveyAndPollS_Detail_Upd", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id", id);
@@ -757,25 +777,25 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("@ParentQuestionID", param.ParentQuestionID);
                     cmd.Parameters.AddWithValue("@ParentAnswerSeqNo", param.ParentAnswerSeqNo);
                     cmd.Parameters.AddWithValue("@AnswerType", param.AnswerType);
-                    DataTable dt = new DataTable();
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    dt = new DataTable();
+                    da = new SqlDataAdapter(cmd);
                     da.Fill(dt);
 
-                    //cmd = new SqlCommand("sp_SurveyAndPollS_Answer_Upd", con);
-                    //for (int i = 0; i < param2.Count; i++)
-                    //{
-                    //    cmd.Parameters.Clear();
-                    //    cmd.CommandType = CommandType.StoredProcedure;
-                    //    cmd.Parameters.AddWithValue("@SurveyID", param2[i].SurveyID);
-                    //    cmd.Parameters.AddWithValue("@QuestionID", param2[i].QuestionID);
-                    //    cmd.Parameters.AddWithValue("@AnswerSeqNo", param2[i].AnswerSeqNo);
-                    //    cmd.Parameters.AddWithValue("@AnswerDesc", param2[i].AnswerDesc);
-                    //    int j = cmd.ExecuteNonQuery();
-                    //}
+                    cmd = new SqlCommand("sp_SurveyAndPollS_Answer_Upd", con);
+                    for (int i = 0; i < param2.Count; i++)
+                    {
+                        cmd.Parameters.Clear();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@SurveyID", param2[i].SurveyID);
+                        cmd.Parameters.AddWithValue("@QuestionID", param2[i].QuestionID);
+                        cmd.Parameters.AddWithValue("@AnswerSeqNo", param2[i].AnswerSeqNo);
+                        cmd.Parameters.AddWithValue("@AnswerDesc", param2[i].AnswerDesc);
+                        int j = cmd.ExecuteNonQuery();
+                    }
 
-                    //Response.ID = 1;
-                    //Response.Message = "Success submit data";
-                    //Response.Contents = "";
+                    Response.ID = 1;
+                    Response.Message = "Success submit data";
+                    Response.Contents = "";
 
                 }
             }

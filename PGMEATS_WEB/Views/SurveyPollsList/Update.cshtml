@@ -54,13 +54,32 @@
                                         </td>
                                     </tr>
                                     <tr style="height:35px">
+                                        <td width="100px">Type</td>
+                                        <td>
+                                            <select id="Type" class="form-control input-md" style="height:30px; width:130px;">
+                                                <option value=""></option>
+                                                @if (ViewBag.Type == "S")
+                                                {
+                                                    <option value="S" selected>Survey</option>
+                                                    <option value="P">Polls</option>
+                                                }
+                                                @if (ViewBag.Type == "P")
+                                                {
+                                                    <option value="S">Survey</option>
+                                                    <option value="P" selected>Polls</option>
+                                                }
+                                            </select>
+
+                                        </td>
+                                    </tr>
+                                    <tr style="height:35px">
                                         <td width="100px">
                                             View Result
                                         </td>
                                         <td>
                                             @if (ViewBag.ViewResult == "1")
                                             {
-                                                <input id="chkViewChart" name="chkViewChart" type="checkbox" checked="checked"/>
+                                                <input id="chkViewChart" name="chkViewChart" type="checkbox" checked="checked" />
                                             }
                                             else
                                             {
@@ -715,6 +734,7 @@
             var StartDate = $("#startdate").val();
             var EndDate = $("#enddate").val();
             var ViewChart;
+            var Type = $("#Type").val();
 
             if ($('#chkViewChart').is(":checked")) {
                 ViewChart = 1
@@ -727,7 +747,8 @@
                 SurveyStatus: SurveyStatus,
                 StartDate: StartDate,
                 EndDate: EndDate,
-                ViewChart: ViewChart
+                ViewChart: ViewChart,
+                Type: Type
             };
 
             var pdata = { 'param': param }
@@ -774,10 +795,32 @@
             var txtmlt4 = $("#txtmlt4").val();
 
 
+            var SurveyID = $("#txtsurveyid").val();
+            var SurveyTitle = $("#txttitle").val();
+            var StartDate = $("#startdate").val();
+            var EndDate = $("#enddate").val();
+            var Type = $("#Type").val();
+            var ViewChart;
+
+            if ($('#chkViewChart').is(":checked")) {
+                ViewChart = 1
+            } else {
+                ViewChart = 0
+            }
+            var paramHeader = {
+                SurveyID: SurveyID,
+                SurveyTitle: SurveyTitle,
+                SurveyStatus: SurveyStatus,
+                StartDate: StartDate,
+                EndDate: EndDate,
+                ViewChart: ViewChart,
+                Type: Type
+            };
+
             var dataQuestion = { SurveyID: SurveyID, QuestionID: QuestionID, QuestionDesc: QuestionDesc, ParentQuestionID: ParentQuestionID, ParentAnswerSeqNo: ParentAnswerSeqNo, AnswerType: AnswerType };
             var dataAnswer = { SurveyID: SurveyID, QuestionID: QuestionID, txtFreeText: txtFreeText, txtmlt1: txtmlt1, txtmlt2: txtmlt2, txtmlt3: txtmlt3, txtmlt4: txtmlt4}
 
-            var pdata = { 'param': dataQuestion, 'param2': dataAnswer }
+            var pdata = { 'param': dataQuestion, 'param2': dataAnswer, 'param3': paramHeader}
             $.ajax({
                 url: "@Url.Action("SaveDetail", "SurveyPollsList")",
                 type: "post",
@@ -953,6 +996,7 @@
             var QuestionID = $("#txtQuestionID").val();
             var SurveyID = $("#txtsurveyid").val();
             var id = $("#detailID").val();
+
             // Question
             var QuestionDesc = $("#QuestionDescription").val();
             var ParentQuestionID = $("#ParentQuestion").val();
@@ -967,11 +1011,32 @@
             var txtmlt3 = $("#txtmlt3").val();
             var txtmlt4 = $("#txtmlt4").val();
 
+            var SurveyTitle = $("#txttitle").val();
+            var StartDate = $("#startdate").val();
+            var EndDate = $("#enddate").val();
+            var Type = $("#Type").val();
+            var ViewChart;
+
+            if ($('#chkViewChart').is(":checked")) {
+                ViewChart = 1
+            } else {
+                ViewChart = 0
+            }
+
+            var paramHeader = {
+                SurveyID: SurveyID,
+                SurveyTitle: SurveyTitle,
+                StartDate: StartDate,
+                EndDate: EndDate,
+                ViewChart: ViewChart,
+                Type: Type
+            };
+
 
             var dataQuestion = { SurveyID: SurveyID, QuestionID: QuestionID, QuestionDesc: QuestionDesc, ParentQuestionID: ParentQuestionID, ParentAnswerSeqNo: ParentAnswerSeqNo, AnswerType: AnswerType };
             var dataAnswer = { SurveyID: SurveyID, QuestionID: QuestionID, txtFreeText: txtFreeText, txtmlt1: txtmlt1, txtmlt2: txtmlt2, txtmlt3: txtmlt3, txtmlt4: txtmlt4}
 
-            var pdata = { 'id':id, 'param': dataQuestion, 'param2': dataAnswer }
+            var pdata = { 'id':id, 'param': dataQuestion, 'param2': dataAnswer, 'param3': paramHeader }
             $.ajax({
                 url: "@Url.Action("UpdateDetail", "SurveyPollsList")",
                 type: "post",
