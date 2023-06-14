@@ -32,6 +32,7 @@ namespace PGMEATS_WEB.Models
         public string LastUpdate { get; set; }
         public string Department { get; set; }
         public string UserType { get; set; }
+        public string CatererID { get; set; }
     }
 
 
@@ -96,14 +97,14 @@ namespace PGMEATS_WEB.Models
 
                     clsUserSetup User = new clsUserSetup();
                     while (rd.Read())
-                    {
-                        
+                    {                     
                         User.UserID = rd["UserID"].ToString();
                         User.UserName = rd["UserName"].ToString().Trim();
                         User.Password = encrypt.DecryptData(rd["Password"].ToString().Trim());
                         User.UserType = rd["UserType"].ToString();
                         User.Department = rd["Department"].ToString();
                         User.AdminStatus = rd["AdminStatus"].ToString();
+                        User.CatererID = rd["CatererID"].ToString();
                         User.LastUser = rd["LastUser"].ToString().Trim();
                         User.LastUpdate = rd["LastUpdate"].ToString();
                     }
@@ -141,6 +142,7 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("AdminStatus", User.AdminStatus);
                     cmd.Parameters.AddWithValue("UserType", User.UserType);
                     cmd.Parameters.AddWithValue("Department", User.Department);
+                    cmd.Parameters.AddWithValue("CatererID", User.CatererID);
                     cmd.Parameters.AddWithValue("UserLogin", UserLogin);
                     con.Open();
 
@@ -172,6 +174,7 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("AdminStatus", User.AdminStatus);
                     cmd.Parameters.AddWithValue("UserType", User.UserType);
                     cmd.Parameters.AddWithValue("Department", User.Department);
+                    cmd.Parameters.AddWithValue("CatererID", User.CatererID);
                     cmd.Parameters.AddWithValue("UserLogin", UserLogin);
                     con.Open();
 
