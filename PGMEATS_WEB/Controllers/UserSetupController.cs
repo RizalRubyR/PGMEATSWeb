@@ -108,28 +108,18 @@ namespace PGMEATS_WEB.Controllers
 
         public JsonResult GetListByUserID(string UserID)
         {
+            Response resp = new Response();
             try
             {
-                List<clsUserSetup> users = db.UserListByUserID(UserID).ToList();
-
-                string value = string.Empty;
-                value = JsonConvert.SerializeObject(users, Formatting.Indented, new JsonSerializerSettings
-                {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                });
-
-                var jsonResult = Json(value, JsonRequestBehavior.AllowGet);
-                jsonResult.MaxJsonLength = int.MaxValue;
-                return jsonResult;
+                resp = db.UserListByUserID(UserID);
+                return Json(resp, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return new JsonResult
-                {
-                    Data = new { ErrorMessage = ex.Message, Success = false },
-                    ContentEncoding = System.Text.Encoding.UTF8,
-                    JsonRequestBehavior = JsonRequestBehavior.DenyGet
-                };
+                resp.Message = ex.Message;
+                resp.ID = "1";
+                resp.Content = "";
+                return Json(resp, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -187,31 +177,15 @@ namespace PGMEATS_WEB.Controllers
 
             try
             {
-                msg = ValidasiJSOXUpdate(user.UserID, user.Password);
-                if (msg == "")
-                {
-                    db.Update(user, UserLogin);
-                    db.InsertJSOXHistory(user, UserLogin);
-                    bSuccess = true;
-                    ModelState.Clear();
+                db.Update(user, UserLogin);
+                bSuccess = true;
+                ModelState.Clear();
 
-                    return new JsonResult
-                    {
-                        Data = new { ErrorMessage = msg, Success = bSuccess },
-                        JsonRequestBehavior = JsonRequestBehavior.AllowGet
-                    };
-                }
-                else
+                return new JsonResult
                 {
-                    bSuccess = false;
-                    ModelState.Clear();
-
-                    return new JsonResult
-                    {
-                        Data = new { ErrorMessage = msg, Success = bSuccess },
-                        JsonRequestBehavior = JsonRequestBehavior.AllowGet
-                    };
-                }
+                    Data = new { ErrorMessage = msg, Success = bSuccess },
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
             }
             catch (Exception ex)
             {
@@ -505,6 +479,24 @@ namespace PGMEATS_WEB.Controllers
                 resp.Message = ex.Message;
             }
             return Json(Message, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult FillCombo(String TypeAction)
+        {
+            Response resp = new Response();
+            ComboFilter db = new ComboFilter();
+            try {
+                resp = db.FillCombo(TypeAction, "");
+                return Json(resp, JsonRequestBehavior.AllowGet);
+            }
+            catch(Exception ex) {
+                resp.Message = ex.Message;
+                resp.ID = "1";
+                resp.Content = "";
+
+                return Json(resp, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

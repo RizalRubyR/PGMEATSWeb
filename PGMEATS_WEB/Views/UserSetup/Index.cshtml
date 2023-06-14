@@ -51,22 +51,28 @@
                             <table id="tableID" data-page-size='3' class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr role="row">
-                                        <th style="text-align:center;width:7%;">
+                                        <th style="text-align:center;width:50px;">
                                             Action
                                         </th>
-                                        <th style="text-align:center;width:13%;">
+                                        <th style="text-align:center;width:100px;">
                                             User ID
                                         </th>
-                                        <th style="text-align:center;width:35%;">
+                                        <th style="text-align:center;width:200px;">
                                             Full Name
                                         </th>
-                                        <th style="text-align:center;width:10%;">
+                                        <th style="text-align:center;width:100px;">
+                                            Department
+                                        </th>
+                                        <th style="text-align:center;width:50px;">
+                                            UserType
+                                        </th>
+                                        <th style="text-align:center;width:50px;">
                                             Admin Status
                                         </th>
-                                        <th style="text-align:center;width:10%;">
+                                        <th style="text-align:center;width:100px;">
                                             Last User
                                         </th>
-                                        <th style="text-align:center;width:15%;">
+                                        <th style="text-align:center;width:100px;">
                                             Last Update
                                         </th>
                                     </tr>
@@ -111,9 +117,18 @@
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group">
+                                                                    <label style="font-weight:500" for="Department">Department</label>
+                                                                    @Html.DropDownList("Department", new SelectList(string.Empty, "Value", "Text"), "", new { @id = "Department", required = "required", @class = "form-control input-md", @style = "height:20px; width:150px" })
+                                                                    @Html.ValidationMessageFor(m => m.Department, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </td>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group">
                                                                     <label style="font-weight:500" for="Password">Password</label>
-                                                                    @Html.PasswordFor(m => m.Password, new { @id = "Password", @class = "form-control input-md password", @required = "required", @style = "height:20px; width:150px" })
-                                                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                                                    @Html.PasswordFor(m => m.Password, new { @id = "Password", @class = "form-control input-md password", placeholder = "Enter Password", @required = "required", @style = "height:20px; width:150px"})                                                     
                                                                     <div id="hdn" style="display:none"></div>
                                                                     <div>
                                                                         <input type="checkbox" id="showHide" />
@@ -132,16 +147,16 @@
                                                             </td>
                                                             <td>&nbsp;</td>
                                                         </tr>
-                                                        @*
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group">
-                                                                    <label style="font-weight:500" for="GroupID">Group</label>
-                                                                    @Html.DropDownList("GroupID", new SelectList(string.Empty, "Value", "Text"), "", new { @id = "GroupID", required = "required", @class = "form-control input-md", @style = "height:20px; width:300px" })
-                                                                    @Html.ValidationMessageFor(m => m.GroupID, "", new { @class = "text-danger" })
+                                                                    <label style="font-weight:500" for="UserType">User Type</label>
+                                                                    @Html.DropDownList("UserType", new SelectList(string.Empty, "Value", "Text"), "", new { @id = "UserType", required = "required", @class = "form-control input-md", @style = "height:20px; width:150px" })
+                                                                    @Html.ValidationMessageFor(m => m.UserType, "", new { @class = "text-danger" })
                                                                 </div>
                                                             </td>
-                                                        </tr>*@
+                                                            <td>&nbsp;</td>
+                                                        </tr>
                                                     </table>
                                                 </fieldset>
                                             </form>
@@ -196,15 +211,19 @@
     .hidden {
         display: none;
     }
+
     .txtAlignCenter {
         text-align: center;
     }
+
     .txtAlignLeft {
         text-align: left;
     }
+
     .txtAlignRight {
         text-align: right;
     }
+
     .btn-save {
         color: #fff;
         background-color: #4CBFBC;
@@ -243,6 +262,8 @@
                 },
                 { "data": "UserID", "autoWidth": true, className: "txtAlignLeft" },
                 { "data": "UserName", "autoWidth": true, className: "txtAlignLeft" },
+                { "data": "Department", "autoWidth": true, className: "txtAlignLeft" },
+                { "data": "UserType", "autoWidth": true, className: "txtAlignLeft" },
                 { "data": "AdminStatus", "autoWidth": true, className: "txtAlignLeft" },
                 { "data": "LastUser", "autoWidth": true, className: "txtAlignLeft" },
                 { "data": "LastUpdate", "autoWidth": true, className: "txtAlignCenter" }
@@ -307,6 +328,8 @@
                 formData.append("UserID", $("#UserID").val());
                 formData.append("UserName", $("#UserName").val());
                 formData.append("Password", $("#Password").val());
+                formData.append("UserType", $("#UserType").val());
+                formData.append("Department", $("#Department").val());
                 formData.append("AdminStatus", $("#AdminStatus").val());
 
                 $.ajax({
@@ -342,7 +365,8 @@
 
                 formData.append("UserID", $("#UserID").val());
                 formData.append("UserName", $("#UserName").val());
-                formData.append("Password", $("#Password").val());
+                formData.append("UserType", $("#UserType").val());
+                formData.append("Department", $("#Department").val());
                 formData.append("AdminStatus", $("#AdminStatus").val());
 
                 $.ajax({
@@ -385,6 +409,7 @@
                     if (!data.Success) {
                         toastr.warning(data.ErrorMessage, 'Warning', { timeOut: 3000, "closeButton": true });
                         $("#DeleteConfirmation").modal("hide");
+                        $("#Password").val(result.Content.Password).prop('readonly', false);
                     }
                     else {
                         toastr.success("Data Delete Successfully!", 'Success', { timeOut: 3000, "closeButton": true });
@@ -402,14 +427,6 @@
 
     });
 
-
-    function PopulateAdminStatus() {
-        $('#AdminStatus').empty();
-        $("#AdminStatus").append('<option value="0" >No</option>');
-        $("#AdminStatus").append('<option value="1" >Yes</option>');
-    }
-
-
     function resetForm() {
         var $form = $('#form');
         $form.validate().resetForm();
@@ -422,18 +439,21 @@
     //Show The Popup Modal Add New
     function AddNewData() {
         resetForm();
-        //PopulateUserType('');
-        PopulateAdminStatus();
-        //PopulateUserGroup('');
-        $("#UserID").val();
-        $("#UserName").val();
-        $("#Password").val();
+
+        FillCombo_Department();
+        FillCombo_AdminStatus();
+        FillCombo_UserType();
+
+        $("#UserID").val("");
+        $("#UserName").val("");
+        $("#Password").val("");
         $("#ModalTitle").html("Create Data User Setup");
         $("#MyModal").modal();
         $('#InsertData').show();
         $('#UpdateData').hide();
         $(".password").attr("type", "password");
         $("#UserID").prop('readonly', false);
+        $("#Password").prop('readonly', false);
     }
 
     //Show The Popup Modal For Edit
@@ -446,27 +466,22 @@
             url: "@Url.Action("GetListByUserID", "UserSetup")", // "/UserSetup/GetListByUserID?",
             cache: false,
             data: ({ UserID: User }),
-            success: function (data) {
-
-                var obj = JSON.parse(data);
-
-                $.each(obj, function (key, val) {
-           /*         console.log(val);*/
-                    $("#UserID").val(val.UserID).prop('readonly', true);
-                    $("#Password").val(val.Password);
-                    $("#UserName").val(val.UserName);
-                    PopulateAdminStatus();
-                    if (val.AdminStatus == 'Yes') {
-                        $("#AdminStatus").val(1);
-                    }
-                    else {
-                        $("#AdminStatus").val(0);
-                    }
-                    //PopulateUserType(val.UserType);
-                    //PopulateUserGroup(val.GroupID);
-                })
-                $('#InsertData').hide();
-                $('#UpdateData').show();
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+                    $("#UserID").val(result.Content.UserID).prop('readonly', true);
+                    $("#Password").val(result.Content.Password).prop('readonly', true);
+                    $("#UserName").val(result.Content.UserName);
+                    FillCombo_Department(result.Content.Department);
+                    FillCombo_AdminStatus(result.Content.AdminStatus);
+                    FillCombo_UserType(result.Content.UserType);
+                    $('#InsertData').hide();
+                    $('#UpdateData').show();                
+                } else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
+                }             
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
             }
         })
     }
@@ -485,11 +500,10 @@
     //Function for clearing the textboxes
     function clearTextBox() {
         resetForm();
-        PopulateAdminStatus();
         //PopulateUserGroup();
         $("#UserID").val();
         $("#UserName").val();
-        $("#Password").val();
+        $("#Password").val().prop('readonly', false);
         $('#UpdateData').hide();
         $('#InsertData').show();
         $('#myModal').show();
@@ -503,4 +517,85 @@
             $(".password").attr("type", "password");
         }
     });
+
+
+    function FillCombo_Department(Department) {
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("FillCombo", "UserSetup")", //"/MyKY/FillCombo/",
+            datatype: 'json',
+            data: { TypeAction : "01" },
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+                    $('#Department').empty();
+                    $.each(result.Content, function (i, dt) {
+                        if (dt.CodeDesc == Department) {
+                            $("#Department").append('<option value="' + dt.Code + '" Selected>' + dt.CodeDesc + '</option>');
+                        } else {
+                            $("#Department").append('<option value="' + dt.Code + '">' + dt.CodeDesc + '</option>');
+                        }
+                    });
+                } else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
+                }
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
+            }
+        });
+    }
+
+
+    function FillCombo_AdminStatus(AdminStatus) {
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("FillCombo", "UserSetup")", //"/MyKY/FillCombo/",
+            datatype: 'json',
+            data: { TypeAction: "02" },
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+                    $('#AdminStatus').empty();
+                    $.each(result.Content, function (i, dt) {
+                        if (dt.CodeDesc == AdminStatus) {
+                            $("#AdminStatus").append('<option value="' + dt.Code + '" Selected>' + dt.CodeDesc + '</option>');
+                        } else {
+                            $("#AdminStatus").append('<option value="' + dt.Code + '">' + dt.CodeDesc + '</option>');
+                        }
+                    });
+                } else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
+                }
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
+            }
+        });
+    }
+
+     function FillCombo_UserType(UserType) {
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("FillCombo", "UserSetup")", //"/MyKY/FillCombo/",
+            datatype: 'json',
+            data: { TypeAction: "03" },
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+                    $('#UserType').empty();
+                    $.each(result.Content, function (i, dt) {
+                        if (dt.CodeDesc == UserType) {
+                            $("#UserType").append('<option value="' + dt.Code + '" Selected>' + dt.CodeDesc + '</option>');
+                        } else {
+                            $("#UserType").append('<option value="' + dt.Code + '">' + dt.CodeDesc + '</option>');
+                        }
+                    });
+                } else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
+                }
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
+            }
+        });
+    }
+
 </script>

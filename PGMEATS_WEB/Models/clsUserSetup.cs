@@ -30,6 +30,8 @@ namespace PGMEATS_WEB.Models
 
         public string LastUser { get; set; }
         public string LastUpdate { get; set; }
+        public string Department { get; set; }
+        public string UserType { get; set; }
     }
 
 
@@ -58,7 +60,8 @@ namespace PGMEATS_WEB.Models
                         clsUserSetup User = new clsUserSetup();
                         User.UserID = rd["UserID"].ToString();
                         User.UserName = rd["UserName"].ToString().Trim();
-                        User.Password = encrypt.DecryptData(rd["Password"].ToString().Trim());
+                        User.UserType = rd["UserType"].ToString();
+                        User.Department = rd["Department"].ToString();
                         User.AdminStatus = rd["AdminStatus"].ToString();
                         User.LastUser = rd["LastUser"].ToString().Trim();
                         User.LastUpdate = rd["LastUpdate"].ToString();
@@ -74,14 +77,12 @@ namespace PGMEATS_WEB.Models
             }
         }
 
-        public IEnumerable<clsUserSetup> UserListByUserID(string UserID)
+        public Response UserListByUserID(string UserID)
         {
+            Response resp = new Response();
             try
             {
                 Encryption encrypt = new Encryption();
-
-                List<clsUserSetup> Users = new List<clsUserSetup>();
-
                 string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(constr))
                 {
@@ -91,26 +92,33 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("Func", 2);
                     cmd.Parameters.AddWithValue("UserID", UserID);
                     con.Open();
-
                     SqlDataReader rd = cmd.ExecuteReader();
+
+                    clsUserSetup User = new clsUserSetup();
                     while (rd.Read())
                     {
-                        clsUserSetup User = new clsUserSetup();
+                        
                         User.UserID = rd["UserID"].ToString();
                         User.UserName = rd["UserName"].ToString().Trim();
                         User.Password = encrypt.DecryptData(rd["Password"].ToString().Trim());
+                        User.UserType = rd["UserType"].ToString();
+                        User.Department = rd["Department"].ToString();
                         User.AdminStatus = rd["AdminStatus"].ToString();
                         User.LastUser = rd["LastUser"].ToString().Trim();
                         User.LastUpdate = rd["LastUpdate"].ToString();
-
-                        Users.Add(User);
                     }
-                    return Users;
+                    resp.Message = "Success";
+                    resp.ID = "0";
+                    resp.Content = User;
+                    return resp;
                 }
             }
             catch (Exception ex)
             {
-                throw ex;
+                resp.Message = ex.Message;
+                resp.ID = "1";
+                resp.Content = "";
+                return resp;
             }
         }
 
@@ -131,6 +139,8 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("UserName", User.UserName);
                     cmd.Parameters.AddWithValue("Password", encrypt.EncryptData(User.Password.Trim()));
                     cmd.Parameters.AddWithValue("AdminStatus", User.AdminStatus);
+                    cmd.Parameters.AddWithValue("UserType", User.UserType);
+                    cmd.Parameters.AddWithValue("Department", User.Department);
                     cmd.Parameters.AddWithValue("UserLogin", UserLogin);
                     con.Open();
 
@@ -159,8 +169,9 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("Func", 4);
                     cmd.Parameters.AddWithValue("UserID", User.UserID);
                     cmd.Parameters.AddWithValue("UserName", User.UserName);
-                    cmd.Parameters.AddWithValue("Password", encrypt.EncryptData(User.Password.Trim()));
                     cmd.Parameters.AddWithValue("AdminStatus", User.AdminStatus);
+                    cmd.Parameters.AddWithValue("UserType", User.UserType);
+                    cmd.Parameters.AddWithValue("Department", User.Department);
                     cmd.Parameters.AddWithValue("UserLogin", UserLogin);
                     con.Open();
 
