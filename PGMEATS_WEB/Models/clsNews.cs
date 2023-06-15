@@ -24,7 +24,7 @@ namespace PGMEATS_WEB.Models
 
     public class clsNewsDB
     {
-        public clsResponse NewsList(string User)
+        public clsResponse NewsList(string User, string datefrom, string dateTo, string groupdepartment, string designation)
         {
             List<clsNews> NewsList = new List<clsNews>();
             clsResponse Response = new clsResponse();
@@ -36,7 +36,11 @@ namespace PGMEATS_WEB.Models
                     SqlCommand cmd = new SqlCommand("sp_News_List", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("User", User);
-                    con.Open();                    
+                    cmd.Parameters.AddWithValue("DateFrom", datefrom);
+                    cmd.Parameters.AddWithValue("DateTo", dateTo);
+                    cmd.Parameters.AddWithValue("GroupDept", groupdepartment);
+                    cmd.Parameters.AddWithValue("SALPlan", designation);
+                    con.Open();
 
                     DataTable dt = new DataTable();
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -48,7 +52,7 @@ namespace PGMEATS_WEB.Models
                     NewsList = dt.AsEnumerable().Select(x =>
                     new clsNews
                     {
-                        NewsID = x.Field<Int64>("NewsID").ToString(),
+                        NewsID = x.Field<Int32>("NewsID").ToString(),
                         NewsTitle = x.Field<string>("NewsTitle"),
                         NewsDescCode = x.Field<string>("NewsDescCode"),
                         NewsDescText = x.Field<string>("NewsDescText"),
