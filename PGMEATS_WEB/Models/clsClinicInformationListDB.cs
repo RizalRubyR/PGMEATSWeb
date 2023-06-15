@@ -35,6 +35,9 @@ namespace PGMEATS_WEB.Models
                         clsClinic.Remark = rd["Remark"].ToString();
                         clsClinic.URL = rd["URL"].ToString();
                         clsClinic.URLDisplay = rd["URLDisplay"].ToString();
+                        clsClinic.City = rd["City"].ToString();
+                        clsClinic.PostalCode = rd["PostalCode"].ToString();
+
                         GroupClinic.Add(clsClinic);
                     }
 
@@ -80,6 +83,12 @@ namespace PGMEATS_WEB.Models
                             clsClinic.Remark = rd["Remark"].ToString();
                             clsClinic.URL = rd["URL"].ToString();
                             clsClinic.URLDisplay = rd["URLDisplay"].ToString();
+                            clsClinic.City = rd["City"].ToString();
+                            clsClinic.PostalCode = rd["PostalCode"].ToString();
+                            clsClinic.OperationHour = Convert.ToInt16(rd["OperationHour"]);
+
+
+
                             GroupClinic.Add(clsClinic);
                         }
 
@@ -155,6 +164,10 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("Remark", dataFrom.Remark ?? "");
                     cmd.Parameters.AddWithValue("URL", dataFrom.URL ?? "");
                     cmd.Parameters.AddWithValue("URLDisplay", dataFrom.URLDisplay ?? "");
+                    cmd.Parameters.AddWithValue("City", dataFrom.City ?? "");
+                    cmd.Parameters.AddWithValue("PostalCode", dataFrom.PostalCode?? "");
+                    cmd.Parameters.AddWithValue("OperationHour", Convert.ToInt16(dataFrom.OperationHour));
+
                     cmd.Parameters.AddWithValue("CreateUser", dataFrom.CreateUser ?? "");
                     cmd.Parameters.AddWithValue("CreateDate", DateTime.Now);
 
@@ -195,6 +208,9 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("Remark", dataFrom.Remark ?? "");
                     cmd.Parameters.AddWithValue("URL", dataFrom.URL ?? "");
                     cmd.Parameters.AddWithValue("URLDisplay", dataFrom.URLDisplay ?? "");
+                    cmd.Parameters.AddWithValue("City", dataFrom.City?? "");
+                    cmd.Parameters.AddWithValue("PostalCode", dataFrom.PostalCode?? "");
+                    cmd.Parameters.AddWithValue("OperationHour", Convert.ToInt16(dataFrom.OperationHour));
                     cmd.Parameters.AddWithValue("UpdateUser", dataFrom.UpdateUser ?? "");
                     cmd.Parameters.AddWithValue("UpdateDate", DateTime.Now);
 
@@ -247,6 +263,46 @@ namespace PGMEATS_WEB.Models
                 Response.Message = ex.Message;
             }
 
+            return Response;
+        }
+        public clsResponse GetListState()
+        {
+            List<clsClinicInformationList> GroupClinic = new List<clsClinicInformationList>();
+            clsResponse Response = new clsResponse();
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_GetListState", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    da.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                    GroupClinic = dt.AsEnumerable().Select(x =>
+                    new clsClinicInformationList
+                    {
+                        State = x.Field<string>("StateID")
+                    }).ToList();
+
+                    Response.ID = 1;
+                    Response.Message = "Success";
+                    Response.Contents = GroupClinic;
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.ID = 0;
+                Response.Message = ex.Message;
+                Response.Contents = "";
+
+            }
             return Response;
         }
         

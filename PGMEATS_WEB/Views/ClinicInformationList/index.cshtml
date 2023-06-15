@@ -40,13 +40,22 @@
                                             Clinic Name
                                         </th>
                                         <th style="text-align: center">
-                                            Region
+                                            Address
+                                        </th>
+                                        <th style="text-align: center">
+                                            City
                                         </th>
                                         <th style="text-align: center">
                                             State
                                         </th>
                                         <th style="text-align: center">
-                                            Address
+                                            PostalCode
+                                        </th>
+                                        <th style="text-align: center">
+                                            Region
+                                        </th>
+                                        <th style="text-align: center">
+                                            Operation Hour
                                         </th>
                                         <th style="text-align: center">
                                             Phone No
@@ -90,6 +99,43 @@
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group ">
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="Address">Address</label>
+                                                                    @Html.TextBoxFor(Model => Model.Address, new { @id = "Address", @class = "form-control input-md", placeholder = "Enter Address", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group ">
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="City">City</label>
+                                                                    @Html.TextBoxFor(Model => Model.City, new { @id = "City", @class = "form-control input-md", placeholder = "Enter City", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group ">
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="State">State</label>
+                                                                    @*@Html.TextBoxFor(Model => Model.State, new { @id = "State", @class = "form-control input-md", placeholder = "Enter State", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })*@
+                                                                    <select id="State" , class="form-control input-md" , style="height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;"></select>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group ">
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="PostalCode">Postal Code</label>
+                                                                    @Html.TextBoxFor(Model => Model.PostalCode, new { @id = "PostalCode", @class = "form-control input-md", placeholder = "Enter Postal Code", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group ">
                                                                     <label style="font-weight:500; margin-bottom:0.5em;" for="Region">Region</label>
                                                                     @Html.TextBoxFor(Model => Model.Region, new { @id = "Region", @class = "form-control input-md", placeholder = "Enter Region", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
                                                                     @Html.HiddenFor(Model => Model.ClinicID, new { @id = "ClinicID" })
@@ -100,17 +146,12 @@
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group ">
-                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="State">State</label>
-                                                                    @Html.TextBoxFor(Model => Model.State, new { @id = "State", @class = "form-control input-md", placeholder = "Enter State", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-group ">
-                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="Address">Address</label>
-                                                                    @Html.TextBoxFor(Model => Model.Address, new { @id = "Address", @class = "form-control input-md", placeholder = "Enter State", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="OperationHour">Operation Hour</label>
+                                                                    <div>
+                                                                        <input type="checkbox" id="bIstwentyfourHour" />
+                                                                        <span id="bIstwentyfourHour" style="font-family:'Poppins'">Open 24 Hour</span>
+                                                                    </div>
+                                                                    @Html.TextBoxFor(Model => Model.OperationHour, new { @id = "OperationHour", @class = "form-control input-md", placeholder = "Enter Operation Hour", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;",maxlength = 2 })
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -136,7 +177,7 @@
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group ">
-                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="UserID">URL</label>
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="URL">URL</label>
                                                                     @Html.TextBoxFor(Model => Model.URL, new { @id = "URL", @class = "form-control input-md", placeholder = "Enter URL", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
                                                                 </div>
                                                             </td>
@@ -145,7 +186,7 @@
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group ">
-                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="UserID">URLDisplay</label>
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="URLDisplay">URLDisplay</label>
                                                                     @Html.TextBoxFor(Model => Model.URLDisplay, new { @id = "URLDisplay", @class = "form-control input-md", placeholder = "Enter URL Display", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
                                                                 </div>
                                                             </td>
@@ -235,18 +276,21 @@
                         "bSearchable": false,
                         "bSortable": false,
                         'mRender': function (data, type, row) {
-                            return '<a class="fa fa-pencil" style="font-size: x-large;" href="#" onclick="EditData(\'' + row.ClinicID + '|' + row.ClinicName + '|' + row.Region + '|' + row.State + '|' + row.Address + '|' + row.Phone_No + '|' + row.Remark + '|' + row.URL + '|' + row.URLDisplay + '\')" @ViewBag.UpdateHidden ></a>' + '<div style="display: inline-block; padding: 0px 10px 0px 10px; font-size: 20px;">|</div>' +
+                            return '<a class="fa fa-pencil" style="font-size: x-large;" href="#" onclick="EditData(\'' + row.ClinicID + '|' + row.ClinicName + '|' + row.Region + '|' + row.State + '|' + row.Address + '|' + row.Phone_No + '|' + row.Remark + '|' + row.URL + '|' + row.URLDisplay + '|' + row.City + '|' + row.PostalCode + '|' + row.OperationHour + '\')" @ViewBag.UpdateHidden ></a>' + '<div style="display: inline-block; padding: 0px 10px 0px 10px; font-size: 20px;">|</div>' +
                                 '<a class="fa fa-trash-o" style="font-size: x-large;" href="#" @ViewBag.DeleteHidden onclick="DeleteData(\'' + row.ClinicID + '\')"></a>';
                         }
                     },
                     { "data": "ClinicName", "orderable": true },
-                    { "data": "Region", "orderable": true },
-                    { "data": "State", "orderable": true },
                     { "data": "Address", "orderable": true },
+                    { "data": "City", "orderable": true },
+                    { "data": "State", "orderable": true },
+                    { "data": "PostalCode", "orderable": true },
+                    { "data": "Region", "orderable": true },
+                    { "data": "OperationHour", "orderable": true },
                     { "data": "Phone_No", "orderable": true },
                     { "data": "Remark", "orderable": true },
                     { "data": "URL", "orderable": true },
-                    { "data": "URLDisplay", "orderable": true },
+                    { "data": "URLDisplay", "autoWidth": true},
                 ],
                 "order": [[0, "asc"]]
             });
@@ -267,22 +311,50 @@
 
             });
 
+            $("OperationHour").attr({
+                "max": 24,        // substitute your own
+                "min": 0          // values (or variables) here
+            });
 
+            $('#PhoneNo').keypress(function (e) {
+
+                var charCode = (e.which) ? e.which : event.keyCode
+
+                if (String.fromCharCode(charCode).match(/[^0-9 ()+]/g))
+
+                    return false;
+
+            });
+
+            $('#OperationHour').keypress(function (e) {
+
+                var charCode = (e.which) ? e.which : event.keyCode
+
+                if (String.fromCharCode(charCode).match(/[^0-9]/g))
+
+                    return false;
+
+            });
         });
 
         function clearTextBox() {
             $("#ClinicName").val('');
             $("#Region").val('');
-            $("#State").val('');
+            $("#State").empty();
             $("#Address").val('');
             $("#PhoneNo").val('');
             $("#Remark").val('');
             $("#URL").val('');
             $("#URLDisplay").val('');
+            $("#City").val('');
+            $("#PostalCode").val('');
+            $("#OperationHour").val('');
         }
 
         function AddNewData() {
+            debugger
             clearTextBox();
+            FillComboState();
             $("#ModalTitle").html("Create Data Clinic");
             $("#MyModal").modal();
             $('#InsertData').show();
@@ -298,6 +370,11 @@
             var Remark = $("#Remark").val();
             var URL = $("#URL").val();
             var URLDisplay = $("#URLDisplay").val();
+            var City = $("#City").val();
+            var PostalCode = $("#PostalCode").val();
+            var OperationHour = $("#OperationHour").val();
+
+
 
             console.log("InsertData () " + PhoneNo);
 
@@ -315,6 +392,11 @@
                 formDatax.append("Remark", Remark) ?? "";
                 formDatax.append("URL", URL) ?? "";
                 formDatax.append("URLDisplay", URLDisplay) ?? "";
+                formDatax.append("City", City) ?? "";
+                formDatax.append("PostalCode", PostalCode) ?? "";
+                formDatax.append("OperationHour", OperationHour) ?? "";
+
+
 
                 saveData(formDatax);
             }
@@ -368,6 +450,7 @@
         }
 
         function EditData(data) {
+            debugger
             var ClinicID = data.split('|')[0];
             var ClinicName = data.split('|')[1];
             var Region = data.split('|')[2];
@@ -377,6 +460,10 @@
             var Remark = data.split('|')[6];
             var URL = data.split('|')[7];
             var URLDisplay = data.split('|')[8];
+            var City = data.split('|')[9];
+            var PostalCode = data.split('|')[10];
+            var OperationHour = data.split('|')[11];
+
 
             console.log("EditData() " + PhoneNo);
 
@@ -389,12 +476,16 @@
             $("#ClinicID").val(ClinicID);
             $("#ClinicName").val(ClinicName);
             $("#Region").val(Region);
-            $("#State").val(State);
+            FillComboState(State);
             $("#Address").val(Address);
             $("#PhoneNo").val(PhoneNo);
             $("#Remark").val(Remark);
             $("#URL").val(URL);
             $("#URLDisplay").val(URLDisplay);
+            $("#City").val(City);
+            $("#PostalCode").val(PostalCode);
+            $("#OperationHour").val(OperationHour);
+
         }
 
         $("#UpdateData").click(function () {
@@ -407,6 +498,10 @@
             var Remark = $("#Remark").val() ?? "";
             var URL = $("#URL").val() ?? "";
             var URLDisplay = $("#URLDisplay").val() ?? "";
+            var City = $("#City").val() ?? "";
+            var PostalCode = $("#PostalCode").val() ?? "";
+            var OperationHour = $("#OperationHour").val() ?? "";
+
 
             console.log("UpdateData " + PhoneNo);
 
@@ -420,6 +515,10 @@
             formData.append("Remark", Remark) ?? "";
             formData.append("URL", URL) ?? "";
             formData.append("URLDisplay", URLDisplay) ?? "";
+            formData.append("City", City) ?? "";
+            formData.append("PostalCode", PostalCode) ?? "";
+            formData.append("OperationHour", OperationHour) ?? "";
+
             updateData(formData);
         })
 
@@ -518,6 +617,46 @@
 
             return bIsDataExist;
         }
+
+        function FillComboState(StateID) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ClinicInformationGetListState", "ClinicInformationList")",
+                datatype: 'json',
+                success: function (result) {
+                    debugger
+                    if (result.ID == '0') {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    } else {
+                        $('#State').empty();
+                        $.each(result.Contents, function (i, dt) {
+                            if (StateID == dt.State) {
+                                $("#State").append('<option value="' + dt.State + '" selected >' + dt.State + '</option>');
+                            } else {
+                                $("#State").append('<option value="' + dt.State + '">' + dt.State + '</option>');
+
+                            }
+                        });
+                    }
+                },
+                error: function (ex) {
+                    toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                }
+            });
+        }
+
+        $("#bIstwentyfourHour").click(function () {
+            if ($(this).is(":checked")) {
+                $('#OperationHour').attr("disabled", "disabled");
+                $('#OperationHour').val(24);
+            } else {
+                $('#OperationHour').val("");
+                $('#OperationHour').attr("disabled", $(this).is(":checked"));
+            }
+        });
     </script>
 
 }

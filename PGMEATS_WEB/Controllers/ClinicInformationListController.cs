@@ -105,6 +105,8 @@ namespace PGMEATS_WEB.Controllers
                         dataItem.Remark.ToUpper().Contains(search.ToUpper()) ||
                         dataItem.ClinicName.ToUpper().Contains(search.ToUpper()) ||
                         dataItem.State.ToUpper().Contains(search.ToUpper()) ||
+                        dataItem.City.ToUpper().Contains(search.ToUpper()) ||
+                        dataItem.PostalCode.ToUpper().Contains(search.ToUpper()) ||
                         dataItem.Address.ToUpper().Contains(search.ToUpper()) ||
                         dataItem.Phone_No.ToUpper().Contains(search.ToUpper()) ||
                         dataItem.URL.ToUpper().Contains(search.ToUpper()) ||
@@ -186,6 +188,34 @@ namespace PGMEATS_WEB.Controllers
             try
             {
                 response = DB.ClinicInformationValidateBeforeInsert(Region,ClinicName);
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [HttpPost]
+        public ActionResult ClinicInformationGetListState()
+        {
+            clsResponse response = new clsResponse();
+            try
+            {
+                clsClinicInformationListDB mdb = new clsClinicInformationListDB();
+                try
+                {
+                    response = mdb.GetListState();
+                }
+                catch (Exception ex)
+                {
+                    response.ID = 0;
+                    response.Message = ex.Message;
+                    response.Contents = "";
+                }
+                return Json(response, JsonRequestBehavior.AllowGet);
+
             }
             catch (Exception ex)
             {
