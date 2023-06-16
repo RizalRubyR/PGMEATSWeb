@@ -30,17 +30,20 @@
                             <table id="tableID" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th style="text-align: center;width: 7%">Action</th>
+                                        <th style="text-align: center;width: 12%">Action</th>
                                         <th style="text-align: center" class="hidden">
                                             Survey ID
                                         </th>
-                                        <th style="text-align: center;">
+                                        <th style="text-align: center; width: 280px">
                                             Survey Title
                                         </th>
-                                        <th style="text-align: center;">
+                                        <th style="text-align: center; width: 120px">
+                                            Department
+                                        </th>
+                                        <th style="text-align: center; width: 120px">
                                             Start Date
                                         </th>
-                                        <th style="text-align: center;">
+                                        <th style="text-align: center; width: 120px">
                                             End Date
                                         </th>
                                     </tr>
@@ -108,10 +111,11 @@
                             }
                         }
                     },
-                    { "data": "SurveyID",     "autoWidth": true, className: "hidden" },
-                    { "data": "SurveyTitle",  "autoWidth": true, className: "txtAlignLeft" },
-                    { "data": "StartDate",   "autoWidth": true, className: "txtAlignCenter" },
-                    { "data": "EndDate",     "autoWidth": true, className: "txtAlignCenter" }
+                    { "data": "SurveyID",    className: "hidden" },
+                    { "data": "SurveyTitle", className: "txtAlignLeft" },
+                    { "data": "Department",  className: "txtAlignCenter" },
+                    { "data": "StartDate",   className: "txtAlignCenter" },
+                    { "data": "EndDate",     className: "txtAlignCenter" }
                 ],
                 rowCallback: function (row, data) { responsiveHelper_dt_basic.createExpandIcon(row) },
                 filter: true,
@@ -125,9 +129,9 @@
                 bFilter: true,
                 bSort: true,
                 bPaginate: true,
-                scrollX: false,
-                //scrollX: "100%",
-                //scrollY: "350px",
+                //scrollX: false,
+                scrollX: "100%",
+                scrollY: "350px",
                 autoWidth: true,
                 preDrawCallback: function () {
                     if (!responsiveHelper_dt_basic) {

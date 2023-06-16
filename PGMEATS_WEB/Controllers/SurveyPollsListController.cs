@@ -101,6 +101,7 @@ namespace PGMEATS_WEB.Controllers
             {
                 ViewBag.SurveyID = data[i].SurveyID;
                 ViewBag.SurveyDesc = data[i].SurveyDesc;
+                ViewBag.GroupDepartment = data[i].GroupDepartment;
                 ViewBag.StartDate = data[i].StartDate;
                 ViewBag.EndDate = data[i].EndDate;
                 ViewBag.ViewResult = data[i].ViewResult;
@@ -178,6 +179,23 @@ namespace PGMEATS_WEB.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult LoadEditHeader(string surveyID)
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            clsResponse response = new clsResponse();
+            try
+            {
+                response = db.getDataEdit(surveyID);
+            }
+            catch (Exception ex)
+            {
+                response.ID = 0;
+                response.Message = ex.Message;
+                response.Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
         [AcceptVerbs("GET", "POST")]
         [HttpPost]
         public JsonResult FillCombo(string Type)
@@ -206,6 +224,25 @@ namespace PGMEATS_WEB.Controllers
             try
             {
                 response = db.FillComboParentQuestion(SurveyID);
+            }
+            catch (Exception ex)
+            {
+                response.ID = 0;
+                response.Message = ex.Message;
+                response.Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs("GET","POST")]
+        [HttpPost]
+        public JsonResult fillDepartment()
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            clsResponse response = new clsResponse();
+            try
+            {
+                response = db.fillDepartment();
             }
             catch (Exception ex)
             {
@@ -279,12 +316,12 @@ namespace PGMEATS_WEB.Controllers
             clsResponse response = new clsResponse();
             DateTime dtStart = DateTime.Parse(param.StartDate);
             DateTime dtEnd = DateTime.Parse(param.EndDate);
-
             param.StartDate = dtStart.ToString("yyyy-MM-dd");
             param.EndDate = dtEnd.ToString("yyyy-MM-dd");
             string UserLogin = Session["LogUserID"].ToString().Trim();
             try
             {
+                
                 response = db.Saveheader(param, UserLogin);
             }
             catch (Exception ex)
@@ -341,7 +378,7 @@ namespace PGMEATS_WEB.Controllers
                     p.SurveyID = param2.SurveyID;
                     p.QuestionID = param2.QuestionID;
                     p.AnswerSeqNo = "1";
-                    p.AnswerDesc = param2.txtFreeText;
+                    p.AnswerDesc = "";
                     cls.Add(p);
                 }
 
@@ -425,9 +462,12 @@ namespace PGMEATS_WEB.Controllers
         {
             SurveyAndPollsDB db = new SurveyAndPollsDB();
             clsResponse response = new clsResponse();
+            SurveyAndPollsHeader header = new SurveyAndPollsHeader();
+            header.SurveyID = SurveyID;
+            header.Finalized = "1";
             try
             {
-                response = db.FillComboParentQuestion(SurveyID);
+                response = db.Finalized(header);
             }
             catch (Exception ex)
             {

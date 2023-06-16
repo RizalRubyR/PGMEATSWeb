@@ -12,18 +12,22 @@ namespace PGMEATS_WEB.Models
     {
         public string SurveyID { get; set; }
         public string SurveyTitle { get; set; }
+        //public string GroupDepartment { get; set; }
+        public List<string> GroupDepartment { get; set; }
         public string SurveyStatus { get; set; } //0 = New, 1 = On Progress, 2 = Finish  update from mobile 
         public string StartDate { get; set; }
         public string EndDate { get; set; }
         public string ViewChart { get; set; }
         public string Type { get; set; }
-
+        public string Finalized { get;set; } // 0 = New, 1 = Finalized update from web
     }
+
     public class SurveyAndPollsList
     {
         //public string User { get; set; }
         public string SurveyID { get; set; }
         public string SurveyTitle { get; set; }
+        public string Department { get; set; }
         public string SurveyStatus { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
@@ -98,6 +102,7 @@ namespace PGMEATS_WEB.Models
     {
         public string SurveyID { get; set; }
         public string SurveyDesc { get; set; }
+        public string GroupDepartment { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
         public string ViewResult { get; set; }
@@ -132,6 +137,7 @@ namespace PGMEATS_WEB.Models
                     {
                         SurveyID = x.Field<Int64>("SurveyID").ToString(),
                         SurveyTitle = x.Field<string>("SurveyTitle"),
+                        Department = x.Field<string>("Department"),
                         SurveyStatus = x.Field<string>("SurveyStatus"),
                         StartDate = x.Field<string>("StartDate"),
                         EndDate = x.Field<string>("EndDate"),
@@ -325,7 +331,47 @@ namespace PGMEATS_WEB.Models
             }
             return Response;
         }
-        public clsResponse Finalized(string SurveyID)
+        public clsResponse fillDepartment()
+        {
+            List<clsFillCombo> ComboList = new List<clsFillCombo>();
+            clsResponse Response = new clsResponse();
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_M_SurveyAndPolls_Department_Load", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    da.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                    ComboList = dt.AsEnumerable().Select(x =>
+                    new clsFillCombo
+                    {
+                        Code = x.Field<string>("GroupDepartment"),
+                    }).ToList();
+
+                    Response.ID = 1;
+                    Response.Message = "Success";
+                    Response.Contents = ComboList;
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.ID = 0;
+                Response.Message = ex.Message;
+                Response.Contents = "";
+
+            }
+            return Response;
+        }
+        public clsResponse Finalized(SurveyAndPollsHeader header)
         {
             clsResponse Response = new clsResponse();
             try
@@ -333,9 +379,11 @@ namespace PGMEATS_WEB.Models
                 string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(constr))
                 {
-                    SqlCommand cmd = new SqlCommand("sp_SurveyandpollsHeader_Ins", con);
+                    SqlCommand cmd = new SqlCommand("sp_SurveyandpollsHeader_Finalized", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@SurveyID", SurveyID);
+                    cmd.Parameters.AddWithValue("@SurveyID", header.SurveyID);
+                    cmd.Parameters.AddWithValue("@Finalized", header.Finalized);
+
                     con.Open();
 
                     DataTable dt = new DataTable();
@@ -626,6 +674,7 @@ namespace PGMEATS_WEB.Models
                         LoadEditSurvey detail = new LoadEditSurvey();
                         detail.SurveyID = dr["SurveyID"].ToString().Trim();
                         detail.SurveyDesc = dr["SurveyTitle"].ToString().Trim();
+                        detail.GroupDepartment = dr["Department"].ToString().Trim();
                         detail.StartDate = dr["StartDate"].ToString().Trim();
                         detail.EndDate = dr["EndDate"].ToString().Trim();
                         detail.ViewResult = dr["ViewChart"].ToString().Trim();
@@ -656,25 +705,63 @@ namespace PGMEATS_WEB.Models
                 string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(constr))
                 {
-                    SqlCommand cmd = new SqlCommand("sp_SurveyandpollsHeader_Ins", con);
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+                    SqlTransaction trans = con.BeginTransaction();
+                    string sql = "execute sp_SurveyandpollsHeader_Ins @SurveyID,@SurveyTitle,@SurveyStatus,@StartDate,@EndDate,@ViewChart,@Type,@Finalized,@CreateUser";
+                    SqlCommand cmd = new SqlCommand(sql, con, trans);
+                    //cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Clear();
                     cmd.Parameters.AddWithValue("@SurveyID", param.SurveyID);
                     cmd.Parameters.AddWithValue("@SurveyTitle", param.SurveyTitle);
                     cmd.Parameters.AddWithValue("@SurveyStatus", param.SurveyStatus);
                     cmd.Parameters.AddWithValue("@StartDate", param.StartDate);
                     cmd.Parameters.AddWithValue("@EndDate", param.EndDate);
                     cmd.Parameters.AddWithValue("@ViewChart", param.ViewChart);
-                    cmd.Parameters.AddWithValue("Type", param.Type);
+                    cmd.Parameters.AddWithValue("@Type", param.Type);
+                    cmd.Parameters.AddWithValue("@Finalized", param.Finalized);
                     cmd.Parameters.AddWithValue("@CreateUser", UserLogin);
-                    con.Open();
 
-                    DataTable dt = new DataTable();
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    da.Fill(dt);
-                    da.Dispose();
-                    cmd.Dispose();
-                    con.Close();
+                    int i;
 
+                    i = cmd.ExecuteNonQuery();
+
+                    if (i < 1)
+                    {
+                        trans.Rollback();
+                        Response.ID = 0;
+                        Response.Message = "No data update";
+                        Response.Contents = "";
+                    }
+                    cmd.CommandText = "execute sp_SurveyandpollsDepartmentBySurveyID_Del @SuveyID";
+                    //cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.AddWithValue("@SuveyID", param.SurveyID);
+                    i = cmd.ExecuteNonQuery();
+
+                    foreach (string str in param.GroupDepartment)
+                    {
+                        cmd.CommandText = "execute sp_SurveyandpollsDepartment_Ins @SuveyID,@GroupDepartment";
+                        //cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.AddWithValue("@SuveyID", param.SurveyID);
+                        cmd.Parameters.AddWithValue("@GroupDepartment", str);
+                        i = cmd.ExecuteNonQuery();
+                        if (i < 1)
+                        {
+                            trans.Rollback();
+                            Response.ID = 0;
+                            Response.Message = "Cannot insert department";
+                            Response.Contents = "";
+                            return Response;
+                        }
+                    }
+                    //DataTable dt = new DataTable();
+                    //SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    //da.Fill(dt);
+                    //da.Dispose();
+                    //cmd.Dispose();
+                    //con.Close();
+                    trans.Commit();
                     Response.ID = 1;
                     Response.Message = "Success";
                     Response.Contents = "";
