@@ -75,7 +75,9 @@ namespace PGMEATS_WEB.Controllers
 
             ViewBag.AllowUpdate = Privilege.AllowUpdate;
             ViewBag.UserID = userID;
-
+            ViewBag.AdminStatus = Session["AdminStatus"].ToString();
+            ViewBag.UserType = Session["UserType"].ToString();
+            ViewBag.Department = Session["Department"].ToString();
             return View();
 
         }
@@ -255,6 +257,7 @@ namespace PGMEATS_WEB.Controllers
             clsResponse response = new clsResponse();
             try
             {
+                //dataFrom.ActionType = "1"; /*1 = Reply MyComplaint, 2 = Setting Caterer*/
                 dataFrom.CreatedUser = Session["LogUserID"].ToString();
                 response = db.ReplyComplaintUpd(dataFrom);
             }
@@ -400,5 +403,54 @@ namespace PGMEATS_WEB.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetFillCombo(String TypeAction, String Param)
+        {
+            Response resp = new Response();
+            ComboFilter db = new ComboFilter();
+            try
+            {
+                resp = db.FillCombo(TypeAction, Param);
+                return Json(resp, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                resp.Message = ex.Message;
+                resp.ID = "1";
+                resp.Content = "";
+
+                return Json(resp, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        //public JsonResult SettingCaterer (List<clsMyComplaint> orderArr)
+        //{
+        //    clsResponse resp = new clsResponse();
+        //    clsMyComplaintDB db = new clsMyComplaintDB();
+        //    try
+        //    {
+        //        foreach (clsMyComplaint d in orderArr)
+        //        {
+        //            clsMyComplaint data = new clsMyComplaint();
+        //            data.ActionType = "2"; /*1 = Reply MyComplaint, 2 = Setting Caterer*/
+        //            data.ComplaintID = d.ComplaintID;
+        //            data.CatererID = d.CatererID;
+
+        //            resp = db.SettingCaterer(data);
+        //            if (!resp.Message.ToLower().Contains("success"))
+        //            {
+        //                return Json(resp, JsonRequestBehavior.AllowGet);
+        //            }
+        //        }             
+        //        return Json(resp, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        resp.Message = ex.Message;
+        //        resp.ID = 1;
+        //        resp.Contents = "";
+
+        //        return Json(resp, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
     }
 }

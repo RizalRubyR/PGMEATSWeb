@@ -33,6 +33,10 @@ namespace PGMEATS_WEB.Models
         public string LastUser { get; set; }
         public string LastUpdate { get; set; }
         public string AdminStatus { get; set; }
+
+
+        public string CatererID { get; set; }
+        public string Department { get; set; }
     }
 
     public class clsUserType

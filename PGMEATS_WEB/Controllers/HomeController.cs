@@ -71,8 +71,11 @@ namespace PGMEATS_WEB.Controllers
                     if (Password == User.Password)
                     {
                         message = "Success";
+
                         Session["LogUserID"] = User.UserID.ToString();
                         Session["AdminStatus"] = User.AdminStatus.ToString();
+                        Session["UserType"] = User.UserType.ToString();
+                        Session["Department"] = User.Department.ToString();
                     }
                     else
                     {

@@ -62,6 +62,10 @@
                                         <td>
                                             <button class="btn btn-save" id="refresh"> Refresh </button>
                                         </td>
+                                        @*<td>&nbsp;</td>
+                                        <td>
+                                            <button class="btn btn-save" id="SettingCaterer" disabled="disabled"> Past to Caterer </button>
+                                        </td>*@
                                     </tr>
                                 </table>
                             </div>
@@ -69,6 +73,9 @@
                             <table id="tableID" data-page-size='3' class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr role="row">
+                                        @*<th style="text-align:center;width:30px;">
+                                                <input name="select-all" id="select-all" type="checkbox" />
+                                            </th>*@
                                         <th style="text-align:center;width:50px;">
                                             Action
                                         </th>
@@ -85,6 +92,9 @@
                                             Description
                                         </th>
                                         <th style="text-align: center; width: 150px;">
+                                            CatererID
+                                        </th>
+                                        <th style="text-align: center; width: 50px;">
                                             Evindence
                                         </th>
                                         <th style="text-align: center; width: 100px;">
@@ -166,6 +176,14 @@
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group ">
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;">Caterer ID</label>
+                                                                    <select id="txtCatererID" class="form-control input-md" style="height:30px; width:200px; margin-right:20px" disabled="disabled"></select>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group ">
                                                                     <label style="font-weight:500; margin-bottom:0.5em;"> Response </label>
                                                                     @Html.TextAreaFor(m => m.ComplaintReply, new { @id = "ComplaintReplyDet", @class = "form-control input-md", @placeholder = "Enter your response", @style = "height:100px; width:300px;" })
                                                                 </div>
@@ -221,7 +239,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -256,6 +273,10 @@
         background-color: #4CBFBC;
         border-color: #4CBFBC;
     }
+
+    .hidden {
+        display: none;
+    }
 </style>
 
 <link rel="stylesheet" href="~/Content/zebra_datepicker.min.css" type="text/css">
@@ -266,18 +287,23 @@
 <script src="~/Scripts/zebra_datepicker.src.js"></script>
 
 <script type="text/javascript">
+    var oTable;
+    var UserID = '@ViewBag.UserID';
+    var AdminStatus = '@ViewBag.AdminStatus';
+    var UserType = '@ViewBag.UserType';
     $(document).ready(function () {
-        FillCombo_Department();
+      
+        FillCombo_Department(UserID);
         FillCombo_ComplaintStatus()
         FillCombo_IssueType()
 
         $("#fromDate").val(today)
         $("#toDate").val(today)
 
-        millisecondsToWait = 1500;
-        setTimeout(function () {
-            loadData(); //Get list complaint
-        }, millisecondsToWait);
+        //millisecondsToWait = 1500;
+        //setTimeout(function () {
+        //    loadData(); //Get list complaint
+        //}, millisecondsToWait);
 
         /* BASIC ;*/
         var responsiveHelper_dt_basic = undefined;
@@ -286,23 +312,30 @@
             phone: 480
         };
 
-        $("#tableID").dataTable({
+       oTable = $("#tableID").dataTable({
             bDestroy: true,
             data: [],
             columns: [
+                //{/
+                //    "data": "Action", className: "txtAlignCenter", "render": function (data, type, row, meta) {
+                //        return '<input type="checkbox" id="check-'+meta.row+'" />';
+                //    }
+                //},
                 {
                     "data": "Action", className: "txtAlignCenter", "render": function (data, type, row) {
                         //return '<a href="#" class="fa fa-pencil" onclick="ReplyComplaint(\'' + row.ComplaintID + '\',\'' + row.CreatedDate + '\',\'' + row.Department + '\',\'' + row.IssueTypeDesc + '\',\'' + row.ComplaintDesc.replace(/\n|<br\s*\/?>/gi, "") + '\',\'' + row.CreatedUser + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteComplaint(\'' + row.ComplaintID + '\')"></a>'
                         return '<a href="#" class="fa fa-pencil" onclick="ReplyComplaint(\'' + row.ComplaintID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteComplaint(\'' + row.ComplaintID + '\')"></a>'
                     }
                 },
+               //{ "data": "ComplaintID", "autoWidth": true, width: 0, className: "txtAlignCenter hidden"},
                 { "data": "CreatedDate", "autoWidth": true, className: "txtAlignCenter" },
                 { "data": "Department", "autoWidth": true, className: "txtAlignCenter" },
                 { "data": "IssueTypeDesc", "autoWidth": true, className: "txtAlignCenter" },
                 { "data": "ComplaintDesc", "autoWidth": true, className: "txtAlignLeft" },
+                { "data": "CatererID", "autoWidth": true, className: "txtAlignLeft" },
                 {
-                    "data": "FileName", className: "txtAlignLeft", "render": function (data, type, row) {
-                        return '<a href="#" onclick="ImgShow(\'' + row.Evidence + '\')">' + row.Evidence + '</a>'
+                    "data": "FileName", className: "txtAlignCenter", "render": function (data, type, row) {
+                        return '<a href="#" onclick="ImgShow(\'' + row.Evidence + '\')">Show Evidence</a>'
                     }
                 },
                 { "data": "CreatedUser", "autoWidth": true, className: "txtAlignCenter" },
@@ -312,7 +345,15 @@
                 { "data": "LastUser", "autoWidth": true, className: "txtAlignCenter" },
                 { "data": "LastUpdate", "autoWidth": true, className: "txtAlignCenter" },
             ],
-
+            //columnDefs: [{
+            //    'targets': [2],
+            //    'searchable': false,
+            //    'orderable': false,
+            //    'className': 'dt-body-center',
+            //    "mRender": function (data, type, full, meta) {
+            //        return '<select id="CatererID-' + meta.row +'" class="form-control selectpicker" style="height:40px; width:150px" disabled="disabled"/>';
+            //    }
+            //}],
             rowCallback: function (row, data) { responsiveHelper_dt_basic.createExpandIcon(row) },
             filter: true,
             info: true,
@@ -341,8 +382,6 @@
     });
 
     function loadData() {
-        //var fromDate = $("#fromDate").val();
-        //var toDate = $("#toDate").val();
         var department = $("#Department").val();
         var issuetypeID = $("#IssueTypeID").val();
         var complaintStatus = $("#ComplaintStatus").val();
@@ -364,6 +403,7 @@
         formdata.append("Department", department);
         formdata.append("IssueTypeID", issuetypeID);
         formdata.append("ComplaintStatus", complaintStatus);
+        formdata.append("UserID", UserID);
 
         waitingDialog.show("Please wait retrieving data...");
         $.ajax({
@@ -374,19 +414,11 @@
             data: formdata,
             success: function (result) {
                 if (result.Message.toLowerCase().includes("success")) {
-                    if (result.Contents != "") {
-                        Object.values(result.Contents).forEach(function (dt) {
-                            $("#tableID").DataTable().clear();
-                            $("#tableID").DataTable().rows.add(result.Contents).draw(false);
-                            setTimeout(function () {
-                                waitingDialog.hide();
-                            }, 500);
-                        });
-                    } else {
-                        setTimeout(function () {
-                            waitingDialog.hide();
-                        }, 500);
-                    }
+                    $("#tableID").DataTable().clear();
+                    $("#tableID").DataTable().rows.add(result.Contents).draw(false)
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 500);
                 }
                 else {
                     toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
@@ -441,8 +473,6 @@
 
     $("#refresh").click(function () {
         loadData();
-
-        //load datatable function
     })
 
     function ReplyComplaint(complaintID) {
@@ -465,6 +495,13 @@
                         $("#ComplaintDesc").val(result.Contents.ComplaintDesc);
                         $("#ComplaintReplyDet").val(result.Contents.ComplaintReply);
                         $("#CreatedUser").val(result.Contents.CreatedUser);
+                        FillCombo_CatererID(result.Contents.CatererID)
+
+                        if (AdminStatus == "1" || UserType.trim() == "Admin") {
+                            $("#txtCatererID").removeAttr("disabled", "disabled");
+                        } else {
+                            $("#txtCatererID").attr("disabled", "disabled");
+                        }
                     }
                     else {
                         toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
@@ -486,6 +523,7 @@
     $("#InsertData").click(function () {
         var complaintID = $("#ComplaintID").val();
         var complaintReply = $("#ComplaintReplyDet").val();
+        var catererID = $("#txtCatererID").val();
 
         if (complaintReply == "") {
             toastr.warning("Please, enter your response!", 'Warning', { timeOut: 1000, closeButton: true });
@@ -493,6 +531,7 @@
             var formdata = new FormData();
             formdata.append("ComplaintID", complaintID);
             formdata.append("ComplaintReply", complaintReply);
+            formdata.append("CatererID", catererID);
 
             $.ajax({
                 type: "POST",
@@ -549,17 +588,17 @@
         });
     })
 
-    function FillCombo_Department() {
+    function FillCombo_Department(UserID) {
         $.ajax({
             type: "POST",
-            url: "@Url.Action("FillCombo", "MyComplaint")", // "/MyComplaint/FillCombo/",
+            url: "@Url.Action("GetFillCombo", "MyComplaint")", // "/MyComplaint/FillCombo/",
             datatype: 'json',
-            data: { Type: "Department" },
+            data: { TypeAction: "05", Param: UserID },
             success: function (result) {
                 if (result.Message.toLowerCase().includes("success")) {
                     $('#Department').empty();
-                    $.each(result.Contents, function (i, dt) {
-                        $("#Department").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
+                    $.each(result.Content, function (i, dt) {
+                        $("#Department").append('<option value="' + dt.Code + '">' + dt.CodeDesc + '</option>');
                     });
                 } else {
                     toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
@@ -615,6 +654,62 @@
         });
     }
 
+    function FillCombo_CatererID(CatererID) {
+        $.ajax({
+            type: "POST",
+            url:  "@Url.Action("GetFillCombo", "MyComplaint")", // "/MyComplaint/FillCombo/",
+            datatype: 'json',
+            data: { TypeAction: "04", Param : "" },
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+                    $('#txtCatererID').empty();
+                    $('#txtCatererID').append('<option value="" disabled selected>Fill CatererID</option>');
+                    $.each(result.Content, function (i, dt) {
+                        if (dt.CodeDesc == CatererID) {
+                            $('#txtCatererID').append('<option value="' + dt.Code + '" selected>' + dt.CodeDesc + '</option>');
+                        } else {
+                            $('#txtCatererID').append('<option value="' + dt.Code + '">' + dt.CodeDesc + '</option>');
+                        }
+
+                    });
+                } else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
+                }
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
+            }
+        });
+    }
+
+    @*function FillCombo_CatererID(cbCatererID, CatererID) {
+        $.ajax({
+            type: "POST",
+            url:  "@Url.Action("FillCombo_CatererID", "MyComplaint")", // "/MyComplaint/FillCombo/",
+            datatype: 'json',
+            data: { TypeAction: "04" },
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+                    $('#' + cbCatererID + '').empty();
+                    $('#' + cbCatererID + '').append('<option value="" disabled selected>Fill CatererID</option>');
+                    $.each(result.Content, function (i, dt) {
+                        if (dt.CodeDesc == CatererID) {
+                            $('#' + cbCatererID + '').append('<option value="' + dt.Code + '" selected>' + dt.CodeDesc + '</option>');
+                        } else {
+                            $('#' + cbCatererID + '').append('<option value="' + dt.Code + '">' + dt.CodeDesc + '</option>');
+                        }
+
+                    });
+                } else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
+                }
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
+            }
+        });
+    }*@
+
     function clearTextBox() {
         $("#CreatedDate").val('');
         $("#DepartmentDet").val('');
@@ -631,5 +726,95 @@
         var path = "/Image/MyComplaint/" + FileName;
         document.getElementById('EvidenceShow').src = path;
     }
+
+    @*var totlenght = 0;
+    $('#tableID tbody').on('change', 'input:checkbox[id^="check"]', function () {
+        var tables = $("#tableID").dataTable();
+        var indexOfRow = tables.fnGetPosition($(this).closest('tr').get(0));
+        if (document.getElementById('check-' + indexOfRow).checked) {
+            $("#CatererID-" + indexOfRow).removeAttr("disabled", "disabled");
+            totlenght = totlenght + 1;
+        } else {
+            $("#CatererID-" + indexOfRow).attr("disabled", "disabled");
+            totlenght = totlenght - 1;
+        }
+
+        if (totlenght > 0) {
+            $("#SettingCaterer").removeAttr("disabled", "disabled");
+        } else {
+            $("#SettingCaterer").attr("disabled", "disabled");
+        }
+    });
+
+    $('#select-all').on('click', function () {
+        $('input:checkbox[id^="check"]', rows).prop('checked', this.checked);
+        var tables = $("#tableID").dataTable();
+        var rows = tables.fnGetNodes();
+        for (var iRow = 0; iRow < rows.length; iRow++) {
+            if (document.getElementById('check-' + iRow).checked) {
+                $("#CatererID-" + iRow).removeAttr("disabled", "disabled");
+                totlenght = totlenght + 1;
+            } else {
+                $("#CatererID-" + iRow).attr("disabled", "disabled");
+                totlenght = totlenght - 1;
+            }
+        }
+        if (totlenght > 0) {
+            $("#SettingCaterer").removeAttr("disabled", "disabled");
+        } else {
+            $("#SettingCaterer").attr("disabled", "disabled");
+        }
+    });
+
+    $("#SettingCaterer").click(function () {
+        var msg = "";
+        var orderArr = [];
+        orderArr.length = 0;
+
+        $.each($("#tableID tbody tr"), function () {
+            if ($(this).find('input:eq(0)').prop('checked') == true) {
+                var complaintID = $(this).find('td:eq(3)').text();
+                var catererID = $(this).find('td:eq(2)  :selected').val() ? $(this).find('td:eq(2)  :selected').val() : "";
+                if (catererID == "") {
+                    return msg = "Please, fill catererID!";
+                }
+                orderArr.push({
+                    CatererID: catererID,
+                    ComplaintID: complaintID
+                });
+            }
+        });
+
+        if (msg != "") {
+            toastr.warning(msg, 'Warning', { timeOut: 1000, "closeButton": true });
+            return
+        }
+
+
+        if (orderArr.length <= 0) {
+            toastr.warning("Please, select one of feedback list!" , 'Warning', { timeOut: 1000, "closeButton": true });
+            return
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SettingCaterer", "MyComplaint")",
+            data: JSON.stringify(orderArr),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+                    loadData();
+                    return toastr.success("Pass to caterer successfully !", 'Success', { timeOut: 1000, "closeButton": true });
+                } else {
+                    return toastr.warning(result.Message, 'warning', { timeOut: 3000, "closeButton": true });
+                }
+            },
+            error: function (ex) {
+                return toastr.warning('Error connection API' + ex, 'Warning', { timeOut: 3000, "closeButton": true });
+            }
+        });
+
+    })*@
 
 </script>

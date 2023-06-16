@@ -26,7 +26,10 @@ namespace PGMEATS_WEB.Models
         public string FromDate { get; set; }
         public string ToDate { get; set; }
         public string Department { get; set; }
-
+        public string GroupDepartment { get; set; }
+        public string CatererID { get; set; }
+        public string ActionType { get; set; }
+        public string UserID { get; set; }
     }
 
     public class clsMyComplaintDB
@@ -47,6 +50,7 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("Department", data.Department);
                     cmd.Parameters.AddWithValue("IssueTypeID", data.IssueTypeID);
                     cmd.Parameters.AddWithValue("ComplaintStatus", data.ComplaintStatus);
+                    cmd.Parameters.AddWithValue("UserID", data.UserID);
                     con.Open();
 
                     SqlDataReader rd = cmd.ExecuteReader();
@@ -65,6 +69,7 @@ namespace PGMEATS_WEB.Models
                         Menu.LastUser = rd["LastUser"].ToString();
                         Menu.LastUpdate = rd["LastUpdate"].ToString();
                         Menu.Department = rd["Department"].ToString();
+                        Menu.CatererID = rd["CatererID"].ToString();
                         Menus.Add(Menu);
                     }
 
@@ -105,6 +110,7 @@ namespace PGMEATS_WEB.Models
                         Menu.CreatedUser = rd["CreatedUser"].ToString();
                         Menu.CreatedDate = rd["CreatedDate"].ToString();
                         Menu.Department = rd["Department"].ToString();
+                        Menu.CatererID = rd["CatererID"].ToString();
                     }
 
                     Response.Message = "Success";
@@ -130,8 +136,10 @@ namespace PGMEATS_WEB.Models
                 {
                     SqlCommand cmd = new SqlCommand("sp_ReplyComplaint_Upd", con);
                     cmd.CommandType = CommandType.StoredProcedure;
+                    //cmd.Parameters.AddWithValue("ActionType", data.ActionType);
                     cmd.Parameters.AddWithValue("ComplaintID", data.ComplaintID);
                     cmd.Parameters.AddWithValue("ComplaintReply", data.ComplaintReply);
+                    cmd.Parameters.AddWithValue("CatererID", data.CatererID);
                     cmd.Parameters.AddWithValue("CreatedUser", data.CreatedUser);
                     con.Open();
                     cmd.ExecuteNonQuery();
@@ -169,6 +177,33 @@ namespace PGMEATS_WEB.Models
             }
             return Response;
         }
+
+        public clsResponse SettingCaterer(clsMyComplaint data)
+        {
+            clsResponse Response = new clsResponse();
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_ReplyComplaint_Upd", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("ActionType", data.ActionType);
+                    cmd.Parameters.AddWithValue("ComplaintID", data.ComplaintID);
+                    cmd.Parameters.AddWithValue("CatererID", data.CatererID);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+
+                    Response.Message = "Successfully updated data!";
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Message = ex.Message;
+            }
+            return Response;
+        }
+
     }
 }
 
