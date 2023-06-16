@@ -25,6 +25,53 @@
 
                     <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
                         <div style="padding: 5px 5px 5px 5px">
+                            <div class="table-toolbar" style="padding-bottom:10px">
+                                <table>
+                                    <tr style="height:45px">
+                                        <td width="150px">
+                                            <p style="font-weight:600; margin: 0">Date</p>
+                                        </td>
+
+                                        <td>
+                                            <input id="filterDatefrom" type="text" class="form-control input-md" style="background-color:white; width:150px" />
+                                        </td>
+
+                                        <td width="40px" style="text-align:center">
+                                            <p style="font-weight:600; margin: 0">To</p>
+                                        </td>
+
+                                        <td>
+                                            <input id="filterDateTo" type="text" class="form-control input-md" style="background-color:white; width:150px" />
+                                        </td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr style="height:45px">
+                                        <td>
+                                            <p style="font-weight:600; margin: 0">Group Department</p>
+                                        </td>
+                                        <td colspan="3">
+                                            <select id="FilterGroupDepartment" class="form-control input-md" style="height:30px; width:340px;"></select>
+                                        </td>
+                                    </tr>
+
+                                    <tr style="height:45px">
+                                        <td width="120px">
+                                            <p style="font-weight:600; margin: 0">Designation</p>
+                                        </td>
+
+                                        <td colspan="2">
+                                            <select id="FilterDesignation" class="form-control input-md" style="height:30px; margin-right:20px"></select>
+                                        </td>
+
+                                        
+                                        <td style="text-align: right">
+                                            <button class="btn btn-save" id="refresh"> Refresh </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
                             <table style="width: 100%;">
                                 <tr style="height: 50px">
                                     <td>
@@ -182,7 +229,6 @@
                                 </div>
                             </div>
                             <!-- Modal Delete Data -->
-
                             <!-- Modal Delete Data Attachment -->
                             <div class="modal fade" id="DeleteConfirmationAttachment">
                                 <div class="modal-dialog">
@@ -204,7 +250,6 @@
                                 </div>
                             </div>
                             <!-- Modal Delete Data Attachment -->
-
                             <!-- Modal Show Attachment -->
                             <div class="modal fade" id="DialogPdf">
                                 <div class="modal-dialog">
@@ -228,7 +273,6 @@
                                 </div>
                             </div>
                             <!-- Modal Show Attachment -->
-
                             <!-- Modal Show Read a Long Text -->
                             <div class="modal fade" id="ReadMore">
                                 <div class="modal-dialog">
@@ -296,7 +340,12 @@
 {
     <script>
         $(document).ready(function () {
-            loadData();
+            //loadData();
+            FillCombo_FilterGroupDepartment();
+            FillCombo_FilterDesignation();
+
+            $("#filterDatefrom").val(today)
+            $("#filterDateTo").val(today)
 
             /* BASIC ;*/
             var responsiveHelper_dt_basic = undefined;
@@ -382,15 +431,40 @@
                 }
             });
             /* END BASIC */
+        });
 
-            //load datatable function
-            function loadData() {
+        //load datatable function
+        function loadData()
+        {
+            debugger
                 waitingDialog.show("Please wait retrieving data...");
+
+                var fdatefrom    = $("#filterDatefrom").val().split(' ');
+                var fdateto      = $("#filterDateTo").val().split(' ');
+                var fgroupdept   = $("#FilterGroupDepartment").val();;
+                var fdesignation = $("#FilterDesignation").val();;
+
+                var months = {
+                    Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
+                    Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
+                };
+
+                fdatefrom = fdatefrom[2]  + "-" + months[fdatefrom[1]] + "-" + fdatefrom[0]; //convert date to format "yyyy-mm-dd"
+                fdateto   = fdateto[2]    + "-" + months[fdateto[1]]   + "-" + fdateto[0];   //convert date to format "yyyy-mm-dd"
+
+                var formDatax = new FormData();
+                formDatax.append("datefrom", fdatefrom);
+                formDatax.append("dateTo", fdateto);
+                formDatax.append("groupdepartment", fgroupdept);
+                formDatax.append("designation", fdesignation);
 
                 $.ajax({
                     url: "@Url.Action("GetNewsList", "NewsList")",
                     type: "post",
-                    dataType: "json"
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    data: formDatax,
                 }).done(function (result) {
                     $("#tableID").DataTable().clear();
 
@@ -412,7 +486,11 @@
                     }, 1000);
                 });
             }
-        });
+
+        $("#refresh").click(function ()
+        {
+            loadData();
+        })
 
         //load datatable function
         function loadDataAfterSend() {
@@ -467,6 +545,20 @@
             }
         });
 
+        $('#filterDatefrom').Zebra_DatePicker({
+            format: 'd M Y', //'d M || F Y'
+            onSelect: function () {
+                $(this).change();
+            }
+        });
+
+        $('#filterDateTo').Zebra_DatePicker({
+            format: 'd M Y', //'d M || F Y'
+            onSelect: function () {
+                $(this).change();
+            }
+        });
+
         var d = new Date();
         var month = new Array();
         month[0] = "Jan";
@@ -496,6 +588,60 @@
             $("#DateTo").val('');
 
             document.getElementById("IconImg").value = "";
+        }
+
+        function FillCombo_FilterGroupDepartment()
+        {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("FillCombo", "NewsList")", // "/MyComplaint/FillCombo/",
+                datatype: 'json',
+                data: { Type: "Group Department" },
+                success: function (result)
+                {
+                    if (result.ID == '0') {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    } else
+                    {
+                        $('#FilterGroupDepartment').empty();
+                        $.each(result.Contents, function (i, dt)
+                        {
+                            $("#FilterGroupDepartment").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
+                        });
+                    }
+                },
+                error: function (ex)
+                {
+                    toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
+                }
+            });
+        }
+
+        function FillCombo_FilterDesignation()
+        {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("FillCombo", "NewsList")", // "/MyComplaint/FillCombo/",
+                datatype: 'json',
+                data: { Type: "Designation" },
+                success: function (result)
+                {
+                    if (result.ID == '0') {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    } else
+                    {
+                        $('#FilterDesignation').empty();
+                        $.each(result.Contents, function (i, dt)
+                        {
+                            $("#FilterDesignation").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
+                        });
+                    }
+                },
+                error: function (ex)
+                {
+                    toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
+                }
+            });
         }
 
         function FillCombo_TargetParticipant(type, code) {

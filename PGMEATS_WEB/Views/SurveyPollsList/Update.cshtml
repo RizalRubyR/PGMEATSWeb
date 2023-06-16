@@ -22,7 +22,7 @@
                             <div class="table-toolbar" style="padding-bottom:10px">
                                 <table>
                                     <tr style="height:35px">
-                                        <td width="100px">
+                                        <td width="150px">
                                             Survey ID
                                         </td>
                                         <td width="250px">
@@ -30,7 +30,7 @@
                                         </td>
                                     </tr>
                                     <tr style="height:35px">
-                                        <td width="100px">
+                                        <td width="150px">
                                             Survey Title
                                         </td>
                                         <td>
@@ -38,7 +38,16 @@
                                         </td>
                                     </tr>
                                     <tr style="height:35px">
-                                        <td width="100px">
+                                        <td width="150px">
+                                            Target Department
+                                        </td>
+                                        <td>
+                                            <select id="department" class="form-control input-md" style="height: 30px; width: 130px; padding: 3px 3px 3px 7px !important;">
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr style="height:35px">
+                                        <td width="150px">
                                             Start Date
                                         </td>
                                         <td>
@@ -46,7 +55,7 @@
                                         </td>
                                     </tr>
                                     <tr style="height:35px">
-                                        <td width="100px">
+                                        <td width="150px">
                                             End Date
                                         </td>
                                         <td>
@@ -54,9 +63,9 @@
                                         </td>
                                     </tr>
                                     <tr style="height:35px">
-                                        <td width="100px">Type</td>
+                                        <td width="150px">Type</td>
                                         <td>
-                                            <select id="Type" class="form-control input-md" style="height:30px; width:130px;">
+                                            <select id="Type" class="form-control input-md" style="height: 30px; width: 130px; padding: 3px 3px 3px 7px !important;">
                                                 <option value=""></option>
                                                 @if (ViewBag.Type == "S")
                                                 {
@@ -73,7 +82,7 @@
                                         </td>
                                     </tr>
                                     <tr style="height:35px">
-                                        <td width="100px">
+                                        <td width="150px">
                                             View Result
                                         </td>
                                         <td>
@@ -101,7 +110,7 @@
                             <table id="tableID" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th style="text-align: center;width: 7%">Action</th>
+                                        <th style="text-align: center;width: 12%">Action</th>
                                         <th style="text-align: center" class="hidden">
                                             ID
                                         </th>
@@ -114,13 +123,13 @@
                                         <th style="text-align: center" class="hidden">
                                             Question Seq No
                                         </th>
-                                        <th style="text-align: center">
+                                        <th style="text-align: center; width: 300px;">
                                             Question Description
                                         </th>
-                                        <th style="text-align: center">
+                                        <th style="text-align: center; width: 100px">
                                             Parent Question ID
                                         </th>
-                                        <th style="text-align: center">
+                                        <th style="text-align: center; width: 100px">
                                             Parent Answer Seq No
                                         </th>
                                     </tr>
@@ -202,7 +211,7 @@
                                                             </td>
                                                             <td>
                                                                 @*<input id="enddate" type="text" class="form-control input-md" style="background-color:white; width:130px" />*@
-                                                                <select id="AnswerType" class="form-control input-md" style="height: 20px; width: 240px; font-family: 'Segoe UI'; font-weight: 500;"></select>
+                                                                <select id="AnswerType" class="form-control input-md" style="height: 20px; width: 240px; font-family: 'Segoe UI'; font-weight: 500; padding: 3px 3px 3px 7px !important;"></select>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -210,7 +219,7 @@
                                                             <td>&nbsp;</td>
                                                         </tr>
                                                     </table>
-                                                    <table id="tblFreetext" class="answer-type-hide">
+                                                    @*<table id="tblFreetext" class="answer-type-hide">
                                                         <tr style="height:35px">
                                                             <td width="100px" style="vertical-align:top;">
                                                                 Free Text
@@ -223,7 +232,7 @@
                                                             <td>&nbsp;</td>
                                                             <td>&nbsp;</td>
                                                         </tr>
-                                                    </table>
+                                                    </table>*@
                                                     <table id="tblMulti" class="answer-type">
                                                         <tr style="height:35px">
                                                             <td width="115px">
@@ -336,6 +345,7 @@
     <script>
         $(document).ready(function () {
             loadData();
+            loadheaderEdit();
             $('#startdate').Zebra_DatePicker({
                 format: 'd M Y', //'d M Y'
                 onSelect: function () {
@@ -386,10 +396,10 @@
                     { "data": "ID", "autoWidth": true, className: "hidden" },
                     { "data": "QuestionID", "autoWidth": true, className: "hidden" },
                     { "data": "SurveyID", "autoWidth": true, className: "hidden" },
-                    { "data": "QuestionSeqNo", "autoWidth": true, className: "hidden" },
-                    { "data": "QuestionDesc", "autoWidth": true, className: "txtAlignLeft" },
-                    { "data": "ParentQuestionID", "autoWidth": true, className: "txtAlignCenter" },
-                    { "data": "ParentAnswerSeqNo", "autoWidth": true, className: "txtAlignCenter" }
+                    { "data": "QuestionSeqNo",      className: "hidden" },
+                    { "data": "QuestionDesc",       className: "txtAlignLeft" },
+                    { "data": "ParentQuestionID",   className: "txtAlignCenter" },
+                    { "data": "ParentAnswerSeqNo",  className: "txtAlignCenter" }
                 ],
                 rowCallback: function (row, data) { responsiveHelper_dt_basic.createExpandIcon(row) },
                 filter: true,
@@ -403,10 +413,10 @@
                 bFilter: true,
                 bSort: true,
                 bPaginate: true,
-                scrollX: false,
-                scrolly: false,
-                //scrollX: "100%",
-                //scrollY: "350px",
+                //scrollX: false,
+                //scrolly: false,
+                scrollX: "100%",
+                scrollY: "350px",
                 autoWidth: true,
                 preDrawCallback: function () {
                     if (!responsiveHelper_dt_basic) {
@@ -448,7 +458,76 @@
 
             }
 
+            function loadheaderEdit() {
+                var SurveyID = $("#txtsurveyid").val();
+                FillCombo_Department();
+                $.ajax({
+                    url: "@Url.Action("LoadEditHeader", "SurveyPollsList")",
+                    type: "post",
+                    dataType: "json",
+                    data: { surveyID: SurveyID },
+                }).done(function (data) {
+                    if (data.ID == '0') {
+                        toastr.error(data.Message, 'Warning', { timeOut: 3000, "closeButton": true });
+                    }
+                    else {
+                        var objDT = data.Contents;
+                        $.each(data.Contents, function (i, dt) {
+                            $("#txtsurveyid").val(dt.SurveyID);
+                            $("#txttitle").val(dt.SurveyDesc);
+                            $("#department").val(dt.GroupDepartment);
+                            $("#startdate").val(dt.StartDate);
+                            $("#enddate").val(dt.EndDate);
+                            $("#Type").val(dt.Type);
+                            $("#chkViewChart").val(dt.ViewResult);
+                        });
+                    }
+
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                });
+            }
         })
+
+        function FillCombo_Department(selectedVal) {
+            $.ajax({
+                url: "@Url.Action("fillDepartment", "SurveyPollsList")",
+                type: "post",
+                dataType: "json",
+                /*data: { SurveyID: SurveyID },*/
+                success: function (result) {
+                   // debugger
+                    if (result.ID == '0') {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    } else {
+                        $('#department')
+                            .find('option')
+                            .remove()
+                            .end()
+                            ;
+                        $.each(result.Contents, function (i, dt) {
+                            if (selectedVal == dt.Code) {
+                                $("#department").append('<option value="' + dt.Code + '" selected>' + dt.Code + '</option>');
+                            } else {
+                                $("#department").append('<option value="' + dt.Code + '">' + dt.Code + '</option>');
+                            }
+                        });
+                    }
+                },
+                error: function (ex) {
+                    toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                }
+            });
+        }
 
         function getsurveyid() {
             $.ajax({
@@ -787,7 +866,7 @@
             var AnswerType = $("#AnswerType").val();
 
             // Answer
-            var txtFreeText = $("#txtFreeText").val();
+            var txtFreeText = ''; //$("#txtFreeText").val();
 
             var txtmlt1 = $("#txtmlt1").val();
             var txtmlt2 = $("#txtmlt2").val();
@@ -887,14 +966,14 @@
             var type = this.value;
             $("#tblMulti").removeClass("answer-type");
             $("#tblMulti").removeClass("answer-type-hide");
-            $("#tblFreetext").removeClass("answer-type");
-            $("#tblFreetext").removeClass("answer-type-hide");
+            //$("#tblFreetext").removeClass("answer-type");
+            //$("#tblFreetext").removeClass("answer-type-hide");
             if (type == "0") {
                 $("#tblMulti").addClass("answer-type");
-                $("#tblFreetext").addClass("answer-type-hide");
+                /*$("#tblFreetext").addClass("answer-type-hide");*/
             } else if (type == "1") {
                 $("#tblMulti").addClass("answer-type-hide");
-                $("#tblFreetext").addClass("answer-type");
+                /*$("#tblFreetext").addClass("answer-type");*/
             }
         });
 
@@ -931,10 +1010,10 @@
                         $("#AnswerType").val(AnswerType);
                         if (AnswerType == "0") {
                             $("#tblMulti").addClass("answer-type");
-                            $("#tblFreetext").addClass("answer-type-hide");
+                           /* $("#tblFreetext").addClass("answer-type-hide");*/
                         } else if (AnswerType == "1") {
                             $("#tblMulti").addClass("answer-type-hide");
-                            $("#tblFreetext").addClass("answer-type");
+                            /*$("#tblFreetext").addClass("answer-type");*/
                         }
 
                         $.each(data.Contents, function (i, dt) {
@@ -942,7 +1021,7 @@
                                 if (AnswerType == "0") {
                                     $("#txtmlt1").val(dt.AnswerDesc);
                                 } else {
-                                    $("#txtFreeText").val(dt.AnswerDesc);
+                                    /*$("#txtFreeText").val(dt.AnswerDesc);*/
                                 }
                             }
                             if (u == 2) {
