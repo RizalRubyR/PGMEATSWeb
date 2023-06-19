@@ -16,7 +16,8 @@ namespace PGMEATS_WEB.Controllers
 {
     public class MyKYController : Controller
     {
-        // GET: MyKY
+        // GET: MyKY\
+        string userID = "";
         public ActionResult Index()
         {
             /*CHECK SESSION LOGIN*/
@@ -25,7 +26,7 @@ namespace PGMEATS_WEB.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
-            string userID = Session["LogUserID"].ToString();
+            userID = Session["LogUserID"].ToString();
             string AdminStatus = Session["AdminStatus"].ToString();
             string MenuID = "E-01";
 
@@ -52,6 +53,8 @@ namespace PGMEATS_WEB.Controllers
         [HttpPost]
         public JsonResult ReplyMyKYList(clsMyKY dataFrom)
         {
+            dataFrom.CreateUser = userID;
+
             clsMyKYDB db = new clsMyKYDB();
             clsResponse response = new clsResponse();
             try
@@ -175,5 +178,26 @@ namespace PGMEATS_WEB.Controllers
             }
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+
+
+        public JsonResult GetFillCombo(String TypeAction, String Param)
+        {
+            Response resp = new Response();
+            ComboFilter db = new ComboFilter();
+            try
+            {
+                resp = db.FillCombo(TypeAction, Param);
+                return Json(resp, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                resp.Message = ex.Message;
+                resp.ID = "1";
+                resp.Content = "";
+
+                return Json(resp, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }

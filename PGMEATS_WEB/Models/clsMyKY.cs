@@ -47,6 +47,7 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("ToDate", data.ToDate);
                     cmd.Parameters.AddWithValue("MyKYLocation", data.MyKYLocation);
                     cmd.Parameters.AddWithValue("MyKYStatus", data.MyKYStatus);
+                    cmd.Parameters.AddWithValue("UserID", data.CreateUser);
                     con.Open();
 
                     SqlDataReader rd = cmd.ExecuteReader();

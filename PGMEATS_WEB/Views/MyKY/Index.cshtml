@@ -265,17 +265,18 @@
 
 
 <script type="text/javascript">
+    var UserID = '@ViewBag.UserID';
     $(document).ready(function () {
-        FillCombo_Loc();
+        FillCombo_Loc(UserID);
         FillCombo_Status()
 
         $("#fromDate").val(today)
         $("#toDate").val(today)
 
-        millisecondsToWait = 1500;
-        setTimeout(function () {
-            loadData(); //Get list complaint
-        }, millisecondsToWait);
+        //millisecondsToWait = 1500;
+        //setTimeout(function () {
+        //    loadData(); //Get list complaint
+        //}, millisecondsToWait);
 
         /* BASIC ;*/
         var responsiveHelper_dt_basic = undefined;
@@ -370,19 +371,11 @@
             data: formdata,
             success: function (result) {
                 if (result.Message.toLowerCase().includes("success")) {
-                    if (result.Contents != "") {
-                        Object.values(result.Contents).forEach(function (dt) {
-                            $("#tableID").DataTable().clear();
-                            $("#tableID").DataTable().rows.add(result.Contents).draw(false);
-                            setTimeout(function () {
-                                waitingDialog.hide();
-                            }, 500);
-                        });
-                    } else {
-                        setTimeout(function () {
-                            waitingDialog.hide();
-                        }, 1000);
-                    }
+                    $("#tableID").DataTable().clear();
+                    $("#tableID").DataTable().rows.add(result.Contents).draw(false);
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 500);
                 }
                 else {
                     toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
@@ -543,17 +536,17 @@
         });
     })
 
-    function FillCombo_Loc() {
+    function FillCombo_Loc(UserID) {
         $.ajax({
             type: "POST",
-            url:  "@Url.Action("FillCombo", "MyKY")", //"/MyKY/FillCombo/",
+            url:  "@Url.Action("GetFillCombo", "MyKY")", //"/MyKY/FillCombo/",
             datatype: 'json',
-            data: { Type: "CostCenter" },
+            data: { TypeAction: "06", Param: UserID },
             success: function (result) {
                 if (result.Message.toLowerCase().includes("success")) {
                     $('#Location').empty();
-                    $.each(result.Contents, function (i, dt) {
-                        $("#Location").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
+                    $.each(result.Content, function (i, dt) {
+                        $("#Location").append('<option value="' + dt.Code + '">' + dt.CodeDesc + '</option>');
                     });
                 } else {
                     toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
