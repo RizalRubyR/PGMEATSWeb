@@ -70,6 +70,9 @@
                                             Action
                                         </th>
                                         <th style="text-align: center; width: 100px;">
+                                            KYID
+                                        </th>
+                                        <th style="text-align: center; width: 100px;">
                                             Date
                                         </th>
                                         <th style="text-align: center; width: 100px;">
@@ -295,6 +298,7 @@
                         return '<a href="#" class="fa fa-pencil" onclick="ReplyMyKY(\'' + row.MyKYID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteMyKY(\'' + row.MyKYID + '\')"></a>'
                     }
                 },
+                { "data": "KYID_Eats", "autoWidth": true, className: "txtAlignLeft" },
                 { "data": "CreateDate", "autoWidth": true, className: "txtAlignCenter" },
                 { "data": "MyKYLocationDesc", "autoWidth": true, className: "txtAlignCenter" },
                 { "data": "MyKYSpecLocation", "autoWidth": true, className: "txtAlignCenter" },

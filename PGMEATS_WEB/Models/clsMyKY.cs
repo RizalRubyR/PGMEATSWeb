@@ -28,6 +28,8 @@ namespace PGMEATS_WEB.Models
 
         public string FromDate { get; set; }
         public string ToDate { get; set; }
+
+        public string KYID_Eats { get; set; }
     }
 
     public class clsMyKYDB
@@ -67,6 +69,7 @@ namespace PGMEATS_WEB.Models
                         Menu.CreateUser = rd["CreateUser"].ToString();
                         Menu.LastUpdate = rd["LastUpdate"].ToString();
                         Menu.LastUser = rd["LastUser"].ToString();
+                        Menu.KYID_Eats = rd["KYID_Eats"].ToString();
                         Menus.Add(Menu);
                     }
 
@@ -101,7 +104,8 @@ namespace PGMEATS_WEB.Models
                     while (rd.Read())
                     {
                        
-                        Menu.MyKYID = rd["MyKYID"].ToString();;
+                        Menu.MyKYID = rd["MyKYID"].ToString();
+                        Menu.KYID_Eats = rd["KYID_Eats"].ToString();
                         Menu.MyKYLocationDesc = rd["MyKYLocationDesc"].ToString();
                         Menu.MyKYSpecLocation = rd["MyKYSpecLocation"].ToString();
                         Menu.MyKYDesc = rd["MyKYDesc"].ToString();
