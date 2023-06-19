@@ -20,6 +20,7 @@ namespace PGMEATS_WEB.Models
         public string DateFrom { get; set; }
         public string DateTo { get; set; }
         public string TargetPart { get; set; }
+        public string TargetDesignation { get; set; }
     }
 
     public class clsNewsDB
@@ -60,6 +61,7 @@ namespace PGMEATS_WEB.Models
                         DateFrom = x.Field<string>("DateFrom"),
                         DateTo = x.Field<string>("DateTo"),
                         TargetPart = x.Field<string>("TargetPart"),
+                        TargetDesignation = x.Field<string>("TargetDesignation"),
                     }).ToList();
 
                     Response.ID = 1;
@@ -104,6 +106,7 @@ namespace PGMEATS_WEB.Models
                     data.Add(dt.Rows[0]["DateFrom"].ToString());
                     data.Add(dt.Rows[0]["DateTo"].ToString());
                     data.Add(dt.Rows[0]["TargetPart"].ToString());
+                    data.Add(dt.Rows[0]["TargetDesignation"].ToString());
 
                     Response.ID = 1;
                     Response.Message = "Success";
@@ -129,7 +132,7 @@ namespace PGMEATS_WEB.Models
                 string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(constr))
                 {
-                    SqlCommand cmd = new SqlCommand("sp_FilterCombo", con);
+                    SqlCommand cmd = new SqlCommand("sp_News_FillCombo", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("Type", type);
                     con.Open();
@@ -178,10 +181,10 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("NewsDescCode", data.NewsDescCode ?? "");
                     cmd.Parameters.AddWithValue("NewsDescText", data.NewsDescText ?? "");
                     cmd.Parameters.AddWithValue("NewsDescImg", data.NewsDescImg ?? "");
-                    //cmd.Parameters.AddWithValue("IssueTypeDesc", data.NewsID ?? "");
                     cmd.Parameters.AddWithValue("DateFrom", data.DateFrom ?? "");
                     cmd.Parameters.AddWithValue("DateTo", data.DateTo ?? "");
-                    cmd.Parameters.AddWithValue("TargetPart", data.TargetPart ?? "");
+                    cmd.Parameters.AddWithValue("GroupDepartment", data.TargetPart ?? "");
+                    cmd.Parameters.AddWithValue("SALPLan", data.TargetDesignation ?? "");
                     cmd.Parameters.AddWithValue("User", data.User ?? "");
                     con.Open();
 

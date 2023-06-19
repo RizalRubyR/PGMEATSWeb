@@ -105,6 +105,9 @@
                                         <th style="text-align: center;width: 8%">
                                             Target Participant
                                         </th>
+                                        <th style="text-align: center;width: 8%">
+                                            Target Designation
+                                        </th>
                                     </tr>
                                 </thead>
                             </table>
@@ -182,10 +185,24 @@
                                                             <td>
                                                                 <div class="form-group">
                                                                     <label style="font-weight:500">Target Participant</label>
-                                                                    <select id="TargetPart" , class="form-control input-md" , style="height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;"></select>
+                                                                    <div id="targetDepartmentList" style="display:flex;">
+
+                                                                    </div>
                                                                 </div>
                                                             </td>
                                                         </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <label style="font-weight:500">Target Designation</label>
+                                                                    <div id="targetDesignationList" style="display:flex;">
+
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
                                                     </table>
                                                 </fieldset>
                                             </form>
@@ -393,7 +410,8 @@
                     },
                     { "data": "DateFrom", "autoWidth": true, className: "txtAlignCenter" },
                     { "data": "DateTo", "autoWidth": true, className: "txtAlignCenter" },
-                    { "data": "TargetPart", "autoWidth": true, className: "txtAlignCenter" }
+                    { "data": "TargetPart", "autoWidth": true, className: "txtAlignCenter" },
+                    { "data": "TargetDesignation", "autoWidth": true, className: "txtAlignCenter" }
                 ],
                 "columnDefs": [{
                     "targets": 3,
@@ -493,7 +511,7 @@
         })
 
         //load datatable function
-        function loadDataAfterSend() {
+        @*function loadDataAfterSend() {
             waitingDialog.show("Please wait retrieving data...");
 
             $.ajax({
@@ -520,7 +538,7 @@
                     waitingDialog.hide();
                 }, 1000);
             });
-        }
+        }*@
 
         function readFunction(dataNews) {
             var htmltmp = "";
@@ -596,7 +614,7 @@
                 type: "POST",
                 url: "@Url.Action("FillCombo", "NewsList")", // "/MyComplaint/FillCombo/",
                 datatype: 'json',
-                data: { Type: "Group Department" },
+                data: { Type: "0" },
                 success: function (result)
                 {
                     if (result.ID == '0') {
@@ -623,7 +641,7 @@
                 type: "POST",
                 url: "@Url.Action("FillCombo", "NewsList")", // "/MyComplaint/FillCombo/",
                 datatype: 'json',
-                data: { Type: "Designation" },
+                data: { Type: "1" },
                 success: function (result)
                 {
                     if (result.ID == '0') {
@@ -644,25 +662,113 @@
             });
         }
 
-        function FillCombo_TargetParticipant(type, code) {
+        function FillCombo_TargetParticipant(code) {
             $.ajax({
-                type: "POST",
                 url: "@Url.Action("FillCombo", "NewsList")",
+                type: "post",
                 datatype: 'json',
-                data: { Type: type },
+                data: { Type: "2" },
                 success: function (result) {
+                    $('#targetDepartmentList').empty();
+                    var content = '';
                     if (result.ID == '0') {
                         toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
                     } else {
-                        $('#TargetPart').empty();
-                        $.each(result.Contents, function (i, dt) {
-                            if (code == dt.Code) {
-                                $("#TargetPart").append('<option value="' + dt.Code + '" selected >' + dt.Description + '</option>');
-                            } else {
-                                $("#TargetPart").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
+                        var count = 1;
+                        var v = 1;
+                        var dep = code.split(";");
+                        debugger
+                        $.each(result.Contents, function (index, value) {
+                            if (count == 1) {
+                                content += '<div style="width:120px">\n'
                             }
+                            content += '    <div class="form-check">\n'
+                            if (dep.length == 1) {
+                                content += '        <input class="form-check-input" type="checkbox" value="' + value.Code + '" id="' + value.Code + '">\n'
+                            } else {
+                                var xi = 0
+                                for (kk = 0; kk < dep.length; kk++) {
+                                    debugger
+                                    if (dep[kk].trim() == value.Code) {
+                                        content += '        <input class="form-check-input" type="checkbox" value="' + value.Code + '" id="' + value.Code + '" checked="checked">\n'
+                                        xi += 1;
+                                    }
+                                }
+                                if (xi == 0) {
+                                    content += '        <input class="form-check-input" type="checkbox" value="' + value.Code + '" id="' + value.Code + '">\n'
+                                }
+                            }
+                            
+                            content += '        <label class="form-check-label" for="' + value.Code + '">' + value.Code + '\n'
+                            content += '        </label>\n'
+                            content += '    </div>\n'
+                            if (count == 10 || v == result.Contents.length) {
+                                content += '</div>\n'
+                                count = 0
+                            }
+                            count += 1;
+                            v += 1;
                         });
                     }
+                    $('#targetDepartmentList').html(content);
+                },
+                error: function (ex) {
+                    toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                }
+            });
+        }
+
+        function FillCombo_TargetDesignation(code) {
+            $.ajax({
+                url: "@Url.Action("FillCombo", "NewsList")",
+                type: "post",
+                datatype: 'json',
+                data: { Type: "3" },
+                success: function (result) {
+                    $('#targetDesignationList').empty();
+                    var content = '';
+                    if (result.ID == '0') {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    } else {
+                        var count = 1;
+                        var v = 1;
+                        var dep = code.split(";");
+                        $.each(result.Contents, function (index, value) {
+                            if (count == 1) {
+                                content += '<div style="width:120px">\n'
+                            }
+                            content += '    <div class="form-check">\n'
+                            if (dep.length == 1) {
+                                content += '        <input class="form-check-input" type="checkbox" value="' + value.Code + '" id="' + value.Code + '">\n'
+                            } else {
+                                var xi = 0
+                                for (kk = 0; kk < dep.length; kk++) {
+                                    debugger
+                                    if (dep[kk].trim() == value.Code) {
+                                        content += '        <input class="form-check-input" type="checkbox" value="' + value.Code + '" id="' + value.Code + '" checked="checked">\n'
+                                        xi += 1;
+                                    }
+                                }
+                                if (xi == 0) {
+                                    content += '        <input class="form-check-input" type="checkbox" value="' + value.Code + '" id="' + value.Code + '">\n'
+                                }
+                            }
+                            
+                            content += '        <label class="form-check-label" for="' + value.Code + '">' + value.Code + '\n'
+                            content += '        </label>\n'
+                            content += '    </div>\n'
+                            if (count == 10 || v == result.Contents.length) {
+                                content += '</div>\n'
+                                count = 0
+                            }
+                            count += 1;
+                            v += 1;
+                        });
+                    }
+                    $('#targetDesignationList').html(content);
                 },
                 error: function (ex) {
                     toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
@@ -676,7 +782,8 @@
         //Show The Popup Modal For Add Data
         function AddNewData() {
             clearTextBox();
-            FillCombo_TargetParticipant('Group Department','');
+            FillCombo_TargetParticipant('');
+            FillCombo_TargetDesignation('');
             $("#NewsID").val('0');
 
             $("#DateFrom").val(today)
@@ -699,17 +806,13 @@
                     if (result.ID == '0') {
                         toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
                     } else {
-                        //NewsTitle = result.Contents[0];
-                        //NewsDesc = result.Contents[1];
-                        //DateFrom = result.Contents[2];
-                        //DateTo = result.Contents[3];
-                        //TargetPart = result.Contents[4];
                         $("#NewsID").val(data);
                         $("#NewsTitle").val(result.Contents[0]);
                         $("#NewsDesc").code(result.Contents[1]);
                         $("#DateFrom").val(result.Contents[2]);
                         $("#DateTo").val(result.Contents[3]);
-                        FillCombo_TargetParticipant('Group Department', result.Contents[4]);
+                        FillCombo_TargetParticipant(result.Contents[4].trim());
+                        FillCombo_TargetDesignation(result.Contents[5].trim());
                     }
                 },
                 error: function (ex) {
@@ -774,7 +877,24 @@
             var NewsDescImg = '';
             var DateFrom = $("#DateFrom").val().split(' ');
             var DateTo = $("#DateTo").val().split(' ');;
-            var TargetPart = $("#TargetPart").val();
+
+            var strTargetParticipant = "";
+            $('div#targetDepartmentList input[type=checkbox]').each(function ()
+            {
+                if ($(this).is(":checked"))
+                {
+                    strTargetParticipant += $(this).attr('value') + ";";
+                }
+            });
+
+            var strTargetDesignation = "";
+            $('div#targetDesignationList input[type=checkbox]').each(function ()
+            {
+                if ($(this).is(":checked"))
+                {
+                    strTargetDesignation += $(this).attr('value') + ";";
+                }
+            });
 
             // Membuat elemen sementara untuk menyimpan string HTML
             var tempElem = document.createElement('div');
@@ -792,6 +912,10 @@
                 toastr.warning("Please, enter News Title!", 'Warning', { timeOut: 3000, closeButton: true });
             } else if (NewsDesc == "") {
                 toastr.warning("Please, enter News Description!", 'Warning', { timeOut: 3000, closeButton: true });
+            } else if (strTargetParticipant == "") {
+                toastr.warning("Please checklist at least 1 data Participant!", 'Warning', { timeOut: 3000, closeButton: true });
+            } else if (strTargetDesignation == "") {
+                toastr.warning("Please checklist at least 1 data Designation!", 'Warning', { timeOut: 3000, closeButton: true });
             } else {
                 var months = {
                     Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
@@ -809,7 +933,8 @@
                     NewsDescImg : NewsDescImg,
                     DateFrom: DateFrom,
                     DateTo: DateTo,
-                    TargetPart: TargetPart
+                    TargetPart: strTargetParticipant,
+                    TargetDesignation: strTargetDesignation
                 };
 
                 saveData(dataxJson);
@@ -852,7 +977,24 @@
             var NewsDescImg = '';
             var DateFrom = $("#DateFrom").val().split(' ');
             var DateTo = $("#DateTo").val().split(' ');;
-            var TargetPart = $("#TargetPart").val();
+
+            var strTargetParticipant = "";
+            $('div#targetDepartmentList input[type=checkbox]').each(function ()
+            {
+                if ($(this).is(":checked"))
+                {
+                    strTargetParticipant += $(this).attr('value') + ";";
+                }
+            });
+
+            var strTargetDesignation = "";
+            $('div#targetDesignationList input[type=checkbox]').each(function ()
+            {
+                if ($(this).is(":checked"))
+                {
+                    strTargetDesignation += $(this).attr('value') + ";";
+                }
+            });
             
             // Membuat elemen sementara untuk menyimpan string HTML
             var tempElem = document.createElement('div');
@@ -870,6 +1012,10 @@
                 toastr.warning("Please, enter News Title!", 'Warning', { timeOut: 3000, closeButton: true });
             } else if (NewsDesc == "") {
                 toastr.warning("Please, enter News Description!", 'Warning', { timeOut: 3000, closeButton: true });
+            } else if (strTargetParticipant == "") {
+                toastr.warning("Please checklist at least 1 data Participant!", 'Warning', { timeOut: 3000, closeButton: true });
+            } else if (strTargetDesignation == "") {
+                toastr.warning("Please checklist at least 1 data Designation!", 'Warning', { timeOut: 3000, closeButton: true });
             } else {
                 var months = {
                     Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
@@ -887,7 +1033,8 @@
                     NewsDescImg : NewsDescImg,
                     DateFrom: DateFrom,
                     DateTo: DateTo,
-                    TargetPart: TargetPart
+                    TargetPart: strTargetParticipant,
+                    TargetDesignation: strTargetDesignation
                 };
 
                 saveData(dataxJson);
@@ -1060,7 +1207,7 @@
                         toastr.success(message, 'Success', { timeOut: 3000, closeButton: true });
                         millisecondsToWait = 500;
                         setTimeout(function () {
-                            loadDataAfterSend();
+                            loadData();
                         }, millisecondsToWait);
                     }
                 },
