@@ -1033,6 +1033,7 @@
     <Content Include="Views\SurveyPollsList\Create.cshtml" />
     <Content Include="Views\UserSetup\UserPrivilege.cshtml" />
     <Content Include="Views\SurveyPollsList\Update.cshtml" />
+    <Content Include="Views\ChangePassword\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Helpers\DashRouteHandler.cs" />
@@ -1046,6 +1047,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Landing\Controllers\LandingController.cs" />
     <Compile Include="Areas\Landing\LandingAreaRegistration.cs" />
+    <Compile Include="Controllers\ChangePasswordController.cs" />
     <Compile Include="Controllers\ClinicInformationListController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
@@ -1059,6 +1061,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClsChangePassword.cs" />
     <Compile Include="Models\clsClinicInformationList.cs" />
     <Compile Include="Models\clsClinicInformationListDB.cs" />
     <Compile Include="Models\clsAccessPrivilege.cs" />
@@ -1075,6 +1078,7 @@
     <Compile Include="Models\clsResponse.cs" />
     <Compile Include="Models\clsUserDB.cs" />
     <Compile Include="Models\clsUserPrivilege.cs" />
+    <Compile Include="Models\ComboFilter.cs" />
     <Compile Include="Models\EncryptionUserStaff.cs" />
     <Compile Include="Models\SelectUserPrivilegeEditorViewModel.cs" />
     <Compile Include="Models\clsUserStaff.cs" />
