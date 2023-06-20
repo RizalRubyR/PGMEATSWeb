@@ -9,7 +9,6 @@ namespace PGMEATS_WEB.Models
     public class clsClinicInformationList
     {
         public int ClinicID { get; set; }
-        public string Region { get; set; }
         public string ClinicName { get; set; }
         public string Remark { get; set; }
         public string URL { get; set; }
@@ -19,7 +18,7 @@ namespace PGMEATS_WEB.Models
         public string Phone_No { get; set; }
         public string City { get; set; }
         public string PostalCode { get; set; }
-        public int OperationHour { get; set; }
+        public string OperationHour { get; set; }
 
         public string CreateUser { get; set; }
         public string CreateDate { get; set; }
