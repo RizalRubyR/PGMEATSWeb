@@ -50,18 +50,6 @@ namespace PGMEATS_WEB.Models
         public string GroupDescription { get; set; }
     }
 
-    public class clsChangePassword
-    {
-        public string UserID { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
-        public string NewPassword { get; set; }
-    }
 
     public class clsUserResponse
     {

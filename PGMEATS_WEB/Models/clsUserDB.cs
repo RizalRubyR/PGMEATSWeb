@@ -221,32 +221,5 @@ namespace PGMEATS_WEB.Models
             }
         }
 
-        public int ChangePassword(clsChangePassword password)
-        {
-            try
-            {
-                Encryption encrypt = new Encryption();
-
-                int i = 0;
-
-                string constr = ConfigurationManager.ConnectionStrings["DBCSApi"].ConnectionString;
-                using (SqlConnection con = new SqlConnection(constr))
-                {
-                    string sql = "usp_UserSetup_ChangePassword";
-                    SqlCommand cmd = new SqlCommand(sql, con);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("UserID", password.UserID);
-                    cmd.Parameters.AddWithValue("Password", encrypt.EncryptData(password.Password));
-                    con.Open();
-
-                    i = cmd.ExecuteNonQuery();
-                }
-                return i;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
     }
 }
