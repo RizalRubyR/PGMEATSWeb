@@ -28,7 +28,6 @@ namespace PGMEATS_WEB.Models
                     {
                         clsClinicInformationList clsClinic = new clsClinicInformationList();
                         clsClinic.ClinicName = rd["ClinicName"].ToString();
-                        clsClinic.Region = rd["Region"].ToString();
                         clsClinic.State = rd["State"].ToString();
                         clsClinic.Address = rd["Address"].ToString();
                         clsClinic.Phone_No = rd["Phone_No"].ToString();
@@ -37,6 +36,8 @@ namespace PGMEATS_WEB.Models
                         clsClinic.URLDisplay = rd["URLDisplay"].ToString();
                         clsClinic.City = rd["City"].ToString();
                         clsClinic.PostalCode = rd["PostalCode"].ToString();
+                        clsClinic.OperationHour = rd["OperationHour"].ToString();
+
 
                         GroupClinic.Add(clsClinic);
                     }
@@ -76,7 +77,6 @@ namespace PGMEATS_WEB.Models
                             clsClinicInformationList clsClinic = new clsClinicInformationList();
                             clsClinic.ClinicID = Convert.ToInt16(rd["ClinicID"]);
                             clsClinic.ClinicName = rd["ClinicName"].ToString();
-                            clsClinic.Region = rd["Region"].ToString();
                             clsClinic.State = rd["State"].ToString();
                             clsClinic.Address = rd["Address"].ToString();
                             clsClinic.Phone_No = rd["Phone_No"].ToString();
@@ -85,7 +85,7 @@ namespace PGMEATS_WEB.Models
                             clsClinic.URLDisplay = rd["URLDisplay"].ToString();
                             clsClinic.City = rd["City"].ToString();
                             clsClinic.PostalCode = rd["PostalCode"].ToString();
-                            clsClinic.OperationHour = Convert.ToInt16(rd["OperationHour"]);
+                            clsClinic.OperationHour = rd["OperationHour"].ToString();
 
 
 
@@ -157,7 +157,6 @@ namespace PGMEATS_WEB.Models
 
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("ClinicName", dataFrom.ClinicName ?? "");
-                    cmd.Parameters.AddWithValue("Region", dataFrom.Region ?? "");
                     cmd.Parameters.AddWithValue("State", dataFrom.State ?? "");
                     cmd.Parameters.AddWithValue("Address", dataFrom.Address ?? "");
                     cmd.Parameters.AddWithValue("PhoneNo", dataFrom.Phone_No ?? "");
@@ -166,7 +165,7 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("URLDisplay", dataFrom.URLDisplay ?? "");
                     cmd.Parameters.AddWithValue("City", dataFrom.City ?? "");
                     cmd.Parameters.AddWithValue("PostalCode", dataFrom.PostalCode?? "");
-                    cmd.Parameters.AddWithValue("OperationHour", Convert.ToInt16(dataFrom.OperationHour));
+                    cmd.Parameters.AddWithValue("OperationHour", dataFrom.OperationHour ?? "");
 
                     cmd.Parameters.AddWithValue("CreateUser", dataFrom.CreateUser ?? "");
                     cmd.Parameters.AddWithValue("CreateDate", DateTime.Now);
@@ -201,7 +200,6 @@ namespace PGMEATS_WEB.Models
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("ClinicID", dataFrom.ClinicID);
                     cmd.Parameters.AddWithValue("ClinicName", dataFrom.ClinicName ?? "");
-                    cmd.Parameters.AddWithValue("Region", dataFrom.Region ?? "");
                     cmd.Parameters.AddWithValue("State", dataFrom.State ?? "");
                     cmd.Parameters.AddWithValue("Address", dataFrom.Address ?? "");
                     cmd.Parameters.AddWithValue("PhoneNo", dataFrom.Phone_No ?? "");
@@ -210,7 +208,7 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("URLDisplay", dataFrom.URLDisplay ?? "");
                     cmd.Parameters.AddWithValue("City", dataFrom.City?? "");
                     cmd.Parameters.AddWithValue("PostalCode", dataFrom.PostalCode?? "");
-                    cmd.Parameters.AddWithValue("OperationHour", Convert.ToInt16(dataFrom.OperationHour));
+                    cmd.Parameters.AddWithValue("OperationHour", dataFrom.OperationHour ?? "");
                     cmd.Parameters.AddWithValue("UpdateUser", dataFrom.UpdateUser ?? "");
                     cmd.Parameters.AddWithValue("UpdateDate", DateTime.Now);
 

@@ -52,9 +52,6 @@
                                             PostalCode
                                         </th>
                                         <th style="text-align: center">
-                                            Region
-                                        </th>
-                                        <th style="text-align: center">
                                             Operation Hour
                                         </th>
                                         <th style="text-align: center">
@@ -92,6 +89,7 @@
                                                                 <div class="form-group ">
                                                                     <label style="font-weight:500; margin-bottom:0.5em;" for="ClinicName">Clinic Name</label>
                                                                     @Html.TextBoxFor(Model => Model.ClinicName, new { @id = "ClinicName", @class = "form-control input-md", placeholder = "Enter Clinic Name", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
+                                                                    @Html.HiddenFor(Model => Model.ClinicID, new { @id = "ClinicID" })
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -136,22 +134,12 @@
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group ">
-                                                                    <label style="font-weight:500; margin-bottom:0.5em;" for="Region">Region</label>
-                                                                    @Html.TextBoxFor(Model => Model.Region, new { @id = "Region", @class = "form-control input-md", placeholder = "Enter Region", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;" })
-                                                                    @Html.HiddenFor(Model => Model.ClinicID, new { @id = "ClinicID" })
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-group ">
                                                                     <label style="font-weight:500; margin-bottom:0.5em;" for="OperationHour">Operation Hour</label>
                                                                     <div>
                                                                         <input type="checkbox" id="bIstwentyfourHour" />
                                                                         <span id="bIstwentyfourHour" style="font-family:'Poppins'">Open 24 Hour</span>
                                                                     </div>
-                                                                    @Html.TextBoxFor(Model => Model.OperationHour, new { @id = "OperationHour", @class = "form-control input-md", placeholder = "Enter Operation Hour", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;",maxlength = 2 })
+                                                                    @Html.TextBoxFor(Model => Model.OperationHour, new { @id = "OperationHour", @class = "form-control input-md", placeholder = "Enter Operation Hour", @style = "height:20px; width:300px; font-family:'Segoe UI'; font-weight: 500;", })
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -276,7 +264,7 @@
                         "bSearchable": false,
                         "bSortable": false,
                         'mRender': function (data, type, row) {
-                            return '<a class="fa fa-pencil" style="font-size: x-large;" href="#" onclick="EditData(\'' + row.ClinicID + '|' + row.ClinicName + '|' + row.Region + '|' + row.State + '|' + row.Address + '|' + row.Phone_No + '|' + row.Remark + '|' + row.URL + '|' + row.URLDisplay + '|' + row.City + '|' + row.PostalCode + '|' + row.OperationHour + '\')" @ViewBag.UpdateHidden ></a>' + '<div style="display: inline-block; padding: 0px 10px 0px 10px; font-size: 20px;">|</div>' +
+                            return '<a class="fa fa-pencil" style="font-size: x-large;" href="#" onclick="EditData(\'' + row.ClinicID + '|' + row.ClinicName + '|' + row.State + '|' + row.Address + '|' + row.Phone_No + '|' + row.Remark + '|' + row.URL + '|' + row.URLDisplay + '|' + row.City + '|' + row.PostalCode + '|' + row.OperationHour + '\')" @ViewBag.UpdateHidden ></a>' + '<div style="display: inline-block; padding: 0px 10px 0px 10px; font-size: 20px;">|</div>' +
                                 '<a class="fa fa-trash-o" style="font-size: x-large;" href="#" @ViewBag.DeleteHidden onclick="DeleteData(\'' + row.ClinicID + '\')"></a>';
                         }
                     },
@@ -285,7 +273,6 @@
                     { "data": "City", "orderable": true },
                     { "data": "State", "orderable": true },
                     { "data": "PostalCode", "orderable": true },
-                    { "data": "Region", "orderable": true },
                     { "data": "OperationHour", "orderable": true },
                     { "data": "Phone_No", "orderable": true },
                     { "data": "Remark", "orderable": true },
@@ -311,11 +298,6 @@
 
             });
 
-            $("OperationHour").attr({
-                "max": 24,        // substitute your own
-                "min": 0          // values (or variables) here
-            });
-
             $('#PhoneNo').keypress(function (e) {
 
                 var charCode = (e.which) ? e.which : event.keyCode
@@ -326,20 +308,26 @@
 
             });
 
-            $('#OperationHour').keypress(function (e) {
+            //$('#OperationHour').keypress(function (e) {
 
-                var charCode = (e.which) ? e.which : event.keyCode
+            //    var charCode = (e.which) ? e.which : event.keyCode
 
-                if (String.fromCharCode(charCode).match(/[^0-9]/g))
+            //    if (String.fromCharCode(charCode).match(/[^0-9]/g)) {
+            //        return false;
+            //    }
+                
+                
+            //});
 
-                    return false;
-
-            });
+            //$("#OperationHour").bind("change paste keyup", function () {
+            //    if ($("#OperationHour").val() > 24) {
+            //        $("#OperationHour").val(24);
+            //    }
+            //});
         });
 
         function clearTextBox() {
             $("#ClinicName").val('');
-            $("#Region").val('');
             $("#State").empty();
             $("#Address").val('');
             $("#PhoneNo").val('');
@@ -363,7 +351,6 @@
 
         $("#InsertData").click(function () {
             var ClinicName = $("#ClinicName").val();
-            var Region = $("#Region").val();
             var State = $("#State").val();
             var Address = $("#Address").val();
             var PhoneNo = $("#PhoneNo").val();
@@ -378,14 +365,11 @@
 
             console.log("InsertData () " + PhoneNo);
 
-            if (Region == "") {
-                toastr.warning("Please, enter region name!", 'Warning', { timeOut: 3000, closeButton: true });
-            } else if (ClinicName == "") {
+            if (ClinicName == "") {
                 toastr.warning("Please, enter clinic name!", 'Warning', { timeOut: 3000, closeButton: true });
             } else {
                 var formDatax = new FormData();
                 formDatax.append("ClinicName", ClinicName) ?? "";
-                formDatax.append("Region", Region) ?? "";
                 formDatax.append("State", State) ?? "";
                 formDatax.append("Address", Address) ?? "";
                 formDatax.append("Phone_No", PhoneNo) ?? "";
@@ -453,16 +437,15 @@
             debugger
             var ClinicID = data.split('|')[0];
             var ClinicName = data.split('|')[1];
-            var Region = data.split('|')[2];
-            var State = data.split('|')[3];
-            var Address = data.split('|')[4];
-            var PhoneNo = data.split('|')[5];
-            var Remark = data.split('|')[6];
-            var URL = data.split('|')[7];
-            var URLDisplay = data.split('|')[8];
-            var City = data.split('|')[9];
-            var PostalCode = data.split('|')[10];
-            var OperationHour = data.split('|')[11];
+            var State = data.split('|')[2];
+            var Address = data.split('|')[3];
+            var PhoneNo = data.split('|')[4];
+            var Remark = data.split('|')[5];
+            var URL = data.split('|')[6];
+            var URLDisplay = data.split('|')[7];
+            var City = data.split('|')[8];
+            var PostalCode = data.split('|')[9];
+            var OperationHour = data.split('|')[10];
 
 
             console.log("EditData() " + PhoneNo);
@@ -475,7 +458,6 @@
 
             $("#ClinicID").val(ClinicID);
             $("#ClinicName").val(ClinicName);
-            $("#Region").val(Region);
             FillComboState(State);
             $("#Address").val(Address);
             $("#PhoneNo").val(PhoneNo);
@@ -491,7 +473,6 @@
         $("#UpdateData").click(function () {
             var ClinicID = $("#ClinicID").val() ?? "";
             var ClinicName = $("#ClinicName").val() ?? "";
-            var Region = $("#Region").val() ?? "";
             var State = $("#State").val() ?? "";
             var Address = $("#Address").val() ?? "";
             var PhoneNo = $("#PhoneNo").val() ?? "";
@@ -508,7 +489,6 @@
             var formData = new FormData();
             formData.append("ClinicID", ClinicID) ?? "";
             formData.append("ClinicName", ClinicName) ?? "";
-            formData.append("Region", Region) ?? "";
             formData.append("State", State) ?? "";
             formData.append("Address", Address) ?? "";
             formData.append("Phone_No", PhoneNo) ?? "";
@@ -568,7 +548,6 @@
         }
 
         $("#DeleteData").click(function () {
-            var Region = $("#Region").val() ?? "";
             var ClinicName = $("#ClinicName").val() ?? "";
             var pClinicID = $("#ClinicID").val() ?? "";
             $.ajax({
