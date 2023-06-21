@@ -18,6 +18,56 @@
                     </header>
 
                     <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
+                        <div class="table-toolbar" style="padding-bottom:10px">
+                            <table>
+                                <tr style="height:45px">
+                                    <td width="150px">
+                                        <p style="font-weight:600; margin: 0">Date</p>
+                                    </td>
+
+                                    <td>
+                                        <input id="filterDatefrom" type="text" class="form-control input-md" style="background-color:white; width:150px" />
+                                    </td>
+
+                                    <td width="40px" style="text-align:center">
+                                        <p style="font-weight:600; margin: 0">To</p>
+                                    </td>
+
+                                    <td>
+                                        <input id="filterDateTo" type="text" class="form-control input-md" style="background-color:white; width:150px" />
+                                    </td>
+                                    <td></td>
+                                </tr>
+
+                                <tr style="height:45px">
+                                    <td>
+                                        <p style="font-weight:600; margin: 0">Group Department</p>
+                                    </td>
+                                    <td colspan="2">
+                                        <select id="FilterGroupDepartment" class="form-control input-md" style="height:30px;"></select>
+                                    </td>
+                                    <td style="text-align: right">
+                                        &nbsp;
+                                    </td>
+                                </tr>
+
+                                <tr style="height:45px">
+                                    <td width="120px">
+                                        <p style="font-weight:600; margin: 0">Designation</p>
+                                    </td>
+
+                                    <td colspan="2">
+                                        <select id="FilterDesignation" class="form-control input-md" style="height:30px; margin-right:20px"></select>
+                                    </td>
+
+
+                                    <td style="text-align: right">
+                                        <button class="btn btn-save" id="refresh"> Refresh </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
                         <div style="padding: 5px 5px 5px 5px">
                             <table style="width: 100%;">
                                 <tr style="height: 50px">
@@ -37,8 +87,11 @@
                                         <th style="text-align: center; width: 280px">
                                             Survey Title
                                         </th>
-                                        <th style="text-align: center; width: 120px">
+                                        <th style="text-align: center; width: 150px">
                                             Department
+                                        </th>
+                                        <th style="text-align: center; width: 150px">
+                                            Designation
                                         </th>
                                         <th style="text-align: center; width: 120px">
                                             Start Date
@@ -90,7 +143,46 @@
 {
     <script>
         $(document).ready(function () {
-            loadData();
+            //loadData();
+            FillCombo_FilterGroupDepartment();
+            FillCombo_FilterDesignation();
+
+            $('#filterDatefrom').Zebra_DatePicker({
+                format: 'd M Y', //'d M || F Y'
+                onSelect: function () {
+                    $(this).change();
+                }
+            });
+
+            $('#filterDateTo').Zebra_DatePicker({
+                format: 'd M Y', //'d M || F Y'
+                onSelect: function () {
+                    $(this).change();
+                }
+            });
+
+            var d = new Date();
+            var month = new Array();
+            month[0] = "Jan";
+            month[1] = "Feb";
+            month[2] = "Mar";
+            month[3] = "Apr";
+            month[4] = "May";
+            month[5] = "Jun";
+            month[6] = "Jul";
+            month[7] = "Aug";
+            month[8] = "Sep";
+            month[9] = "Oct";
+            month[10] = "Nov";
+            month[11] = "Dec";
+
+            var dd = String(d.getDate()).padStart(2, '0');
+            var dmonth = month[d.getMonth()];
+            var dyear = d.getFullYear();
+            var today = dd + " " + dmonth + " " + dyear;
+
+            $("#filterDatefrom").val(today)
+            $("#filterDateTo").val(today)
 
             var responsiveHelper_dt_basic = undefined;
             var breakpointDefinition = {
@@ -113,7 +205,8 @@
                     },
                     { "data": "SurveyID",    className: "hidden" },
                     { "data": "SurveyTitle", className: "txtAlignLeft" },
-                    { "data": "Department",  className: "txtAlignCenter" },
+                    { "data": "Department", className: "txtAlignLeft" },
+                    { "data": "Designation", className: "txtAlignLeft" },
                     { "data": "StartDate",   className: "txtAlignCenter" },
                     { "data": "EndDate",     className: "txtAlignCenter" }
                 ],
@@ -145,41 +238,67 @@
         })
 
         function loadData() {
-                waitingDialog.show("Please wait retrieving data...");
+            waitingDialog.show("Please wait retrieving data...");
 
-                $.ajax({
-                    url: "@Url.Action("SurveyAndPolls", "SurveyPollsList")",
-                    type: "post",
-                    dataType: "json"
-                }).done(function (result) {
-                    $("#tableID").DataTable().clear();
+            var fdatefrom = $("#filterDatefrom").val().split(' ');
+            var fdateto = $("#filterDateTo").val().split(' ');
+            var fgroupdept = $("#FilterGroupDepartment").val();;
+            var fdesignation = $("#FilterDesignation").val();;
 
-                    if (result.ID == '0') {
-                        toastr.error(result.Message, 'Error', { timeOut: 3000, "closeButton": true });
-                    }
-                    else {
-                        $("#tableID").DataTable().rows.add(result.Contents).draw(false);
-                    }
+            var months = {
+                Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
+                Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
+            };
 
-                    setTimeout(function () {
-                        waitingDialog.hide();
-                    }, 1000);
+            fdatefrom = fdatefrom[2] + "-" + months[fdatefrom[1]] + "-" + fdatefrom[0]; //convert date to format "yyyy-mm-dd"
+            fdateto = fdateto[2] + "-" + months[fdateto[1]] + "-" + fdateto[0];   //convert date to format "yyyy-mm-dd"
 
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                    //toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
-                    setTimeout(function () {
-                        waitingDialog.hide();
-                    }, 1000);
-                });
-
+            var param = {
+                StartDate: fdatefrom,
+                EndDate: fdateto,
+                Groupdepartment: fgroupdept,
+                Designation: fdesignation
             }
+            
+            var pdata = { 'param': param }
+            $.ajax({
+                url: "@Url.Action("SurveyAndPolls", "SurveyPollsList")",
+                type: "post",
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(pdata),
+            }).done(function (result) {
+                $("#tableID").DataTable().clear();
+
+                if (result.ID == '0') {
+                    toastr.error(result.Message, 'Error', { timeOut: 3000, "closeButton": true });
+                }
+                else {
+                    
+                    if (result.Contents.length == 0) {
+                        toastr.warning('Data not found', 'Warning', { timeOut: 3000, "closeButton": true });
+                    }
+                    $("#tableID").DataTable().rows.add(result.Contents).draw(false);
+                }
+
+                setTimeout(function () {
+                    waitingDialog.hide();
+                }, 1000);
+
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                //toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
+                setTimeout(function () {
+                    waitingDialog.hide();
+                }, 1000);
+            });
+
+        }
 
         function AddNewData() {
             var url = "/SurveyPollsList/Create";
             //var url = "/SurveyPollsList/Create";
             window.location.href = url;
         };
-
         function EditData(id) {
             var url = "/SurveyPollsList/Update?id=" + id;
             //var url = "/SurveyPollsList/Update?id=" + id;
@@ -210,5 +329,63 @@
                 }, 1000);
             });
         }
+
+        function FillCombo_FilterGroupDepartment()
+        {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("FillCombo", "SurveyPollsList")", // "/MyComplaint/FillCombo/",
+                datatype: 'json',
+                data: { Type: "0" },
+                success: function (result)
+                {
+                    if (result.ID == '0') {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    } else
+                    {
+                        $('#FilterGroupDepartment').empty();
+                        $.each(result.Contents, function (i, dt)
+                        {
+                            $("#FilterGroupDepartment").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
+                        });
+                    }
+                },
+                error: function (ex)
+                {
+                    toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
+                }
+            });
+        }
+
+        function FillCombo_FilterDesignation()
+        {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("FillCombo", "SurveyPollsList")", // "/MyComplaint/FillCombo/",
+                datatype: 'json',
+                data: { Type: "1" },
+                success: function (result)
+                {
+                    if (result.ID == '0') {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    } else
+                    {
+                        $('#FilterDesignation').empty();
+                        $.each(result.Contents, function (i, dt)
+                        {
+                            $("#FilterDesignation").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
+                        });
+                    }
+                },
+                error: function (ex)
+                {
+                    toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
+                }
+            });
+        }
+
+        $("#refresh").click(function () {
+            loadData();
+        })
     </script> 
 }
