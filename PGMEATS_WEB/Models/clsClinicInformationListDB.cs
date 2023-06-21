@@ -36,7 +36,8 @@ namespace PGMEATS_WEB.Models
                         clsClinic.URLDisplay = rd["URLDisplay"].ToString();
                         clsClinic.City = rd["City"].ToString();
                         clsClinic.PostalCode = rd["PostalCode"].ToString();
-                        clsClinic.OperationHour = rd["OperationHour"].ToString();
+                        clsClinic.OperationHour = rd["OperationHours"].ToString();
+                        clsClinic.Operation24Hours = Convert.ToChar(rd["Operation24Hours"]);
 
 
                         GroupClinic.Add(clsClinic);
@@ -85,7 +86,8 @@ namespace PGMEATS_WEB.Models
                             clsClinic.URLDisplay = rd["URLDisplay"].ToString();
                             clsClinic.City = rd["City"].ToString();
                             clsClinic.PostalCode = rd["PostalCode"].ToString();
-                            clsClinic.OperationHour = rd["OperationHour"].ToString();
+                            clsClinic.OperationHour = rd["OperationHours"].ToString();
+                            clsClinic.Operation24Hours = Convert.ToChar(rd["Operation24Hours"]);
 
 
 
@@ -165,7 +167,8 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("URLDisplay", dataFrom.URLDisplay ?? "");
                     cmd.Parameters.AddWithValue("City", dataFrom.City ?? "");
                     cmd.Parameters.AddWithValue("PostalCode", dataFrom.PostalCode?? "");
-                    cmd.Parameters.AddWithValue("OperationHour", dataFrom.OperationHour ?? "");
+                    cmd.Parameters.AddWithValue("Operation24Hours", dataFrom.Operation24Hours);
+                    cmd.Parameters.AddWithValue("OperationHours", dataFrom.OperationHour ?? "");
 
                     cmd.Parameters.AddWithValue("CreateUser", dataFrom.CreateUser ?? "");
                     cmd.Parameters.AddWithValue("CreateDate", DateTime.Now);
@@ -208,7 +211,8 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("URLDisplay", dataFrom.URLDisplay ?? "");
                     cmd.Parameters.AddWithValue("City", dataFrom.City?? "");
                     cmd.Parameters.AddWithValue("PostalCode", dataFrom.PostalCode?? "");
-                    cmd.Parameters.AddWithValue("OperationHour", dataFrom.OperationHour ?? "");
+                    cmd.Parameters.AddWithValue("Operation24Hours", Convert.ToChar(dataFrom.Operation24Hours));
+                    cmd.Parameters.AddWithValue("OperationHours", dataFrom.OperationHour ?? "");
                     cmd.Parameters.AddWithValue("UpdateUser", dataFrom.UpdateUser ?? "");
                     cmd.Parameters.AddWithValue("UpdateDate", DateTime.Now);
 

@@ -18,6 +18,8 @@ namespace PGMEATS_WEB.Models
         public string Phone_No { get; set; }
         public string City { get; set; }
         public string PostalCode { get; set; }
+        public char Operation24Hours { get; set; }
+
         public string OperationHour { get; set; }
 
         public string CreateUser { get; set; }
