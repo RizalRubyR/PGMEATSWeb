@@ -413,6 +413,10 @@
                                         </div>
 
                                         <div class="modal-body">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="ALL" name="ALL" id="chkAllDept">
+                                                <label class="form-check-label" for="ALL">ALL</label>
+                                            </div>
                                             <div id="departmentList" style="display:flex;">
 
                                             </div>
@@ -881,6 +885,10 @@
                         $('#btnNew').prop('disabled', true);
                         $('#btnFinalized').prop('disabled', true);
                         $('#tableID td:nth-child(1), th:nth-child(1)').hide();
+
+                        var url = "/SurveyPollsList/Index";
+                        //var url = "MyPGM_Web/SurveyPollsList/Create";
+                        window.location.href = url;
                     }
                 },
                 error: function (ex) {
@@ -1285,6 +1293,19 @@
             } else if (type == "1") {
                 $("#tblMulti").addClass("answer-type-hide");
                 /*$("#tblFreetext").addClass("answer-type");*/
+            }
+        });
+
+        $('#chkAllDept').change(function () {
+            var isChecked = $('#chkAllDept').is(":checked");
+            if (isChecked == true) {
+                $('div#departmentList input[type=checkbox]').each(function () {
+                    $(this).prop('checked', true);
+                });
+            } else {
+                $('div#departmentList input[type=checkbox]').each(function () {
+                    $(this).prop('checked', false);
+                });
             }
         });
 
