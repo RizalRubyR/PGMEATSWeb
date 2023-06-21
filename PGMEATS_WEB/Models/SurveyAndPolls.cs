@@ -123,7 +123,7 @@ namespace PGMEATS_WEB.Models
 
     public class SurveyAndPollsDB
     {
-        public clsResponse GetSurveyAndPollsList(SurveyAndPollsListSearch data)
+        public clsResponse GetSurveyAndPollsList(SurveyAndPollsListSearch data, string user)
         {
             List<SurveyAndPollsList> SurveyPollsList = new List<SurveyAndPollsList>();
             clsResponse Response = new clsResponse();
@@ -135,10 +135,11 @@ namespace PGMEATS_WEB.Models
                     SqlCommand cmd = new SqlCommand("sp_SurveyAndPolls_List", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Clear();
-                    cmd.Parameters.AddWithValue("StartDate", data.StartDate);
-                    cmd.Parameters.AddWithValue("EndDate", data.EndDate);
-                    cmd.Parameters.AddWithValue("Groupdepartment", data.Groupdepartment);
-                    cmd.Parameters.AddWithValue("Designation", data.Designation);
+                    cmd.Parameters.AddWithValue("@StartDate", data.StartDate);
+                    cmd.Parameters.AddWithValue("@EndDate", data.EndDate);
+                    cmd.Parameters.AddWithValue("@Groupdepartment", data.Groupdepartment);
+                    cmd.Parameters.AddWithValue("@Designation", data.Designation);
+                    cmd.Parameters.AddWithValue("@User", user);
                     con.Open();
 
                     DataTable dt = new DataTable();

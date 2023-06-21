@@ -116,11 +116,12 @@ namespace PGMEATS_WEB.Controllers
         [HttpPost]
         public JsonResult SurveyAndPolls(SurveyAndPollsListSearch param)
         {
+            string userID = Session["LogUserID"].ToString();
             SurveyAndPollsDB db = new SurveyAndPollsDB();
             clsResponse response = new clsResponse();
             try
             {
-                response = db.GetSurveyAndPollsList(param);
+                response = db.GetSurveyAndPollsList(param, userID);
             }
             catch (Exception ex)
             {
