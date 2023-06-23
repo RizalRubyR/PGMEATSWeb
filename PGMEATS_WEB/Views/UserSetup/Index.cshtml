@@ -352,15 +352,16 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function (data) {
-                        if (!data.Success) {
-                            toastr.warning(data.ErrorMessage, 'Warning', { timeOut: 3000, "closeButton": true });
-                        } else {
+                    success: function (result) {
+                        console.log(result);
+                        if (result.toLowerCase().includes("success")) {
                             loadData();
                             toastr.success("Data Saved Successfully!", 'Success', { timeOut: 3000, "closeButton": true });
                             $('#MyModal').modal('hide');
                             $('body').removeClass('modal-open');
                             $('.modal-backdrop').remove();
+                        } else {
+                            toastr.warning(result, 'Warning', { timeOut: 3000, "closeButton": true });
                         }
                     },
                     error: function (jqXHR, error, errorThrown) {

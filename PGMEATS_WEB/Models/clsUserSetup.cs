@@ -123,37 +123,69 @@ namespace PGMEATS_WEB.Models
             }
         }
 
-        public int Insert(clsUserSetup User, string UserLogin)
+        public String Insert(clsUserSetup User, string UserLogin)
         {
+            List<JSOX> jsoxList = new List<JSOX>();
+            Response clsrespon = new Response();
+            Encryption encrypt = new Encryption();
+            string Message = "";
             try
             {
-                Encryption encrypt = new Encryption();
-                int i = 0;
                 string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(constr))
                 {
-                    string sql = "sp_UserSetup";
+                    //STARTING GET JSOX
+                    string sql = "sp_JSOX_GET";
+                    clsrespon = new Response();
+
                     SqlCommand cmd = new SqlCommand(sql, con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("Func", 3);
-                    cmd.Parameters.AddWithValue("UserID", User.UserID);
-                    cmd.Parameters.AddWithValue("UserName", User.UserName);
-                    cmd.Parameters.AddWithValue("Password", encrypt.EncryptData(User.Password.Trim()));
-                    cmd.Parameters.AddWithValue("AdminStatus", User.AdminStatus);
-                    cmd.Parameters.AddWithValue("UserType", User.UserType);
-                    cmd.Parameters.AddWithValue("Department", User.Department);
-                    cmd.Parameters.AddWithValue("CatererID", User.CatererID);
-                    cmd.Parameters.AddWithValue("UserLogin", UserLogin);
                     con.Open();
 
-                    i = cmd.ExecuteNonQuery();
+                    DataTable dtJsox = new DataTable();
+                    SqlDataAdapter daJsox = new SqlDataAdapter(cmd);
+                    daJsox.Fill(dtJsox);
+                    daJsox.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                    jsoxList = dtJsox.AsEnumerable().Select(x => new JSOX()
+                    {
+                        ID = Convert.ToInt16(x.Field<object>("RuleID")),
+                        JsoxEnabled = Convert.ToBoolean(x.Field<object>("Enable")),
+                        Desc = x.Field<string>("Description"),
+                        Value = Convert.ToInt16(x.Field<object>("Value"))
+                    }).ToList();
+
+                    //ENDING GET JSOX
+                    Message = ClsChangePassword.CheckingChangePassword(User.UserID, User.Password, jsoxList);
+
+                    if (Message == "")
+                    {
+                        sql = "sp_UserSetup";
+                        cmd = new SqlCommand(sql, con);
+                        con.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("Func", 3);
+                        cmd.Parameters.AddWithValue("UserID", User.UserID);
+                        cmd.Parameters.AddWithValue("UserName", User.UserName);
+                        cmd.Parameters.AddWithValue("Password", encrypt.EncryptData(User.Password.Trim()));
+                        cmd.Parameters.AddWithValue("AdminStatus", User.AdminStatus);
+                        cmd.Parameters.AddWithValue("UserType", User.UserType);
+                        cmd.Parameters.AddWithValue("Department", User.Department);
+                        cmd.Parameters.AddWithValue("CatererID", User.CatererID);
+                        cmd.Parameters.AddWithValue("UserLogin", UserLogin);
+                        cmd.ExecuteNonQuery();
+                        Message = "success";
+                        con.Close();
+                    };
                 }
-                return i;
             }
             catch (Exception ex)
             {
-                throw ex;
+                Message = ex.Message;
             }
+            return Message;
         }
 
         public int Update(clsUserSetup User, string UserLogin)
