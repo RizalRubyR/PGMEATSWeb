@@ -114,13 +114,14 @@ namespace PGMEATS_WEB.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [HttpPost]
-        public JsonResult SurveyAndPolls()
+        public JsonResult SurveyAndPolls(SurveyAndPollsListSearch param)
         {
+            string userID = Session["LogUserID"].ToString();
             SurveyAndPollsDB db = new SurveyAndPollsDB();
             clsResponse response = new clsResponse();
             try
             {
-                response = db.GetSurveyAndPollsList();
+                response = db.GetSurveyAndPollsList(param, userID);
             }
             catch (Exception ex)
             {
@@ -253,6 +254,25 @@ namespace PGMEATS_WEB.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+        [AcceptVerbs("GET", "POST")]
+        [HttpPost]
+        public JsonResult fillDesignation()
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            clsResponse response = new clsResponse();
+            try
+            {
+                response = db.fillDesignation();
+            }
+            catch (Exception ex)
+            {
+                response.ID = 0;
+                response.Message = ex.Message;
+                response.Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult FillComboParentAnswer(string SurveyID, string ParentQuestionID)
         {
             SurveyAndPollsDB db = new SurveyAndPollsDB();
@@ -335,7 +355,7 @@ namespace PGMEATS_WEB.Controllers
         
         [AcceptVerbs("GET", "POST")]
         [HttpPost]
-        public ActionResult SaveDetail(SurveyAndPollsDetail param, SurveyAndPollsAnswer param2, SurveyAndPollsHeader param3)
+        public ActionResult SaveDetail(SurveyAndPollsDetail param, SurveyAndPollsAnswer param2)
         {
             SurveyAndPollsDB db = new SurveyAndPollsDB();
             clsResponse response = new clsResponse();
@@ -383,7 +403,7 @@ namespace PGMEATS_WEB.Controllers
                 }
 
 
-                response = db.saveDetailandAnswer(param, cls, param3, UserLogin);
+                response = db.saveDetailandAnswer(param, cls, UserLogin);
             }
             catch (Exception ex)
             {
@@ -532,5 +552,6 @@ namespace PGMEATS_WEB.Controllers
             }
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+
     }
 }

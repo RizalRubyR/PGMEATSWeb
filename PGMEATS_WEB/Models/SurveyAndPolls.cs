@@ -12,8 +12,8 @@ namespace PGMEATS_WEB.Models
     {
         public string SurveyID { get; set; }
         public string SurveyTitle { get; set; }
-        //public string GroupDepartment { get; set; }
         public List<string> GroupDepartment { get; set; }
+        public List<string> Designation { get; set; }
         public string SurveyStatus { get; set; } //0 = New, 1 = On Progress, 2 = Finish  update from mobile 
         public string StartDate { get; set; }
         public string EndDate { get; set; }
@@ -22,12 +22,21 @@ namespace PGMEATS_WEB.Models
         public string Finalized { get;set; } // 0 = New, 1 = Finalized update from web
     }
 
+    public class SurveyAndPollsListSearch
+    {
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public string Groupdepartment { get; set; }
+        public string Designation { get; set; }
+    }
+
     public class SurveyAndPollsList
     {
         //public string User { get; set; }
         public string SurveyID { get; set; }
         public string SurveyTitle { get; set; }
         public string Department { get; set; }
+        public string Designation { get; set; }
         public string SurveyStatus { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
@@ -103,16 +112,18 @@ namespace PGMEATS_WEB.Models
         public string SurveyID { get; set; }
         public string SurveyDesc { get; set; }
         public string GroupDepartment { get; set; }
+        public string Designation { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
         public string ViewResult { get; set; }
         public string Type { get; set; }
+        public string Finalized { get; set; }
 
     }
 
     public class SurveyAndPollsDB
     {
-        public clsResponse GetSurveyAndPollsList()
+        public clsResponse GetSurveyAndPollsList(SurveyAndPollsListSearch data, string user)
         {
             List<SurveyAndPollsList> SurveyPollsList = new List<SurveyAndPollsList>();
             clsResponse Response = new clsResponse();
@@ -123,6 +134,12 @@ namespace PGMEATS_WEB.Models
                 {
                     SqlCommand cmd = new SqlCommand("sp_SurveyAndPolls_List", con);
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.AddWithValue("@StartDate", data.StartDate);
+                    cmd.Parameters.AddWithValue("@EndDate", data.EndDate);
+                    cmd.Parameters.AddWithValue("@Groupdepartment", data.Groupdepartment);
+                    cmd.Parameters.AddWithValue("@Designation", data.Designation);
+                    cmd.Parameters.AddWithValue("@User", user);
                     con.Open();
 
                     DataTable dt = new DataTable();
@@ -135,9 +152,10 @@ namespace PGMEATS_WEB.Models
                     SurveyPollsList = dt.AsEnumerable().Select(x =>
                     new SurveyAndPollsList
                     {
-                        SurveyID = x.Field<Int64>("SurveyID").ToString(),
+                        SurveyID = x.Field<Int32>("SurveyID").ToString(),
                         SurveyTitle = x.Field<string>("SurveyTitle"),
                         Department = x.Field<string>("Department"),
+                        Designation = x.Field<string>("Designation"),
                         SurveyStatus = x.Field<string>("SurveyStatus"),
                         StartDate = x.Field<string>("StartDate"),
                         EndDate = x.Field<string>("EndDate"),
@@ -256,7 +274,7 @@ namespace PGMEATS_WEB.Models
                 string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(constr))
                 {
-                    SqlCommand cmd = new SqlCommand("sp_FilterCombo", con);
+                    SqlCommand cmd = new SqlCommand("sp_SurveryAndPolls_FillCombo", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("Type", type);
                     con.Open();
@@ -371,19 +389,17 @@ namespace PGMEATS_WEB.Models
             }
             return Response;
         }
-        public clsResponse Finalized(SurveyAndPollsHeader header)
+        public clsResponse fillDesignation()
         {
+            List<clsFillCombo> ComboList = new List<clsFillCombo>();
             clsResponse Response = new clsResponse();
             try
             {
                 string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(constr))
                 {
-                    SqlCommand cmd = new SqlCommand("sp_SurveyandpollsHeader_Finalized", con);
+                    SqlCommand cmd = new SqlCommand("sp_M_SurveyAndPolls_Designation_Load", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@SurveyID", header.SurveyID);
-                    cmd.Parameters.AddWithValue("@Finalized", header.Finalized);
-
                     con.Open();
 
                     DataTable dt = new DataTable();
@@ -393,9 +409,65 @@ namespace PGMEATS_WEB.Models
                     cmd.Dispose();
                     con.Close();
 
+                    ComboList = dt.AsEnumerable().Select(x =>
+                    new clsFillCombo
+                    {
+                        Code = x.Field<string>("Designation"),
+                    }).ToList();
+
                     Response.ID = 1;
                     Response.Message = "Success";
-                    Response.Contents = "";
+                    Response.Contents = ComboList;
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.ID = 0;
+                Response.Message = ex.Message;
+                Response.Contents = "";
+
+            }
+            return Response;
+        }
+        public clsResponse Finalized(SurveyAndPollsHeader header)
+        {
+            clsResponse Response = new clsResponse();
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("execute sp_Surveyandpolls_CheckHeader @SurveyID", con);
+                    //cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SurveyID", header.SurveyID);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    if(dt.Rows.Count <= 0)
+                    {
+                        Response.ID = 0;
+                        Response.Message = "Data not exists";
+                        Response.Contents = "";
+                    }
+                    else
+                    {
+                        cmd.CommandText = "execute sp_SurveyandpollsHeader_Finalized @SurveyID, @Finalized";  //new SqlCommand("sp_SurveyandpollsHeader_Finalized", con);
+                        //cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.AddWithValue("@SurveyID", header.SurveyID);
+                        cmd.Parameters.AddWithValue("@Finalized", header.Finalized);
+
+                        da = new SqlDataAdapter(cmd);
+                        da.Fill(dt);
+                        da.Dispose();
+                        cmd.Dispose();
+                        con.Close();
+
+                        Response.ID = 1;
+                        Response.Message = "Success";
+                        Response.Contents = "";
+                    }
                 }
             }
             catch (Exception ex)
@@ -675,10 +747,12 @@ namespace PGMEATS_WEB.Models
                         detail.SurveyID = dr["SurveyID"].ToString().Trim();
                         detail.SurveyDesc = dr["SurveyTitle"].ToString().Trim();
                         detail.GroupDepartment = dr["Department"].ToString().Trim();
+                        detail.Designation = dr["Designation"].ToString().Trim();
                         detail.StartDate = dr["StartDate"].ToString().Trim();
                         detail.EndDate = dr["EndDate"].ToString().Trim();
                         detail.ViewResult = dr["ViewChart"].ToString().Trim();
                         detail.Type = dr["Type"].ToString().Trim();
+                        detail.Finalized = dr["Finalized"].ToString().Trim();
 
                         data.Add(detail);
                     }
@@ -755,6 +829,30 @@ namespace PGMEATS_WEB.Models
                             return Response;
                         }
                     }
+
+                    cmd.CommandText = "execute sp_SurveyandpollsDesignationBySurveyID_Del @SuveyID";
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.AddWithValue("@SuveyID", param.SurveyID);
+                    i = cmd.ExecuteNonQuery();
+
+                    foreach (string str in param.Designation)
+                    {
+                        cmd.CommandText = "execute sp_SurveyandpollsDesignation_Ins @SuveyID,@Designation";
+                        //cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.AddWithValue("@SuveyID", param.SurveyID);
+                        cmd.Parameters.AddWithValue("@Designation", str);
+                        i = cmd.ExecuteNonQuery();
+                        if (i < 1)
+                        {
+                            trans.Rollback();
+                            Response.ID = 0;
+                            Response.Message = "Cannot insert designation";
+                            Response.Contents = "";
+                            return Response;
+                        }
+                    }
+
                     //DataTable dt = new DataTable();
                     //SqlDataAdapter da = new SqlDataAdapter(cmd);
                     //da.Fill(dt);
@@ -777,7 +875,7 @@ namespace PGMEATS_WEB.Models
             return Response;
         }
 
-        public clsResponse saveDetailandAnswer(SurveyAndPollsDetail param, List<surveyAnswer> param2, SurveyAndPollsHeader param3, string UserLogin)
+        public clsResponse saveDetailandAnswer(SurveyAndPollsDetail param, List<surveyAnswer> param2, string UserLogin)
         {
             clsResponse Response = new clsResponse();
 
@@ -803,13 +901,16 @@ namespace PGMEATS_WEB.Models
 
                     cmd = new SqlCommand("sp_SurveyAndPollS_Answer_Ins", con);
                     for (int i = 0; i < param2.Count; i++){
-                        cmd.Parameters.Clear();
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@SurveyID", param2[i].SurveyID);
-                        cmd.Parameters.AddWithValue("@QuestionID", param2[i].QuestionID);
-                        cmd.Parameters.AddWithValue("@AnswerSeqNo", param2[i].AnswerSeqNo);
-                        cmd.Parameters.AddWithValue("@AnswerDesc", param2[i].AnswerDesc);
-                        int j = cmd.ExecuteNonQuery();
+                        if (param2[i].AnswerDesc != null)
+                        {
+                            cmd.Parameters.Clear();
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@SurveyID", param2[i].SurveyID);
+                            cmd.Parameters.AddWithValue("@QuestionID", param2[i].QuestionID);
+                            cmd.Parameters.AddWithValue("@AnswerSeqNo", param2[i].AnswerSeqNo);
+                            cmd.Parameters.AddWithValue("@AnswerDesc", param2[i].AnswerDesc);
+                            int j = cmd.ExecuteNonQuery();
+                        }
                     }
 
                     Response.ID = 1;
@@ -871,13 +972,16 @@ namespace PGMEATS_WEB.Models
                     cmd = new SqlCommand("sp_SurveyAndPollS_Answer_Upd", con);
                     for (int i = 0; i < param2.Count; i++)
                     {
-                        cmd.Parameters.Clear();
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@SurveyID", param2[i].SurveyID);
-                        cmd.Parameters.AddWithValue("@QuestionID", param2[i].QuestionID);
-                        cmd.Parameters.AddWithValue("@AnswerSeqNo", param2[i].AnswerSeqNo);
-                        cmd.Parameters.AddWithValue("@AnswerDesc", param2[i].AnswerDesc);
-                        int j = cmd.ExecuteNonQuery();
+                        if(param2[i].AnswerDesc != null)
+                        {
+                            cmd.Parameters.Clear();
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.AddWithValue("@SurveyID", param2[i].SurveyID);
+                            cmd.Parameters.AddWithValue("@QuestionID", param2[i].QuestionID);
+                            cmd.Parameters.AddWithValue("@AnswerSeqNo", param2[i].AnswerSeqNo);
+                            cmd.Parameters.AddWithValue("@AnswerDesc", param2[i].AnswerDesc);
+                            int j = cmd.ExecuteNonQuery();
+                        }
                     }
 
                     Response.ID = 1;
@@ -1036,5 +1140,7 @@ namespace PGMEATS_WEB.Models
             }
             return Response;
         }
+
+        
     }
 }

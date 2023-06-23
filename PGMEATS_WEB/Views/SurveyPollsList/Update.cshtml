@@ -42,8 +42,21 @@
                                             Target Department
                                         </td>
                                         <td>
-                                            <select id="department" class="form-control input-md" style="height: 30px; width: 130px; padding: 3px 3px 3px 7px !important;">
-                                            </select>
+                                            <div style="display:flex">
+                                                <input id="txtdepartment" type="text" class="form-control input-md" style="background-color: white; width: 240px; background-color: #e9ecef !important;" disabled />
+                                                <button id="btnNewDept" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: bold; background-color: #ff9933; margin: 3px 0px 0px 5px; padding: 1px 1px 10px; width: 30px; height: 25px !important;" data-toggle="modal" onclick="AddDepartment()"><span style="color:white">...</span></button> @*data-target="#mdlDepartment"*@
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr style="height:35px">
+                                        <td width="150px">
+                                            Target Designation
+                                        </td>
+                                        <td>
+                                            <div style="display:flex">
+                                                <input id="txtdesignation" type="text" class="form-control input-md" style="background-color: white; width: 240px; background-color: #e9ecef !important;" disabled />
+                                                <button id="btnNewDesign" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: bold; background-color: #ff9933; margin: 3px 0px 0px 5px; padding: 1px 1px 10px; width: 30px; height: 25px !important;" data-toggle="modal" onclick="Adddesignation()"><span style="color:white">...</span></button> @*data-target="#mdlDepartment"*@
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr style="height:35px">
@@ -98,14 +111,14 @@
                                     </tr>
                                 </table>
                             </div>
-                            @*<table style="width: 100%;">
+                            <table style="width: 100%;">
                                 <tr style="height: 50px">
                                     <td>
                                         <button id="btnNew" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #4CBFBC; width:85px" data-toggle="modal" data-target="#myModal" onclick="AddNewData()"><span style="color:white">New</span></button>
                                         <button id="btnFinalized" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #00db11; width: 85px" onclick="Finalized()"><span style="color:white">Finalized</span></button>
                                     </td>
                                 </tr>
-                            </table>*@
+                            </table>
 
                             <table id="tableID" class="table table-bordered table-striped">
                                 <thead>
@@ -219,20 +232,6 @@
                                                             <td>&nbsp;</td>
                                                         </tr>
                                                     </table>
-                                                    @*<table id="tblFreetext" class="answer-type-hide">
-                                                        <tr style="height:35px">
-                                                            <td width="100px" style="vertical-align:top;">
-                                                                Free Text
-                                                            </td>
-                                                            <td>
-                                                                <textarea id="txtFreeText" class="form-control input-md" style="background-color: white; width: 363px; height: 166px; resize: none;"></textarea>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>&nbsp;</td>
-                                                            <td>&nbsp;</td>
-                                                        </tr>
-                                                    </table>*@
                                                     <table id="tblMulti" class="answer-type">
                                                         <tr style="height:35px">
                                                             <td width="115px">
@@ -298,6 +297,70 @@
                                 </div>
                             </div>
 
+                            <div class="modal fade" id="mdlDepartment">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                            <h4 style="font-family:'Poppins-Regular' !important">Select Department</h4>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="ALL" name="ALL" id="chkAllDept">
+                                                <label class="form-check-label" for="ALL">ALL</label>
+                                            </div>
+                                            <div id="departmentList" style="display:flex;">
+
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal" style="width:85px; font-size:13px; border-width:thin;">Cancel</button>
+                                            @if (ViewBag.AllowWrite == "0")
+                                            {
+                                                <button type="button" class="btn btn-save" id="SelectedDept" style="width:85px; font-size:13px" disabled onclick="AddSelectedDept()">Add</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-save" id="SelectedDept" style="width:85px; font-size:13px" onclick="AddSelectedDept()">Add</button>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="mdlDesignation">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                            <h4 style="font-family:'Poppins-Regular' !important">Select Designation</h4>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <div class="modal-body">
+                                                <div id="designationList" style="display:flex;">
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal" style="width:85px; font-size:13px; border-width:thin;">Cancel</button>
+                                            @if (ViewBag.AllowWrite == "0")
+                                            {
+                                                <button type="button" class="btn btn-save" id="SelectedDesign" style="width:85px; font-size:13px" disabled onclick="AddSelectedDesign()">Add</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-save" id="SelectedDesign" style="width:85px; font-size:13px" onclick="AddSelectedDesign()">Add</button>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -329,6 +392,107 @@
     }
     .answer-type-hide{
         display:none;
+    }
+    .parent-hide {
+        display: none;
+    }
+
+    .blank-hide {
+        display: none;
+    }
+
+
+    .form-check {
+        display: block;
+        min-height: 1.5rem;
+        padding-left: 1.5em;
+        margin-bottom: 0.125rem;
+    }
+
+    .form-check-label {
+        font-size: 1.5rem !important;
+        font-weight: 400 !important;
+        line-height: 1.5;
+        -webkit-text-size-adjust: 100%;
+        margin-left: 5px;
+        margin-top: 1px;
+    }
+
+    .form-check .form-check-input {
+        float: left;
+        margin-left: -1.5em;
+    }
+
+    .form-check-input {
+        width: 1.5em;
+        height: 1.5em;
+        margin-top: 0.25em !important;
+        vertical-align: top;
+        background-color: #fff;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+    }
+
+    .form-check-input[type=checkbox] {
+        border-radius: 0.25em;
+    }
+
+    .form-check-input[type=radio] {
+        border-radius: 50%;
+    }
+
+    .form-check-input:active {
+        filter: brightness(90%);
+    }
+
+    .form-check-input:focus {
+        border-color: #86b7fe;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+
+    .form-check-input:checked {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+
+    .form-check-input:checked[type=checkbox] {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+    }
+
+    .form-check-input:checked[type=radio] {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e");
+    }
+
+    .form-check-input[type=checkbox]:indeterminate {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e");
+    }
+
+    .form-check-input:disabled {
+        pointer-events: none;
+        filter: none;
+        opacity: 0.5;
+    }
+
+    .form-check-input[disabled] ~ .form-check-label, .form-check-input:disabled ~ .form-check-label {
+        opacity: 0.5;
+    }
+
+    .was-validated .form-check-input:valid ~ .form-check-label, .form-check-input.is-valid ~ .form-check-label {
+        color: #198754;
+    }
+
+    .was-validated .form-check-input:invalid ~ .form-check-label, .form-check-input.is-invalid ~ .form-check-label {
+        color: #dc3545;
     }
 </style>
 
@@ -475,11 +639,55 @@
                         $.each(data.Contents, function (i, dt) {
                             $("#txtsurveyid").val(dt.SurveyID);
                             $("#txttitle").val(dt.SurveyDesc);
-                            $("#department").val(dt.GroupDepartment);
+                            $("#txtdepartment").val(dt.GroupDepartment);
+                            $("#txtdesignation").val(dt.Designation);
                             $("#startdate").val(dt.StartDate);
                             $("#enddate").val(dt.EndDate);
                             $("#Type").val(dt.Type);
                             $("#chkViewChart").val(dt.ViewResult);
+                            var finalized = dt.Finalized
+
+                            if (finalized == "1") {
+                                $('#txtsurveyid').prop('disabled', true);
+                                $('#txtsurveyid').css({ "background-color": "#e9ecef" });
+                                $('#txttitle').prop('disabled', true);
+                                $('#txttitle').css({ "background-color": "#e9ecef" });
+                                $('#btnNewDept').prop('disabled', true);
+                                $('#btnNewDesign').prop('disabled', true);
+
+                                $('#startdate').prop('disabled', true);
+                                $('#enddate').prop('disabled', true);
+                                $('#startdate').css({ "background-color": "#e9ecef" });
+                                $('#enddate').css({ "background-color": "#e9ecef" });
+
+                                $('#Type').prop('disabled', true);
+                                $('#Type').css({ "background-color": "#e9ecef" });
+
+                                $('#chkViewChart').prop('disabled', true);
+
+                                $('#btnNew').prop('disabled', true);
+                                $('#btnFinalized').prop('disabled', true);
+                                $('#tableID td:nth-child(1), th:nth-child(1)').hide();
+                            } else {
+                                $('#txttitle').prop('disabled', false);
+                                $('#txttitle').css({ "background-color": "white" });
+                                $('#btnNewDept').prop('disabled', false);
+                                $('#btnNewDesign').prop('disabled', false);
+
+                                $('#startdate').prop('disabled', false);
+                                $('#enddate').prop('disabled', false);
+                                $('#startdate').css({ "background-color": "white" });
+                                $('#enddate').css({ "background-color": "white" });
+
+                                $('#Type').prop('disabled', false);
+                                $('#Type').css({ "background-color": "white" });
+
+                                $('#chkViewChart').prop('disabled', false);
+
+                                $('#btnNew').prop('disabled', false);
+                                $('#btnFinalized').prop('disabled', false);
+                                $('#tableID td:nth-child(1), th:nth-child(1)').show();
+                            }
                         });
                     }
 
@@ -551,14 +759,43 @@
             $('#ParentQuestion').empty();
             var SurveyID = $("#txtsurveyid").val();
             var SurveyTitle = $("#txttitle").val();
+            var Department = $("#txtdepartment").val();
+            var Designation = $("#txtdesignation").val();
+            var StartDate = $("#startdate").val();
+            var EndDate = $("#enddate").val();
+            var Type = $("#Type").val();
             if (SurveyTitle == null || SurveyTitle == "") {
                 toastr.warning("Please fill survey tittle", 'Warning', { timeOut: 3000, "closeButton": true });
                 $("#txttitle").focus();
                 return
             }
-
+            if (Department == null || Department == "") {
+                toastr.warning("Please select target department", 'Warning', { timeOut: 3000, "closeButton": true });
+                $("#btnNewDept").focus();
+                return
+            }
+            if (Designation == null || Designation == "") {
+                toastr.warning("Please select target designation", 'Warning', { timeOut: 3000, "closeButton": true });
+                $("#btnNewDesign").focus();
+                return
+            }
+            if (StartDate == null || StartDate == "") {
+                toastr.warning("Please select start date", 'Warning', { timeOut: 3000, "closeButton": true });
+                $("#startdate").focus();
+                return
+            }
+            if (EndDate == null || EndDate == "") {
+                toastr.warning("Please select end date", 'Warning', { timeOut: 3000, "closeButton": true });
+                $("#enddate").focus();
+                return
+            }
+            if (Type == null || Type == "") {
+                toastr.warning("Please select type", 'Warning', { timeOut: 3000, "closeButton": true });
+                $("#Type").focus();
+                return
+            }
             saveSurvey();
-
+            var QuestionID;
             $.ajax({
                 url: "@Url.Action("getQuestionID", "SurveyPollsList")",
                 type: "post",
@@ -567,6 +804,21 @@
             }).done(function (result) {
 
                 $("#txtQuestionID").val(result.Contents);
+                QuestionID = result.Contents
+                var Qid = QuestionID;
+                if (Qid == "1") {
+                    $("#trParent").addClass("parent-hide");
+                    $("#trblank").addClass("blank-hide");
+
+                    $("#trAnswer").addClass("parent-hide");
+                    $("#trblankAnswer").addClass("blank-hide");
+                } else {
+                    $("#trParent").removeClass("parent-hide");
+                    $("#trblank").removeClass("blank-hide");
+
+                    $("#trAnswer").removeClass("parent-hide");
+                    $("#trblankAnswer").removeClass("blank-hide");
+                }
                 setTimeout(function () {
                     waitingDialog.hide();
                 }, 1000);
@@ -585,16 +837,201 @@
             FillCombo_ParentQuestion(SurveyID);
             fillCombo_ParentAnswer()
             FillCombo_AnswerType();
+            var type = $("#AnswerType").val();
+            $("#tblMulti").removeClass("answer-type");
+            $("#tblMulti").removeClass("answer-type-hide");
+            $("#tblMulti").addClass("answer-type");
+
             textbox_Clear()
         };
-        function Finalized() {
-            var SurveyID = $("#txtsurveyid").val();
-
+        function AddDepartment() {
             $.ajax({
-                url: "@Url.Action("getQuestionID", "SurveyPollsList")",
+                url: "@Url.Action("fillDepartment", "SurveyPollsList")",
                 type: "post",
                 dataType: "json",
-                data: { param: SurveyID },
+                /*data: { SurveyID: SurveyID },*/
+                success: function (result) {
+                    $('#departmentList').empty();
+                    var content = '';
+                    if (result.ID == '0') {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    } else {
+                        var count = 1;
+                        var v = 1;
+                        var dep = $("#txtdepartment").val().split(";");
+                        $.each(result.Contents, function (index, value) {
+                            if (count == 1) {
+                                content += '<div style="width:120px">\n'
+                            }
+                            content += '    <div class="form-check">\n'
+                            if (dep.length == 1) {
+                                content += '        <input class="form-check-input" type="checkbox" value="' + value.Code + '" id="' + value.Code + '">\n'
+                            } else {
+                                var xi = 0
+                                for (kk = 0; kk < dep.length; kk++) {
+                                    if (dep[kk] == value.Code) {
+                                        content += '        <input class="form-check-input" type="checkbox" value="' + value.Code + '" id="' + value.Code + '" checked="checked">\n'
+                                        xi += 1;
+                                    }
+                                }
+                                if (xi == 0) {
+                                    content += '        <input class="form-check-input" type="checkbox" value="' + value.Code + '" id="' + value.Code + '">\n'
+                                }
+                            }
+
+                            content += '        <label class="form-check-label" for="' + value.Code + '">' + value.Code + '\n'
+                            content += '        </label>\n'
+                            content += '    </div>\n'
+                            if (count == 10 || v == result.Contents.length) {
+                                content += '</div>\n'
+                                count = 0
+                            }
+                            count += 1;
+                            v += 1;
+                        });
+                    }
+                    $('#departmentList').html(content);
+                },
+                error: function (ex) {
+                    toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                }
+            });
+            $("#mdlDepartment").modal();
+            $('#SelectedDept').show();
+        }
+        function Adddesignation() {
+            $.ajax({
+                url: "@Url.Action("fillDesignation", "SurveyPollsList")",
+                type: "post",
+                dataType: "json",
+                /*data: { SurveyID: SurveyID },*/
+                success: function (result) {
+                    $('#designationList').empty();
+                    var content = '';
+                    if (result.ID == '0') {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    } else {
+                        var count = 1;
+                        var v = 1;
+                        var dep = $("#txtdesignation").val().split(";");
+                        $.each(result.Contents, function (index, value) {
+                            if (count == 1) {
+                                content += '<div style="width:120px">\n'
+                            }
+                            content += '    <div class="form-check">\n'
+                            if (dep.length == 1) {
+                                content += '        <input class="form-check-input" type="checkbox" value="' + value.Code + '" id="' + value.Code + '">\n'
+                            } else {
+                                var xi = 0
+                                for (kk = 0; kk < dep.length; kk++) {
+                                    if (dep[kk] == value.Code) {
+                                        content += '        <input class="form-check-input" type="checkbox" value="' + value.Code + '" id="' + value.Code + '" checked="checked">\n'
+                                        xi += 1;
+                                    }
+                                }
+                                if (xi == 0) {
+                                    content += '        <input class="form-check-input" type="checkbox" value="' + value.Code + '" id="' + value.Code + '">\n'
+                                }
+                            }
+
+                            content += '        <label class="form-check-label" for="' + value.Code + '">' + value.Code + '\n'
+                            content += '        </label>\n'
+                            content += '    </div>\n'
+                            if (count == 10 || v == result.Contents.length) {
+                                content += '</div>\n'
+                                count = 0
+                            }
+                            count += 1;
+                            v += 1;
+                        });
+                    }
+                    $('#designationList').html(content);
+                },
+                error: function (ex) {
+                    toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                }
+            });
+            $("#mdlDesignation").modal();
+            $('#SelectedDesign').show();
+        }
+        function AddSelectedDept() {
+            var str = "";
+            $('div#departmentList input[type=checkbox]').each(function () {
+                if ($(this).is(":checked")) {
+                    str += $(this).attr('value') + ";";
+                }
+            });
+            $("#txtdepartment").val(str);
+            $('#mdlDepartment').modal('hide');
+        }
+        function AddSelectedDesign() {
+            var str = "";
+            $('div#designationList input[type=checkbox]').each(function () {
+                if ($(this).is(":checked")) {
+                    str += $(this).attr('value') + ";";
+                }
+            });
+            $("#txtdesignation").val(str);
+            $('#mdlDesignation').modal('hide');
+        }
+
+        function Finalized() {
+            var SurveyID = $("#txtsurveyid").val();
+            $.ajax({
+                url: "@Url.Action("Finalized", "SurveyPollsList")",
+                type: "post",
+                dataType: "json",
+                data: { SurveyID: SurveyID },
+                success: function (data) {
+                    if (data.ID == '0') {
+                        toastr.warning(data.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                        $("#txttitle").focus();
+                    } else {
+                        toastr.success(data.Message, 'Success', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                        $('#txtsurveyid').prop('disabled', true);
+                        $('#txtsurveyid').css({ "background-color": "#e9ecef" });
+                        $('#txttitle').prop('disabled', true);
+                        $('#txttitle').css({ "background-color": "#e9ecef" });
+                        $('#btnNewDept').prop('disabled', true);
+                        $('#btnNewDesign').prop('disabled', true);
+
+                        $('#startdate').prop('disabled', true);
+                        $('#enddate').prop('disabled', true);
+                        $('#startdate').css({ "background-color": "#e9ecef" });
+                        $('#enddate').css({ "background-color": "#e9ecef" });
+
+                        $('#Type').prop('disabled', true);
+                        $('#Type').css({ "background-color": "#e9ecef" });
+
+                        $('#chkViewChart').prop('disabled', true);
+
+                        $('#btnNew').prop('disabled', true);
+                        $('#btnFinalized').prop('disabled', true);
+                        $('#tableID td:nth-child(1), th:nth-child(1)').hide();
+
+                        var url = "/SurveyPollsList/Index";
+                        //var url = "MyPGM_Web/SurveyPollsList/Create";
+                        window.location.href = url;
+                    }
+                },
+                error: function (ex) {
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                }
+            }).done(function (result) {
+
+                /* $("#txtQuestionID").val(result.Contents);*/
+                setTimeout(function () {
+                    waitingDialog.hide();
+                }, 1000);
+
             });
         }
 
@@ -756,7 +1193,6 @@
                 dataType: "json",
                 data: { SurveyID: SurveyID, ParentQuestionID: ParentQuestionID },
                 success: function (result) {
-                    debugger
                     if (result.ID == '0') {
                         toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
                     } else {
@@ -809,25 +1245,40 @@
         function saveSurvey() {
             var SurveyID = $("#txtsurveyid").val();
             var SurveyTitle = $("#txttitle").val();
+            var sDepartment = $("#txtdepartment").val().split(";");
+            var sDesignation = $("#txtdesignation").val().split(";");
+            var Department = [];
+            var Designation = [];
             var SurveyStatus = "0";
             var StartDate = $("#startdate").val();
             var EndDate = $("#enddate").val();
-            var ViewChart;
             var Type = $("#Type").val();
+            var ViewChart;
+            var Finalized = "0"
+            for (i = 0; i < sDepartment.length - 1; i++) {
+                Department.push(sDepartment[i]);
+            }
+            for (i = 0; i < sDesignation.length - 1; i++) {
+                Designation.push(sDesignation[i]);
+            }
 
             if ($('#chkViewChart').is(":checked")) {
                 ViewChart = 1
             } else {
                 ViewChart = 0
             }
+
             var param = {
                 SurveyID: SurveyID,
                 SurveyTitle: SurveyTitle,
+                GroupDepartment: Department,
+                Designation: Designation,
                 SurveyStatus: SurveyStatus,
                 StartDate: StartDate,
                 EndDate: EndDate,
                 ViewChart: ViewChart,
-                Type: Type
+                Type: Type,
+                Finalized: Finalized
             };
 
             var pdata = { 'param': param }
@@ -873,33 +1324,10 @@
             var txtmlt3 = $("#txtmlt3").val();
             var txtmlt4 = $("#txtmlt4").val();
 
-
-            var SurveyID = $("#txtsurveyid").val();
-            var SurveyTitle = $("#txttitle").val();
-            var StartDate = $("#startdate").val();
-            var EndDate = $("#enddate").val();
-            var Type = $("#Type").val();
-            var ViewChart;
-
-            if ($('#chkViewChart').is(":checked")) {
-                ViewChart = 1
-            } else {
-                ViewChart = 0
-            }
-            var paramHeader = {
-                SurveyID: SurveyID,
-                SurveyTitle: SurveyTitle,
-                SurveyStatus: SurveyStatus,
-                StartDate: StartDate,
-                EndDate: EndDate,
-                ViewChart: ViewChart,
-                Type: Type
-            };
-
             var dataQuestion = { SurveyID: SurveyID, QuestionID: QuestionID, QuestionDesc: QuestionDesc, ParentQuestionID: ParentQuestionID, ParentAnswerSeqNo: ParentAnswerSeqNo, AnswerType: AnswerType };
             var dataAnswer = { SurveyID: SurveyID, QuestionID: QuestionID, txtFreeText: txtFreeText, txtmlt1: txtmlt1, txtmlt2: txtmlt2, txtmlt3: txtmlt3, txtmlt4: txtmlt4}
 
-            var pdata = { 'param': dataQuestion, 'param2': dataAnswer, 'param3': paramHeader}
+            var pdata = { 'param': dataQuestion, 'param2': dataAnswer}
             $.ajax({
                 url: "@Url.Action("SaveDetail", "SurveyPollsList")",
                 type: "post",
@@ -974,6 +1402,19 @@
             } else if (type == "1") {
                 $("#tblMulti").addClass("answer-type-hide");
                 /*$("#tblFreetext").addClass("answer-type");*/
+            }
+        });
+
+        $('#chkAllDept').change(function () {
+            var isChecked = $('#chkAllDept').is(":checked");
+            if (isChecked == true) {
+                $('div#departmentList input[type=checkbox]').each(function () {
+                    $(this).prop('checked', true);
+                });
+            } else {
+                $('div#departmentList input[type=checkbox]').each(function () {
+                    $(this).prop('checked', false);
+                });
             }
         });
 
@@ -1071,7 +1512,6 @@
         }
 
         function Updatequestionanswer() {
-            debugger
             var QuestionID = $("#txtQuestionID").val();
             var SurveyID = $("#txtsurveyid").val();
             var id = $("#detailID").val();

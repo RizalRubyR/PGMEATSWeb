@@ -264,7 +264,7 @@
                         "bSearchable": false,
                         "bSortable": false,
                         'mRender': function (data, type, row) {
-                            return '<a class="fa fa-pencil" style="font-size: x-large;" href="#" onclick="EditData(\'' + row.ClinicID + '|' + row.ClinicName + '|' + row.State + '|' + row.Address + '|' + row.Phone_No + '|' + row.Remark + '|' + row.URL + '|' + row.URLDisplay + '|' + row.City + '|' + row.PostalCode + '|' + row.OperationHour + '\')" @ViewBag.UpdateHidden ></a>' + '<div style="display: inline-block; padding: 0px 10px 0px 10px; font-size: 20px;">|</div>' +
+                            return '<a class="fa fa-pencil" style="font-size: x-large;" href="#" onclick="EditData(\'' + row.ClinicID + '|' + row.ClinicName + '|' + row.State + '|' + row.Address + '|' + row.Phone_No + '|' + row.Remark + '|' + row.URL + '|' + row.URLDisplay + '|' + row.City + '|' + row.PostalCode + '|' + row.OperationHour + '|' + row.Operation24Hours + '\')" @ViewBag.UpdateHidden ></a>' + '<div style="display: inline-block; padding: 0px 10px 0px 10px; font-size: 20px;">|</div>' +
                                 '<a class="fa fa-trash-o" style="font-size: x-large;" href="#" @ViewBag.DeleteHidden onclick="DeleteData(\'' + row.ClinicID + '\')"></a>';
                         }
                     },
@@ -350,6 +350,7 @@
         }
 
         $("#InsertData").click(function () {
+            debugger
             var ClinicName = $("#ClinicName").val();
             var State = $("#State").val();
             var Address = $("#Address").val();
@@ -359,7 +360,9 @@
             var URLDisplay = $("#URLDisplay").val();
             var City = $("#City").val();
             var PostalCode = $("#PostalCode").val();
-            var OperationHour = $("#OperationHour").val();
+            var OperationHours = $("#OperationHour").val();
+            var Operation24Hours = $('#bIstwentyfourHour').is(":checked") ? 1 : 0; 
+
 
 
 
@@ -367,7 +370,10 @@
 
             if (ClinicName == "") {
                 toastr.warning("Please, enter clinic name!", 'Warning', { timeOut: 3000, closeButton: true });
-            } else {
+            } else if (!$("#bIstwentyfourHour").is(":checked") && OperationHours == "") {
+                toastr.warning("Please, enter Operation Hour!", 'Warning', { timeOut: 3000, closeButton: true });
+            }
+            else {
                 var formDatax = new FormData();
                 formDatax.append("ClinicName", ClinicName) ?? "";
                 formDatax.append("State", State) ?? "";
@@ -378,7 +384,9 @@
                 formDatax.append("URLDisplay", URLDisplay) ?? "";
                 formDatax.append("City", City) ?? "";
                 formDatax.append("PostalCode", PostalCode) ?? "";
-                formDatax.append("OperationHour", OperationHour) ?? "";
+                formDatax.append("OperationHour", OperationHours) ?? "";
+                formDatax.append("Operation24Hours", Operation24Hours) ?? "";
+
 
 
 
@@ -446,6 +454,8 @@
             var City = data.split('|')[8];
             var PostalCode = data.split('|')[9];
             var OperationHour = data.split('|')[10];
+            var Operation24Hour = data.split('|')[11];
+
 
 
             console.log("EditData() " + PhoneNo);
@@ -467,10 +477,19 @@
             $("#City").val(City);
             $("#PostalCode").val(PostalCode);
             $("#OperationHour").val(OperationHour);
+            if (Operation24Hour == 1) {
+                $("#bIstwentyfourHour").attr('checked', true);
+                $('#OperationHour').attr("disabled", "disabled");
+            } else {
+                $("#bIstwentyfourHour").attr('checked', false);
+                $('#OperationHour').removeAttr("disabled");
+            }
+
 
         }
 
         $("#UpdateData").click(function () {
+            debugger
             var ClinicID = $("#ClinicID").val() ?? "";
             var ClinicName = $("#ClinicName").val() ?? "";
             var State = $("#State").val() ?? "";
@@ -482,24 +501,29 @@
             var City = $("#City").val() ?? "";
             var PostalCode = $("#PostalCode").val() ?? "";
             var OperationHour = $("#OperationHour").val() ?? "";
-
+            var Operation24Hours = $('#bIstwentyfourHour').is(":checked") ? 1 : 0;
 
             console.log("UpdateData " + PhoneNo);
+            if (!$("#bIstwentyfourHour").is(":checked") && OperationHour == "") {
+                toastr.warning("Please, enter Operation Hour!", 'Warning', { timeOut: 3000, closeButton: true });
+            } else {
+                var formData = new FormData();
+                formData.append("ClinicID", ClinicID) ?? "";
+                formData.append("ClinicName", ClinicName) ?? "";
+                formData.append("State", State) ?? "";
+                formData.append("Address", Address) ?? "";
+                formData.append("Phone_No", PhoneNo) ?? "";
+                formData.append("Remark", Remark) ?? "";
+                formData.append("URL", URL) ?? "";
+                formData.append("URLDisplay", URLDisplay) ?? "";
+                formData.append("City", City) ?? "";
+                formData.append("PostalCode", PostalCode) ?? "";
+                formData.append("OperationHour", OperationHour) ?? "";
+                formData.append("Operation24Hours", Operation24Hours);
 
-            var formData = new FormData();
-            formData.append("ClinicID", ClinicID) ?? "";
-            formData.append("ClinicName", ClinicName) ?? "";
-            formData.append("State", State) ?? "";
-            formData.append("Address", Address) ?? "";
-            formData.append("Phone_No", PhoneNo) ?? "";
-            formData.append("Remark", Remark) ?? "";
-            formData.append("URL", URL) ?? "";
-            formData.append("URLDisplay", URLDisplay) ?? "";
-            formData.append("City", City) ?? "";
-            formData.append("PostalCode", PostalCode) ?? "";
-            formData.append("OperationHour", OperationHour) ?? "";
-
-            updateData(formData);
+                updateData(formData);
+            }
+            
         })
 
         function updateData(formdata) {
@@ -630,7 +654,7 @@
         $("#bIstwentyfourHour").click(function () {
             if ($(this).is(":checked")) {
                 $('#OperationHour').attr("disabled", "disabled");
-                $('#OperationHour').val(24);
+                $('#OperationHour').val("Open 24 Hours");
             } else {
                 $('#OperationHour').val("");
                 $('#OperationHour').attr("disabled", $(this).is(":checked"));
