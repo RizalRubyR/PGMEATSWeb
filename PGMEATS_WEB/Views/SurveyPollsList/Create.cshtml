@@ -229,6 +229,7 @@
                             <table style="width: 100%;">
                                 <tr style="height: 50px">
                                     <td>
+                                        <button id="btnBack" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #4CBFBC; width:85px" data-toggle="modal" data-target="#myModal" onclick="backtolist()"><span style="color:white">Back</span></button>
                                         <button id="btnNew" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #4CBFBC; width:85px" data-toggle="modal" data-target="#myModal" onclick="AddNewData()"><span style="color:white">New</span></button>
                                         <button id="btnFinalized" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #00db11; width: 85px" onclick="Finalized()"><span style="color:white">Finalized</span></button>
                                     </td>
@@ -392,12 +393,12 @@
                                             @if (ViewBag.AllowWrite == "0")
                                             {
                                                 <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px" disabled onclick="savequestionanswer()">Save</button>
-                                                <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;" disabled>Update</button>
+                                                <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;" disabled onclick="Updatequestionanswer()">Update</button>
                                             }
                                             else
                                             {
                                                 <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px" onclick="savequestionanswer()">Save</button>
-                                                <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;">Update</button>
+                                                <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;" onclick="Updatequestionanswer()">Update</button>
                                             }
                                         </div>
                                     </div>
@@ -887,7 +888,7 @@
                         $('#tableID td:nth-child(1), th:nth-child(1)').hide();
 
                         var url = "/SurveyPollsList/Index";
-                        //var url = "MyPGM_Web/SurveyPollsList/Create";
+                        //var url = "/MyPGM_Web/SurveyPollsList/Index";
                         window.location.href = url;
                     }
                 },
@@ -904,6 +905,12 @@
                 }, 1000);
 
             });
+        }
+
+        function backtolist() {
+            var url = "/SurveyPollsList/Index";
+            //var url = "/MyPGM_Web/SurveyPollsList/Index";
+            window.location.href = url;
         }
 
         function textbox_Clear() {
@@ -1191,6 +1198,82 @@
             });
         }
 
+        function Updatequestionanswer() {
+            var QuestionID = $("#txtQuestionID").val();
+            var SurveyID = $("#txtsurveyid").val();
+            var id = $("#detailID").val();
+
+            // Question
+            var QuestionDesc = $("#QuestionDescription").val();
+            var ParentQuestionID = $("#ParentQuestion").val();
+            var ParentAnswerSeqNo = $("#ParentAnswer").val();
+            var AnswerType = $("#AnswerType").val();
+
+            // Answer
+            var txtFreeText = $("#txtFreeText").val();
+
+            var txtmlt1 = $("#txtmlt1").val();
+            var txtmlt2 = $("#txtmlt2").val();
+            var txtmlt3 = $("#txtmlt3").val();
+            var txtmlt4 = $("#txtmlt4").val();
+
+            var SurveyTitle = $("#txttitle").val();
+            var StartDate = $("#startdate").val();
+            var EndDate = $("#enddate").val();
+            var Type = $("#Type").val();
+            var ViewChart;
+
+            if ($('#chkViewChart').is(":checked")) {
+                ViewChart = 1
+            } else {
+                ViewChart = 0
+            }
+
+            var paramHeader = {
+                SurveyID: SurveyID,
+                SurveyTitle: SurveyTitle,
+                StartDate: StartDate,
+                EndDate: EndDate,
+                ViewChart: ViewChart,
+                Type: Type
+            };
+
+
+            var dataQuestion = { SurveyID: SurveyID, QuestionID: QuestionID, QuestionDesc: QuestionDesc, ParentQuestionID: ParentQuestionID, ParentAnswerSeqNo: ParentAnswerSeqNo, AnswerType: AnswerType };
+            var dataAnswer = { SurveyID: SurveyID, QuestionID: QuestionID, txtFreeText: txtFreeText, txtmlt1: txtmlt1, txtmlt2: txtmlt2, txtmlt3: txtmlt3, txtmlt4: txtmlt4}
+
+            var pdata = { 'id':id, 'param': dataQuestion, 'param2': dataAnswer, 'param3': paramHeader }
+            $.ajax({
+                url: "@Url.Action("UpdateDetail", "SurveyPollsList")",
+                type: "post",
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(pdata),
+                success: function (data) {
+                    if (data.ID == '0') {
+                        toastr.warning(data.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    } else {
+                        toastr.success(data.Message, 'Success', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+
+                        loadDataAftersave()
+                        $("#MyModal").modal("hide");
+                    }
+                },
+                error: function () {
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                }
+            }).done(function (result) {
+
+               /* $("#txtQuestionID").val(result.Contents);*/
+                setTimeout(function () {
+                    waitingDialog.hide();
+                }, 1000);
+
+            });
+        }
+
         function savequestionanswer() {
             var QuestionID = $("#txtQuestionID").val();
             var SurveyID = $("#txtsurveyid").val();
@@ -1281,6 +1364,7 @@
                 }
             });
         });
+
         $("#AnswerType").on('change', function () {
             var type = this.value;
             $("#tblMulti").removeClass("answer-type");
@@ -1322,8 +1406,8 @@
                 } else {
                     $("#ModalTitle").html("Create Question Survey & Polls");
                     $("#MyModal").modal();
-                    $('#InsertData').show();
-                    $('#UpdateData').hide();
+                    $('#InsertData').hide();
+                    $('#UpdateData').show();
                     var u = 1;
                     var objDT = result.Contents;
                     $(':hidden#hdnParentAnswer').val(objDT[0].ParentAnswerSeqNo);

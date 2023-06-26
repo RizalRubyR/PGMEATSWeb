@@ -114,6 +114,7 @@
                             <table style="width: 100%;">
                                 <tr style="height: 50px">
                                     <td>
+                                        <button id="btnBack" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #4CBFBC; width:85px" data-toggle="modal" data-target="#myModal" onclick="backtolist()"><span style="color:white">Back</span></button>
                                         <button id="btnNew" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #4CBFBC; width:85px" data-toggle="modal" data-target="#myModal" onclick="AddNewData()"><span style="color:white">New</span></button>
                                         <button id="btnFinalized" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #00db11; width: 85px" onclick="Finalized()"><span style="color:white">Finalized</span></button>
                                     </td>
@@ -1033,6 +1034,12 @@
                 }, 1000);
 
             });
+        }
+
+        function backtolist() {
+            var url = "/SurveyPollsList/Index";
+            //var url = "/MyPGM_Web/SurveyPollsList/Index";
+            window.location.href = url;
         }
 
         function textbox_Clear() {

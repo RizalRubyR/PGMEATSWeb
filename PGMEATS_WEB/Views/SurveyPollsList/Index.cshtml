@@ -22,7 +22,7 @@
                             <table>
                                 <tr style="height:45px">
                                     <td width="150px">
-                                        <p style="font-weight:600; margin: 0">Date</p>
+                                        <p style="font-weight:600; margin: 0">Create Date</p>
                                     </td>
 
                                     <td>
@@ -143,7 +143,6 @@
 {
     <script>
         $(document).ready(function () {
-            //loadData();
             FillCombo_FilterGroupDepartment();
             FillCombo_FilterDesignation();
 
@@ -180,8 +179,9 @@
             var dmonth = month[d.getMonth()];
             var dyear = d.getFullYear();
             var today = dd + " " + dmonth + " " + dyear;
+            var firstDay = "01 " + dmonth + " " + dyear;
 
-            $("#filterDatefrom").val(today)
+            $("#filterDatefrom").val(firstDay)
             $("#filterDateTo").val(today)
 
             var responsiveHelper_dt_basic = undefined;
@@ -235,6 +235,7 @@
                     responsiveHelper_dt_basic.respond();
                 }
             });
+            loadData();
         })
 
         function loadData() {
@@ -244,6 +245,13 @@
             var fdateto = $("#filterDateTo").val().split(' ');
             var fgroupdept = $("#FilterGroupDepartment").val();;
             var fdesignation = $("#FilterDesignation").val();;
+
+            if (fgroupdept == null) {
+                fgroupdept = "ALL";
+            }
+            if (fdesignation == null) {
+                fdesignation = "ALL";
+            }
 
             var months = {
                 Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
@@ -259,7 +267,6 @@
                 Groupdepartment: fgroupdept,
                 Designation: fdesignation
             }
-            
             var pdata = { 'param': param }
             $.ajax({
                 url: "@Url.Action("SurveyAndPolls", "SurveyPollsList")",
@@ -296,12 +303,12 @@
 
         function AddNewData() {
             var url = "/SurveyPollsList/Create";
-            //var url = "/SurveyPollsList/Create";
+            //var url = "/MyPGM_Web/SurveyPollsList/Create";
             window.location.href = url;
         };
         function EditData(id) {
             var url = "/SurveyPollsList/Update?id=" + id;
-            //var url = "/SurveyPollsList/Update?id=" + id;
+            //var url = "/MyPGM_Web/SurveyPollsList/Update?id=" + id;
             window.location.href = url;
         }
         function DeleteData(id) {
