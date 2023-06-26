@@ -30,6 +30,7 @@ namespace PGMEATS_WEB.Models
         public string ToDate { get; set; }
 
         public string KYID_Eats { get; set; }
+        public string UserID { get; set; }
     }
 
     public class clsMyKYDB
@@ -49,7 +50,7 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("ToDate", data.ToDate);
                     cmd.Parameters.AddWithValue("MyKYLocation", data.MyKYLocation);
                     cmd.Parameters.AddWithValue("MyKYStatus", data.MyKYStatus);
-                    cmd.Parameters.AddWithValue("UserID", data.CreateUser);
+                    cmd.Parameters.AddWithValue("UserID", data.UserID);
                     con.Open();
 
                     SqlDataReader rd = cmd.ExecuteReader();
