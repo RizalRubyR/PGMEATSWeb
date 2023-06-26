@@ -33,6 +33,8 @@ namespace PGMEATS_WEB.Models
         public string Department { get; set; }
         public string UserType { get; set; }
         public string CatererID { get; set; }
+        public string LastPassword { get; set; }
+        public string LockStatus { get; set; }
     }
 
 
@@ -97,7 +99,7 @@ namespace PGMEATS_WEB.Models
 
                     clsUserSetup User = new clsUserSetup();
                     while (rd.Read())
-                    {                     
+                    {
                         User.UserID = rd["UserID"].ToString();
                         User.UserName = rd["UserName"].ToString().Trim();
                         User.Password = encrypt.DecryptData(rd["Password"].ToString().Trim());
@@ -107,6 +109,7 @@ namespace PGMEATS_WEB.Models
                         User.CatererID = rd["CatererID"].ToString();
                         User.LastUser = rd["LastUser"].ToString().Trim();
                         User.LastUpdate = rd["LastUpdate"].ToString();
+                        User.LockStatus = rd["LockStatus"].ToString();
                     }
                     resp.Message = "Success";
                     resp.ID = "0";
@@ -175,6 +178,7 @@ namespace PGMEATS_WEB.Models
                         cmd.Parameters.AddWithValue("Department", User.Department);
                         cmd.Parameters.AddWithValue("CatererID", User.CatererID);
                         cmd.Parameters.AddWithValue("UserLogin", UserLogin);
+                        cmd.Parameters.AddWithValue("LockStatus", User.LockStatus);
                         cmd.ExecuteNonQuery();
                         Message = "success";
                         con.Close();
@@ -188,36 +192,99 @@ namespace PGMEATS_WEB.Models
             return Message;
         }
 
-        public int Update(clsUserSetup User, string UserLogin)
+        public string Update(clsUserSetup User, string UserLogin)
         {
+            List<JSOX> jsoxList = new List<JSOX>();
+            Response clsrespon = new Response();
+            Encryption encrypt = new Encryption();
+            string Message = "";
+
             try
             {
-                Encryption encrypt = new Encryption();
-                int i = 0;
                 string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(constr))
                 {
-                    string sql = "sp_UserSetup";
-                    SqlCommand cmd = new SqlCommand(sql, con);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("Func", 4);
-                    cmd.Parameters.AddWithValue("UserID", User.UserID);
-                    cmd.Parameters.AddWithValue("UserName", User.UserName);
-                    cmd.Parameters.AddWithValue("AdminStatus", User.AdminStatus);
-                    cmd.Parameters.AddWithValue("UserType", User.UserType);
-                    cmd.Parameters.AddWithValue("Department", User.Department);
-                    cmd.Parameters.AddWithValue("CatererID", User.CatererID);
-                    cmd.Parameters.AddWithValue("UserLogin", UserLogin);
-                    con.Open();
+                    var password = "";
+                    if (User.Password != User.LastPassword)
+                    {   //STARTING GET JSOX
+                        string sql = "sp_JSOX_GET";
+                        clsrespon = new Response();
+                        SqlCommand cmd = new SqlCommand(sql, con);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        con.Open();
 
-                    i = cmd.ExecuteNonQuery();
+                        DataTable dtJsox = new DataTable();
+                        SqlDataAdapter daJsox = new SqlDataAdapter(cmd);
+                        daJsox.Fill(dtJsox);
+                        daJsox.Dispose();
+                        cmd.Dispose();
+                        con.Close();
+
+                        jsoxList = dtJsox.AsEnumerable().Select(x => new JSOX()
+                        {
+                            ID = Convert.ToInt16(x.Field<object>("RuleID")),
+                            JsoxEnabled = Convert.ToBoolean(x.Field<object>("Enable")),
+                            Desc = x.Field<string>("Description"),
+                            Value = Convert.ToInt16(x.Field<object>("Value"))
+                        }).ToList();
+
+                        //ENDING GET JSOX
+                        Message = ClsChangePassword.CheckingChangePassword(User.UserID, User.Password, jsoxList);
+                        password = encrypt.EncryptData(User.Password.Trim());
+                    }
+
+
+                    if (Message == "")
+                    {
+                        string sql = "sp_UserSetup";
+                        SqlCommand cmd = new SqlCommand(sql, con);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd = new SqlCommand(sql, con);
+                        con.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("Func", 4);
+                        cmd.Parameters.AddWithValue("UserID", User.UserID);
+                        cmd.Parameters.AddWithValue("UserName", User.UserName);
+                        cmd.Parameters.AddWithValue("Password", password);
+                        cmd.Parameters.AddWithValue("AdminStatus", User.AdminStatus);
+                        cmd.Parameters.AddWithValue("UserType", User.UserType);
+                        cmd.Parameters.AddWithValue("Department", User.Department);
+                        cmd.Parameters.AddWithValue("CatererID", User.CatererID);
+                        cmd.Parameters.AddWithValue("UserLogin", UserLogin);
+                        cmd.Parameters.AddWithValue("LockStatus", User.LockStatus);
+                        cmd.ExecuteNonQuery();
+                        Message = "success";
+                        con.Close();
+                    }
+
+                    // Encryption encrypt = new Encryption();
+                    //int i = 0;
+                    //string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                    //using (SqlConnection con = new SqlConnection(constr))
+                    //{
+                    //    string sql = "sp_UserSetup";
+                    //    SqlCommand cmd = new SqlCommand(sql, con);
+                    //    cmd.CommandType = CommandType.StoredProcedure;
+                    //    cmd.Parameters.AddWithValue("Func", 4);
+                    //    cmd.Parameters.AddWithValue("UserID", User.UserID);
+                    //    cmd.Parameters.AddWithValue("UserName", User.UserName);
+                    //    cmd.Parameters.AddWithValue("AdminStatus", User.AdminStatus);
+                    //    cmd.Parameters.AddWithValue("UserType", User.UserType);
+                    //    cmd.Parameters.AddWithValue("Department", User.Department);
+                    //    cmd.Parameters.AddWithValue("CatererID", User.CatererID);
+                    //    cmd.Parameters.AddWithValue("UserLogin", UserLogin);
+                    //    con.Open();
+
+                    //    i = cmd.ExecuteNonQuery();
+                    //}
+                    //return i;
                 }
-                return i;
             }
             catch (Exception ex)
             {
-                throw ex;
+                Message = ex.Message;
             }
+            return Message;
         }
 
         public int Delete(string UserID)

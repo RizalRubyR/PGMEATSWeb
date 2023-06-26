@@ -128,6 +128,7 @@
                                                             <td>
                                                                 <div class="form-group">
                                                                     <label style="font-weight:500" for="Password">Password</label>
+                                                                    @Html.Hidden("lastPassword", new { id = "lastPassword" })
                                                                     @Html.PasswordFor(m => m.Password, new { @id = "Password", @class = "form-control input-md password", placeholder = "Enter Password", @required = "required", @style = "height:20px; width:150px" })
                                                                     <div id="hdn" style="display:none"></div>
                                                                     <div>
@@ -161,7 +162,16 @@
                                                             <td>
                                                                 <div class="form-group">
                                                                     <label style="font-weight:500" for="CatererID">Caterer ID</label>
-                                                                    @Html.DropDownList("CatererID", new SelectList(string.Empty, "Value", "Text"), "", new { @id = "CatererID", required = "required", @class = "form-control input-md", @style = "height:20px; width:150px" })
+                                                                    @Html.DropDownList("CatererID", new SelectList(string.Empty, "Value", "Text"), "", new { @id = "CatererID", required = "required", @class = "form-control input-md", @style = "height:20px; width:300px" })
+                                                                </div>
+                                                            </td>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <label style="font-weight:500" for="lockstatus">Lock Status</label>
+                                                                    <input type="checkbox" id="lockstatus" value="0"/>
                                                                 </div>
                                                             </td>
                                                             <td>&nbsp;</td>
@@ -345,6 +355,23 @@
                 formData.append("Department", $("#Department").val());
                 formData.append("AdminStatus", $("#AdminStatus").val());
                 formData.append("CatererID", $("#CatererID").val());
+                var lockstatus = "0";
+                $("#lockstatus input:checkbox").change(function () {
+                    var ischecked = $(this).is(':checked');
+                    if (ischecked) {
+                        lockstatus = "1";
+                    } else {
+                        lockstatus = "0";
+                    }
+                });
+                //var checkBox = document.getElementById("lockstatus");
+                //var lockstatus = "";
+                //if (checkBox.checked = true) {
+                //    lockstatus = "1";
+                //} else {
+                //    lockstatus = "0";
+                //}
+                formData.append("LockStatus", lockstatus);
 
                 $.ajax({
                     type: "Post",
@@ -380,10 +407,33 @@
 
                 formData.append("UserID", $("#UserID").val());
                 formData.append("UserName", $("#UserName").val());
+                formData.append("Password", $("#Password").val());
                 formData.append("UserType", $("#UserType").val());
                 formData.append("Department", $("#Department").val());
                 formData.append("AdminStatus", $("#AdminStatus").val());
                 formData.append("CatererID", $("#CatererID").val());
+                formData.append("LastPassword", $("#lastPassword").val());
+                var lockstatus = "0";
+                $("#lockstatus input:checkbox").change(function () {
+                    var ischecked = $(this).is(':checked');                
+                    if (ischecked) {
+                        lockstatus = "1";
+                    } else {
+                        lockstatus = "0";
+                    }
+                });
+
+
+                //var checkBox = document.getElementById("lockstatus");
+                //var lockstatus = "0";
+                //if (checkBox.checked = true) {
+                //    lockstatus = "1";
+                //} else {
+                //    lockstatus = "0";
+                ////}
+                //console.log(checkBox.checked);
+                console.log(lockstatus);
+                formData.append("LockStatus", lockstatus);
 
                 $.ajax({
                     type: "Post",
@@ -392,16 +442,27 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function (data) {
-                        if (!data.Success) {
-                            toastr.warning(data.ErrorMessage, 'Warning', { timeOut: 3000, "closeButton": true });
-                        } else {
-                            toastr.success("Data Update Successfully!", 'Success', { timeOut: 3000, "closeButton": true });
+                    success: function (result) {
+                        console.log(result);
+                        if (result.toLowerCase().includes("success")) {
                             loadData();
+                            toastr.success("Data Update Successfully!", 'Success', { timeOut: 3000, "closeButton": true });
                             $('#MyModal').modal('hide');
                             $('body').removeClass('modal-open');
                             $('.modal-backdrop').remove();
+                        } else {
+                            toastr.warning(result, 'Warning', { timeOut: 3000, "closeButton": true });
                         }
+
+                        //if (!data.Success) {
+                        //    toastr.warning(data.ErrorMessage, 'Warning', { timeOut: 3000, "closeButton": true });
+                        //} else {
+                        //    toastr.success("Data Update Successfully!", 'Success', { timeOut: 3000, "closeButton": true });
+                        //    loadData();
+                        //    $('#MyModal').modal('hide');
+                        //    $('body').removeClass('modal-open');
+                        //    $('.modal-backdrop').remove();
+                        //}
                     },
                     error: function (jqXHR, error, errorThrown) {
                         toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
@@ -425,7 +486,7 @@
                     if (!data.Success) {
                         toastr.warning(data.ErrorMessage, 'Warning', { timeOut: 3000, "closeButton": true });
                         $("#DeleteConfirmation").modal("hide");
-                        $("#Password").val(result.Content.Password).prop('readonly', false);
+                        $("#password").val(result.content.password);
                     }
                     else {
                         toastr.success("Data Delete Successfully!", 'Success', { timeOut: 3000, "closeButton": true });
@@ -469,8 +530,10 @@
         $('#UpdateData').hide();
         $(".password").attr("type", "password");
         $("#UserID").prop('readonly', false);
-        $("#Password").prop('readonly', false);
+       /* $("#Password").prop('readonly', false);*/
         $("#CatererID").prop('disabled', true);
+        $("#CatererID").val("");
+        $("#lockstatus").prop('checked', false);
     }
 
     //Show The Popup Modal For Edit
@@ -486,7 +549,7 @@
             success: function (result) {
                 if (result.Message.toLowerCase().includes("success")) {
                     $("#UserID").val(result.Content.UserID).prop('readonly', true);
-                    $("#Password").val(result.Content.Password).prop('readonly', true);
+                    $("#Password").val(result.Content.Password);
                     $("#UserName").val(result.Content.UserName);
                     FillCombo_Department(result.Content.Department);
                     FillCombo_AdminStatus(result.Content.AdminStatus);
@@ -498,7 +561,16 @@
                         FillCombo_CatererID(result.Content.CatererID)
                     } else {
                         $("#CatererID").prop('disabled', true);
-                        $("#CatererID").val("");
+                        $("#CatererID").val('');
+                    }
+                    $("#lastPassword").val(result.Content.Password);
+                    var lockstatus = result.Content.LockStatus;
+                    console.log(lockstatus);
+
+                    if (lockstatus == "0") {
+                        $("#lockstatus").prop('checked', false);
+                    } else {
+                        $("#lockstatus").prop('checked', true);
                     }
                 } else {
                     toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
@@ -527,12 +599,12 @@
         //PopulateUserGroup();
         $("#UserID").val();
         $("#UserName").val();
-        $("#Password").val().prop('readonly', false);
         $('#UpdateData').hide();
         $('#InsertData').show();
         $('#myModal').show();
         $("#UserID").prop('readonly', false);
         $("#CatererID").prop('disabled', true);
+        $("#CatererID").val("");
     }
 
     $("#showHide").click(function () {
