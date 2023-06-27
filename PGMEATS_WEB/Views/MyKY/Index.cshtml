@@ -166,6 +166,14 @@
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group ">
+                                                                    <label style="font-weight:500; margin-bottom:0.5em;">Status</label>
+                                                                    <select id="cbStatus" class="form-control input-md" style="height:30px; width:200px; margin-right:20px"></select>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group ">
                                                                     <label style="font-weight:500; margin-bottom:0.5em;"> Response </label>
                                                                     @Html.TextAreaFor(m => m.MyKYReply, new { @id = "MyKYReply", @class = "form-control input-md", @placeholder = "Enter your response", @style = "height:100px; width:300px;" })
                                                                 </div>
@@ -442,7 +450,7 @@
     function ReplyMyKY(myKYID) {
          $.ajax({
             type: "POST",
-            url: "@Url.Action("ReplyMyKYSel", "MyKY")", 
+            url: "@Url.Action("ReplyMyKYSel", "MyKY")",
             datatype: 'json',
              data: { MyKYID: myKYID},
                 success: function (result) {
@@ -458,6 +466,8 @@
                         $("#MyKYDesc").val(result.Contents.MyKYDesc);
                         $("#MyKYReply").val(result.Contents.MyKYReply);
                         $("#CreateUser").val(result.Contents.CreateUser);
+                        FillCombo_cbStatus(result.Contents.MyKYStatus);
+
                     }
                     else {
                         toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
@@ -478,6 +488,7 @@
     $("#InsertData").click(function () {
         var MyKYID = $("#MyKYID").val();
         var complaintReply = $("#MyKYReply").val();
+        var status = $("#cbStatus").val();
 
         if (complaintReply == "") {
             toastr.warning("Please, enter your response!", 'Warning', { timeOut: 1000, closeButton: true });
@@ -485,6 +496,7 @@
             var formdata = new FormData();
             formdata.append("MyKYID", MyKYID);
             formdata.append("MyKYReply", complaintReply);
+            formdata.append("MyKYStatus", status);
 
             $.ajax({
                 type: "POST",
@@ -566,14 +578,41 @@
     function FillCombo_Status() {
         $.ajax({
             type: "POST",
-            url: "@Url.Action("FillCombo", "MyKY")", //"/MyKY/FillCombo/",
+            url: "@Url.Action("GetFillCombo", "MyKY")", //"/MyKY/FillCombo/",
             datatype: 'json',
-            data: { Type: "MyKYStatus" },
+            data: { TypeAction: "07", Param: "" },
             success: function (result) {
                 if (result.Message.toLowerCase().includes("success")) {
                     $('#Status').empty();
-                    $.each(result.Contents, function (i, dt) {
-                        $("#Status").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
+                    $("#Status").append('<option value="All" selected> ALL </option>');
+                    $.each(result.Content, function (i, dt) {
+                        $("#Status").append('<option value="' + dt.Code + '">' + dt.CodeDesc + '</option>');
+                    });
+                } else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
+                }
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
+            }
+        });
+    }
+
+    function FillCombo_cbStatus(status) {
+        $.ajax({
+            type: "POST",
+            url:  "@Url.Action("GetFillCombo", "MyKY")", //"/MyKY/FillCombo/",
+            datatype: 'json',
+            data: { TypeAction: "07", Param: "" },
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+                    $('#cbStatus').empty();
+                    $.each(result.Content, function (i, dt) {
+                        if (dt.Code == status) {
+                            $("#cbStatus").append('<option value="' + dt.Code + '" selected>' + dt.CodeDesc + '</option>');
+                        } else {
+                            $("#cbStatus").append('<option value="' + dt.Code + '">' + dt.CodeDesc + '</option>');
+                        }
                     });
                 } else {
                     toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });

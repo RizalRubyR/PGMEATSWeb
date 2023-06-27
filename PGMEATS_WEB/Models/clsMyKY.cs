@@ -111,6 +111,7 @@ namespace PGMEATS_WEB.Models
                         Menu.MyKYSpecLocation = rd["MyKYSpecLocation"].ToString();
                         Menu.MyKYDesc = rd["MyKYDesc"].ToString();
                         Menu.MyKYReply = rd["MyKYReply"].ToString();
+                        Menu.MyKYStatus = rd["Status"].ToString();
                         Menu.CreateDate = rd["CreateDate"].ToString();
                         Menu.CreateUser = rd["CreateUser"].ToString();
                     }
@@ -140,6 +141,7 @@ namespace PGMEATS_WEB.Models
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("MyKYID", data.MyKYID);
                     cmd.Parameters.AddWithValue("MyKYReply", data.MyKYReply);
+                    cmd.Parameters.AddWithValue("Status", data.MyKYStatus);
                     cmd.Parameters.AddWithValue("CreateUser", data.CreateUser);
                     con.Open();
                     cmd.ExecuteNonQuery();
