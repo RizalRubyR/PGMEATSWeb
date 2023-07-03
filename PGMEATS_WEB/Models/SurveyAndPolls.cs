@@ -885,7 +885,24 @@ namespace PGMEATS_WEB.Models
                 using (SqlConnection con = new SqlConnection(constr))
                 {
                     con.Open();
-                    SqlCommand cmd; 
+                    SqlCommand cmd;
+                    cmd = new SqlCommand("sp_SurveyAndPollS_Detail_Ins_Validate",con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SurveyID", param.SurveyID);
+                    cmd.Parameters.AddWithValue("@QuestionID", param.QuestionID);
+                    cmd.Parameters.AddWithValue("@ParentQID", param.ParentQuestionID);
+                    cmd.Parameters.AddWithValue("@ParentAns", param.ParentAnswerSeqNo);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    if (dt.Rows.Count > 0)
+                    {
+                        Response.ID = 0;
+                        Response.Message = "Parent question and parent answer already exist";
+                        Response.Contents = "";
+                        return Response;
+                    }
+
                     cmd = new SqlCommand("sp_SurveyAndPollS_Detail_Ins", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@QuestionID", param.QuestionID);
@@ -895,8 +912,8 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("@ParentQuestionID", param.ParentQuestionID);
                     cmd.Parameters.AddWithValue("@ParentAnswerSeqNo", param.ParentAnswerSeqNo);
                     cmd.Parameters.AddWithValue("@AnswerType", param.AnswerType);
-                    DataTable dt = new DataTable();
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    dt = new DataTable();
+                    da = new SqlDataAdapter(cmd);
                     da.Fill(dt);
 
                     cmd = new SqlCommand("sp_SurveyAndPollS_Answer_Ins", con);

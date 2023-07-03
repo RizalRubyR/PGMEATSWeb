@@ -230,8 +230,15 @@
                                 <tr style="height: 50px">
                                     <td>
                                         <button id="btnBack" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #4CBFBC; width:85px" data-toggle="modal" data-target="#myModal" onclick="backtolist()"><span style="color:white">Back</span></button>
-                                        <button id="btnNew" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #4CBFBC; width:85px" data-toggle="modal" data-target="#myModal" onclick="AddNewData()"><span style="color:white">New</span></button>
+                                        <button id="btnSave" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #4CBFBC; width:85px" onclick="SaveHeader()"><span style="color:white">Save</span></button>
                                         <button id="btnFinalized" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #00db11; width: 85px" onclick="Finalized()"><span style="color:white">Finalized</span></button>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table style="width: 100%;">
+                                <tr style="height: 50px">
+                                    <td>
+                                        <button id="btnNew" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #4CBFBC; width:85px" data-toggle="modal" data-target="#myModal" onclick="AddNewData()"><span style="color:white">New</span></button>
                                     </td>
                                 </tr>
                             </table>
@@ -853,6 +860,115 @@
             $('#mdlDesignation').modal('hide');
         }
 
+        function SaveHeader() {
+            var SurveyID = $("#txtsurveyid").val();
+            var SurveyTitle = $("#txttitle").val();
+            var Department = $("#txtdepartment").val();
+            var Designation = $("#txtdesignation").val();
+            var StartDate = $("#startdate").val();
+            var EndDate = $("#enddate").val();
+            var Type = $("#Type").val();
+            if (SurveyTitle == null || SurveyTitle == "") {
+                toastr.warning("Please fill survey tittle", 'Warning', { timeOut: 3000, "closeButton": true });
+                $("#txttitle").focus();
+                return
+            }
+            if (Department == null || Department == "") {
+                toastr.warning("Please select target department", 'Warning', { timeOut: 3000, "closeButton": true });
+                $("#btnNewDept").focus();
+                return
+            }
+            if (Designation == null || Designation == "") {
+                toastr.warning("Please select target designation", 'Warning', { timeOut: 3000, "closeButton": true });
+                $("#btnNewDesign").focus();
+                return
+            }
+            if (StartDate == null || StartDate == "") {
+                toastr.warning("Please select start date", 'Warning', { timeOut: 3000, "closeButton": true });
+                $("#startdate").focus();
+                return
+            }
+            if (EndDate == null || EndDate == "") {
+                toastr.warning("Please select end date", 'Warning', { timeOut: 3000, "closeButton": true });
+                $("#enddate").focus();
+                return
+            }
+            if (Type == null || Type == "") {
+                toastr.warning("Please select type", 'Warning', { timeOut: 3000, "closeButton": true });
+                $("#Type").focus();
+                return
+            }
+            HeaderSubmit();
+        }
+        function HeaderSubmit() {
+            var SurveyID = $("#txtsurveyid").val();
+            var SurveyTitle = $("#txttitle").val();
+            var sDepartment = $("#txtdepartment").val().split(";");
+            var sDesignation = $("#txtdesignation").val().split(";");
+            var Department = [];
+            var Designation = [];
+            var SurveyStatus = "0";
+            var StartDate = $("#startdate").val();
+            var EndDate = $("#enddate").val();
+            var Type = $("#Type").val();
+            var ViewChart;
+            var Finalized = "0"
+            for (i = 0; i < sDepartment.length - 1; i++) {
+                Department.push(sDepartment[i]);
+            }
+            for (i = 0; i < sDesignation.length - 1; i++) {
+                Designation.push(sDesignation[i]);
+            }
+
+            if ($('#chkViewChart').is(":checked")) {
+                ViewChart = 1
+            } else {
+                ViewChart = 0
+            }
+
+            var param = {
+                SurveyID: SurveyID,
+                SurveyTitle: SurveyTitle,
+                GroupDepartment: Department,
+                Designation: Designation,
+                SurveyStatus: SurveyStatus,
+                StartDate: StartDate,
+                EndDate: EndDate,
+                ViewChart: ViewChart,
+                Type: Type,
+                Finalized: Finalized
+            };
+
+            var pdata = { 'param': param }
+            $.ajax({
+                url: "@Url.Action("SaveHeader", "SurveyPollsList")",
+                type: "post",
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(pdata),
+                success: function (data) {
+                    if (data.ID == '0') {
+                        toastr.warning(data.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                        $("#txttitle").focus();
+                    } else {
+                        toastr.success("Success save survey", 'Success', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    }
+                },
+                error: function () {
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                }
+            }).done(function (result) {
+
+               /* $("#txtQuestionID").val(result.Contents);*/
+                setTimeout(function () {
+                    waitingDialog.hide();
+                }, 1000);
+
+            });
+        }
+
         function Finalized() {
             var SurveyID = $("#txtsurveyid").val();
             $.ajax({
@@ -883,6 +999,7 @@
 
                         $('#chkViewChart').prop('disabled', true);
 
+                        $('#btnSave').prop('disabled', true);
                         $('#btnNew').prop('disabled', true);
                         $('#btnFinalized').prop('disabled', true);
                         $('#tableID td:nth-child(1), th:nth-child(1)').hide();
@@ -1197,7 +1314,6 @@
 
             });
         }
-
         function Updatequestionanswer() {
             var QuestionID = $("#txtQuestionID").val();
             var SurveyID = $("#txtsurveyid").val();
