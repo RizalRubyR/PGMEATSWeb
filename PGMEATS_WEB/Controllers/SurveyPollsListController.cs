@@ -423,7 +423,7 @@ namespace PGMEATS_WEB.Controllers
 
 
             string UserLogin = Session["LogUserID"].ToString().Trim();
-            param.QuestionSeqNo = db.getQuestionSeqNo(param.SurveyID, param.ParentQuestionID);
+            param.QuestionSeqNo = db.getQuestionSeqNo(param.SurveyID, param.QuestionID);
             try
             {
                 List<surveyAnswer> cls = new List<surveyAnswer>();
