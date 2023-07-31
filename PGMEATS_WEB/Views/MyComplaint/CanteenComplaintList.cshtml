@@ -175,9 +175,12 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <div class="form-group ">
+                                                                <div class="form-group">
                                                                     <label style="font-weight:500; margin-bottom:0.5em;">Caterer ID</label>
-                                                                    <select id="txtCatererID" class="form-control input-md" style="height:30px; width:200px; margin-right:20px" disabled="disabled"></select>
+                                                                    <div style="display:flex">
+                                                                        <select id="txtCatererID" class="form-control input-md" style="height:30px; width:200px; margin-right:20px" disabled="disabled"></select>
+                                                                      @*  <button id="btnclearcatererID" style="border-color:transparent; background-color:transparent; font-size:30px"  class="fa fa-close" ></button>*@
+                                                                    </div>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -497,7 +500,7 @@
                         $("#CreatedUser").val(result.Contents.CreatedUser);
                         FillCombo_CatererID(result.Contents.CatererID)
 
-                        if (AdminStatus == "1" || UserType.trim() == "Admin") {
+                        if ((AdminStatus == "1" || UserType.trim() == "Admin") && result.Contents.ComplaintReply == "" ) {
                             $("#txtCatererID").removeAttr("disabled", "disabled");
                         } else {
                             $("#txtCatererID").attr("disabled", "disabled");
@@ -525,9 +528,9 @@
         var complaintReply = $("#ComplaintReplyDet").val();
         var catererID = $("#txtCatererID").val();
 
-        if (complaintReply == "") {
-            toastr.warning("Please, enter your response!", 'Warning', { timeOut: 1000, closeButton: true });
-        } else {
+        //if (complaintReply == "") {
+        //    toastr.warning("Please, enter your response!", 'Warning', { timeOut: 1000, closeButton: true });
+        //} else {
             var formdata = new FormData();
             formdata.append("ComplaintID", complaintID);
             formdata.append("ComplaintReply", complaintReply);
@@ -556,7 +559,7 @@
                     toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
                 }
             });
-        }
+     /*   }*/
     })
 
     function DeleteComplaint(data) {
@@ -663,9 +666,9 @@
             success: function (result) {
                 if (result.Message.toLowerCase().includes("success")) {
                     $('#txtCatererID').empty();
-                    $('#txtCatererID').append('<option value="" disabled selected>Fill CatererID</option>');
+                    $('#txtCatererID').append('<option value="" selected>Fill CatererID</option>');
                     $.each(result.Content, function (i, dt) {
-                        if (dt.CodeDesc == CatererID) {
+                        if (dt.Code == CatererID) {
                             $('#txtCatererID').append('<option value="' + dt.Code + '" selected>' + dt.CodeDesc + '</option>');
                         } else {
                             $('#txtCatererID').append('<option value="' + dt.Code + '">' + dt.CodeDesc + '</option>');
@@ -681,6 +684,13 @@
             }
         });
     }
+
+    //$("#btnclearcatererID").click(function () {
+    //    $('#txtCatererID').empty();
+    //    $("#txtCatererID").append('<option value disabled selected>Fill CatererID</option>');
+    //    $('#txtCatererID').val("");
+    //    FillCombo_CatererID("");
+    //})
 
     @*function FillCombo_CatererID(cbCatererID, CatererID) {
         $.ajax({
@@ -726,6 +736,10 @@
         var path = "/Image/MyComplaint/" + FileName;
         document.getElementById('EvidenceShow').src = path;
     }
+
+    $("#txtCatererID").change(function () {
+        $("#ComplaintReplyDet").attr("disabled", "disabled");
+    })
 
     @*var totlenght = 0;
     $('#tableID tbody').on('change', 'input:checkbox[id^="check"]', function () {
