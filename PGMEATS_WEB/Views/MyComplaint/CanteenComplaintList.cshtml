@@ -505,6 +505,14 @@
                         } else {
                             $("#txtCatererID").attr("disabled", "disabled");
                         }
+
+                        if (result.Contents.CatererID != "") {
+                            $("#ComplaintReplyDet").attr("disabled", "disabled");
+                        } else {
+                            $("#ComplaintReplyDet").removeAttr("disabled", "disabled");
+                        }
+
+
                     }
                     else {
                         toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
@@ -727,6 +735,7 @@
         $("#ComplaintDesc").val('');
         $("#CreatedUser").val('');
         $("#ComplaintReply").val('');
+        $("#ComplaintReplyDet").removeAttr("disabled", "disabled");
     }
 
     function ImgShow(data) {
@@ -736,10 +745,19 @@
         var path = "/Image/MyComplaint/" + FileName;
         document.getElementById('EvidenceShow').src = path;
     }
-
-    $("#txtCatererID").change(function () {
-        $("#ComplaintReplyDet").attr("disabled", "disabled");
+    $("#txtCatererID").click(function () {
+        var catererID = $(this).val();
+        if (catererID != '') {
+            $("#ComplaintReplyDet").attr("disabled", "disabled");
+        }
+        else {
+            $("#ComplaintReplyDet").removeAttr("disabled", "disabled");
+        }      
     })
+
+    //$("#txtCatererID").change(function () {
+    //    $("#ComplaintReplyDet").attr("disabled", "disabled");
+    //})
 
     @*var totlenght = 0;
     $('#tableID tbody').on('change', 'input:checkbox[id^="check"]', function () {
