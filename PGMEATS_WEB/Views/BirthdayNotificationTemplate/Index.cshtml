@@ -1,0 +1,555 @@
+﻿@model PGMEATS_WEB.Models.clsBirthdayNotificationTemplate
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+
+            <article class="col-xs-12 col-md-12">
+                <div class="jarviswidget jarviswidget-color-red" id="wid-id-1"
+                     data-widget-colorbutton="false"
+                     data-widget-editbutton="false"
+                     data-widget-togglebutton="false"
+                     data-widget-deletebutton="false"
+                     data-widget-custombutton="false"
+                     data-widget-collapsed="false"
+                     data-widget-sortable="false">
+
+                    <header style="border-top-left-radius:8px; border-top-right-radius:8px">
+                        <h2 style="font-family:'Poppins-Regular';font-weight:500;font-size:15px">
+                            List Of Birthday Notification Template
+                        </h2>
+                    </header>
+
+                    <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
+                        <div style="padding: 5px 5px 5px 5px">
+                            @*<div class="table-toolbar" style="padding-bottom:10px">
+                                <table>
+                                    <tr style="height:45px">
+                                        <td width="150px">
+                                            <p style="font-weight:600; margin: 0">Date</p>
+                                        </td>
+
+                                        <td>
+                                            <input id="filterDatefrom" type="text" class="form-control input-md" style="background-color:white; width:150px" />
+                                        </td>
+
+                                        <td width="40px" style="text-align:center">
+                                            <p style="font-weight:600; margin: 0">To</p>
+                                        </td>
+
+                                        <td>
+                                            <input id="filterDateTo" type="text" class="form-control input-md" style="background-color:white; width:150px" />
+                                        </td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr style="height:45px">
+                                        <td>
+                                            <p style="font-weight:600; margin: 0">Group Department</p>
+                                        </td>
+                                        <td colspan="3">
+                                            <select id="FilterGroupDepartment" class="form-control input-md" style="height:30px; width:340px;"></select>
+                                        </td>
+                                    </tr>
+
+                                    <tr style="height:45px">
+                                        <td width="120px">
+                                            <p style="font-weight:600; margin: 0">Designation</p>
+                                        </td>
+
+                                        <td colspan="2">
+                                            <select id="FilterDesignation" class="form-control input-md" style="height:30px; margin-right:20px"></select>
+                                        </td>
+
+                                        
+                                        <td style="text-align: right">
+                                            <button class="btn btn-save" id="refresh"> Refresh </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>*@
+
+                            <table style="width: 100%;">
+                                <tr style="height: 50px">
+                                    <td>
+                                        <button id="btnNew" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #4CBFBC; width:85px" data-toggle="modal" data-target="#myModal" onclick="AddNewData()"><span style="color:white">New</span></button>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table id="tableID" class="table table-bordered table-striped" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center;width: 8%">Action</th>
+                                        <th style="text-align: center" class="hidden">
+                                            Birthday Template ID
+                                        </th>
+                                        <th style="text-align: center">
+                                            Subject
+                                        </th>
+                                        <th style="text-align: center">
+                                            Content
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            @*Create A Popup Modal*@
+                            <div class="modal fade" id="MyModal" style="overflow-y: initial !important">
+                                <div class="modal-dialog" style="width: 100%;height: 100%;margin: 0;padding: 0;">
+                                    <div class="modal-content" style="height: auto;min-height: 100%;border: 0 none;border-radius: 0;box-shadow: none;">
+
+                                        <div class="modal-header">
+                                            <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                            <h4 style="font-family:'Poppins-Regular'" id="ModalTitle"></h4>
+                                        </div>
+
+                                        <div class="modal-body" style="padding:0">
+                                            <form id="form" class="smart-form">
+                                                <fieldset id="SubmitForm">
+                                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                    <table style="border:0px solid black; width:100%">
+                                                        <tr class="hidden">
+                                                            <td>
+                                                                <div class="form-group ">
+                                                                    <label style="font-weight:500">Birthday Notification</label>
+                                                                    @Html.TextBoxFor(m => m.BirthdayTemplateID, new { @id = "BirthdayTemplateID", @class = "form-control input-md", placeholder = "NEW", @style = "height:20px; width:150px; cursor: not-allowed;" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <label style="font-weight:500">Subject</label>
+                                                                    @Html.TextBoxFor(m => m.Subject, new { @id = "Subject", @class = "form-control input-md", placeholder = "Email Subject", @style = "height:20px; width:98%", @maxlength = "50" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <label style="font-weight:500">Content</label>
+                                                                    @Html.TextAreaFor(m => m.Content, new { @id = "Content", rows = "40", style = "resize:none;", placeholder = "Input Email Content", @class = "form-control input-lg textarea-editor" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+
+                                                    </table>
+                                                </fieldset>
+                                            </form>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal" style="width:85px; font-size:13px; border-width:thin;">Cancel</button>
+                                            @if (ViewBag.AllowWrite == "0")
+                                            {
+                                                <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px" disabled>Save</button>
+                                                <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;" disabled>Update</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px">Save</button>
+                                                <button type="button" class="btn btn-save" id="UpdateData" style="width:85px; font-size:13px; display:none;">Update</button>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal Delete Data -->
+                            <div class="modal fade" id="DeleteConfirmation">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                            <h4 style="font-family:'Poppins-Regular'">
+                                                Delete Data Birthday Notification Template
+                                            </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h4 style="font-family:'Poppins-Regular'">Are you sure to delete this data?</h4>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal" style="width:85px; font-size:13px; border-width:thin;">Cancel</button>
+                                            <a href="#" class="btn btn-save" style="width:85px; font-size:13px" id="DeleteData">Confirm</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+
+<style type="text/css">
+    .hidden {
+        display: none;
+    }
+
+    .txtAlignCenter {
+        text-align: center;
+    }
+
+    .txtAlignLeft {
+        text-align: left;
+    }
+
+    .btn-save {
+        color: #fff;
+        background-color: #4CBFBC;
+        border-color: #4CBFBC;
+    }
+</style>
+
+<link rel="stylesheet" href="~/Content/zebra_datepicker.min.css" type="text/css">
+<script src="~/Scripts/plugin/bootstrap-waitingfor/bootstrap-waitingfor.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/bootstrap/bootstrap.min.js"></script>
+<script src="~/Scripts/zebra_datepicker.min.js"></script>
+<script src="~/Scripts/zebra_datepicker.src.js"></script>
+<script src="~/Scripts/plugin/summernote/summernote.min.js"></script>
+
+<script>
+    $('#Content').summernote({ height: 320 });
+</script>
+
+@section pagespecific
+{
+    <script>
+        $(document).ready(function () {
+            /* BASIC ;*/
+            var responsiveHelper_dt_basic = undefined;
+            var breakpointDefinition = {
+                tablet: 1024,
+                phone: 480
+            };
+
+            $("#tableID").dataTable({
+                bDestroy: true,
+                data: [],
+                columns: [
+                    {
+                        "data": "Action", className: "txtAlignCenter", "render": function (data, type, row) {
+                            if ('@ViewBag.AllowUpdate' == '0') {
+                                return '<a href="#" class="fa fa-pencil disable"></a> &nbsp; | &nbsp; <a class="fa fa-trash-o disable"></a> &nbsp; | &nbsp; <a class="fa fa-unlink disable"></a>'
+                            } else {
+                                return '<a href="#" class="fa fa-pencil" onclick="EditRecord(\'' + row.BirthdayTemplateID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteRecord(\'' + row.BirthdayTemplateID + '\')"></a>'
+                            }
+                        }
+                    },
+                    { "data": "BirthdayTemplateID",     "autoWidth": true, className: "hidden" },
+                    { "data": "Subject",  "autoWidth": true, className: "txtAlignLeft" },
+                    { "data": "Content", "autoWidth": true, className: "txtAlignLeft", "render": function (data, type, row) {
+                            if (row.Content == "" || row.Content.length <= 30) {
+                                return row.Content
+                            }
+                            else {
+                                var shortText = row.Content.substring(0, 30);
+                                var cleanStr = row.Content.replace(/["']/g, "")
+                                var string = shortText;
+                                if (shortText.substr(-1) == ' ') {
+                                    string = shortText.substring(0, shortText.length - 1);
+                                }
+                                return string + "<a id=\"toggleButton\" onclick=\"readFunction('" + cleanStr + "');\" href=\"javascript:void(0);\">... Read more</a>"
+                            }
+
+                        }
+                    }
+                ],
+                "columnDefs": [{
+                    "targets": 3,
+                    "data": "Content",
+                    "render": function (data, type) {
+                        return data.length > 100 ?
+                            '<span id="outer" title="' + data + '">' + data.substr(0, 95) + '</span><span id="show">...</span>' :
+                            data;
+                    }
+                }],
+                rowCallback: function (row, data) { responsiveHelper_dt_basic.createExpandIcon(row) },
+                filter: true,
+                info: true,
+                ordering: true,
+                processing: true,
+                retrieve: true,
+                bLengthChange: false,
+                lengthMenu: [[15, 20, -1], [15, 20, "All"]],
+                searching: true,
+                bFilter: true,
+                bSort: true,
+                bPaginate: true,
+                scrollX: false,
+                //scrollX: "100%",
+                //scrollY: "350px",
+                autoWidth: true,
+                preDrawCallback: function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper_dt_basic) {
+                        responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#tableID'), breakpointDefinition);
+                    }
+                },
+                drawCallback: function (oSettings) {
+                    responsiveHelper_dt_basic.respond();
+                }
+            });
+            /* END BASIC */
+
+            loadData();
+        });
+
+        //load datatable function
+        function loadData()
+        {
+            
+                waitingDialog.show("Please wait retrieving data...");
+
+                $.ajax({
+                    url: "@Url.Action("GetBirthdayTemplateList", "BirthdayNotificationTemplate")",
+                    type: "post",
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                }).done(function (result) {
+                    debugger
+                    $("#tableID").DataTable().clear();
+
+                    if (result.ID == '0') {
+                        toastr.error(result.Message, 'Error', { timeOut: 3000, "closeButton": true });
+                    }
+                    else {
+                        $("#tableID").DataTable().rows.add(result.Contents).draw(false);
+                    }
+
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    //toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                });
+            }
+
+        $("#refresh").click(function ()
+        {
+            loadData();
+        })
+
+        function readFunction(dataBirthdayTemplate) {
+            var htmltmp = "";
+            $('#div-modal-readMore').empty();
+
+            $('#div-modal-readMore').append(dataBirthdayTemplate);
+
+            $("#ReadMore").modal("show");
+        };
+
+        function clearTextBox() {
+            $("#BirthdayTemplateID").val('');
+            $("#Subject").val('');
+            $("#Content").val('');
+            $("#Content").code('');
+        }
+
+        //Show The Popup Modal For Add Data
+        function AddNewData() {
+            clearTextBox();
+            $("#BirthdayTemplateID").val('0');
+
+            $("#ModalTitle").html("Create Data Birthday Notification Template");
+            $("#MyModal").modal();
+            $('#InsertData').show();
+            $('#UpdateData').hide();
+        };
+
+        //Show The Popup Modal For Edit
+        function EditRecord(data) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetBirthdayTemplateListByID", "BirthdayNotificationTemplate")",
+                data: { BirthdayTemplateID: data },
+                dataType: "json",
+                success: function (result) {
+                    if (result.ID == '0') {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                    } else {
+                        $("#Subject").val(data);
+                        $("#Content").code(result.Contents[1]);
+                    }
+                },
+                error: function (ex) {
+                    toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                }
+            });
+
+            clearTextBox();
+            $("#ModalTitle").html("Edit Data Birthday Notification Template");
+            $("#MyModal").modal();
+            $('#InsertData').hide();
+            $('#UpdateData').show();
+        }
+
+        //Show The Popup Modal For Delete
+        function DeleteRecord(data) {
+            $("#BirthdayTemplateID").val(data);
+
+            $("#DeleteConfirmation").modal("show");
+        }
+
+        function performClick() {
+            //var elem = document.getElementById('IconImg');
+            //elem.accept = 'application/pdf, application/vnd.ms-excel, application/msword, application/vnd.ms-powerpoint, text/plain, image/jpeg'
+
+            IconImg.onchange = evt =>
+            {
+                var tgt = evt.target || window.event.srcElement,
+                    files = tgt.files;
+                console.log(files[0]);
+
+                var sizes = tgt.files[0].size;
+                console.log(CheckSize(sizes));
+
+                var sizesInMB = (sizes / (1024 * 1024)).toFixed(2);
+
+                if (sizesInMB > 5) {
+                    toastr.warning('Maximal Size 5 MB, Size this File ' + sizesInMB + ' MB', 'Warning', { timeOut: 3000, closeButton: true });
+                    tgt.value = "";
+                }
+                else {
+                    if (FileReader && files && files.length) {
+                        var fr = new FileReader();
+                        fr.readAsDataURL(files[0]);
+                    }
+                }
+            }
+        }
+
+        $("#InsertData").click(function () {
+            var BirthdayTemplateID = $("#BirthdayTemplateID").val();
+            var Subject = $("#Subject").val();
+            var Content = $("#Content").code();
+            
+
+            // Membuat elemen sementara untuk menyimpan string HTML
+            var tempElem = document.createElement('div');
+            tempElem.innerHTML = Content;
+
+           
+
+            if (Subject == "") {
+                toastr.warning("Please, enter Email Subject!", 'Warning', { timeOut: 3000, closeButton: true });
+            } else if (Content == "") {
+                toastr.warning("Please, enter Content!", 'Warning', { timeOut: 3000, closeButton: true });
+            } else {
+
+                var dataxJson = {
+                    BirthdayTemplateID: BirthdayTemplateID,
+                    Subject: Subject,
+                    Content: Content
+                };
+
+                saveData(dataxJson);
+                $('#UpdateData').attr("data-dismiss", "modal");
+            }
+        });
+
+        function saveData(datax) {
+            debugger
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("InsertData", "BirthdayNotificationTemplate")",
+                contentType: "application/json; charset=utf-8",
+                processData: false,
+                data: JSON.stringify(datax),
+                dataType: "json",
+                success: function (result) {
+                    if (result.ID == '0') {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                    } else {
+                        var BirthdayTemplateID = result.Contents.split('|')[0];
+                        var message = result.Message;
+                    }                    
+                },
+                error: function (ex) {
+                    toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                }
+            });
+        }
+
+        $("#UpdateData").click(function () {
+            debugger
+            var BirthdayTemplateID = $("#BirthdayTemplateID").val();
+            var Subject = $("#Subject").val();
+            var Content = $("#Content").code();
+            
+            
+            // Membuat elemen sementara untuk menyimpan string HTML
+            var tempElem = document.createElement('div');
+            tempElem.innerHTML = Content;
+
+            
+
+            if (Subject == "") {
+                toastr.warning("Please, enter Email Subject!", 'Warning', { timeOut: 3000, closeButton: true });
+            } else if (Content == "") {
+                toastr.warning("Please, enter Email Content!", 'Warning', { timeOut: 3000, closeButton: true }); 
+            } else {
+
+                var dataxJson = {
+                    Subject: Subject,
+                    Content: Content
+                };
+
+                saveData(dataxJson);
+                $('#UpdateData').attr("data-dismiss", "modal");
+            }
+        });
+
+        $("#DeleteData").click(function () {
+            var BirthdayTemplateID = $("#BirthdayTemplateID").val();
+
+            var formDatax = new FormData();
+            formDatax.append("BirthdayTemplateID", BirthdayTemplateID) ?? "";
+
+            DeleteData(formDatax);
+        });
+
+        function DeleteData(formData) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteData", "BirthdayNotificationTemplate")",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (result) {
+                    if (result.ID == '0') {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                        $("#DeleteConfirmation").modal("hide");
+                    } else {
+                        toastr.success(result.Message, 'Success', { timeOut: 3000, closeButton: true });
+                        $('#DeleteConfirmation').modal('hide');
+                        millisecondsToWait = 500;
+                        setTimeout(function () {
+                            loadDataAfterSend();
+                        }, millisecondsToWait);
+                    }
+                },
+                error: function (ex) {
+                    toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                }
+            });
+        }
+    </script>
+
+}
