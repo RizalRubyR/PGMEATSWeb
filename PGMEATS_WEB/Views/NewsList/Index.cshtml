@@ -184,8 +184,12 @@
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group">
-                                                                    <label style="font-weight:500">Target Participant</label>
-                                                                    <div id="targetDepartmentList" style="display:flex;">
+                                                                    <label style="font-weight:500">Target Participant</label> 
+                                                                        <input class="form-check-input" type="checkbox" id="DepartmentListALL" value="DepartmentListALL" onchange="DepartmentListALLcheckALL()"/>
+                                                                        <label class="form-check-label" for="DepartmentListALL">
+                                                                            ALL
+                                                                        </label>
+                                                                    <div id="targetDepartmentList" style="display:flex;margin: 0.5vh 0 0 0">
 
                                                                     </div>
                                                                 </div>
@@ -196,7 +200,11 @@
                                                             <td>
                                                                 <div class="form-group">
                                                                     <label style="font-weight:500">Target Designation</label>
-                                                                    <div id="targetDesignationList" style="display:flex;">
+                                                                    <input class="form-check-input" type="checkbox" id="DesignationListALL" value="DesignationListALL" onchange="DesignationListALLcheckALL()"/>
+                                                                    <label class="form-check-label" for="DesignationListALL">
+                                                                        ALL
+                                                                    </label>
+                                                                    <div id="targetDesignationList" style="display:flex;margin: 0.5vh 0 0 0">
 
                                                                     </div>
                                                                 </div>
@@ -300,7 +308,7 @@
                                                 News Description
                                             </h4>
                                         </div>
-                                        <div class="modal-body" id="div-modal-readMore">
+                                        <div class="modal-body" id="div-modal-readMore" style="overflow-wrap: break-word">
                                             <h4 style="font-family:'Poppins-Regular'">
                                                 Are you sure to delete Attachment this data?
                                             </h4>
@@ -397,7 +405,7 @@
                                 if (shortText.substr(-1) == ' ') {
                                     string = shortText.substring(0, shortText.length - 1);
                                 }
-                                return string + "<a id=\"toggleButton\" onclick=\"readFunction('" + cleanStr + "');\" href=\"javascript:void(0);\">... Read more</a>"
+                                return string + "<a id=\"toggleButton\" onclick=\"showPop('" + row.NewsID + "');\" href=\"javascript:void(0);\">... Read more</a>"
                             }
 
                         }
@@ -507,7 +515,14 @@
 
         $("#refresh").click(function ()
         {
-            loadData();
+            checkSessionExpired().then(function (data)
+            {
+                loadData();
+            }).catch(function (err)
+            {
+                var arrErr = JSON.parse(err.responseText);
+                toastr.warning(arrErr[0].Message, "Warning", { timeOut: 3000, "closeButton": true });
+            });
         })
 
         //load datatable function
@@ -539,6 +554,32 @@
                 }, 1000);
             });
         }*@
+
+        function showPop(dataID)
+        {
+            debugger
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("FillDetailPopUp", "NewsList")",
+                data: { NewsID: dataID },
+                dataType: "json",
+                success: function (result)
+                {
+                    debugger
+                    if (result.ID == '0')
+                    {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
+                    } else
+                    {
+                        readFunction(result.Contents);
+                    }
+                },
+                error: function (ex) {
+                    debugger
+                    toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
+                }
+            });
+        }
 
         function readFunction(dataNews) {
             var htmltmp = "";
@@ -604,6 +645,9 @@
             $("#NewsDesc").code('')
             $("#DateFrom").val('');
             $("#DateTo").val('');
+            
+            document.getElementById("DepartmentListALL").checked = false;
+            document.getElementById("DesignationListALL").checked = false;
 
             document.getElementById("IconImg").value = "";
         }
@@ -869,77 +913,122 @@
             }
         }
 
+        function DepartmentListALLcheckALL()
+        {
+          var checkbox = document.getElementById("DepartmentListALL");
+      
+            if (checkbox.checked) {
+                $('div#targetDepartmentList input[type=checkbox]').each(function ()
+                {
+                    $(this).prop('checked', true);
+                });
+            }
+            else {
+
+                $('div#targetDepartmentList input[type=checkbox]').each(function ()
+                {
+                    $(this).prop('checked', false);
+                });
+            }
+        }
+
+        function DesignationListALLcheckALL()
+        {
+          var checkbox = document.getElementById("DesignationListALL");
+      
+            if (checkbox.checked) {
+                $('div#targetDesignationList input[type=checkbox]').each(function ()
+                {
+                    $(this).prop('checked', true);
+                });
+            }
+            else {
+
+                $('div#targetDesignationList input[type=checkbox]').each(function ()
+                {
+                    $(this).prop('checked', false);
+                });
+            }
+        }
+
         $("#InsertData").click(function () {
-            var NewsID = $("#NewsID").val();
-            var NewsTitle = $("#NewsTitle").val();
-            var NewsDescCode = $("#NewsDesc").code();
-            var NewsDescText = $($("#NewsDesc").code()).text();
-            var NewsDescImg = '';
-            var DateFrom = $("#DateFrom").val().split(' ');
-            var DateTo = $("#DateTo").val().split(' ');;
-
-            var strTargetParticipant = "";
-            $('div#targetDepartmentList input[type=checkbox]').each(function ()
+            checkSessionExpired().then(function (data)
             {
-                if ($(this).is(":checked"))
-                {
-                    strTargetParticipant += $(this).attr('value') + ";";
-                }
-            });
+                var NewsID = $("#NewsID").val();
+                var NewsTitle = $("#NewsTitle").val();
+                var NewsDescCode = $("#NewsDesc").code();
+                var NewsDescText = $($("#NewsDesc").code()).text();
+                var NewsDescImg = '';
+                var DateFrom = $("#DateFrom").val().split(' ');
+                var DateTo = $("#DateTo").val().split(' ');;
 
-            var strTargetDesignation = "";
-            $('div#targetDesignationList input[type=checkbox]').each(function ()
+                var strTargetParticipant = "";
+                $('div#targetDepartmentList input[type=checkbox]').each(function ()
+                {
+                    if ($(this).is(":checked"))
+                    {
+                        strTargetParticipant += $(this).attr('value') + ";";
+                    }
+                });
+
+                var strTargetDesignation = "";
+                $('div#targetDesignationList input[type=checkbox]').each(function ()
+                {
+                    if ($(this).is(":checked"))
+                    {
+                        strTargetDesignation += $(this).attr('value') + ";";
+                    }
+                });
+
+                // Membuat elemen sementara untuk menyimpan string HTML
+                var tempElem = document.createElement('div');
+                tempElem.innerHTML = NewsDescCode;
+
+                // Mengambil elemen <img> menggunakan metode DOM
+                var imgElem = tempElem.querySelector('img');
+
+                if (imgElem != null) {
+                    // Mengambil nilai "src" dari elemen <img>
+                    NewsDescImg = imgElem.getAttribute('src');
+                }
+
+                if (NewsTitle == "") {
+                    toastr.warning("Please, enter News Title!", 'Warning', { timeOut: 3000, closeButton: true });
+                } else if (NewsDesc == "") {
+                    toastr.warning("Please, enter News Description!", 'Warning', { timeOut: 3000, closeButton: true });
+                } else if (strTargetParticipant == "") {
+                    toastr.warning("Please checklist at least 1 data Participant!", 'Warning', { timeOut: 3000, closeButton: true });
+                } else if (strTargetDesignation == "") {
+                    toastr.warning("Please checklist at least 1 data Designation!", 'Warning', { timeOut: 3000, closeButton: true });
+                } else {
+                    var months = {
+                        Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
+                        Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
+                    };
+
+                    DateFrom = DateFrom[2]  + "-" + months[DateFrom[1]] + "-" + DateFrom[0]; //convert date to format "yyyy-mm-dd"
+                    DateTo   = DateTo[2]    + "-" + months[DateTo[1]]   + "-" + DateTo[0];   //convert date to format "yyyy-mm-dd"
+
+                    var dataxJson = {
+                        NewsID: NewsID,
+                        NewsTitle: NewsTitle,
+                        NewsDescCode: NewsDescCode,
+                        NewsDescText: NewsDescText,
+                        NewsDescImg : NewsDescImg,
+                        DateFrom: DateFrom,
+                        DateTo: DateTo,
+                        TargetPart: strTargetParticipant,
+                        TargetDesignation: strTargetDesignation
+                    };
+
+                    saveData(dataxJson);
+                    $('#UpdateData').attr("data-dismiss", "modal");
+                }
+            }).catch(function (err)
             {
-                if ($(this).is(":checked"))
-                {
-                    strTargetDesignation += $(this).attr('value') + ";";
-                }
+                var arrErr = JSON.parse(err.responseText);
+                toastr.warning(arrErr[0].Message, "Warning", { timeOut: 3000, "closeButton": true });
             });
-
-            // Membuat elemen sementara untuk menyimpan string HTML
-            var tempElem = document.createElement('div');
-            tempElem.innerHTML = NewsDescCode;
-
-            // Mengambil elemen <img> menggunakan metode DOM
-            var imgElem = tempElem.querySelector('img');
-
-            if (imgElem != null) {
-                // Mengambil nilai "src" dari elemen <img>
-                NewsDescImg = imgElem.getAttribute('src');
-            }
-
-            if (NewsTitle == "") {
-                toastr.warning("Please, enter News Title!", 'Warning', { timeOut: 3000, closeButton: true });
-            } else if (NewsDesc == "") {
-                toastr.warning("Please, enter News Description!", 'Warning', { timeOut: 3000, closeButton: true });
-            } else if (strTargetParticipant == "") {
-                toastr.warning("Please checklist at least 1 data Participant!", 'Warning', { timeOut: 3000, closeButton: true });
-            } else if (strTargetDesignation == "") {
-                toastr.warning("Please checklist at least 1 data Designation!", 'Warning', { timeOut: 3000, closeButton: true });
-            } else {
-                var months = {
-                    Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
-                    Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
-                };
-
-                DateFrom = DateFrom[2]  + "-" + months[DateFrom[1]] + "-" + DateFrom[0]; //convert date to format "yyyy-mm-dd"
-                DateTo   = DateTo[2]    + "-" + months[DateTo[1]]   + "-" + DateTo[0];   //convert date to format "yyyy-mm-dd"
-
-                var dataxJson = {
-                    NewsID: NewsID,
-                    NewsTitle: NewsTitle,
-                    NewsDescCode: NewsDescCode,
-                    NewsDescText: NewsDescText,
-                    NewsDescImg : NewsDescImg,
-                    DateFrom: DateFrom,
-                    DateTo: DateTo,
-                    TargetPart: strTargetParticipant,
-                    TargetDesignation: strTargetDesignation
-                };
-
-                saveData(dataxJson);
-                $('#UpdateData').attr("data-dismiss", "modal");
-            }
         });
 
         function saveData(datax) {
@@ -969,99 +1058,117 @@
         }
 
         $("#UpdateData").click(function () {
-            debugger
-            var NewsID = $("#NewsID").val();
-            var NewsTitle = $("#NewsTitle").val();
-            var NewsDescCode = $("#NewsDesc").code();
-            var NewsDescText = $($("#NewsDesc").code()).text();
-            var NewsDescImg = '';
-            var DateFrom = $("#DateFrom").val().split(' ');
-            var DateTo = $("#DateTo").val().split(' ');;
-
-            var strTargetParticipant = "";
-            $('div#targetDepartmentList input[type=checkbox]').each(function ()
+            checkSessionExpired().then(function (data)
             {
-                if ($(this).is(":checked"))
-                {
-                    strTargetParticipant += $(this).attr('value') + ";";
-                }
-            });
+                var NewsID = $("#NewsID").val();
+                var NewsTitle = $("#NewsTitle").val();
+                var NewsDescCode = $("#NewsDesc").code();
+                var NewsDescText = $($("#NewsDesc").code()).text();
+                var NewsDescImg = '';
+                var DateFrom = $("#DateFrom").val().split(' ');
+                var DateTo = $("#DateTo").val().split(' ');;
 
-            var strTargetDesignation = "";
-            $('div#targetDesignationList input[type=checkbox]').each(function ()
-            {
-                if ($(this).is(":checked"))
+                var strTargetParticipant = "";
+                $('div#targetDepartmentList input[type=checkbox]').each(function ()
                 {
-                    strTargetDesignation += $(this).attr('value') + ";";
-                }
-            });
+                    if ($(this).is(":checked"))
+                    {
+                        strTargetParticipant += $(this).attr('value') + ";";
+                    }
+                });
+
+                var strTargetDesignation = "";
+                $('div#targetDesignationList input[type=checkbox]').each(function ()
+                {
+                    if ($(this).is(":checked"))
+                    {
+                        strTargetDesignation += $(this).attr('value') + ";";
+                    }
+                });
             
-            // Membuat elemen sementara untuk menyimpan string HTML
-            var tempElem = document.createElement('div');
-            tempElem.innerHTML = NewsDescCode;
+                // Membuat elemen sementara untuk menyimpan string HTML
+                var tempElem = document.createElement('div');
+                tempElem.innerHTML = NewsDescCode;
 
-            // Mengambil elemen <img> menggunakan metode DOM
-            var imgElem = tempElem.querySelector('img');
+                // Mengambil elemen <img> menggunakan metode DOM
+                var imgElem = tempElem.querySelector('img');
 
-            if (imgElem != null) {
-                // Mengambil nilai "src" dari elemen <img>
-                NewsDescImg = imgElem.getAttribute('src');
-            }
+                if (imgElem != null) {
+                    // Mengambil nilai "src" dari elemen <img>
+                    NewsDescImg = imgElem.getAttribute('src');
+                }
 
-            if (NewsTitle == "") {
-                toastr.warning("Please, enter News Title!", 'Warning', { timeOut: 3000, closeButton: true });
-            } else if (NewsDesc == "") {
-                toastr.warning("Please, enter News Description!", 'Warning', { timeOut: 3000, closeButton: true });
-            } else if (strTargetParticipant == "") {
-                toastr.warning("Please checklist at least 1 data Participant!", 'Warning', { timeOut: 3000, closeButton: true });
-            } else if (strTargetDesignation == "") {
-                toastr.warning("Please checklist at least 1 data Designation!", 'Warning', { timeOut: 3000, closeButton: true });
-            } else {
-                var months = {
-                    Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
-                    Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
-                };
+                if (NewsTitle == "") {
+                    toastr.warning("Please, enter News Title!", 'Warning', { timeOut: 3000, closeButton: true });
+                } else if (NewsDesc == "") {
+                    toastr.warning("Please, enter News Description!", 'Warning', { timeOut: 3000, closeButton: true });
+                } else if (strTargetParticipant == "") {
+                    toastr.warning("Please checklist at least 1 data Participant!", 'Warning', { timeOut: 3000, closeButton: true });
+                } else if (strTargetDesignation == "") {
+                    toastr.warning("Please checklist at least 1 data Designation!", 'Warning', { timeOut: 3000, closeButton: true });
+                } else {
+                    var months = {
+                        Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
+                        Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
+                    };
 
-                DateFrom = DateFrom[2]  + "-" + months[DateFrom[1]] + "-" + DateFrom[0]; //convert date to format "yyyy-mm-dd"
-                DateTo   = DateTo[2]    + "-" + months[DateTo[1]]   + "-" + DateTo[0];   //convert date to format "yyyy-mm-dd"
+                    DateFrom = DateFrom[2]  + "-" + months[DateFrom[1]] + "-" + DateFrom[0]; //convert date to format "yyyy-mm-dd"
+                    DateTo   = DateTo[2]    + "-" + months[DateTo[1]]   + "-" + DateTo[0];   //convert date to format "yyyy-mm-dd"
 
-                var dataxJson = {
-                    NewsID: NewsID,
-                    NewsTitle: NewsTitle,
-                    NewsDescCode: NewsDescCode,
-                    NewsDescText: NewsDescText,
-                    NewsDescImg : NewsDescImg,
-                    DateFrom: DateFrom,
-                    DateTo: DateTo,
-                    TargetPart: strTargetParticipant,
-                    TargetDesignation: strTargetDesignation
-                };
+                    var dataxJson = {
+                        NewsID: NewsID,
+                        NewsTitle: NewsTitle,
+                        NewsDescCode: NewsDescCode,
+                        NewsDescText: NewsDescText,
+                        NewsDescImg : NewsDescImg,
+                        DateFrom: DateFrom,
+                        DateTo: DateTo,
+                        TargetPart: strTargetParticipant,
+                        TargetDesignation: strTargetDesignation
+                    };
 
-                saveData(dataxJson);
-                $('#UpdateData').attr("data-dismiss", "modal");
-            }
+                    saveData(dataxJson);
+                    $('#UpdateData').attr("data-dismiss", "modal");
+                }
+            }).catch(function (err)
+            {
+                var arrErr = JSON.parse(err.responseText);
+                toastr.warning(arrErr[0].Message, "Warning", { timeOut: 3000, "closeButton": true });
+            });
         });
 
         $("#DeleteData").click(function () {
-            var NewsID = $("#NewsID").val();
+            checkSessionExpired().then(function (data)
+            {
+                var NewsID = $("#NewsID").val();
+                var formDatax = new FormData();
 
-            var formDatax = new FormData();
-            formDatax.append("NewsID", NewsID) ?? "";
-
-            DeleteData(formDatax);
+                formDatax.append("NewsID", NewsID) ?? "";
+                DeleteData(formDatax);
+            }).catch(function (err)
+            {
+                var arrErr = JSON.parse(err.responseText);
+                toastr.warning(arrErr[0].Message, "Warning", { timeOut: 3000, "closeButton": true });
+            });
         });
 
         $("#DeleteDataAttachment").click(function () {
-            var data = $("#NewsID").val();
+            checkSessionExpired().then(function (data)
+            {
+                var data = $("#NewsID").val();
+                var NewsID = data.split('|')[0];
+                var Filename = data.split('|')[1];
+                var formDatax = new FormData();
 
-            var NewsID = data.split('|')[0];
-            var Filename = data.split('|')[1];
+                formDatax.append("NewsID", NewsID) ?? "";
+                formDatax.append("Attachment", Filename) ?? "";
 
-            var formDatax = new FormData();
-            formDatax.append("NewsID", NewsID) ?? "";
-            formDatax.append("Attachment", Filename) ?? "";
-
-            DeleteDataAttachment(formDatax);
+                DeleteDataAttachment(formDatax);
+            }).catch(function (err)
+            {
+                var arrErr = JSON.parse(err.responseText);
+                toastr.warning(arrErr[0].Message, "Warning", { timeOut: 3000, "closeButton": true });
+            });
         });
 
         function DeleteData(formData) {
@@ -1080,7 +1187,7 @@
                         $('#DeleteConfirmation').modal('hide');
                         millisecondsToWait = 500;
                         setTimeout(function () {
-                            loadDataAfterSend();
+                            loadData();
                         }, millisecondsToWait);
                     }
                 },
@@ -1106,7 +1213,7 @@
                         $('#DeleteConfirmationAttachment').modal('hide');
                         millisecondsToWait = 500;
                         setTimeout(function () {
-                            loadDataAfterSend();
+                            loadData();
                         }, millisecondsToWait);
                     }
                 },
@@ -1206,6 +1313,19 @@
                     } else {
                         toastr.success(message, 'Success', { timeOut: 3000, closeButton: true });
                         millisecondsToWait = 500;
+
+                        var AdminStatus = '@ViewBag.AdminStatus';
+                        var UserType = '@ViewBag.UserType';
+
+                        if (AdminStatus.toLowerCase() == 'yes')
+                        {
+                            var elementFillCombo = document.getElementById("FilterGroupDepartment");
+                            elementFillCombo.selectedIndex = 0;
+
+                            var elementFillCombo = document.getElementById("FilterDesignation");
+                            elementFillCombo.selectedIndex = 0;
+                        }
+
                         setTimeout(function () {
                             loadData();
                         }, millisecondsToWait);
@@ -1216,6 +1336,35 @@
                 }
             });
         };
+
+        function checkSessionExpired() {
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: "/Authentication/CheckSessionExpired",
+                type: "GET",
+                error: function (xhr, data) {
+                    reject("NG");
+                    if (xhr.status === 401) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Your Session has expired please re-login!',
+                            timer: 3000,
+                            target: document.getElementById('swal2-container'),
+                            showCancelButton: false,
+                            showConfirmButton: false
+                        })
+                        setTimeout(function () { window.location.href = '/Home/Index'; }, 2000);
+                        return;
+
+                    }
+                },
+                success: function (result) {
+                    resolve("OK");
+                },
+            });
+        });
+    }
     </script>
 
 }

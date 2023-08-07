@@ -123,6 +123,44 @@ namespace PGMEATS_WEB.Models
             return Response;
         }
 
+        public clsResponse GetDataDetailPopUp(string NewsID)
+        {
+            string data = "";
+            clsResponse Response = new clsResponse();
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_News_List", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("NewsID", NewsID);
+                    con.Open();
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    da.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                    data = dt.Rows[0]["NewsDescCode"].ToString();
+
+                    Response.ID = 1;
+                    Response.Message = "Success";
+                    Response.Contents = data;
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.ID = 0;
+                Response.Message = ex.Message;
+                Response.Contents = "";
+
+            }
+            return Response;
+        }
+
         public clsResponse FillCombo(string type)
         {
             List<clsFillCombo> ComboList = new List<clsFillCombo>();

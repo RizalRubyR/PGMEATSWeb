@@ -1033,7 +1033,6 @@
     <Content Include="Views\SurveyPollsList\Create.cshtml" />
     <Content Include="Views\UserSetup\UserPrivilege.cshtml" />
     <Content Include="Views\SurveyPollsList\Update.cshtml" />
-    <Content Include="Views\ChangePassword\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Helpers\DashRouteHandler.cs" />
@@ -1047,7 +1046,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Landing\Controllers\LandingController.cs" />
     <Compile Include="Areas\Landing\LandingAreaRegistration.cs" />
-    <Compile Include="Controllers\ChangePasswordController.cs" />
+    <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\ClinicInformationListController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
@@ -1080,6 +1079,7 @@
     <Compile Include="Models\clsUserPrivilege.cs" />
     <Compile Include="Models\ComboFilter.cs" />
     <Compile Include="Models\EncryptionUserStaff.cs" />
+    <Compile Include="Models\JsonAuthorizeAttribute.cs" />
     <Compile Include="Models\SelectUserPrivilegeEditorViewModel.cs" />
     <Compile Include="Models\clsUserStaff.cs" />
     <Compile Include="Models\clsUserSetup.cs" />
@@ -1095,6 +1095,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Image\IssueTypeMaster\" />
+    <Folder Include="Views\Authentication\" />
     <Folder Include="Views\Clinic\" />
   </ItemGroup>
   <ItemGroup>

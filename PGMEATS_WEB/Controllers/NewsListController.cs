@@ -27,6 +27,7 @@ namespace PGMEATS_WEB.Controllers
 
             string userID = Session["LogUserID"].ToString();
             string AdminStatus = Session["AdminStatus"].ToString();
+            string UserType = Session["UserType"].ToString();
             string MenuID = "B-01";
 
             clsUserPrivilegeDB db = new clsUserPrivilegeDB();
@@ -44,6 +45,8 @@ namespace PGMEATS_WEB.Controllers
 
             ViewBag.AllowUpdate = Privilege.AllowUpdate;
             ViewBag.UserID = userID;
+            ViewBag.AdminStatus = AdminStatus;
+            ViewBag.UserType = UserType;
 
             return View();
         }
@@ -77,6 +80,25 @@ namespace PGMEATS_WEB.Controllers
             try
             {
                 response = db.GetDataDetail(NewsID);
+            }
+            catch (Exception ex)
+            {
+                response.ID = 0;
+                response.Message = ex.Message;
+                response.Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [HttpPost]
+        public JsonResult FillDetailPopUp(string NewsID)
+        {
+            clsNewsDB db = new clsNewsDB();
+            clsResponse response = new clsResponse();
+            try
+            {
+                response = db.GetDataDetailPopUp(NewsID);
             }
             catch (Exception ex)
             {
