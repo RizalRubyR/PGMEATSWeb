@@ -1340,7 +1340,7 @@
         function checkSessionExpired() {
         return new Promise(function (resolve, reject) {
             $.ajax({
-                url: "/Authentication/CheckSessionExpired",
+                url: "@Url.Action("CheckSessionExpired", "Authentication")",
                 type: "GET",
                 error: function (xhr, data) {
                     reject("NG");
