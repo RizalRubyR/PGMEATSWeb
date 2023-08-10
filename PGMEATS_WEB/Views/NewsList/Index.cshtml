@@ -63,8 +63,18 @@
                                         <td colspan="2">
                                             <select id="FilterDesignation" class="form-control input-md" style="height:30px; margin-right:20px"></select>
                                         </td>
+                                    </tr>
 
-                                        
+                                    <tr style="height:45px">
+                                        <td width="120px">
+                                            <p style="font-weight:600; margin: 0">Status</p>
+                                        </td>
+
+                                        <td colspan="2">
+                                            <select id="FilterStatus" class="form-control input-md" style="height:30px; margin-right:20px"></select>
+                                        </td>
+
+
                                         <td style="text-align: right">
                                             <button class="btn btn-save" id="refresh"> Refresh </button>
                                         </td>
@@ -368,6 +378,7 @@
             //loadData();
             FillCombo_FilterGroupDepartment();
             FillCombo_FilterDesignation();
+            FillCombo_FilterStatus();
 
             $("#filterDatefrom").val(today)
             $("#filterDateTo").val(today)
@@ -469,6 +480,7 @@
                 var fdateto      = $("#filterDateTo").val().split(' ');
                 var fgroupdept   = $("#FilterGroupDepartment").val();;
                 var fdesignation = $("#FilterDesignation").val();;
+                var fstatus      = $("#FilterStatus").val();;
 
                 var months = {
                     Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
@@ -483,6 +495,7 @@
                 formDatax.append("dateTo", fdateto);
                 formDatax.append("groupdepartment", fgroupdept);
                 formDatax.append("designation", fdesignation);
+                formDatax.append("status", fstatus);
 
                 $.ajax({
                     url: "@Url.Action("GetNewsList", "NewsList")",
@@ -696,6 +709,33 @@
                         $.each(result.Contents, function (i, dt)
                         {
                             $("#FilterDesignation").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
+                        });
+                    }
+                },
+                error: function (ex)
+                {
+                    toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
+                }
+            });
+        }
+
+        function FillCombo_FilterStatus()
+        {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("FillCombo", "NewsList")", // "/MyComplaint/FillCombo/",
+                datatype: 'json',
+                data: { Type: "4" },
+                success: function (result)
+                {
+                    if (result.ID == '0') {
+                        toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    } else
+                    {
+                        $('#FilterStatus').empty();
+                        $.each(result.Contents, function (i, dt)
+                        {
+                            $("#FilterStatus").append('<option value="' + dt.Code + '">' + dt.Description + '</option>');
                         });
                     }
                 },

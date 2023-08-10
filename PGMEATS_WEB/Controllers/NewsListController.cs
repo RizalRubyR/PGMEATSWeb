@@ -53,14 +53,14 @@ namespace PGMEATS_WEB.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [HttpPost]
-        public JsonResult GetNewsList(string datefrom, string dateTo, string groupdepartment, string designation)
+        public JsonResult GetNewsList(string datefrom, string dateTo, string groupdepartment, string designation, string status)
         {            
             clsNewsDB db = new clsNewsDB();
             clsResponse response = new clsResponse();
             try
             {
                 var user = Session["LogUserID"].ToString();
-                response = db.NewsList(user, datefrom, dateTo, groupdepartment, designation);
+                response = db.NewsList(user, datefrom, dateTo, groupdepartment, designation, status);
             }
             catch (Exception ex)
             {

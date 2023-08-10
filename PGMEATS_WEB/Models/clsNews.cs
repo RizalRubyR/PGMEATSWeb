@@ -21,11 +21,12 @@ namespace PGMEATS_WEB.Models
         public string DateTo { get; set; }
         public string TargetPart { get; set; }
         public string TargetDesignation { get; set; }
+        public string Status { get; set; }
     }
 
     public class clsNewsDB
     {
-        public clsResponse NewsList(string User, string datefrom, string dateTo, string groupdepartment, string designation)
+        public clsResponse NewsList(string User, string datefrom, string dateTo, string groupdepartment, string designation, string status)
         {
             List<clsNews> NewsList = new List<clsNews>();
             clsResponse Response = new clsResponse();
@@ -41,6 +42,7 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("DateTo", dateTo);
                     cmd.Parameters.AddWithValue("GroupDept", groupdepartment);
                     cmd.Parameters.AddWithValue("SALPlan", designation);
+                    cmd.Parameters.AddWithValue("Status", status);
                     con.Open();
 
                     DataTable dt = new DataTable();
