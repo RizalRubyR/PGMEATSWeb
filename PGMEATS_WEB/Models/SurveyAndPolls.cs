@@ -28,6 +28,7 @@ namespace PGMEATS_WEB.Models
         public string EndDate { get; set; }
         public string Groupdepartment { get; set; }
         public string Designation { get; set; }
+        public string ActiveStatus { get; set; }
     }
 
     public class SurveyAndPollsList
@@ -40,6 +41,7 @@ namespace PGMEATS_WEB.Models
         public string SurveyStatus { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
+        public string CreateDate { get; set; }
     }
     public class SurveyAndPollsDetailList
     {
@@ -139,6 +141,7 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("@EndDate", data.EndDate);
                     cmd.Parameters.AddWithValue("@Groupdepartment", data.Groupdepartment);
                     cmd.Parameters.AddWithValue("@Designation", data.Designation);
+                    cmd.Parameters.AddWithValue("@ActiveStatus", data.ActiveStatus);
                     cmd.Parameters.AddWithValue("@User", user);
                     con.Open();
 
@@ -159,6 +162,7 @@ namespace PGMEATS_WEB.Models
                         SurveyStatus = x.Field<string>("SurveyStatus"),
                         StartDate = x.Field<string>("StartDate"),
                         EndDate = x.Field<string>("EndDate"),
+                        CreateDate = x.Field<string>("CreateDate")
                     }).ToList();
 
                     Response.ID = 1;

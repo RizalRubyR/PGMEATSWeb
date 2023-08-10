@@ -62,6 +62,24 @@
 
 
                                     <td style="text-align: right">
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                                <tr style="height:45px">
+                                    <td width="120px">
+                                        <p style="font-weight:600; margin: 0">Active Status</p>
+                                    </td>
+
+                                    <td colspan="2">
+                                        <select id="FilterActiveStatus" class="form-control input-md" style="height:30px; margin-right:20px">
+                                            <option value="ALL">ALL</option>
+                                            <option value="1">Active</option>
+                                            <option value="0">Inactive</option>
+                                        </select>
+                                    </td>
+
+
+                                    <td style="text-align: right">
                                         <button class="btn btn-save" id="refresh"> Refresh </button>
                                     </td>
                                 </tr>
@@ -98,6 +116,9 @@
                                         </th>
                                         <th style="text-align: center; width: 120px">
                                             End Date
+                                        </th>
+                                        <th style="text-align: center; width: 90px">
+                                            Create Date
                                         </th>
                                     </tr>
                                 </thead>
@@ -208,7 +229,8 @@
                     { "data": "Department", className: "txtAlignLeft" },
                     { "data": "Designation", className: "txtAlignLeft" },
                     { "data": "StartDate",   className: "txtAlignCenter" },
-                    { "data": "EndDate",     className: "txtAlignCenter" }
+                    { "data": "EndDate", className: "txtAlignCenter" },
+                    { "data": "CreateDate", className: "txtAlignCenter" }
                 ],
                 rowCallback: function (row, data) { responsiveHelper_dt_basic.createExpandIcon(row) },
                 filter: true,
@@ -243,8 +265,9 @@
 
             var fdatefrom = $("#filterDatefrom").val().split(' ');
             var fdateto = $("#filterDateTo").val().split(' ');
-            var fgroupdept = $("#FilterGroupDepartment").val();;
-            var fdesignation = $("#FilterDesignation").val();;
+            var fgroupdept = $("#FilterGroupDepartment").val();
+            var fdesignation = $("#FilterDesignation").val();
+            var factivestatus = $("#FilterActiveStatus").val();
 
             if (fgroupdept == null) {
                 fgroupdept = "ALL";
@@ -252,7 +275,10 @@
             if (fdesignation == null) {
                 fdesignation = "ALL";
             }
-
+            if (factivestatus == null) {
+                factivestatus = "ALL";
+            }
+            debugger
             var months = {
                 Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
                 Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
@@ -265,7 +291,8 @@
                 StartDate: fdatefrom,
                 EndDate: fdateto,
                 Groupdepartment: fgroupdept,
-                Designation: fdesignation
+                Designation: fdesignation,
+                ActiveStatus: factivestatus
             }
             var pdata = { 'param': param }
             $.ajax({
