@@ -22,6 +22,7 @@ namespace PGMEATS_WEB.Models
         public string TargetPart { get; set; }
         public string TargetDesignation { get; set; }
         public string Status { get; set; }
+        public string CreatedDate { get; set; }
     }
 
     public class clsNewsDB
@@ -64,6 +65,7 @@ namespace PGMEATS_WEB.Models
                         DateTo = x.Field<string>("DateTo"),
                         TargetPart = x.Field<string>("TargetPart"),
                         TargetDesignation = x.Field<string>("TargetDesignation"),
+                        CreatedDate = x.Field<string>("CreatedDate"),
                     }).ToList();
 
                     Response.ID = 1;
