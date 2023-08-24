@@ -360,6 +360,19 @@ namespace PGMEATS_WEB.Controllers
             SurveyAndPollsDB db = new SurveyAndPollsDB();
             clsResponse response = new clsResponse();
 
+            clsResponse resp = db.validateQuestion(param.SurveyID, param.QuestionID);
+            
+            if(resp.ID == 1)
+            {
+                DataTable dtresp = (DataTable)resp.Contents;
+                if (dtresp.Rows.Count > 0)
+                {
+                    response.ID = 0;
+                    response.Message = "Question ID already exists";
+                    response.Contents = "";
+                    return Json(response, JsonRequestBehavior.AllowGet);
+                }
+            }
 
             string UserLogin = Session["LogUserID"].ToString().Trim();
             param.QuestionSeqNo = db.getQuestionSeqNo(param.SurveyID, param.ParentQuestionID);

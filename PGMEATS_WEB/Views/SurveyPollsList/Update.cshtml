@@ -1462,6 +1462,8 @@
                 success: function (data) {
                     if (data.ID == '0') {
                         toastr.warning(data.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                        loadDataAftersave()
+                        $("#MyModal").modal("hide");
                     } else {
                         toastr.success(data.Message, 'Success', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
 
