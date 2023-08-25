@@ -381,11 +381,12 @@
                 data: { BirthdayTemplateID: data },
                 dataType: "json",
                 success: function (result) {
+                    debugger
                     if (result.ID == '0') {
                         toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
                     } else {
-                        $("#Subject").val(data);
                         $("#Content").code(result.Contents[1]);
+                        $("#Subject").val(result.Contents[0]);
                     }
                 },
                 error: function (ex) {
@@ -436,15 +437,26 @@
         }
 
         $("#InsertData").click(function () {
+            debugger
+
+            var ImgData = '';
+
+
             var BirthdayTemplateID = $("#BirthdayTemplateID").val();
             var Subject = $("#Subject").val();
             var Content = $("#Content").code();
-            
 
             // Membuat elemen sementara untuk menyimpan string HTML
             var tempElem = document.createElement('div');
             tempElem.innerHTML = Content;
 
+            // Mengambil elemen <img> menggunakan metode DOM
+            var imgElem = tempElem.querySelector('img');
+
+            if (imgElem != null) {
+                // Mengambil nilai "src" dari elemen <img>
+                ImgData = imgElem.getAttribute('src');
+            }
            
 
             if (Subject == "") {
@@ -456,7 +468,8 @@
                 var dataxJson = {
                     BirthdayTemplateID: BirthdayTemplateID,
                     Subject: Subject,
-                    Content: Content
+                    Content: Content,
+                    ImageData: ImgData
                 };
 
                 saveData(dataxJson);
@@ -474,11 +487,19 @@
                 data: JSON.stringify(datax),
                 dataType: "json",
                 success: function (result) {
+                    debugger
                     if (result.ID == '0') {
                         toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
                     } else {
                         var BirthdayTemplateID = result.Contents.split('|')[0];
                         var message = result.Message;
+                        toastr.success(message, 'Success', { timeOut: 3000, closeButton: true });
+                        $("#MyModal").modal('hide');
+                        millisecondsToWait = 500;
+                        setTimeout(function () {
+                            loadData();
+                        }, millisecondsToWait);
+                        
                     }                    
                 },
                 error: function (ex) {
@@ -541,7 +562,7 @@
                         $('#DeleteConfirmation').modal('hide');
                         millisecondsToWait = 500;
                         setTimeout(function () {
-                            loadDataAfterSend();
+                            loadData();
                         }, millisecondsToWait);
                     }
                 },

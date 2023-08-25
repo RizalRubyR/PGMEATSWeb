@@ -13,6 +13,7 @@ namespace PGMEATS_WEB.Models
         public string BirthdayTemplateID { get; set; }
         public string Subject { get; set; }
         public string Content { get; set; }
+        public string ImageData { get; set; }
         public string CreateUser { get; set; }
         public DateTime CreateDate { get; set; }
         public string UpdateUser { get; set; }
@@ -117,6 +118,9 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("BirthdayTemplateID", data.BirthdayTemplateID ?? "");
                     cmd.Parameters.AddWithValue("Subject", data.Subject ?? "");
                     cmd.Parameters.AddWithValue("Content", data.Content ?? "");
+
+                    cmd.Parameters.AddWithValue("ImageData", data.ImageData ?? "");
+
                     cmd.Parameters.AddWithValue("UserCreate", data.CreateUser ?? "");
 
                     con.Open();
