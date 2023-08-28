@@ -218,9 +218,9 @@
                     {
                         "data": "Action", className: "txtAlignCenter", "render": function (data, type, row) {
                             if ('@ViewBag.AllowUpdate' == '0') {
-                                return '<a href="#" class="fa fa-pencil disable"></a> &nbsp; | &nbsp; <a class="fa fa-trash-o disable"></a>'
+                                return '<a href="#" class="fa fa-pencil disable"></a> &nbsp; | &nbsp; <a class="fa fa-trash-o disable"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-bar-chart" onclick="Result(\'' + row.SurveyID + '\')"></a>'
                             } else {
-                                return '<a href="#" class="fa fa-pencil" onclick="EditData(\'' + row.SurveyID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteData(\'' + row.SurveyID + '\')"></a>'
+                                return '<a href="#" class="fa fa-pencil" onclick="EditData(\'' + row.SurveyID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteData(\'' + row.SurveyID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-bar-chart" onclick="Result(\'' + row.SurveyID + '\')"></a>'
                             }
                         }
                     },
@@ -278,7 +278,6 @@
             if (factivestatus == null) {
                 factivestatus = "ALL";
             }
-            debugger
             var months = {
                 Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
                 Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
@@ -336,6 +335,11 @@
         function EditData(id) {
             var url = "/SurveyPollsList/Update?id=" + id;
             //var url = "/MyPGM_Web/SurveyPollsList/Update?id=" + id;
+            window.location.href = url;
+        }
+        function Result(id) {
+            var url = "/SurveyPollsList/Result?id=" + id;
+            //var url = "/MyPGM_Web/SurveyPollsList/Result?id=" + id;
             window.location.href = url;
         }
         function DeleteData(id) {

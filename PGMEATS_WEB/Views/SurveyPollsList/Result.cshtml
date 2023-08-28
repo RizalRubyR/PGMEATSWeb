@@ -1,0 +1,378 @@
+﻿
+@{
+    ViewBag.Title = "Result";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    .div-body {
+        flex: 1 1 auto;
+        padding: 1rem
+    }
+
+    .p-4 {
+        padding: 1.5rem !important
+    }
+
+    .align-items-center {
+        align-items: center !important
+    }
+
+    .fw-bold {
+        font-weight: 700 !important
+    }
+</style>
+
+<link rel="stylesheet" type="text/css" href="~/Scripts/jquery-ui-1.12.0-rc.2/jquery-ui.css">
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-xs-12 col-md-12">
+                <div class="jarviswidget jarviswidget-color-red" id="wid-id-1" data-widget-colorbutton="false"
+                     data-widget-editbutton="false" data-widget-togglebutton="false" data-widget-deletebutton="false"
+                     data-widget-custombutton="false" data-widget-collapsed="false" data-widget-sortable="false">
+                    <header style="border-top-left-radius:8px; border-top-right-radius:8px">
+                        <h2 style="font-family:'Poppins-Regular';font-weight:500;font-size:15px">
+                            Result of Survey and Polls
+                        </h2>
+                    </header>
+
+                    <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
+                        <div class="col-lg-12" style="display:flex; justify-content:center;">
+                            <div style="width: 100%;">
+                                @if (ViewBag.ViewChart == 1)
+                                {
+                                    <div class="div-body p-4">
+                                        <div class="row align-items-center">
+                                            <div class="col-lg-12">
+                                                <h3 class="fw-bold" style="z-index: 99 !important; position: relative; display: flex; justify-content: left;">By Employee</h3>
+
+                                                <div id="fill-by-employee" style="position: relative;">
+                                                    <div id="piechart" tyle="width: 700px;"></div>
+                                                </div>
+
+                                                <h3 class="fw-bold" style="z-index: 99 !important; position: relative; display: flex; justify-content: left;">By Department</h3>
+                                                <div id="fill-by-department" style="position: relative;">
+                                                    <div id="by-department" tyle="width: 700px;"></div>
+                                                </div>
+                                                <h3 class="fw-bold" style="z-index: 99 !important; position: relative; display: flex; justify-content: left;">By Shift</h3>
+                                                <div id="fill-by-Shift" style="position: relative">
+                                                    <div id="by-Shift" tyle="width: 700px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="div-body p-4">
+                                        <div style="margin-top:250px; display:block;">
+                                            <div class="div-center">
+                                                <span class="bi bi-search font-40 mb-3"></span>
+                                            </div>
+                                            <div class="div-center">
+                                                <p class="font-20">View result not available for this survey and polls</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+
+<script src="~/Scripts/plugin/bootstrap-waitingfor/bootstrap-waitingfor.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+@*<script src="~/Scripts/jquery-3.4.1.min.js"></script>*@
+<script src="~/Scripts/bootstrap/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.0-rc.2/jquery-ui.js"></script>
+<script src="~/Scripts/gstatic.js"></script>
+<script src="~/Scripts/chart.js"></script>
+@*<script src="~/Scripts/result.js"></script>*@
+<script src="~/Scripts/plugin/summernote/summernote.min.js"></script>
+@section pagespecific
+{
+    <script>
+        var surveyID = '@ViewBag.SurveyID';
+
+        $(document).ready(function myfunction() {
+
+            // Load google charts
+            //drawChart();
+            google.charts.load('current', { 'packages': ['corechart'] });
+            google.charts.setOnLoadCallback(drawChart);
+            google.charts.setOnLoadCallback(getchartByDepartment);
+            google.charts.setOnLoadCallback(getchartByShift);
+
+        });
+
+        // Draw the chart and set the chart values
+        function drawChart() {
+            var htmlsList = "";
+            var obj = { 'SurveyID': surveyID };
+            $.ajax({
+                url: "@Url.Action("getchartheaderbyemployee", "SurveyPollsList")",
+                type: "post",
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(obj),
+                success: function (data) {
+                    $('#fill-by-employee').empty();
+                    var pData = data[0].Contents;
+                    if (data[0].ID == '1') {
+                        toastr.warning(data[0].Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    }
+                    else {
+                        var pdata;
+                        var options;
+                        var dp = [];
+                        $.each(data[0].Contents, function (i, dt) {
+                            pdata = null;
+                            options = null;
+                            htmlsList = '<div id="piechart_' + dt.QuestionID + '" style="margin-bottom: 0px;"></div>';
+                            $('#fill-by-employee').append(htmlsList);
+                            var pObj = { 'SurveyID': dt.SurveyID, 'QuestionID': dt.QuestionID };
+                            var qsID = dt.QuestionID;
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("getchartbyemployee", "SurveyPollsList")",
+                                dataType: 'json',
+                                contentType: 'application/json; charset=utf-8',
+                                data: JSON.stringify(pObj),
+                                success: function (data) {
+                                    var o = 0;
+                                    dp = []
+                                    if (data[0].Contents.length == 0) {
+                                        var ps = []
+                                        if (o == 0) {
+                                            ps = ['Survey', 'Population']
+                                            dp.push(ps)
+                                        }
+                                        var x = ['No data', 0]
+                                        dp.push(x);
+                                    }
+                                    $.each(data[0].Contents, function (i, dt) {
+                                        var p = []
+                                        if (o == 0) {
+                                            p = ['Survey', 'Population']
+                                            dp.push(p)
+                                        }
+                                        var x = ['' + dt.AnswerDesc + '', dt.Sub_total]
+                                        dp.push(x);
+                                        o += 1;
+                                    });
+                                },
+                                error: function (ex) {
+                                    toastr.error('Failed to retrieve this Data. ' + ex, 'Error', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+
+                                }
+                            }).done(function () {
+                                pdata = google.visualization.arrayToDataTable(dp);
+                                options = { 'title': dt.QuestionDesc, 'width': 700, 'height': 500 };
+                                var id = "piechart_" + dt.QuestionID;
+                                var chart = new google.visualization.PieChart(document.getElementById(id));
+                                chart.draw(pdata, options);
+
+                            });
+
+                        });
+                    }
+                },
+                error: function (ex) {
+                    toastr.error('Failed to retrieve this Data. ' + ex, 'Error', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+
+                }
+            });
+        }
+
+        function getchartByDepartment() {
+            var htmlsList = "";
+            var obj = { 'SurveyID': surveyID };
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("getchartByDepartment", "SurveyPollsList")",
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(obj),
+                success: function (data) {
+
+                    var pData = data[0].Contents;
+                    var lastCol;
+                    if (data[0].ID == '1') {
+                        toastr.warning(data[0].Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    }
+                    else {
+                        var datd = new google.visualization.DataTable();
+                        var deptbefore = '';
+                        var pHeader = ['Department']
+                        var pContent = []
+                        var pData = []
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("Getlabel", "SurveyPollsList")",
+                            dataType: 'json',
+                            contentType: 'application/json; charset=utf-8',
+                            data: JSON.stringify(obj),
+                            success: function (data) {
+                                $.each(data[0].Contents, function (i, dt) {
+                                    pHeader.push(dt.AnswerDesc)
+                                    lastCol = dt.LastCol;
+                                })
+                            },
+                            error: function (ex) {
+                                toastr.error('Failed to retrieve this Data. ' + ex, 'Error', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                            }
+                        }).done(function () {
+                            pData.push(pHeader)
+                            var depart;
+                            var val;
+                            var pval = []
+                            var o = 0
+                            var oj = data[0].Contents
+                            $.each(data[0].Contents, function (i, dt) {
+                                if (deptbefore != dt.Department) {
+                                    if (pContent.length < (lastCol + 1) && deptbefore != "") {
+                                        for (var p = pContent.length; p < (lastCol + 1); p++) {
+                                            pContent.push(0)
+                                        }
+                                    }
+                                    if (pContent.length > 0) {
+                                        pData.push(pContent)
+                                    }
+                                    pContent = []
+                                    pContent.push(dt.Department)
+                                    pContent.push(dt.Total)
+                                } else {
+
+                                    pContent.push(dt.Total)
+
+                                }
+                                if (i + 1 == data[0].Contents.length) {
+                                    if (pContent.length < (lastCol + 1) && deptbefore != "") {
+                                        for (var p = pContent.length; p < (lastCol + 1); p++) {
+                                            pContent.push(0)
+                                        }
+                                    }
+                                }
+                                o += 1
+                                if (o == oj.length) {
+                                    pData.push(pContent)
+                                }
+                                deptbefore = dt.Department
+                            });
+                            var pVal = google.visualization.arrayToDataTable(pData);
+                            var options = { 'title': '', 'width': 700, 'height': 500 };
+
+                            var chart = new google.visualization.BarChart(document.getElementById('by-department'));
+                            chart.draw(pVal, options);
+                        });
+
+                    }
+                },
+                error: function (ex) {
+                    toastr.error('Failed to retrieve this Data. ' + ex, 'Error', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+
+                }
+            });
+        }
+
+        function getchartByShift() {
+            var htmlsList = "";
+            var obj = { 'SurveyID': surveyID };
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("getchartByShift", "SurveyPollsList")",
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(obj),
+
+                success: function (Result) {
+                    var pData = Result[0].Contents;
+                    var lastCol;
+                    if (Result[0].ID == '1') {
+                        toastr.warning(Result[0].Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    }
+                    else {
+                        var datd = new google.visualization.DataTable();
+                        var Shiftbefore = '';
+                        var pHeader = ['Shift']
+                        var pContent = []
+                        var pData = []
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("Getlabel", "SurveyPollsList")",
+                            dataType: 'json',
+                            contentType: 'application/json; charset=utf-8',
+                            data: JSON.stringify(obj),
+
+                            success: function (data) {
+                                $.each(data[0].Contents, function (i, dt) {
+                                    pHeader.push(dt.AnswerDesc)
+                                    lastCol = dt.LastCol;
+                                })
+                            },
+                            error: function (ex) {
+                                toastr.error('Failed to retrieve this Data. ' + ex, 'Error', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                            }
+                        }).done(function () {
+                            pData.push(pHeader)
+                            var depart;
+                            var val;
+                            var pval = []
+                            var o = 0
+                            var oj = Result[0].Contents
+                            $.each(Result[0].Contents, function (i, dt) {
+                                if (Shiftbefore != dt.Shift) {
+                                    if (pContent.length < (lastCol + 1) && Shiftbefore != "") {
+                                        for (var p = pContent.length; p < (lastCol + 1); p++) {
+                                            pContent.push(0)
+                                        }
+                                    }
+                                    if (pContent.length > 2) {
+                                        pData.push(pContent)
+                                    } else if (pContent.length == 2) {
+                                        pContent.push(0)
+                                        pData.push(pContent)
+                                    }
+                                    pContent = []
+                                    pContent.push(dt.Shift)
+                                    pContent.push(dt.Total)
+                                } else {
+                                    pContent.push(dt.Total)
+                                }
+                                if (i + 1 == oj.length) {
+                                    if (pContent.length < (lastCol + 1) && Shiftbefore != "") {
+                                        for (var p = oj.length; p < (lastCol); p++) {
+                                            pContent.push(0)
+                                        }
+                                    }
+                                }
+                                o += 1
+                                if (o == oj.length) {
+                                    pData.push(pContent)
+                                }
+                                Shiftbefore = dt.Shift
+                            });
+
+                            var pVal = google.visualization.arrayToDataTable(pData);
+                            var options = { 'title': '', 'width': 700, 'height': 500 };
+
+                            var chart = new google.visualization.BarChart(document.getElementById('by-Shift'));
+                            chart.draw(pVal, options);
+                        });
+                    }
+
+                },
+                error: function (ex) {
+                    toastr.error('Failed to retrieve this Data. ' + ex, 'Error', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+
+                }
+            });
+        }
+
+    </script>
+}

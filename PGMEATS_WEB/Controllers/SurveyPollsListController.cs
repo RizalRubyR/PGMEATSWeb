@@ -112,6 +112,25 @@ namespace PGMEATS_WEB.Controllers
             return View();
         }
 
+        public ActionResult Result(string id)
+        {
+            if (Session["LogUserID"] is null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            string userID = Session["LogUserID"].ToString();
+            string AdminStatus = Session["AdminStatus"].ToString();
+
+            List<CheckResult> resp = new List<CheckResult>();
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+
+            resp = db.ResultCheck(id);
+
+            ViewBag.SurveyID = id;
+            ViewBag.ViewChart = resp[0].ViewChart;
+            return View();
+        }
+
         [AcceptVerbs("GET", "POST")]
         [HttpPost]
         public JsonResult SurveyAndPolls(SurveyAndPollsListSearch param)
@@ -562,6 +581,111 @@ namespace PGMEATS_WEB.Controllers
                 response.ID = 0;
                 response.Message = ex.Message;
                 response.Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [HttpPost]
+        public ActionResult getchartheaderbyemployee(string SurveyID)
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            List<clsResponse> response = new List<clsResponse>();
+            Encryption enc = new Encryption();
+            string param = enc.EncryptData(SurveyID + "||");
+            try
+            {
+                response = db.GetchartHeaderByEmployee(param).ToList();
+            }
+            catch (Exception ex)
+            {
+                response[0].ID = 0;
+                response[0].Message = ex.Message;
+                response[0].Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        //[AcceptVerbs("GET", "POST")]
+        [HttpPost]
+        public JsonResult getchartbyemployee(string SurveyID, string QuestionID)
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            List<clsResponse> response = new List<clsResponse>();
+            Encryption enc = new Encryption();
+            string param = enc.EncryptData(SurveyID + "||" + QuestionID + "||");
+            try
+            {
+                response = db.GetchartByEmployee(param).ToList();
+            }
+            catch (Exception ex)
+            {
+                response[0].ID = 0;
+                response[0].Message = ex.Message;
+                response[0].Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        //[AcceptVerbs("GET", "POST")]
+        [HttpPost]
+        public JsonResult getchartByDepartment(string SurveyID)
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            List<clsResponse> response = new List<clsResponse>();
+            Encryption enc = new Encryption();
+            string param = enc.EncryptData(SurveyID + "||");
+            try
+            {
+                response = db.GetchartByDepartment(param).ToList();
+            }
+            catch (Exception ex)
+            {
+                response[0].ID = 0;
+                response[0].Message = ex.Message;
+                response[0].Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        //[AcceptVerbs("GET", "POST")]
+        [HttpPost]
+        public JsonResult getchartByShift(string SurveyID)
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            List<clsResponse> response = new List<clsResponse>();
+            Encryption enc = new Encryption();
+            string param = enc.EncryptData(SurveyID + "||");
+            try
+            {
+                response = db.GetchartByShift(param).ToList();
+            }
+            catch (Exception ex)
+            {
+                response[0].ID = 0;
+                response[0].Message = ex.Message;
+                response[0].Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        //[AcceptVerbs("GET", "POST")]
+        [HttpPost]
+        public JsonResult Getlabel(string SurveyID)
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            List<clsResponse> response = new List<clsResponse>();
+            Encryption enc = new Encryption();
+            string param = enc.EncryptData(SurveyID + "||");
+            try
+            {
+                response = db.Getlabelanswer(param).ToList();
+            }
+            catch (Exception ex)
+            {
+                response[0].ID = 0;
+                response[0].Message = ex.Message;
+                response[0].Contents = "";
             }
             return Json(response, JsonRequestBehavior.AllowGet);
         }

@@ -5,6 +5,9 @@ using System.Web;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Web.Script.Serialization;
+using Newtonsoft.Json;
+using System.Dynamic;
 
 namespace PGMEATS_WEB.Models
 {
@@ -121,6 +124,54 @@ namespace PGMEATS_WEB.Models
         public string Type { get; set; }
         public string Finalized { get; set; }
 
+    }
+
+    public class CheckResult
+    {
+        public int SurveyID { get; set; }
+        public int ViewChart { get; set; }
+    }
+
+    public class headerEmplyee
+    {
+        public int SurveyID { get; set; }
+        public int QuestionID { get; set; }
+        public string QuestionDesc { get; set; }
+        public int ViewChart { get; set; }
+    }
+
+    public class employee
+    {
+        public int SurveyID { get; set; }
+        public int QuestionID { get; set; }
+        public string QuestionDesc { get; set; }
+        public int AnswerSeqNo { get; set; }
+        public string AnswerDesc { get; set; }
+        public int Sub_total { get; set; }
+        public int Total { get; set; }
+    }
+    public class dept
+    {
+        public string Department { get; set; }
+		public int SurveyID { get; set; }
+        public string AnserDesc { get; set; }
+        public int Total { get; set; }
+        public int LastCol { get; set; }
+    }
+    public class shift
+    {
+        public string Shift { get; set; }
+        public int SurveyID { get; set; }
+        public string AnserDesc { get; set; }
+        public int Total { get; set; }
+        public int LastCol { get; set; }
+    }
+
+    public class label
+    {
+        public int SurveyID { get; set; }
+        public string AnswerDesc { get; set; }
+        public int LastCol { get; set; }
     }
 
     public class SurveyAndPollsDB
@@ -1170,18 +1221,6 @@ namespace PGMEATS_WEB.Models
                         SurveyPollsDetailList.Add(data);
                     }
 
-                    //SurveyPollsDetailList = dt.AsEnumerable().Select(x =>
-                    //new SurveyAndPollsDetailList
-                    //{
-                    //    ID = x.Field<Int32>("id").ToString(),
-                    //    QuestionID = x.Field<Int32>("QuestionID").ToString(),
-                    //    SurveyID = x.Field<Int32>("SurveyID").ToString(),
-                    //    QuestionSeqNo = x.Field<Int64>("QuestionSeqNo").ToString(),
-                    //    QuestionDesc = x.Field<string>("QuestionDesc").ToString(),
-                    //    ParentQuestionID = x.Field<string>("ParentQuestionID").ToString(),
-                    //    ParentAnswerSeqNo = x.Field<string>("ParentAnswerSeqNo").ToString(),
-                    //}).ToList();
-
                     Response.ID = 1;
                     Response.Message = "Success";
                     Response.Contents = SurveyPollsDetailList;
@@ -1197,6 +1236,323 @@ namespace PGMEATS_WEB.Models
             return Response;
         }
 
-        
+        public List<CheckResult> ResultCheck(string id)
+        {
+            List<CheckResult> res = new List<CheckResult>();
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    SqlCommand cmd = new SqlCommand("sp_SurveyAndPollsDetail_ResultCheck", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@surveyID", id);
+                    con.Open();
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    da.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+
+                    List<CheckResult> listObject = dt.AsEnumerable().Select(x => new CheckResult(){
+                        SurveyID = Convert.ToInt16(x.Field<object>("SurveyID")),
+                        ViewChart = Convert.ToInt16(x.Field<object>("ViewChart"))
+                    }).ToList();
+
+                    res = listObject;
+                }
+            }
+            catch(Exception ex)
+            {
+                
+            }
+            return res;
+        }
+
+        public IEnumerable<clsResponse> GetchartHeaderByEmployee(string param)
+        {
+            List<clsResponse> responList = new List<clsResponse>();
+            clsResponse clsrespon = new clsResponse();
+            Encryption encrypt = new Encryption();
+            try
+            {
+                var array = encrypt.DecryptData(param).Split(new string[] { "||" }, StringSplitOptions.None);
+                string surveyID = array[0];
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    string sql = "sp_Surveyandpoolschart_header_get";
+
+                    SqlCommand cmd = new SqlCommand(sql, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@surveyID", surveyID);
+                    con.Open();
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    da.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                    List<headerEmplyee> head = dt.AsEnumerable().Select(x => new headerEmplyee()
+                    {
+                        SurveyID = Convert.ToInt16(x.Field<object>("SurveyID")),
+                        QuestionID = Convert.ToInt16(x.Field<object>("QuestionID")),
+                        QuestionDesc = Convert.ToString(x.Field<object>("QuestionDesc")),
+                        ViewChart = Convert.ToInt16(x.Field<object>("ViewChart"))
+                    }).ToList();
+
+                    clsrespon = new clsResponse();
+                    clsrespon.ID = 0;
+                    clsrespon.Message = "Success";
+                    clsrespon.Contents = head;
+
+                    responList.Add(clsrespon);
+                }
+            }
+            catch (Exception ex)
+            {
+                responList = new List<clsResponse>();
+                clsrespon = new clsResponse();
+
+                clsrespon.ID = 1;
+                clsrespon.Message = ex.Message;
+                clsrespon.Contents = "";
+
+                responList.Add(clsrespon);
+            }
+            return responList;
+        }
+
+        public IEnumerable<clsResponse> GetchartByEmployee(string param)
+        {
+            List<clsResponse> responList = new List<clsResponse>();
+            clsResponse clsrespon = new clsResponse();
+            Encryption encrypt = new Encryption();
+            try
+            {
+                var array = encrypt.DecryptData(param).Split(new string[] { "||" }, StringSplitOptions.None);
+                string surveyID = array[0];
+                string questionID = array[1];
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    string sql = "sp_Surveyandpoolschart_get";
+
+                    SqlCommand cmd = new SqlCommand(sql, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@surveyID", surveyID);
+                    cmd.Parameters.AddWithValue("@questionID", questionID);
+                    con.Open();
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    da.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                    List<employee> emp = dt.AsEnumerable().Select(x => new employee()
+                    {
+                        SurveyID = Convert.ToInt16(x.Field<object>("SurveyID")),
+                        QuestionID = Convert.ToInt16(x.Field<object>("QuestionID")),
+                        QuestionDesc = Convert.ToString(x.Field<object>("QuestionDesc")),
+                        AnswerSeqNo = Convert.ToInt16(x.Field<object>("AnswerSeqNo")),
+                        AnswerDesc = Convert.ToString(x.Field<object>("AnswerDesc")),
+                        Sub_total = Convert.ToInt16(x.Field<object>("Sub_total")),
+                        Total = Convert.ToInt16(x.Field<object>("Total"))
+                    }).ToList();
+
+                    clsrespon = new clsResponse();
+                    clsrespon.ID = 0;
+                    clsrespon.Message = "Success";
+                    clsrespon.Contents = emp;
+
+                    responList.Add(clsrespon);
+                }
+            }
+            catch (Exception ex)
+            {
+                responList = new List<clsResponse>();
+                clsrespon = new clsResponse();
+
+                clsrespon.ID = 1;
+                clsrespon.Message = ex.Message;
+                clsrespon.Contents = "";
+
+                responList.Add(clsrespon);
+            }
+            return responList;
+        }
+
+        public IEnumerable<clsResponse> GetchartByDepartment(string param)
+        {
+            List<clsResponse> responList = new List<clsResponse>();
+            clsResponse clsrespon = new clsResponse();
+            Encryption encrypt = new Encryption();
+            try
+            {
+                var array = encrypt.DecryptData(param).Split(new string[] { "||" }, StringSplitOptions.None);
+                string surveyID = array[0];
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    string sql = "sp_surveyandpoolsbydept_get";
+
+                    SqlCommand cmd = new SqlCommand(sql, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SurveyID", surveyID);
+                    con.Open();
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    da.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                    List<dept> dept = dt.AsEnumerable().Select(x => new dept() {
+                        Department = Convert.ToString(x.Field<object>("Department")),
+                        SurveyID = Convert.ToInt16(x.Field<object>("SurveyID")),
+                        AnserDesc = Convert.ToString(x.Field<object>("AnserDesc")),
+                        Total = Convert.ToInt16(x.Field<object>("Total")),
+                        LastCol = Convert.ToInt16(x.Field<object>("LastCol"))
+                    }).ToList();
+
+                    clsrespon = new clsResponse();
+                    clsrespon.ID = 0;
+                    clsrespon.Message = "Success";
+                    clsrespon.Contents = dept;
+
+                    responList.Add(clsrespon);
+                }
+            }
+            catch (Exception ex)
+            {
+                responList = new List<clsResponse>();
+                clsrespon = new clsResponse();
+
+                clsrespon.ID = 1;
+                clsrespon.Message = ex.Message;
+                clsrespon.Contents = "";
+
+                responList.Add(clsrespon);
+            }
+            return responList;
+        }
+
+        public IEnumerable<clsResponse> GetchartByShift(string param)
+        {
+            List<clsResponse> responList = new List<clsResponse>();
+            clsResponse clsrespon = new clsResponse();
+            Encryption encrypt = new Encryption();
+            try
+            {
+                var array = encrypt.DecryptData(param).Split(new string[] { "||" }, StringSplitOptions.None);
+                string surveyID = array[0];
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    string sql = "sp_surveyandpoolsbyshift_get";
+
+                    SqlCommand cmd = new SqlCommand(sql, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SurveyID", surveyID);
+                    con.Open();
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    da.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                    List<shift> shift = dt.AsEnumerable().Select(x => new shift() {
+                        Shift = Convert.ToString(x.Field<object>("Shift")),
+                        SurveyID = Convert.ToInt16(x.Field<object>("SurveyID")),
+                        AnserDesc = Convert.ToString(x.Field<object>("AnserDesc")),
+                        Total = Convert.ToInt16(x.Field<object>("Total")),
+                        LastCol = Convert.ToInt16(x.Field<object>("LastCol"))
+                    }).ToList();
+
+                    clsrespon = new clsResponse();
+                    clsrespon.ID = 0;
+                    clsrespon.Message = "Success";
+                    clsrespon.Contents = shift;
+
+                    responList.Add(clsrespon);
+                }
+            }
+            catch (Exception ex)
+            {
+                responList = new List<clsResponse>();
+                clsrespon = new clsResponse();
+
+                clsrespon.ID = 1;
+                clsrespon.Message = ex.Message;
+                clsrespon.Contents = "";
+
+                responList.Add(clsrespon);
+            }
+            return responList;
+        }
+
+        public IEnumerable<clsResponse> Getlabelanswer(string param)
+        {
+            List<clsResponse> responList = new List<clsResponse>();
+            clsResponse clsrespon = new clsResponse();
+            Encryption encrypt = new Encryption();
+            try
+            {
+                var array = encrypt.DecryptData(param).Split(new string[] { "||" }, StringSplitOptions.None);
+                string surveyID = array[0];
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    string sql = "sp_SurveyandpoolLabel_Get";
+
+                    SqlCommand cmd = new SqlCommand(sql, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SurveyID", surveyID);
+                    con.Open();
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    da.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                    List<label> label = dt.AsEnumerable().Select( x => new label() {
+                        SurveyID = Convert.ToInt16(x.Field<object>("SurveyID")),
+                        AnswerDesc = Convert.ToString(x.Field<object>("AnswerDesc")),
+                        LastCol = Convert.ToInt16(x.Field<object>("LastCol"))
+                    }).ToList();
+
+                    clsrespon = new clsResponse();
+                    clsrespon.ID = 0;
+                    clsrespon.Message = "Success";
+                    clsrespon.Contents = label;
+
+                    responList.Add(clsrespon);
+                }
+            }
+            catch (Exception ex)
+            {
+                responList = new List<clsResponse>();
+                clsrespon = new clsResponse();
+
+                clsrespon.ID = 1;
+                clsrespon.Message = ex.Message;
+                clsrespon.Contents = "";
+
+                responList.Add(clsrespon);
+            }
+            return responList;
+        }
     }
 }
