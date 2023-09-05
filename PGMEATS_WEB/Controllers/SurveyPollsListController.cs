@@ -395,6 +395,18 @@ namespace PGMEATS_WEB.Controllers
 
             string UserLogin = Session["LogUserID"].ToString().Trim();
             param.QuestionSeqNo = db.getQuestionSeqNo(param.SurveyID, param.ParentQuestionID);
+            clsResponse vParent = db.validateParent(param.SurveyID, param.QuestionSeqNo, param.ParentQuestionID, param.ParentAnswerSeqNo);
+            if(vParent.ID == 1)
+            {
+                DataTable dtvParent = (DataTable)vParent.Contents;
+                if(dtvParent.Rows.Count > 0)
+                {
+                    response.ID = 0;
+                    response.Message = "Parent question and parent answer already exists";
+                    response.Contents = "";
+                    return Json(response, JsonRequestBehavior.AllowGet);
+                }
+            }
             try
             {
                 List<surveyAnswer> cls = new List<surveyAnswer>();
@@ -689,6 +701,20 @@ namespace PGMEATS_WEB.Controllers
             }
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+
+
+        //public string CreateImage(string data)
+        //{
+        //    string fname = Server.MapPath("data-image") + "//chart.png";
+        //    var base64Data = Regex.Match(data, @"data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
+        //    var binData = Convert.FromBase64String(base64Data);
+        //    using (var stream = new MemoryStream(binData))
+        //    {
+        //        System.Drawing.Bitmap img = new Bitmap(stream);
+        //        img.Save(fname, System.Drawing.Imaging.ImageFormat.Png);
+        //    }
+        //    return fname;
+        //}
 
     }
 }

@@ -656,24 +656,20 @@
                             var finalized = dt.Finalized
 
                             if (finalized == "1") {
-                                $('#txtsurveyid').prop('disabled', true);
-                                $('#txtsurveyid').css({ "background-color": "#e9ecef" });
-                                $('#txttitle').prop('disabled', true);
-                                $('#txttitle').css({ "background-color": "#e9ecef" });
-                                $('#btnNewDept').prop('disabled', true);
-                                $('#btnNewDesign').prop('disabled', true);
-
-                                $('#startdate').prop('disabled', true);
-                                $('#enddate').prop('disabled', true);
-                                $('#startdate').css({ "background-color": "#e9ecef" });
-                                $('#enddate').css({ "background-color": "#e9ecef" });
-
-                                $('#Type').prop('disabled', true);
-                                $('#Type').css({ "background-color": "#e9ecef" });
-
-                                $('#chkViewChart').prop('disabled', true);
-
-                                $('#btnSave').prop('disabled', true);
+                                //$('#txtsurveyid').prop('disabled', true);
+                                //$('#txtsurveyid').css({ "background-color": "#e9ecef" });
+                                //$('#txttitle').prop('disabled', true);
+                                //$('#txttitle').css({ "background-color": "#e9ecef" });
+                                //$('#startdate').prop('disabled', true);
+                                //$('#enddate').prop('disabled', true);
+                                //$('#startdate').css({ "background-color": "#e9ecef" });
+                                //$('#enddate').css({ "background-color": "#e9ecef" });
+                                //$('#Type').prop('disabled', true);
+                                //$('#Type').css({ "background-color": "#e9ecef" });
+                                //$('#chkViewChart').prop('disabled', true);
+                                //$('#btnNewDept').prop('disabled', true);
+                                //$('#btnNewDesign').prop('disabled', true);
+                                //$('#btnSave').prop('disabled', true);
                                 $('#btnNew').prop('disabled', true);
                                 $('#btnFinalized').prop('disabled', true);
                                 $('#tableID td:nth-child(1), th:nth-child(1)').hide();
@@ -1043,14 +1039,22 @@
             var EndDate = $("#enddate").val();
             var Type = $("#Type").val();
             var ViewChart;
-            var Finalized = "0"
-            for (i = 0; i < sDepartment.length - 1; i++) {
-                Department.push(sDepartment[i]);
-            }
-            for (i = 0; i < sDesignation.length - 1; i++) {
-                Designation.push(sDesignation[i]);
-            }
+            var Finalized = "0";
 
+            if (sDepartment.length == 1) {
+                Department.push(sDepartment[0]);
+            } else {
+                for (i = 0; i < sDepartment.length - 1; i++) {
+                    Department.push(sDepartment[i]);
+                }
+            }
+            if (sDesignation.length == 1) {
+                Designation.push(sDesignation[0]);
+            } else {
+                for (i = 0; i < sDesignation.length - 1; i++) {
+                    Designation.push(sDesignation[i]);
+                }
+            }
             if ($('#chkViewChart').is(":checked")) {
                 ViewChart = 1
             } else {
@@ -1113,24 +1117,21 @@
                         $("#txttitle").focus();
                     } else {
                         toastr.success(data.Message, 'Success', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
-                        $('#txtsurveyid').prop('disabled', true);
-                        $('#txtsurveyid').css({ "background-color": "#e9ecef" });
-                        $('#txttitle').prop('disabled', true);
-                        $('#txttitle').css({ "background-color": "#e9ecef" });
-                        $('#btnNewDept').prop('disabled', true);
-                        $('#btnNewDesign').prop('disabled', true);
+                        //$('#txtsurveyid').prop('disabled', true);
+                        //$('#txtsurveyid').css({ "background-color": "#e9ecef" });
+                        //$('#txttitle').prop('disabled', true);
+                        //$('#txttitle').css({ "background-color": "#e9ecef" });
+                        //$('#btnNewDept').prop('disabled', true);
+                        //$('#btnNewDesign').prop('disabled', true);
+                        //$('#startdate').prop('disabled', true);
+                        //$('#enddate').prop('disabled', true);
+                        //$('#startdate').css({ "background-color": "#e9ecef" });
+                        //$('#enddate').css({ "background-color": "#e9ecef" });
+                        //$('#Type').prop('disabled', true);
+                        //$('#Type').css({ "background-color": "#e9ecef" });
+                        //$('#chkViewChart').prop('disabled', true);
+                        //$('#btnNew').prop('disabled', true);
 
-                        $('#startdate').prop('disabled', true);
-                        $('#enddate').prop('disabled', true);
-                        $('#startdate').css({ "background-color": "#e9ecef" });
-                        $('#enddate').css({ "background-color": "#e9ecef" });
-
-                        $('#Type').prop('disabled', true);
-                        $('#Type').css({ "background-color": "#e9ecef" });
-
-                        $('#chkViewChart').prop('disabled', true);
-
-                        $('#btnNew').prop('disabled', true);
                         $('#btnFinalized').prop('disabled', true);
                         $('#tableID td:nth-child(1), th:nth-child(1)').hide();
 

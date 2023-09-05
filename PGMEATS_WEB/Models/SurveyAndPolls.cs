@@ -1186,6 +1186,41 @@ namespace PGMEATS_WEB.Models
             return resp;
         }
 
+        public clsResponse validateParent(string SurveyID, string QuestionSeqNo, string ParentQuestionID, string ParentAnswerSeqNo)
+        {
+            DataTable dt = new DataTable();
+            clsResponse resp = new clsResponse();
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    con.Open();
+                    SqlCommand cmd;
+                    cmd = new SqlCommand("sp_SurveyandPolls_CheckParent", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SurveyID", SurveyID);
+                    cmd.Parameters.AddWithValue("@QuestionSeqNo", QuestionSeqNo);
+                    cmd.Parameters.AddWithValue("@ParentQuestionID", ParentQuestionID);
+                    cmd.Parameters.AddWithValue("@ParentAnswerSeqNo", ParentAnswerSeqNo);
+
+                    //DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+
+                    resp.ID = 1;
+                    resp.Message = "Success";
+                    resp.Contents = dt;
+                }
+            } catch(Exception ex)
+            {
+                resp.ID = 0;
+                resp.Message = ex.Message;
+                resp.Contents = dt;
+            }
+            return resp;
+        }
+
         public clsResponse GetSurveyAndPollsDetailList(string param)
         {
             List<SurveyAndPollsDetailList> SurveyPollsDetailList = new List<SurveyAndPollsDetailList>();
