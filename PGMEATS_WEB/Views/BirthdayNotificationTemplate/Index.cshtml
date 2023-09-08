@@ -25,62 +25,108 @@
 
                     <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
                         <div style="padding: 5px 5px 5px 5px">
+
                             @*<div class="table-toolbar" style="padding-bottom:10px">
-                                <table>
-                                    <tr style="height:45px">
-                                        <td width="150px">
-                                            <p style="font-weight:600; margin: 0">Date</p>
-                                        </td>
+                                    <table>
+                                        <tr style="height:45px">
+                                            <td width="150px">
+                                                <p style="font-weight:600; margin: 0">Date</p>
+                                            </td>
 
-                                        <td>
-                                            <input id="filterDatefrom" type="text" class="form-control input-md" style="background-color:white; width:150px" />
-                                        </td>
+                                            <td>
+                                                <input id="filterDatefrom" type="text" class="form-control input-md" style="background-color:white; width:150px" />
+                                            </td>
 
-                                        <td width="40px" style="text-align:center">
-                                            <p style="font-weight:600; margin: 0">To</p>
-                                        </td>
+                                            <td width="40px" style="text-align:center">
+                                                <p style="font-weight:600; margin: 0">To</p>
+                                            </td>
 
-                                        <td>
-                                            <input id="filterDateTo" type="text" class="form-control input-md" style="background-color:white; width:150px" />
-                                        </td>
-                                        <td></td>
-                                    </tr>
+                                            <td>
+                                                <input id="filterDateTo" type="text" class="form-control input-md" style="background-color:white; width:150px" />
+                                            </td>
+                                            <td></td>
+                                        </tr>
 
-                                    <tr style="height:45px">
-                                        <td>
-                                            <p style="font-weight:600; margin: 0">Group Department</p>
-                                        </td>
-                                        <td colspan="3">
-                                            <select id="FilterGroupDepartment" class="form-control input-md" style="height:30px; width:340px;"></select>
-                                        </td>
-                                    </tr>
+                                        <tr style="height:45px">
+                                            <td>
+                                                <p style="font-weight:600; margin: 0">Group Department</p>
+                                            </td>
+                                            <td colspan="3">
+                                                <select id="FilterGroupDepartment" class="form-control input-md" style="height:30px; width:340px;"></select>
+                                            </td>
+                                        </tr>
 
-                                    <tr style="height:45px">
-                                        <td width="120px">
-                                            <p style="font-weight:600; margin: 0">Designation</p>
-                                        </td>
+                                        <tr style="height:45px">
+                                            <td width="120px">
+                                                <p style="font-weight:600; margin: 0">Designation</p>
+                                            </td>
 
-                                        <td colspan="2">
-                                            <select id="FilterDesignation" class="form-control input-md" style="height:30px; margin-right:20px"></select>
-                                        </td>
+                                            <td colspan="2">
+                                                <select id="FilterDesignation" class="form-control input-md" style="height:30px; margin-right:20px"></select>
+                                            </td>
 
-                                        
-                                        <td style="text-align: right">
-                                            <button class="btn btn-save" id="refresh"> Refresh </button>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>*@
 
-                            <table style="width: 100%;">
+                                            <td style="text-align: right">
+                                                <button class="btn btn-save" id="refresh"> Refresh </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>*@
+
+                            @*<table style="width: 100%;">
                                 <tr style="height: 50px">
                                     <td>
                                         <button id="btnNew" class="btn borderradiusbtn" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: 500; background-color: #4CBFBC; width:85px" data-toggle="modal" data-target="#myModal" onclick="AddNewData()"><span style="color:white">New</span></button>
                                     </td>
                                 </tr>
-                            </table>
+                            </table>*@
 
-                            <table id="tableID" class="table table-bordered table-striped" width="100%">
+                            <form id="form" class="smart-form">
+                                <fieldset id="SubmitForm">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <table style="border:0px solid black; width:100%">
+                                        <tr class="hidden">
+                                            <td>
+                                                <div class="form-group ">
+                                                    <label style="font-weight:500">Birthday Notification</label>
+                                                    @Html.TextBoxFor(m => m.BirthdayTemplateID, new { @id = "BirthdayTemplateID", @class = "form-control input-md", placeholder = "NEW", @style = "height:20px; width:150px; cursor: not-allowed;" })
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label style="font-weight:500">Subject</label>
+                                                    @Html.TextBoxFor(m => m.Subject, new { @id = "Subject", @class = "form-control input-md", placeholder = "Email Subject", @style = "height:20px; width:98%", @maxlength = "50" })
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label style="font-weight:500">Content</label>
+                                                    @Html.TextAreaFor(m => m.Content, new { @id = "Content", rows = "40", style = "resize:none;", placeholder = "Input Email Content", @class = "form-control input-lg textarea-editor" })
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </fieldset>
+                                @if (ViewBag.AllowWrite == "0")
+                                {
+                                    <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px;float:right;" disabled>Save</button>
+                                    <button type="button" class="btn btn-save" id="UpdateData" style="width: 85px; font-size: 13px; display: none; float: right;" disabled>Update</button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-save" id="InsertData" style="width: 85px; font-size: 13px;float:right;">Save</button>
+                                    <button type="button" class="btn btn-save" id="UpdateData" style="width: 85px; font-size: 13px; display: none; float: right;">Update</button>
+                                }
+                            </form>
+
+                            @*<table id="tableID" class="table table-bordered table-striped" width="100%">
                                 <thead>
                                     <tr>
                                         <th style="text-align: center;width: 8%">Action</th>
@@ -95,7 +141,7 @@
                                         </th>
                                     </tr>
                                 </thead>
-                            </table>
+                            </table>*@
 
                             @*Create A Popup Modal*@
                             <div class="modal fade" id="MyModal" style="overflow-y: initial !important">
@@ -108,40 +154,7 @@
                                         </div>
 
                                         <div class="modal-body" style="padding:0">
-                                            <form id="form" class="smart-form">
-                                                <fieldset id="SubmitForm">
-                                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                                    <table style="border:0px solid black; width:100%">
-                                                        <tr class="hidden">
-                                                            <td>
-                                                                <div class="form-group ">
-                                                                    <label style="font-weight:500">Birthday Notification</label>
-                                                                    @Html.TextBoxFor(m => m.BirthdayTemplateID, new { @id = "BirthdayTemplateID", @class = "form-control input-md", placeholder = "NEW", @style = "height:20px; width:150px; cursor: not-allowed;" })
-                                                                </div>
-                                                            </td>
-                                                        </tr>
 
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-group">
-                                                                    <label style="font-weight:500">Subject</label>
-                                                                    @Html.TextBoxFor(m => m.Subject, new { @id = "Subject", @class = "form-control input-md", placeholder = "Email Subject", @style = "height:20px; width:98%", @maxlength = "50" })
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-group">
-                                                                    <label style="font-weight:500">Content</label>
-                                                                    @Html.TextAreaFor(m => m.Content, new { @id = "Content", rows = "40", style = "resize:none;", placeholder = "Input Email Content", @class = "form-control input-lg textarea-editor" })
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-
-                                                    </table>
-                                                </fieldset>
-                                            </form>
                                         </div>
 
                                         <div class="modal-footer">
@@ -181,8 +194,6 @@
                                     </div>
                                 </div>
                             </div>
-                           
-
                         </div>
                     </div>
                 </div>
@@ -320,13 +331,16 @@
                     processData: false,
                 }).done(function (result) {
                     debugger
-                    $("#tableID").DataTable().clear();
+                    /*$("#tableID").DataTable().clear();*/
 
                     if (result.ID == '0') {
                         toastr.error(result.Message, 'Error', { timeOut: 3000, "closeButton": true });
                     }
                     else {
-                        $("#tableID").DataTable().rows.add(result.Contents).draw(false);
+                        /*$("#tableID").DataTable().rows.add(result.Contents).draw(false);*/
+                        $("#BirthdayTemplateID").val(result.Contents[0].BirthdayTemplateID)
+                        $("#Subject").val(result.Contents[0].Subject)
+                        $("#Content").code(result.Contents[0].Content);
                     }
 
                     setTimeout(function () {
