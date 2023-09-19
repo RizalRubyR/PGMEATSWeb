@@ -29,7 +29,7 @@
                                             <p style="font-weight:600; margin-right:20px">Date</p>
                                         </td>
                                         <td>
-                                            <input id="fromDate" type="text" class="form-control input-md" style="background-color:white; width:150px" />
+                                            <input id="fromDate" type="text" class="form-control input-md" style="background-color:white; width:150px" runat="server" />
                                         </td>
                                         <td width="40px" style="text-align:center">
                                             <p style="font-weight:600">To</p>
@@ -62,10 +62,11 @@
                                         <td>
                                             <button class="btn btn-save" id="refresh"> Refresh </button>
                                         </td>
-                                        @*<td>&nbsp;</td>
+                                        <td>&nbsp;</td>
                                         <td>
-                                            <button class="btn btn-save" id="SettingCaterer" disabled="disabled"> Past to Caterer </button>
-                                        </td>*@
+                                            <input type="button" id="ExcelReport" class="btn btn-save" onClick="fnExcelReport();" value="Download Excel" />
+                                            <a href="#" id="ExcelReportAnchor"></a>
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
@@ -179,7 +180,7 @@
                                                                     <label style="font-weight:500; margin-bottom:0.5em;">Caterer ID</label>
                                                                     <div style="display:flex">
                                                                         <select id="txtCatererID" class="form-control input-md" style="height:30px; width:200px; margin-right:20px" disabled="disabled"></select>
-                                                                      @*  <button id="btnclearcatererID" style="border-color:transparent; background-color:transparent; font-size:30px"  class="fa fa-close" ></button>*@
+                                                                        @*  <button id="btnclearcatererID" style="border-color:transparent; background-color:transparent; font-size:30px"  class="fa fa-close" ></button>*@
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -290,12 +291,22 @@
 <script src="~/Scripts/zebra_datepicker.src.js"></script>
 
 <script type="text/javascript">
+
+   var currentdate = new Date();
+   var dateExport = "" + String(currentdate.getDate()).padStart(2, '0') + ""
+                + String(currentdate.getMonth() + 1).padStart(2, '0')  + ""
+                + currentdate.getFullYear() + ""
+                + currentdate.getHours() + ""
+                + currentdate.getMinutes() + ""
+                + currentdate.getSeconds();
+
     var oTable;
     var UserID = '@ViewBag.UserID';
     var AdminStatus = '@ViewBag.AdminStatus';
     var UserType = '@ViewBag.UserType';
+
     $(document).ready(function () {
-      
+
         FillCombo_Department(UserID);
         FillCombo_ComplaintStatus()
         FillCombo_IssueType()
@@ -338,7 +349,13 @@
                 { "data": "CatererID", "autoWidth": true, className: "txtAlignLeft" },
                 {
                     "data": "FileName", className: "txtAlignCenter", "render": function (data, type, row) {
-                        return '<a href="#" onclick="ImgShow(\'' + row.Evidence + '\')">Show Evidence</a>'
+                        var FileName = row.Evidence.split('|')[0];
+                        if (FileName != "") {
+                            return '<img src="/Image/MyComplaint/' + FileName + '" alt=Evidence id="EvidenceShow" style="height: 100px; width: 100px; max-width: 100%; max-height: 100%; object-fit: cover;" />'
+                        } else {
+                            return '<label> </label>'
+                        }
+                       /* return '<a href="#" onclick="ImgShow(\'' + row.Evidence + '\')">Show Evidence</a>'*/
                     }
                 },
                 { "data": "CreatedUser", "autoWidth": true, className: "txtAlignCenter" },
@@ -693,41 +710,6 @@
         });
     }
 
-    //$("#btnclearcatererID").click(function () {
-    //    $('#txtCatererID').empty();
-    //    $("#txtCatererID").append('<option value disabled selected>Fill CatererID</option>');
-    //    $('#txtCatererID').val("");
-    //    FillCombo_CatererID("");
-    //})
-
-    @*function FillCombo_CatererID(cbCatererID, CatererID) {
-        $.ajax({
-            type: "POST",
-            url:  "@Url.Action("FillCombo_CatererID", "MyComplaint")", // "/MyComplaint/FillCombo/",
-            datatype: 'json',
-            data: { TypeAction: "04" },
-            success: function (result) {
-                if (result.Message.toLowerCase().includes("success")) {
-                    $('#' + cbCatererID + '').empty();
-                    $('#' + cbCatererID + '').append('<option value="" disabled selected>Fill CatererID</option>');
-                    $.each(result.Content, function (i, dt) {
-                        if (dt.CodeDesc == CatererID) {
-                            $('#' + cbCatererID + '').append('<option value="' + dt.Code + '" selected>' + dt.CodeDesc + '</option>');
-                        } else {
-                            $('#' + cbCatererID + '').append('<option value="' + dt.Code + '">' + dt.CodeDesc + '</option>');
-                        }
-
-                    });
-                } else {
-                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
-                }
-            },
-            error: function (ex) {
-                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
-            }
-        });
-    }*@
-
     function clearTextBox() {
         $("#CreatedDate").val('');
         $("#DepartmentDet").val('');
@@ -752,101 +734,150 @@
         }
         else {
             $("#ComplaintReplyDet").removeAttr("disabled", "disabled");
-        }      
+        }
     })
 
-    //$("#txtCatererID").change(function () {
-    //    $("#ComplaintReplyDet").attr("disabled", "disabled");
-    //})
 
-    @*var totlenght = 0;
-    $('#tableID tbody').on('change', 'input:checkbox[id^="check"]', function () {
-        var tables = $("#tableID").dataTable();
-        var indexOfRow = tables.fnGetPosition($(this).closest('tr').get(0));
-        if (document.getElementById('check-' + indexOfRow).checked) {
-            $("#CatererID-" + indexOfRow).removeAttr("disabled", "disabled");
-            totlenght = totlenght + 1;
-        } else {
-            $("#CatererID-" + indexOfRow).attr("disabled", "disabled");
-            totlenght = totlenght - 1;
+
+    /*=============================================================================
+     Dowmload Excel
+     ==============================================================================*/
+    var tab_text = "";
+    var data_type = 'data:application/vnd.ms-excel';
+    var TableMarkUp = "";
+
+    function CreateHiddenTable(ListOfMessages) {
+
+        var ColumnHead = "";
+        ColumnHead += "<td><b>Date</b></td>";
+        ColumnHead += "<td><b>Department</b></td>";
+        ColumnHead += "<td><b>IssueType</b></td>";
+        ColumnHead += "<td><b>Description</b></td>";
+        ColumnHead += "<td><b>CatererID</b></td>";
+        ColumnHead += "<td><b>Created By</b></td>";
+        ColumnHead += "<td><b>Status</b></td>";
+        ColumnHead += "<td><b>Response</b></td>";
+        ColumnHead += "<td><b>Create Response</b></td>";
+        ColumnHead += "<td><b>Last User</b></td>";
+        ColumnHead += "<td><b>Last Update</b></td>";
+
+        TableMarkUp += '<table border="2px" id="myModifiedTable" class="visibilityHide"><thead><tr bgcolor="#d3d3d3">' + ColumnHead + '</tr></thead><tbody>';
+
+        for (x = 0; x < ListOfMessages.length; x++) {
+
+            var rowdata = "";
+            rowdata += '<td>' + ListOfMessages[x]["CreatedDate"] + '</td>'
+            rowdata += '<td>' + ListOfMessages[x]["Department"] + '</td>'
+            rowdata += '<td>' + ListOfMessages[x]["IssueTypeDesc"] + '</td>'
+            rowdata += '<td>' + ListOfMessages[x]["ComplaintDesc"] + '</td>'
+            rowdata += '<td>' + ListOfMessages[x]["CatererID"] + '</td>'
+            rowdata += '<td>' + ListOfMessages[x]["CreatedUser"] + '</td>'
+            rowdata += '<td>' + ListOfMessages[x]["ReplyStatus"] + '</td>'
+            rowdata += '<td>' + ListOfMessages[x]["ComplaintReply"] + '</td>'
+            rowdata += '<td>' + ListOfMessages[x]["LastUser"] + '</td>'
+            rowdata += '<td>' + ListOfMessages[x]["LastUser"] + '</td>'
+            rowdata += '<td>' + ListOfMessages[x]["LastUpdate"] + '</td>'
+
+            TableMarkUp += '<tr>' + rowdata + '</tr>';
         }
 
-        if (totlenght > 0) {
-            $("#SettingCaterer").removeAttr("disabled", "disabled");
-        } else {
-            $("#SettingCaterer").attr("disabled", "disabled");
-        }
-    });
+        TableMarkUp += "</tbody></table>";
+    }
 
-    $('#select-all').on('click', function () {
-        $('input:checkbox[id^="check"]', rows).prop('checked', this.checked);
-        var tables = $("#tableID").dataTable();
-        var rows = tables.fnGetNodes();
-        for (var iRow = 0; iRow < rows.length; iRow++) {
-            if (document.getElementById('check-' + iRow).checked) {
-                $("#CatererID-" + iRow).removeAttr("disabled", "disabled");
-                totlenght = totlenght + 1;
-            } else {
-                $("#CatererID-" + iRow).attr("disabled", "disabled");
-                totlenght = totlenght - 1;
-            }
-        }
-        if (totlenght > 0) {
-            $("#SettingCaterer").removeAttr("disabled", "disabled");
-        } else {
-            $("#SettingCaterer").attr("disabled", "disabled");
-        }
-    });
+     function loadExcel() {
+        var department = $("#Department").val();
+        var issuetypeID = $("#IssueTypeID").val();
+        var complaintStatus = $("#ComplaintStatus").val();
 
-    $("#SettingCaterer").click(function () {
-        var msg = "";
-        var orderArr = [];
-        orderArr.length = 0;
+        var months = {
+            Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
+            Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
+        };
 
-        $.each($("#tableID tbody tr"), function () {
-            if ($(this).find('input:eq(0)').prop('checked') == true) {
-                var complaintID = $(this).find('td:eq(3)').text();
-                var catererID = $(this).find('td:eq(2)  :selected').val() ? $(this).find('td:eq(2)  :selected').val() : "";
-                if (catererID == "") {
-                    return msg = "Please, fill catererID!";
-                }
-                orderArr.push({
-                    CatererID: catererID,
-                    ComplaintID: complaintID
-                });
-            }
-        });
+        var pfromDate = $("#fromDate").val().split(' ');
+        var fromDate = pfromDate[2] + "-" + months[pfromDate[1]] + "-" + pfromDate[0]; //convert date to format "yyyy-mm-dd"
 
-        if (msg != "") {
-            toastr.warning(msg, 'Warning', { timeOut: 1000, "closeButton": true });
-            return
-        }
+        var ptoDate = $("#toDate").val().split(' ');
+        var toDate = ptoDate[2] + "-" + months[ptoDate[1]] + "-" + ptoDate[0]; //convert date to format "yyyy-mm-dd"
 
-
-        if (orderArr.length <= 0) {
-            toastr.warning("Please, select one of feedback list!" , 'Warning', { timeOut: 1000, "closeButton": true });
-            return
-        }
+        var formdata = new FormData();
+        formdata.append("FromDate", fromDate);
+        formdata.append("toDate", toDate);
+        formdata.append("Department", department);
+        formdata.append("IssueTypeID", issuetypeID);
+        formdata.append("ComplaintStatus", complaintStatus);
+        formdata.append("UserID", UserID);
 
         $.ajax({
             type: "POST",
-            url: "@Url.Action("SettingCaterer", "MyComplaint")",
-            data: JSON.stringify(orderArr),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
+            url: "@Url.Action("ReplyComplaintList", "MyComplaint")", //"/MyComplaint/ReplyComplaintList/",
+            contentType: false,
+            processData: false,
+            data: formdata,
             success: function (result) {
                 if (result.Message.toLowerCase().includes("success")) {
-                    loadData();
-                    return toastr.success("Pass to caterer successfully !", 'Success', { timeOut: 1000, "closeButton": true });
-                } else {
-                    return toastr.warning(result.Message, 'warning', { timeOut: 3000, "closeButton": true });
+
+                    TableMarkUp += '<table>'
+                    TableMarkUp += '<tr><td colspan="4"><b style="font-size:160%;"> PGM EATS - List Of Feedback <b></td></tr>';
+                    TableMarkUp += '</table><br>'
+
+                    TableMarkUp += '<table>'
+                    TableMarkUp += '<tr><td colspan="2"><b>Periode<b></td><td colspan="2"><b>: ' + $("#fromDate").val() + ' - ' + $("#toDate").val() + '<b></td></tr>';
+                    TableMarkUp += '<tr><td colspan="2"><b>Department<b></td><td colspan="2"><b>: ' + $("#Department option:selected").text() + '<b></td></tr>';
+                    TableMarkUp += '<tr><td colspan="2"><b>Issue Type<b></td><td colspan="2"><b>: ' + $("#IssueTypeID option:selected").text() + '<b></td></tr>';
+                    TableMarkUp += '<tr><td colspan="2"><b>Status<b></td><td colspan="2"><b>: ' + $("#ComplaintStatus option:selected").text() + '<b></td></tr>';
+                    TableMarkUp += '</table><br><br>'
+
+                    CreateHiddenTable(result.Contents);
+                }
+                else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
+                    return
                 }
             },
             error: function (ex) {
-                return toastr.warning('Error connection API' + ex, 'Warning', { timeOut: 3000, "closeButton": true });
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
+                return
             }
-        });
+        }).done(function () {
 
-    })*@
+            tab_text += '<html xmlns:x="urn:schemas-microsoft-com:office:excel">';
+            tab_text += '<head><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>';
+            tab_text += '<x:Name>Error Messages</x:Name>';
+            tab_text += '<x:WorksheetOptions><x:Panes></x:Panes></x:WorksheetOptions></x:ExcelWorksheet>';
+            tab_text += '</x:ExcelWorksheets></x:ExcelWorkbook></xml></head><body>';
+            tab_text += "<table border='2px'><tr>"
+            tab_text += TableMarkUp
+            tab_text += '</table></body></html>';
+
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                if (window.navigator.msSaveBlob) {
+                    var blob = new Blob([tab_text], {
+                        type: "application/csv;charset=utf-8;"
+                    });
+                    navigator.msSaveBlob(blob, 'List Of Feeback_' + dateExport +'_.xls');
+                }
+            } else {
+                console.log(data_type);
+                console.log(tab_text);
+                $('#ExcelReportAnchor')[0].click()
+            }
+        })
+    }
+
+
+    function fnExcelReport() {
+        loadExcel();
+    }
+
+    $($("#ExcelReportAnchor")[0]).click(function () {
+        console.log(data_type);
+        console.log(tab_text);
+        $('#ExcelReportAnchor').attr('href', data_type + ', ' + encodeURIComponent(tab_text));
+        $('#ExcelReportAnchor').attr('download', 'List Of Feeback_' + dateExport +'_.xls');
+    });
 
 </script>

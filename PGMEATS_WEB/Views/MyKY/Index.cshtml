@@ -58,6 +58,8 @@
                                         </td>
                                         <td>
                                             <button class="btn btn-save" id="refresh"> Refresh </button>
+                                            <input type="button" id="ExcelReport" class="btn btn-save" onClick="fnExcelReport();" value="Download Excel" />
+                                            <a href="#" id="ExcelReportAnchor"></a>
                                         </td>
                                     </tr>
                                 </table>
@@ -276,7 +278,16 @@
 
 
 <script type="text/javascript">
+    var currentdate = new Date();
+    var dateExport = "" + String(currentdate.getDate()).padStart(2, '0') + ""
+        + String(currentdate.getMonth() + 1).padStart(2, '0') + ""
+        + currentdate.getFullYear() + ""
+        + currentdate.getHours() + ""
+        + currentdate.getMinutes() + ""
+        + currentdate.getSeconds();
+
     var UserID = '@ViewBag.UserID';
+
     $(document).ready(function () {
         FillCombo_Loc(UserID);
         FillCombo_Status()
@@ -312,8 +323,14 @@
                 { "data": "MyKYSpecLocation", "autoWidth": true, className: "txtAlignCenter" },
                 { "data": "MyKYDesc", "autoWidth": true, className: "txtAlignLeft" },
                 {
-                    "data": "FileName", className: "txtAlignLeft", "render": function (data, type, row) {
-                        return '<a href="#" onclick="ImgShow(\'' + row.Evidence + '\')">' + row.Evidence + '</a>'
+                    "data": "FileName", className: "txtAlignCenter", "render": function (data, type, row) {
+                        var FileName = row.Evidence.split('|')[0];
+                        if (FileName != "") {
+                            return '<img src="/Image/MyKY/' + FileName + '" alt=Evidence id="EvidenceShow" style="height: 100px; width: 100px; max-width: 100%; max-height: 100%; object-fit: cover;" />'
+                        } else {
+                            return '<label> </label>'
+                        }
+                        /*return '<a href="#" onclick="ImgShow(\'' + row.Evidence + '\')">' + row.Evidence + '</a>'*/
                     }
                 },
                 { "data": "CreateUser", "autoWidth": true, className: "txtAlignCenter" },
@@ -403,7 +420,7 @@
                     waitingDialog.hide();
                 }, 500);
             }
-        });
+        })
     }
 
     $('#fromDate').Zebra_DatePicker({
@@ -641,6 +658,145 @@
         var path = "/Image/MyKY/" + FileName;
         document.getElementById('EvidenceShow').src = path;
     }
+
+
+    /*=============================================================================
+     Dowmload Excel
+     ==============================================================================*/
+    var tab_text = "";
+    var data_type = 'data:application/vnd.ms-excel';
+    var TableMarkUp = "";
+
+    function CreateHiddenTable(ListOfMessages) {
+
+        var ColumnHead = "";
+        ColumnHead += "<td><b>KYID</b></td>";
+        ColumnHead += "<td><b>Date</b></td>";
+        ColumnHead += "<td><b>Location</b></td>";
+        ColumnHead += "<td><b>Specific Location</b></td>";
+        ColumnHead += "<td><b>Description</b></td>";
+        ColumnHead += "<td><b>Created By</b></td>";
+        ColumnHead += "<td><b>Status</b></td>";
+        ColumnHead += "<td><b>Response</b></td>";
+        ColumnHead += "<td><b>Create Response</b></td>";
+        ColumnHead += "<td><b>Last User</b></td>";
+        ColumnHead += "<td><b>Last Update</b></td>";
+
+        TableMarkUp += '<table border="2px" id="myModifiedTable" class="visibilityHide"><thead><tr bgcolor="#d3d3d3">' + ColumnHead + '</tr></thead><tbody>';
+
+        for (x = 0; x < ListOfMessages.length; x++) {
+
+            var rowdata = "";
+            rowdata += "<td>" + ListOfMessages[x]["KYID_Eats"] + "</td>"
+            rowdata += "<td>" + ListOfMessages[x]["CreateDate"] + "</td>"
+            rowdata += "<td>" + ListOfMessages[x]["MyKYLocationDesc"] + "</td>"
+            rowdata += "<td>" + ListOfMessages[x]["MyKYSpecLocation"] + "</td>"
+            rowdata += "<td>" + ListOfMessages[x]["MyKYDesc"] + "</td>"
+            rowdata += "<td>" + ListOfMessages[x]["CreateUser"] + "</td>"
+            rowdata += "<td>" + ListOfMessages[x]["MyKYStatusDesc"] + "</td>"
+            rowdata += "<td>" + ListOfMessages[x]["MyKYReply"] + "</td>"
+            rowdata += "<td>" + ListOfMessages[x]["LastUser"] + "</td>"
+            rowdata += "<td>" + ListOfMessages[x]["LastUser"] + "</td>"
+            rowdata += "<td>" + ListOfMessages[x]["LastUpdate"] + "</td>"
+
+            TableMarkUp += '<tr>' + rowdata + '</tr>';
+        }
+
+        TableMarkUp += "</tbody></table>";
+    }
+
+     function loadExcel() {
+         var location = $("#Location").val();
+         var status = $("#Status").val();
+
+         var months = {
+             Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
+             Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
+         };
+
+         var pfromDate = $("#fromDate").val().split(' ');
+         var fromDate = pfromDate[2] + "-" + months[pfromDate[1]] + "-" + pfromDate[0]; //convert date to format "yyyy-mm-dd"
+
+         var ptoDate = $("#toDate").val().split(' ');
+         var toDate = ptoDate[2] + "-" + months[ptoDate[1]] + "-" + ptoDate[0]; //convert date to format "yyyy-mm-dd"
+
+         var formdata = new FormData();
+         formdata.append("FromDate", fromDate);
+         formdata.append("toDate", toDate);
+         formdata.append("MyKYLocation", location);
+         formdata.append("MyKYStatus", status);
+         formdata.append("UserID", UserID);
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ReplyMyKYList", "MyKY")", //"/MyComplaint/ReplyComplaintList/",
+            contentType: false,
+            processData: false,
+            data: formdata,
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+
+                    TableMarkUp += '<table>'
+                    TableMarkUp += '<tr><td colspan="4"><b style="font-size:160%;"> PGM EATS - List Of MyKY <b></td></tr>';
+                    TableMarkUp += '</table><br>'
+
+                    TableMarkUp += '<table>'
+                    TableMarkUp += '<tr><td colspan="2"><b>Periode<b></td><td colspan="2"><b>: ' + $("#fromDate").val() + ' - ' + $("#toDate").val() + '<b></td></tr>';
+                    TableMarkUp += '<tr><td colspan="2"><b>Location<b></td><td colspan="2"><b>: ' + $("#Location option:selected").text() + '<b></td></tr>';
+                    TableMarkUp += '<tr><td colspan="2"><b>Status<b></td><td colspan="2"><b>: ' + $("#Status option:selected").text() + '<b></td></tr>';
+                    TableMarkUp += '</table><br><br>'
+
+                    CreateHiddenTable(result.Contents);
+                }
+                else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
+                    return
+                }
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
+                return
+            }
+        }).done(function () {
+
+            tab_text += '<html xmlns:x="urn:schemas-microsoft-com:office:excel">';
+            tab_text += '<head><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>';
+            tab_text += '<x:Name>Error Messages</x:Name>';
+            tab_text += '<x:WorksheetOptions><x:Panes></x:Panes></x:WorksheetOptions></x:ExcelWorksheet>';
+            tab_text += '</x:ExcelWorksheets></x:ExcelWorkbook></xml></head><body>';
+            tab_text += "<table border='2px'><tr>"
+            tab_text += TableMarkUp
+            tab_text += '</table></body></html>';
+
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+
+            if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+                if (window.navigator.msSaveBlob) {
+                    var blob = new Blob([tab_text], {
+                        type: "application/csv;charset=utf-8;"
+                    });
+                    navigator.msSaveBlob(blob, 'List Of MyKY_' + dateExport +'_.xls');
+                }
+            } else {
+                console.log(data_type);
+                console.log(tab_text);
+                $('#ExcelReportAnchor')[0].click()
+            }
+        })
+    }
+
+
+    function fnExcelReport() {
+        loadExcel();
+    }
+
+    $($("#ExcelReportAnchor")[0]).click(function () {
+        console.log(data_type);
+        console.log(tab_text);
+        $('#ExcelReportAnchor').attr('href', data_type + ', ' + encodeURIComponent(tab_text));
+        $('#ExcelReportAnchor').attr('download', 'List Of MyKY_' + dateExport +'_.xls');
+    });
 
 </script>
 

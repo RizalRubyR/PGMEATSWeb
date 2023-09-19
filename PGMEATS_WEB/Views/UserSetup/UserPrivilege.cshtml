@@ -225,11 +225,33 @@
         data.length = 0;
 
         $.each($("#tableData tbody tr"), function () {
+            var allowaccess
+            if ($(this).find('input:eq(0):checked').is(":checked")) {
+                allowaccess = "1";
+            } else {
+                allowaccess = "0";
+            }
+
+            var allowupdate
+            if ($(this).find('input:eq(1):checked').is(":checked")) {
+                allowupdate = "1";
+            } else {
+                allowupdate = "0";
+            }
+
+            var allowdelete
+            if ($(this).find('input:eq(2):checked').is(":checked")) {
+                allowdelete = "1";
+            } else {
+                allowdelete = "0";
+            }
+
             data.push({
-                UserID : '@ViewBag.UserID',
+                UserID: '@ViewBag.UserID',
                 MenuID: $(this).find('td:eq(0)').html(),
-                Access: $(this).find('input:eq(0):checked').prop('checked'),
-                Update: $(this).find('input:eq(1):checked').prop('checked')
+                Access: allowaccess,
+                Update: allowupdate,
+                Delete: allowdelete
             });
         });
 
