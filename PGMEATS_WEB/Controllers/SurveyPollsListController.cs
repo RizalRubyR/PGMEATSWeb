@@ -122,12 +122,16 @@ namespace PGMEATS_WEB.Controllers
             string AdminStatus = Session["AdminStatus"].ToString();
 
             List<CheckResult> resp = new List<CheckResult>();
+            List<checkResult> check = new List<checkResult>();
             SurveyAndPollsDB db = new SurveyAndPollsDB();
 
             resp = db.ResultCheck(id);
 
+            check = db.CheckAnswer(id);
+
             ViewBag.SurveyID = id;
             ViewBag.ViewChart = resp[0].ViewChart;
+            ViewBag.AnswerCheck = check[0].Messages;
             return View();
         }
 
@@ -692,6 +696,46 @@ namespace PGMEATS_WEB.Controllers
             try
             {
                 response = db.Getlabelanswer(param).ToList();
+            }
+            catch (Exception ex)
+            {
+                response[0].ID = 0;
+                response[0].Message = ex.Message;
+                response[0].Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        //[HttpPost]
+        //public JsonResult CheckAnswer(string SurveyID)
+        //{
+        //    SurveyAndPollsDB db = new SurveyAndPollsDB();
+        //    List<clsResponse> response = new List<clsResponse>();
+        //    Encryption enc = new Encryption();
+        //    string param = enc.EncryptData(SurveyID + "||");
+        //    try
+        //    {
+        //        response = db.CheckAnswer(param).ToList();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        response[0].ID = 0;
+        //        response[0].Message = ex.Message;
+        //        response[0].Contents = "";
+        //    }
+        //    return Json(response, JsonRequestBehavior.AllowGet);
+        //}
+
+        [HttpPost]
+        public JsonResult SaveBase64ToImg(List<Base64ToImage> obj) 
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            List<clsResponse> response = new List<clsResponse>();
+            Encryption enc = new Encryption();
+
+            try
+            {
+                response = db.Base64ToImg(obj).ToList();
             }
             catch (Exception ex)
             {

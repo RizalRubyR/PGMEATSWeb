@@ -8,6 +8,8 @@ using System.Data.SqlClient;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
 using System.Dynamic;
+using System.Text.RegularExpressions;
+using System.IO;
 
 namespace PGMEATS_WEB.Models
 {
@@ -167,12 +169,24 @@ namespace PGMEATS_WEB.Models
         public int LastCol { get; set; }
     }
 
+    public class Base64ToImage
+	{
+        public string nameID { get; set; }
+        public string src { get; set; }
+    }
+
     public class label
     {
         public int SurveyID { get; set; }
         public string AnswerDesc { get; set; }
         public int LastCol { get; set; }
     }
+
+    public class checkResult
+	{
+        public int ID { get; set; }
+        public string Messages { get; set; }
+	}
 
     public class SurveyAndPollsDB
     {
@@ -1436,7 +1450,7 @@ namespace PGMEATS_WEB.Models
                 string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(constr))
                 {
-                    string sql = "sp_surveyandpoolsbydept_get";
+                    string sql = "sp_SurveyPollsResult_ByDepartment";  //"sp_surveyandpoolsbydept_get";
 
                     SqlCommand cmd = new SqlCommand(sql, con);
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -1450,18 +1464,20 @@ namespace PGMEATS_WEB.Models
                     cmd.Dispose();
                     con.Close();
 
-                    List<dept> dept = dt.AsEnumerable().Select(x => new dept() {
-                        Department = Convert.ToString(x.Field<object>("Department")),
-                        SurveyID = Convert.ToInt16(x.Field<object>("SurveyID")),
-                        AnserDesc = Convert.ToString(x.Field<object>("AnserDesc")),
-                        Total = Convert.ToInt16(x.Field<object>("Total")),
-                        LastCol = Convert.ToInt16(x.Field<object>("LastCol"))
-                    }).ToList();
+                    //List<dept> dept = dt.AsEnumerable().Select(x => new dept() {
+                    //    Department = Convert.ToString(x.Field<object>("Department")),
+                    //    SurveyID = Convert.ToInt16(x.Field<object>("SurveyID")),
+                    //    AnserDesc = Convert.ToString(x.Field<object>("AnserDesc")),
+                    //    Total = Convert.ToInt16(x.Field<object>("Total")),
+                    //    LastCol = Convert.ToInt16(x.Field<object>("LastCol"))
+                    //}).ToList();
+
+                    
 
                     clsrespon = new clsResponse();
                     clsrespon.ID = 0;
                     clsrespon.Message = "Success";
-                    clsrespon.Contents = dept;
+                    clsrespon.Contents = dt.AsEnumerable().Select(row => row.Table.Columns.Cast<DataColumn>().ToDictionary(col => col.ColumnName, col => row[col])).Select(dict => (dynamic)dict).ToList();
 
                     responList.Add(clsrespon);
                 }
@@ -1492,7 +1508,7 @@ namespace PGMEATS_WEB.Models
                 string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(constr))
                 {
-                    string sql = "sp_surveyandpoolsbyshift_get";
+                    string sql = "sp_SurveyPollsResult_ByShift"; //"sp_surveyandpoolsbyshift_get";
 
                     SqlCommand cmd = new SqlCommand(sql, con);
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -1506,18 +1522,18 @@ namespace PGMEATS_WEB.Models
                     cmd.Dispose();
                     con.Close();
 
-                    List<shift> shift = dt.AsEnumerable().Select(x => new shift() {
-                        Shift = Convert.ToString(x.Field<object>("Shift")),
-                        SurveyID = Convert.ToInt16(x.Field<object>("SurveyID")),
-                        AnserDesc = Convert.ToString(x.Field<object>("AnserDesc")),
-                        Total = Convert.ToInt16(x.Field<object>("Total")),
-                        LastCol = Convert.ToInt16(x.Field<object>("LastCol"))
-                    }).ToList();
+                    //List<shift> shift = dt.AsEnumerable().Select(x => new shift() {
+                    //    Shift = Convert.ToString(x.Field<object>("Shift")),
+                    //    SurveyID = Convert.ToInt16(x.Field<object>("SurveyID")),
+                    //    AnserDesc = Convert.ToString(x.Field<object>("AnserDesc")),
+                    //    Total = Convert.ToInt16(x.Field<object>("Total")),
+                    //    LastCol = Convert.ToInt16(x.Field<object>("LastCol"))
+                    //}).ToList();
 
                     clsrespon = new clsResponse();
                     clsrespon.ID = 0;
                     clsrespon.Message = "Success";
-                    clsrespon.Contents = shift;
+                    clsrespon.Contents = dt.AsEnumerable().Select(row => row.Table.Columns.Cast<DataColumn>().ToDictionary(col => col.ColumnName, col => row[col])).Select(dict => (dynamic)dict).ToList();
 
                     responList.Add(clsrespon);
                 }
@@ -1575,6 +1591,171 @@ namespace PGMEATS_WEB.Models
 
                     responList.Add(clsrespon);
                 }
+            }
+            catch (Exception ex)
+            {
+                responList = new List<clsResponse>();
+                clsrespon = new clsResponse();
+
+                clsrespon.ID = 1;
+                clsrespon.Message = ex.Message;
+                clsrespon.Contents = "";
+
+                responList.Add(clsrespon);
+            }
+            return responList;
+        }
+
+        public List<checkResult> CheckAnswer(string param)
+        {
+            List<checkResult> responList = new List<checkResult>();
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    string sql = "sp_SurveyPollsResult_Check";
+
+                    SqlCommand cmd = new SqlCommand(sql, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SurveyID", param);
+                    con.Open();
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    da.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                    responList = dt.AsEnumerable().Select(x => new checkResult()
+                    {
+                        ID = Convert.ToInt16(x.Field<object>("ID")),
+                        Messages = Convert.ToString(x.Field<object>("Message"))
+                    }).ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return responList;
+        }
+
+        public IEnumerable<clsResponse> Base64ToImg(List<Base64ToImage>  data)
+        {
+            List<clsResponse> responList = new List<clsResponse>();
+            clsResponse clsrespon = new clsResponse();
+
+            try
+            {
+                string d = DateTime.Now.ToString("yyyyMMdd");
+                //string pathIIS = System.Web.HttpContext.Current.Server.MapPath("~");
+                //string pathImg = "\\" + "Content" + "\\" + "img" + "\\" + "SurveyandPolls" + "\\" + d;
+                //string pathFolder = pathIIS + pathImg;
+                //if (!System.IO.Directory.Exists((pathFolder)))
+                //{
+                //    System.IO.Directory.CreateDirectory(pathFolder);
+                //}
+
+                for (int i = 0; i < data.Count; i++)
+                {
+                    //string base64image = data[i].src; //.Split("data:image/png;base64,")[0];
+                    //var imageMatchesPNG = Regex.Match(data[i].src.ToString(), "(data:image/png;base64,)([^\"]*)");
+                    //string Filename = data[i].nameID + ".png";
+                    //string xfile = pathFolder + "\\" + Filename;
+                    //File.WriteAllBytes(pathFolder + "\\" + Filename, Convert.FromBase64String(base64image));
+                    //clsrespon = new clsResponse();
+                    //clsrespon.ID = 0;
+                    //clsrespon.Message = "Success";
+                    //clsrespon.Contents = xfile;
+                    //responList.Add(clsrespon);
+
+                    string URL = data[0].src;
+                    string Filename = data[i].nameID + ".png";
+                    string pathIIS = System.Web.HttpContext.Current.Server.MapPath("~");
+                    string pathImg = "\\" + "Content" + "\\" + "img" + "\\" + "SurveyandPolls" + "\\" + d;
+                    string pathFolder = pathIIS + pathImg;
+
+                    MatchCollection matches = Regex.Matches(URL, "(data:image/[^'\"]+;base64,[^'\"]+)");
+
+                    // Otomatis akan Terbuat Folder tsb
+                    if (!System.IO.Directory.Exists((pathFolder)))
+                    {
+                        System.IO.Directory.CreateDirectory(pathFolder);
+                    }
+
+                    for (int ci = 0; ci <= matches.Count - 1; ci++)
+                    {
+                        string base64image = "";
+                        string guid = Convert.ToString(Guid.NewGuid());
+                        guid = guid.Replace("-", "").Substring(0, 12).ToUpper();
+
+                        //string Filename = guid + ".png";
+
+                        var Text = matches[ci].Groups[0];
+                        var discardText = matches[ci].Groups[1].ToString();
+
+                        var imageMatchesJPEG = Regex.Match(discardText, "(data:image/jpeg;base64,)([^\"]*)");
+                        var imageMatchesPNG = Regex.Match(discardText, "(data:image/png;base64,)([^\"]*)");
+                        var imageMatches = imageMatchesJPEG.Groups.Count != 1 ? imageMatchesJPEG : imageMatchesPNG;
+
+                        base64image = imageMatches.Groups[2].ToString();
+
+                        File.WriteAllBytes(pathFolder + "\\" + Filename, Convert.FromBase64String(base64image));
+
+                        URL = URL.Replace(imageMatches.Groups[0].ToString(), ConfigurationManager.AppSettings["URL"].ToString() + pathImg.Replace("\\", "/") + "/" + Filename);
+                    }
+
+                    clsrespon = new clsResponse();
+                    clsrespon.ID = 0;
+                    clsrespon.Message = "Success";
+                    clsrespon.Contents = URL;
+
+                    responList.Add(clsrespon);
+
+                }
+                //string URL = data[0].src;
+                //string pathIIS = System.Web.HttpContext.Current.Server.MapPath("~");
+                //string pathImg = "\\" + "Content" + "\\" + "img" + "\\" + "SurveyandPolls";
+                //string pathFolder = pathIIS + pathImg;
+
+                //MatchCollection matches = Regex.Matches(URL, "<img[^>]+?src=['\"](data:image/[^'\"]+;base64,[^'\"]+)['\"][^>]*>");
+
+                //// Otomatis akan Terbuat Folder tsb
+                //if (!System.IO.Directory.Exists((pathFolder)))
+                //{
+                //    System.IO.Directory.CreateDirectory(pathFolder);
+                //}
+
+                //for (int i = 0; i <= matches.Count - 1; i++)
+                //{
+                //    string base64image = "";
+                //    string guid = Convert.ToString(Guid.NewGuid());
+                //    guid = guid.Replace("-", "").Substring(0, 12).ToUpper();
+
+                //    string Filename = guid + ".png";
+
+                //    var Text = matches[i].Groups[0];
+                //    var discardText = matches[i].Groups[1].ToString();
+
+                //    var imageMatchesJPEG = Regex.Match(discardText, "(data:image/jpeg;base64,)([^\"]*)");
+                //    var imageMatchesPNG = Regex.Match(discardText, "(data:image/png;base64,)([^\"]*)");
+                //    var imageMatches = imageMatchesJPEG.Groups.Count != 1 ? imageMatchesJPEG : imageMatchesPNG;
+
+                //    base64image = imageMatches.Groups[2].ToString();
+
+                //    File.WriteAllBytes(pathFolder + "\\" + Filename, Convert.FromBase64String(base64image));
+
+                //    URL = URL.Replace(imageMatches.Groups[0].ToString(), ConfigurationManager.AppSettings["URL"].ToString() + pathImg.Replace("\\", "/") + "/" + Filename);
+                //}
+
+                //clsrespon = new clsResponse();
+                //clsrespon.ID = 0;
+                //clsrespon.Message = "Success";
+                //clsrespon.Contents = URL;
+
+                //responList.Add(clsrespon);
             }
             catch (Exception ex)
             {

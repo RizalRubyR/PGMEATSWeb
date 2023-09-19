@@ -21,6 +21,11 @@
     .fw-bold {
         font-weight: 700 !important
     }
+    .div-center {
+        justify-content: center;
+        display: flex;
+        font-size:26px;
+    }
 </style>
 
 <link rel="stylesheet" type="text/css" href="~/Scripts/jquery-ui-1.12.0-rc.2/jquery-ui.css">
@@ -40,7 +45,28 @@
                     <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
                         <div class="col-lg-12" style="display:flex; justify-content:center;">
                             <div style="width: 100%;">
-                                @if (ViewBag.ViewChart == 1)
+                                @*<div class="div-body p-4">
+                                    <div class="row align-items-center">
+                                        <div class="col-lg-12">
+                                            <h3 class="fw-bold" style="z-index: 99 !important; position: relative; display: flex; justify-content: left;">By Employee</h3>
+
+                                            <div id="fill-by-employee" style="position: relative;">
+                                                <div id="piechart" tyle="width: 700px;"></div>
+                                            </div>
+
+                                            <h3 class="fw-bold" style="z-index: 99 !important; position: relative; display: flex; justify-content: left;">By Department</h3>
+                                            <div id="fill-by-department" style="position: relative;">
+                                                <div id="by-department" tyle="width: 700px;"></div>
+                                            </div>
+                                            <h3 class="fw-bold" style="z-index: 99 !important; position: relative; display: flex; justify-content: left;">By Shift</h3>
+                                            <div id="fill-by-Shift" style="position: relative">
+                                                <div id="by-Shift" tyle="width: 700px;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>*@
+
+                                @if (ViewBag.AnswerCheck == "True")
                                 {
                                     <div class="div-body p-4">
                                         <div class="row align-items-center">
@@ -66,19 +92,24 @@
                                 else
                                 {
                                     <div class="div-body p-4">
-                                        <div style="margin-top:250px; display:block;">
+                                        <div style="display:block;">
                                             <div class="div-center">
-                                                <span class="bi bi-search font-40 mb-3"></span>
+                                                <span class="fa fa-search mb-3" style="font-size:50px"></span>
                                             </div>
                                             <div class="div-center">
-                                                <p class="font-20">View result not available for this survey and polls</p>
+                                                <p>VNo Result</p>
                                             </div>
                                         </div>
                                     </div>
                                 }
                             </div>
                         </div>
+                        @*<div id="chart_div"></div>
+                        <div>
+                            <button type="button" class="btn btn-save" id="export" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: bold;color:#ffffff; background-color: #4CBFBC; width:150px" onclick="exportToExcel('img', 'Export To Excel')">Export to excel</button>
+                        </div>*@
                     </div>
+
                 </div>
             </article>
         </div>
@@ -107,7 +138,6 @@
             google.charts.setOnLoadCallback(drawChart);
             google.charts.setOnLoadCallback(getchartByDepartment);
             google.charts.setOnLoadCallback(getchartByShift);
-
         });
 
         // Draw the chart and set the chart values
@@ -172,9 +202,26 @@
                                 }
                             }).done(function () {
                                 pdata = google.visualization.arrayToDataTable(dp);
-                                options = { 'title': dt.QuestionDesc, 'width': 700, 'height': 500 };
+                                options = {
+                                    'title': dt.QuestionDesc,
+                                    'width': 700,
+                                    'height': 500,
+                                    'legend': 'none',
+                                    'crosshair': { trigger: 'both' },
+                                    'tooltip': { trigger: 'selection' }
+                                };
+
+                                //crosshair: { trigger: 'both' },   // Display crosshairs.
+                                //tooltip: { trigger: 'selection' } // Display tooltips on selection.
                                 var id = "piechart_" + dt.QuestionID;
+                                
                                 var chart = new google.visualization.PieChart(document.getElementById(id));
+                                //var imgID = "Imgpiechart_" + dt.QuestionID;
+                                //var chart_div = document.getElementById(id);
+                                //google.visualization.events.addListener(chart, 'ready', function () {
+                                //    chart_div.innerHTML = '<img id="' + imgID + '" src="' + chart.getImageURI() + '">';
+                                //    //console.log(chart_div.innerHTML);
+                                //});
                                 chart.draw(pdata, options);
 
                             });
@@ -199,8 +246,7 @@
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(obj),
                 success: function (data) {
-
-                    var pData = data[0].Contents;
+                    var pDept = data[0].Contents;
                     var lastCol;
                     if (data[0].ID == '1') {
                         toastr.warning(data[0].Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
@@ -227,48 +273,104 @@
                                 toastr.error('Failed to retrieve this Data. ' + ex, 'Error', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
                             }
                         }).done(function () {
+                            debugger
                             pData.push(pHeader)
                             var depart;
                             var val;
                             var pval = []
                             var o = 0
                             var oj = data[0].Contents
-                            $.each(data[0].Contents, function (i, dt) {
-                                if (deptbefore != dt.Department) {
-                                    if (pContent.length < (lastCol + 1) && deptbefore != "") {
-                                        for (var p = pContent.length; p < (lastCol + 1); p++) {
-                                            pContent.push(0)
-                                        }
-                                    }
-                                    if (pContent.length > 0) {
-                                        pData.push(pContent)
-                                    }
-                                    pContent = []
-                                    pContent.push(dt.Department)
-                                    pContent.push(dt.Total)
-                                } else {
 
-                                    pContent.push(dt.Total)
+                            for (s = 0; s < pDept.length; s++) {
+                                const result = Object.keys(pDept[s]).reduce((prev, curr) => {
+                                    prev.push(pDept[s][curr]);
+                                    return prev;
+                                }, []);
 
-                                }
-                                if (i + 1 == data[0].Contents.length) {
-                                    if (pContent.length < (lastCol + 1) && deptbefore != "") {
-                                        for (var p = pContent.length; p < (lastCol + 1); p++) {
-                                            pContent.push(0)
-                                        }
-                                    }
-                                }
-                                o += 1
-                                if (o == oj.length) {
-                                    pData.push(pContent)
-                                }
-                                deptbefore = dt.Department
-                            });
+                                pData.push(result)
+                            }
+                           
                             var pVal = google.visualization.arrayToDataTable(pData);
-                            var options = { 'title': '', 'width': 700, 'height': 500 };
+                            var options = { 'title': '', 'width': 900, 'height': 500 };
 
                             var chart = new google.visualization.BarChart(document.getElementById('by-department'));
                             chart.draw(pVal, options);
+
+                            //$.each(data[0].Contents, function (i, dt) {
+                            //    if (deptbefore != dt.Department) {
+
+                            //    }
+                            //    deptbefore == dt.Department
+                            //});
+                            //for (x = 1; x < pHeader.length; x++) {
+                            //    debugger
+                            //    for (i = 0; i < oj.length; i++) {
+                            //        debugger
+                            //        if (deptbefore != oj[i].Department) {
+                            //            pContent = []
+                            //            pContent.push(oj[i].Department)
+                            //            if (oj[i].AnserDesc == pHeader[x]) {
+                            //                pContent.push(oj[i].Total)
+                            //            } else {
+                            //                pContent.push(0)
+                            //            }
+                            //        } else {
+                            //            if (oj[i].AnserDesc == pHeader[x]) {
+                            //                pContent.push(oj[i].Total)
+                            //            } else {
+                            //                pContent.push(0)
+                            //            }
+                            //        }
+                            //        deptbefore = oj[i].Department
+                            //    }
+                            //}
+                            //pData.push(pContent)
+                            ////$.each(data[0].Contents, function (i, dt) {
+                            ////    debugger
+                            ////    for (u = 0; u < oj.length; u++) {
+                                   
+                            ////    }
+                            ////    if (deptbefore != dt.Department) {
+                            ////        if (pContent.length < (lastCol + 1) && deptbefore != "") {
+                            ////            for (var p = pContent.length; p < (lastCol + 1); p++) {
+                            ////                pContent.push(0)
+                            ////            }
+                            ////        }
+                            ////        if (pContent.length > 0) {
+                            ////            pData.push(pContent)
+                            ////        }
+                            ////        pContent = []
+                            ////        pContent.push(dt.Department)
+                            ////        pContent.push(dt.Total)
+                            ////    } else {
+
+                            ////        pContent.push(dt.Total)
+
+                            ////    }
+                            ////    if (i + 1 == data[0].Contents.length) {
+                            ////        if (pContent.length < (lastCol + 1) && deptbefore != "") {
+                            ////            for (var p = pContent.length; p < (lastCol + 1); p++) {
+                            ////                pContent.push(0)
+                            ////            }
+                            ////        }
+                            ////    }
+                            ////    o += 1
+                            ////    if (o == oj.length) {
+                            ////        pData.push(pContent)
+                            ////    }
+                            ////    deptbefore = dt.Department
+                            ////});
+                            //var pVal = google.visualization.arrayToDataTable(pData);
+                            //var options = { 'title': '', 'width': 900, 'height': 500 };
+
+                            //var chart = new google.visualization.BarChart(document.getElementById('by-department'));
+                            ////var imgID = "Imgdepartment";
+                            ////var chart_div = document.getElementById('by-department');
+                            ////google.visualization.events.addListener(chart, 'ready', function () {
+                            ////    chart_div.innerHTML = '<img id="' + imgID + '" src="' + chart.getImageURI() + '">';
+                            ////    /*console.log(chart_div.innerHTML);*/
+                            ////});
+                            //chart.draw(pVal, options);
                         });
 
                     }
@@ -291,7 +393,8 @@
                 data: JSON.stringify(obj),
 
                 success: function (Result) {
-                    var pData = Result[0].Contents;
+                    var pShift = Result[0].Contents;
+                    
                     var lastCol;
                     if (Result[0].ID == '1') {
                         toastr.warning(Result[0].Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
@@ -325,44 +428,66 @@
                             var pval = []
                             var o = 0
                             var oj = Result[0].Contents
-                            $.each(Result[0].Contents, function (i, dt) {
-                                if (Shiftbefore != dt.Shift) {
-                                    if (pContent.length < (lastCol + 1) && Shiftbefore != "") {
-                                        for (var p = pContent.length; p < (lastCol + 1); p++) {
-                                            pContent.push(0)
-                                        }
-                                    }
-                                    if (pContent.length > 2) {
-                                        pData.push(pContent)
-                                    } else if (pContent.length == 2) {
-                                        pContent.push(0)
-                                        pData.push(pContent)
-                                    }
-                                    pContent = []
-                                    pContent.push(dt.Shift)
-                                    pContent.push(dt.Total)
-                                } else {
-                                    pContent.push(dt.Total)
-                                }
-                                if (i + 1 == oj.length) {
-                                    if (pContent.length < (lastCol + 1) && Shiftbefore != "") {
-                                        for (var p = oj.length; p < (lastCol); p++) {
-                                            pContent.push(0)
-                                        }
-                                    }
-                                }
-                                o += 1
-                                if (o == oj.length) {
-                                    pData.push(pContent)
-                                }
-                                Shiftbefore = dt.Shift
-                            });
+                            for (s = 0; s < pShift.length; s++) {
+                                const result = Object.keys(pShift[s]).reduce((prev, curr) => {
+                                    prev.push(pShift[s][curr]);
+                                    return prev;
+                                }, []);
 
+                                pData.push(result)
+                            }
                             var pVal = google.visualization.arrayToDataTable(pData);
-                            var options = { 'title': '', 'width': 700, 'height': 500 };
+                            var options = { 'title': '', 'width': 900, 'height': 500 };
 
                             var chart = new google.visualization.BarChart(document.getElementById('by-Shift'));
                             chart.draw(pVal, options);
+
+                            //$.each(Result[0].Contents, function (i, dt) {
+                            //    if (Shiftbefore != dt.Shift) {
+                            //        if (pContent.length < (lastCol + 1) && Shiftbefore != "") {
+                            //            for (var p = pContent.length; p < (lastCol + 1); p++) {
+                            //                pContent.push(0)
+                            //            }
+                            //        }
+                            //        if (pContent.length > 2) {
+                            //            pData.push(pContent)
+                            //        } else if (pContent.length == 2) {
+                            //            pContent.push(0)
+                            //            pData.push(pContent)
+                            //        }
+                            //        pContent = []
+                            //        pContent.push(dt.Shift)
+                            //        pContent.push(dt.Total)
+                            //    } else {
+                            //        pContent.push(dt.Total)
+                            //    }
+                            //    if (i + 1 == oj.length) {
+                            //        if (pContent.length < (lastCol + 1) && Shiftbefore != "") {
+                            //            for (var p = oj.length; p < (lastCol); p++) {
+                            //                pContent.push(0)
+                            //            }
+                            //        }
+                            //    }
+                            //    o += 1
+                            //    if (o == oj.length) {
+                            //        pData.push(pContent)
+                            //    }
+                            //    Shiftbefore = dt.Shift
+                            //});
+
+                            //var pVal = google.visualization.arrayToDataTable(pData);
+                            //var options = { 'title': '', 'width': 900, 'height': 500 };
+
+                            //var chart = new google.visualization.BarChart(document.getElementById('by-Shift'));
+                            ////var imgID = "ImgdShift";
+                            ////var chart_div = document.getElementById('by-Shift');
+                            ////google.visualization.events.addListener(chart, 'ready', function () {
+                            ////    chart_div.innerHTML = '<img id="' + imgID + '" src="' + chart.getImageURI() + '">';
+                            ////    /*console.log(chart_div.innerHTML);*/
+                            ////});
+                            //chart.draw(pVal, options);
+
+                            ////SaveBase64ToImg();
                         });
                     }
 
@@ -374,5 +499,85 @@
             });
         }
 
+        @*var exportToExcel = (function () {
+            var uri = 'data:application/vnd.ms-excel;base64,'
+                , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta name=ProgId content=Excel.Sheet> <meta name=Generator content="Microsoft Excel 11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><div>{div}</div></html>'
+                , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+                , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+            return function (images, name) {
+                debugger
+                if (!images.nodeType)
+                    images = $("img")
+                debugger
+                var html = "";
+                for (i = 0; i < images.length; i++) {
+                    if (images[i].id != "") {
+                        if (images[i].id == "Imgpiechart_1") {
+                            html += "<div><h1>By Employee</h1></div><br>"
+                        }
+                        if (images[i].id.split("_")[0] == "Imgdepartment") {
+                            html += "<div><h1>By Department</h1></div><br>"
+                        }
+                        if (images[i].id.split("_")[0] == "ImgdShift") {
+                            html += "<div><h1>By Shift</h1></div><br>"
+                        }
+
+                        const link = images[i].src;
+                        /*html += '<div> <img src="' + images[i].src + '"></img></div><br>'*/
+                        html += '<div> <img src="blob:null/8b8f2c34-8491-4581-88c2-98e905b60c06"></img></div><br>'
+                       /* xID = images[i].id;*/
+                    }
+                }
+                debugger
+                var ctx = { worksheet: name || 'Worksheet', div: html }
+                window.location.href = uri + base64(format(template, ctx))
+            }
+        })()
+
+        function SaveBase64ToImg() {
+            images = $("img")
+            var data = [];
+            for (i = 0; i < images.length; i++) {
+                if (images[i].id != "") {
+                    data.push({
+                        nameID: images[i].id,
+                        src: images[i].src
+                    })
+                }
+            }
+            var xObj = { 'obj': data };
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SaveBase64ToImg", "SurveyPollsList")",
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(xObj),
+                success: function (Result) {
+                    if (Result[0].ID == '1') {
+                        toastr.warning(Result[0].Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    } else {
+
+                    }
+                },
+            });
+        }*@
+
+        //function convertToBase64(ArrayBuffer) {
+        //    const uInt8Array = new Uint8Array(input);
+        //    const count = uInt8Array.length;
+
+        //    // Allocate the necessary space up front.
+        //    const charCodeArray = new Array(count)[];
+
+        //    // Convert every entry in the array to a character.
+        //    for (let i = count; i >= 0; i--) {
+        //        charCodeArray[i] = String.fromCharCode(uInt8Array[i]);
+        //    }
+
+        //    // Convert the characters to base64.
+        //    const base64 = btoa(charCodeArray.join(''));
+        //    return base64;
+        //}
     </script>
+    
 }

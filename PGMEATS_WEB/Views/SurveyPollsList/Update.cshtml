@@ -246,7 +246,7 @@
                                                                 Multiple Choice
                                                             </td>
                                                             <td>
-                                                                <input id="txtmlt1" type="text" class="form-control input-md" style="background-color:white; width:240px" />
+                                                                <input id="txtmlt1" type="text" class="form-control input-md" style="background-color:white; width:240px" onkeydown="answerCheck(this, event)"/>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -257,7 +257,7 @@
                                                             <td width="100px">
                                                             </td>
                                                             <td>
-                                                                <input id="txtmlt2" type="text" class="form-control input-md" style="background-color:white; width:240px" />
+                                                                <input id="txtmlt2" type="text" class="form-control input-md" style="background-color:white; width:240px" onkeydown="answerCheck(this, event)"/>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -268,7 +268,7 @@
                                                             <td width="100px">
                                                             </td>
                                                             <td>
-                                                                <input id="txtmlt3" type="text" class="form-control input-md" style="background-color:white; width:240px" />
+                                                                <input id="txtmlt3" type="text" class="form-control input-md" style="background-color:white; width:240px" onkeydown="answerCheck(this, event)"/>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -279,7 +279,7 @@
                                                             <td width="100px">
                                                             </td>
                                                             <td>
-                                                                <input id="txtmlt4" type="text" class="form-control input-md" style="background-color:white; width:240px" />
+                                                                <input id="txtmlt4" type="text" class="form-control input-md" style="background-color:white; width:240px" onkeydown="answerCheck(this, event)"/>
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -762,6 +762,7 @@
             });
         }
         function AddNewData() {
+            //debugger
             $('#ParentQuestion').empty();
             var SurveyID = $("#txtsurveyid").val();
             var SurveyTitle = $("#txttitle").val();
@@ -837,9 +838,12 @@
             });
 
             $("#ModalTitle").html("Create Question Survey & Polls");
+            
             $("#MyModal").modal();
             $('#InsertData').show();
             $('#UpdateData').hide();
+            $('#InsertData').prop("disabled", true);
+            $('#UpdateData').prop("disabled", true);
             FillCombo_ParentQuestion(SurveyID);
             fillCombo_ParentAnswer()
             FillCombo_AnswerType();
@@ -871,7 +875,11 @@
                             }
                             content += '    <div class="form-check">\n'
                             if (dep.length == 1) {
-                                content += '        <input class="form-check-input" type="checkbox" value="' + value.Code + '" id="' + value.Code + '">\n'
+                                if (dep[0] == value.Code) {
+                                    content += '        <input class="form-check-input" type="checkbox" value="' + value.Code + '" id="' + value.Code + '" checked="checked">\n'
+                                } else {
+                                    content += '        <input class="form-check-input" type="checkbox" value="' + value.Code + '" id="' + value.Code + '">\n'
+                                }
                             } else {
                                 var xi = 0
                                 for (kk = 0; kk < dep.length; kk++) {
@@ -929,7 +937,11 @@
                             }
                             content += '    <div class="form-check">\n'
                             if (dep.length == 1) {
-                                content += '        <input class="form-check-input" type="checkbox" value="' + value.Code + '" id="' + value.Code + '">\n'
+                                if (dep[0] == value.Code) {
+                                    content += '        <input class="form-check-input" type="checkbox" value="' + value.Code + '" id="' + value.Code + '" checked="checked">\n'
+                                } else {
+                                    content += '        <input class="form-check-input" type="checkbox" value="' + value.Code + '" id="' + value.Code + '">\n'
+                                }
                             } else {
                                 var xi = 0
                                 for (kk = 0; kk < dep.length; kk++) {
@@ -1044,14 +1056,14 @@
             if (sDepartment.length == 1) {
                 Department.push(sDepartment[0]);
             } else {
-                for (i = 0; i < sDepartment.length - 1; i++) {
+                for (i = 0; i < sDepartment.length; i++) {
                     Department.push(sDepartment[i]);
                 }
             }
             if (sDesignation.length == 1) {
                 Designation.push(sDesignation[0]);
             } else {
-                for (i = 0; i < sDesignation.length - 1; i++) {
+                for (i = 0; i < sDesignation.length; i++) {
                     Designation.push(sDesignation[i]);
                 }
             }
@@ -1369,6 +1381,7 @@
             });
         }
         function saveSurvey() {
+            //debugger
             var SurveyID = $("#txtsurveyid").val();
             var SurveyTitle = $("#txttitle").val();
             var sDepartment = $("#txtdepartment").val().split(";");
@@ -1381,10 +1394,10 @@
             var Type = $("#Type").val();
             var ViewChart;
             var Finalized = "0"
-            for (i = 0; i < sDepartment.length - 1; i++) {
+            for (i = 0; i < sDepartment.length; i++) {
                 Department.push(sDepartment[i]);
             }
-            for (i = 0; i < sDesignation.length - 1; i++) {
+            for (i = 0; i < sDesignation.length; i++) {
                 Designation.push(sDesignation[i]);
             }
 
@@ -1526,12 +1539,18 @@
             //$("#tblFreetext").removeClass("answer-type-hide");
             if (type == "0") {
                 $("#tblMulti").addClass("answer-type");
+                $('#InsertData').prop("disabled", true);
+                $('#UpdateData').prop("disabled", true);
                 /*$("#tblFreetext").addClass("answer-type-hide");*/
             } else if (type == "1") {
+                
                 $("#tblMulti").addClass("answer-type-hide");
+                $('#InsertData').prop("disabled", false);
+                $('#UpdateData').prop("disabled", false);
                 /*$("#tblFreetext").addClass("answer-type");*/
             }
         });
+
 
         $('#chkAllDept').change(function () {
             var isChecked = $('#chkAllDept').is(":checked");
@@ -1568,6 +1587,8 @@
                         $("#MyModal").modal();
                         $('#InsertData').hide();
                         $('#UpdateData').show();
+                        $('#InsertData').prop("disabled", true);
+                        $('#UpdateData').prop("disabled", true);
                         $("#ParentQuestion > [value=" + objDT[0].ParentQuestionID + "]").attr("selected", "true");
                         var u = 1;
                         ParentAnswerSeqNo = objDT[0].ParentAnswerSeqNo;
@@ -1579,13 +1600,19 @@
                         $("#AnswerType").val(AnswerType);
                         if (AnswerType == "0") {
                             $("#tblMulti").addClass("answer-type");
+                            $('#InsertData').prop("disabled", true);
+                            $('#UpdateData').prop("disabled", true);
                            /* $("#tblFreetext").addClass("answer-type-hide");*/
                         } else if (AnswerType == "1") {
                             $("#tblMulti").addClass("answer-type-hide");
+                            $('#InsertData').prop("disabled", false);
+                            $('#UpdateData').prop("disabled", false);
                             /*$("#tblFreetext").addClass("answer-type");*/
                         }
 
                         $.each(data.Contents, function (i, dt) {
+                            $('#InsertData').prop("disabled", false);
+                            $('#UpdateData').prop("disabled", false);
                             if (u == 1) {
                                 if (AnswerType == "0") {
                                     $("#txtmlt1").val(dt.AnswerDesc);
@@ -1744,6 +1771,59 @@
                     }, 1000);
                 }
             });
+        }
+
+        function answerCheck(t,e) {
+            if (t.value != "") {
+                if (t.value.length == 1) {
+                    if (e.keyCode == 8) {
+                        if (t.id == "txtmlt1") {
+                            $("#txtmlt1").val("")
+                        } else if (t.id == "txtmlt2") {
+                            $("#txtmlt2").val("")
+                        } else if (t.id == "txtmlt3") {
+                            $("#txtmlt3").val("")
+                        } else if (t.id == "txtmlt4") {
+                            $("#txtmlt4").val("")
+                        }
+                        var txt1 = $("#txtmlt1").val();
+                        var txt2 = $("#txtmlt2").val();
+                        var txt3 = $("#txtmlt3").val();
+                        var txt4 = $("#txtmlt4").val();
+                        if (txt1 == "" && txt2 == "" && txt3 == "" && txt4 == "") {
+                            $('#InsertData').prop("disabled", true);
+                            $('#UpdateData').prop("disabled", true);
+                            return
+                        }
+                        return 
+                    }
+                }
+                $('#InsertData').prop("disabled", false);
+                $('#UpdateData').prop("disabled", false);
+                return
+            } else {
+                var evt = e || window.event;
+                var charCode = evt.which || evt.keyCode;
+                var charStr = String.fromCharCode(charCode);
+                var result = /[a-zA-Z0-9_-]/.test(charStr);
+
+
+                if (result == true) {
+                    $('#InsertData').prop("disabled", false);
+                    $('#UpdateData').prop("disabled", false);
+                    return
+                }
+                
+                var txt1 = $("#txtmlt1").val();
+                var txt2 = $("#txtmlt2").val();
+                var txt3 = $("#txtmlt3").val();
+                var txt4 = $("#txtmlt4").val();
+                if (txt1 == "" && txt2 == "" && txt3 == "" && txt4 == "") {
+                    $('#InsertData').prop("disabled", true);
+                    $('#UpdateData').prop("disabled", true);
+                    return
+                }
+            }
         }
 
     </script>
