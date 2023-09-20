@@ -4,243 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div id="content">
-    <section id="widget-grid" class="">
-        <div class="row">
-            <article class="col-xs-12 col-md-12">
-                <div class="jarviswidget jarviswidget-color-red" id="wid-id-1"
-                     data-widget-colorbutton="false"
-                     data-widget-editbutton="false"
-                     data-widget-togglebutton="false"
-                     data-widget-deletebutton="false"
-                     data-widget-custombutton="false"
-                     data-widget-collapsed="false"
-                     data-widget-sortable="false">
-
-                    <header style="border-top-left-radius:8px; border-top-right-radius:8px">
-                        <h2 style="font-family:'Poppins';font-weight:500;font-size:13px">List of MyKY</h2>
-                    </header>
-
-                    <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
-                        <div class="widget-body">
-                            <div class="table-toolbar" style="padding-bottom:10px">
-                                <table>
-                                    <tr style="height:45px">
-                                        <td width="100px">
-                                            <p style="font-weight:600; margin-right:20px">Date</p>
-                                        </td>
-                                        <td>
-                                            <input id="fromDate" type="text" class="form-control input-md" style="background-color:white; width:150px" />
-                                        </td>
-                                        <td width="40px" style="text-align:center">
-                                            <p style="font-weight:600">To</p>
-                                        </td>
-                                        <td>
-                                            <input id="toDate" type="text" class="form-control input-md" style="background-color:white; width:150px" />
-                                        </td>
-                                        <td width="120px">
-                                            <p style="font-weight:600; margin-left:20px">Status</p>
-                                        </td>
-                                        <td>
-                                            <select id="Status" class="form-control input-md" style="height:30px; width:200px; margin-right:20px"></select>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p style="font-weight:600">Location</p>
-                                        </td>
-                                        <td colspan="3">
-                                            <select id="Location" class="form-control input-md" style="height:30px; width:340px;"></select>
-                                        </td>
-                                        <td>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-save" id="refresh"> Refresh </button>
-                                            <input type="button" id="ExcelReport" class="btn btn-save" onClick="fnExcelReport();" value="Download Excel" />
-                                            <a href="#" id="ExcelReportAnchor"></a>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-
-                            <table id="tableID" data-page-size='3' class="table table-striped table-bordered table-hover">
-                                <thead>
-                                    <tr role="row">
-                                        <th style="text-align:center;width:50px;">
-                                            Action
-                                        </th>
-                                        <th style="text-align: center; width: 100px;">
-                                            KYID
-                                        </th>
-                                        <th style="text-align: center; width: 100px;">
-                                            Date
-                                        </th>
-                                        <th style="text-align: center; width: 100px;">
-                                            Location
-                                        </th>
-                                        <th style="text-align: center; width: 100px;">
-                                            Specific Location
-                                        </th>
-                                        <th style="text-align: center; width: 300px;">
-                                            Description
-                                        </th>
-                                        <th style="text-align: center; width: 150px;">
-                                            Evindence
-                                        </th>
-                                        <th style="text-align: center; width: 100px;">
-                                            Created By
-                                        </th>
-                                        <th style="text-align: center; width: 80px">
-                                            Status
-                                        </th>
-                                        <th style="text-align: center; width: 300px;">
-                                            Response
-                                        </th>
-                                        <th style="text-align: center; width: 100px;">
-                                            Create Response
-                                        </th>
-                                        <th style="text-align: center; width: 100px;">
-                                            Last User
-                                        </th>
-                                        <th style="text-align: center; width: 150px;">
-                                            Last Update
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-
-                            <div class="modal fade" id="MyModal">
-                                <div class="modal-dialog" style="width:400px">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                            <h4 style="font-family:'Poppins'" id="ModalTitle"></h4>
-                                        </div>
-                                        <div style="padding-left:20px; padding-right:20px">
-                                            <form id="form" class="smart-form">
-                                                <fieldset id="SubmitForm">
-                                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                                    <table style="border:0px solid black; width:100%">
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-group ">
-                                                                    <label style="font-weight:500; margin-bottom:0.5em;">Date</label>
-                                                                    @Html.TextBoxFor(m => m.CreateDate, new { @id = "CreateDate", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled" })
-                                                                    @Html.HiddenFor(m => m.MyKYID, new { @id = "MyKYID" })
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-group ">
-                                                                    <label style="font-weight:500; margin-bottom:0.5em;">Location</label>
-                                                                    @Html.TextBoxFor(m => m.MyKYLocation, new { @id = "MyKYLocation", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled" })
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-group ">
-                                                                    <label style="font-weight:500; margin-bottom:0.5em;">Issue Type</label>
-                                                                    @Html.TextBoxFor(m => m.MyKYSpecLocation, new { @id = "MyKYSpecLocation", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled", })
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-group ">
-                                                                    <label style="font-weight:500; margin-bottom:0.5em;">Description</label>
-                                                                    @Html.TextAreaFor(m => m.MyKYDesc, new { @id = "MyKYDesc", @class = "form-control input-md", @style = "height:100px; width:300px;", disabled = "disabled" })
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-group ">
-                                                                    <label style="font-weight:500; margin-bottom:0.5em;">Created By</label>
-                                                                    @Html.TextBoxFor(m => m.CreateUser, new { @id = "CreateUser", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled" })
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-group ">
-                                                                    <label style="font-weight:500; margin-bottom:0.5em;">Status</label>
-                                                                    <select id="cbStatus" class="form-control input-md" style="height:30px; width:200px; margin-right:20px"></select>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-group ">
-                                                                    <label style="font-weight:500; margin-bottom:0.5em;"> Response </label>
-                                                                    @Html.TextAreaFor(m => m.MyKYReply, new { @id = "MyKYReply", @class = "form-control input-md", @placeholder = "Enter your response", @style = "height:100px; width:300px;" })
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </fieldset>
-                                            </form>
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal" style="width:85px; font-size:13px; border-width:thin;" onclick="">Cancel</button>
-                                            @if (ViewBag.AllowWrite == "0")
-                                            {
-                                                <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px" disabled>Save</button>
-                                            }
-                                            else
-                                            {
-                                                <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px;">Save</button>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="modal fade" id="DeleteConfirmation">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                            <h4 style="font-family:'Poppins'">Delete Data MyKY</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <h4 style="font-family:'Poppins'">Are you sure to delete this data?</h4>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <a href="#" class="btn btn-save" style="width:85px; font-size:13px" id="DeleteData">Confirm</a>
-                                            <a href="#" class="btn btn-default" style="width: 85px; font-size: 13px; border-width: thin;" data-dismiss="modal" id="DeleteCancel">Cancel</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="modal fade" id="ShowImg">
-                                <div class="modal-dialog" style="width:360px;">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                        </div>
-                                        <div class="modal-body" style="display:flex; justify-content:center">
-                                            <img src="#" alt=Evidence id="EvidenceShow" style="height: 300px; width: 300px; max-width: 300%; max-height: 100%; object-fit: cover;" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </div>
-    </section>
-</div>
-
-
 <style type="text/css">
     a.disable {
         cursor: not-allowed;
@@ -269,6 +32,246 @@
     }
 </style>
 
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-xs-12 col-md-12">
+                <div class="jarviswidget jarviswidget-color-red" id="wid-id-1"
+                     data-widget-colorbutton="false"
+                     data-widget-editbutton="false"
+                     data-widget-togglebutton="false"
+                     data-widget-deletebutton="false"
+                     data-widget-custombutton="false"
+                     data-widget-collapsed="false"
+                     data-widget-sortable="false">
+
+                    <header style="border-top-left-radius:8px; border-top-right-radius:8px">
+                        <h2 style="font-family:'Poppins';font-weight:500;font-size:13px">List of MyKY</h2>
+                    </header>
+
+                    <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
+                        <div class="widget-body">
+                            <div class="table-responsive">
+                                <div class="table-toolbar" style="padding-bottom:10px">
+                                    <table>
+                                        <tr style="height:45px">
+                                            <td width="100px">
+                                                <p style="font-weight:600; margin-right:20px">Date</p>
+                                            </td>
+                                            <td>
+                                                <input id="fromDate" type="text" class="form-control input-md" style="background-color:white; width:150px" />
+                                            </td>
+                                            <td width="40px" style="text-align:center">
+                                                <p style="font-weight:600">To</p>
+                                            </td>
+                                            <td>
+                                                <input id="toDate" type="text" class="form-control input-md" style="background-color:white; width:150px" />
+                                            </td>
+                                            <td width="120px">
+                                                <p style="font-weight:600; margin-left:20px">Status</p>
+                                            </td>
+                                            <td>
+                                                <select id="Status" class="form-control input-md" style="height:30px; width:200px; margin-right:20px"></select>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p style="font-weight:600">Location</p>
+                                            </td>
+                                            <td colspan="3">
+                                                <select id="Location" class="form-control input-md" style="height:30px; width:340px;"></select>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-save" id="refresh"> Refresh </button> &nbsp;
+                                                <input type="button" id="ExcelReport" class="btn btn-save" onClick="fnExcelReport();" value="Download Excel" />
+                                                <a href="#" id="ExcelReportAnchor"></a> &nbsp;
+                                                <button class="btn btn-save" id="print"> Print </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div>
+                                    <table id="tableID" data-page-size='3' class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr role="row">
+                                                <th style="text-align:center;width:50px;">
+                                                    Action
+                                                </th>
+                                                <th style="text-align: center; width: 100px;">
+                                                    KYID
+                                                </th>
+                                                <th style="text-align: center; width: 100px;">
+                                                    Date
+                                                </th>
+                                                <th style="text-align: center; width: 100px;">
+                                                    Location
+                                                </th>
+                                                <th style="text-align: center; width: 100px;">
+                                                    Specific Location
+                                                </th>
+                                                <th style="text-align: center; width: 300px;">
+                                                    Description
+                                                </th>
+                                                <th style="text-align: center; width: 150px;">
+                                                    Evindence
+                                                </th>
+                                                <th style="text-align: center; width: 100px;">
+                                                    Created By
+                                                </th>
+                                                <th style="text-align: center; width: 80px">
+                                                    Status
+                                                </th>
+                                                <th style="text-align: center; width: 300px;">
+                                                    Response
+                                                </th>
+                                                <th style="text-align: center; width: 100px;">
+                                                    Create Response
+                                                </th>
+                                                <th style="text-align: center; width: 100px;">
+                                                    Last User
+                                                </th>
+                                                <th style="text-align: center; width: 150px;">
+                                                    Last Update
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+
+                                <div class="modal fade" id="MyModal">
+                                    <div class="modal-dialog" style="width:400px">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                                <h4 style="font-family:'Poppins'" id="ModalTitle"></h4>
+                                            </div>
+                                            <div style="padding-left:20px; padding-right:20px">
+                                                <form id="form" class="smart-form">
+                                                    <fieldset id="SubmitForm">
+                                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                        <table style="border:0px solid black; width:100%">
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="form-group ">
+                                                                        <label style="font-weight:500; margin-bottom:0.5em;">Date</label>
+                                                                        @Html.TextBoxFor(m => m.CreateDate, new { @id = "CreateDate", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled" })
+                                                                        @Html.HiddenFor(m => m.MyKYID, new { @id = "MyKYID" })
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="form-group ">
+                                                                        <label style="font-weight:500; margin-bottom:0.5em;">Location</label>
+                                                                        @Html.TextBoxFor(m => m.MyKYLocation, new { @id = "MyKYLocation", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled" })
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="form-group ">
+                                                                        <label style="font-weight:500; margin-bottom:0.5em;">Issue Type</label>
+                                                                        @Html.TextBoxFor(m => m.MyKYSpecLocation, new { @id = "MyKYSpecLocation", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled", })
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="form-group ">
+                                                                        <label style="font-weight:500; margin-bottom:0.5em;">Description</label>
+                                                                        @Html.TextAreaFor(m => m.MyKYDesc, new { @id = "MyKYDesc", @class = "form-control input-md", @style = "height:100px; width:300px;", disabled = "disabled" })
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="form-group ">
+                                                                        <label style="font-weight:500; margin-bottom:0.5em;">Created By</label>
+                                                                        @Html.TextBoxFor(m => m.CreateUser, new { @id = "CreateUser", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled" })
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="form-group ">
+                                                                        <label style="font-weight:500; margin-bottom:0.5em;">Status</label>
+                                                                        <select id="cbStatus" class="form-control input-md" style="height:30px; width:200px; margin-right:20px"></select>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="form-group ">
+                                                                        <label style="font-weight:500; margin-bottom:0.5em;"> Response </label>
+                                                                        @Html.TextAreaFor(m => m.MyKYReply, new { @id = "MyKYReply", @class = "form-control input-md", @placeholder = "Enter your response", @style = "height:100px; width:300px;" })
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal" style="width:85px; font-size:13px; border-width:thin;" onclick="">Cancel</button>
+                                                @if (ViewBag.AllowWrite == "0")
+                                                {
+                                                    <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px" disabled>Save</button>
+                                                }
+                                                else
+                                                {
+                                                    <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px;">Save</button>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="DeleteConfirmation">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                                <h4 style="font-family:'Poppins'">Delete Data MyKY</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h4 style="font-family:'Poppins'">Are you sure to delete this data?</h4>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a href="#" class="btn btn-save" style="width:85px; font-size:13px" id="DeleteData">Confirm</a>
+                                                <a href="#" class="btn btn-default" style="width: 85px; font-size: 13px; border-width: thin;" data-dismiss="modal" id="DeleteCancel">Cancel</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*<div class="modal fade" id="ShowImg">
+                                        <div class="modal-dialog" style="width:360px;">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                                </div>
+                                                <div class="modal-body" style="display:flex; justify-content:center">
+                                                    <img src="#" alt=Evidence id="EvidenceShow" style="height: 300px; width: 300px; max-width: 300%; max-height: 100%; object-fit: cover;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+
 <link rel="stylesheet" href="~/Content/zebra_datepicker.min.css" type="text/css">
 <script src="~/Scripts/plugin/bootstrap-waitingfor/bootstrap-waitingfor.min.js"></script>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
@@ -276,166 +279,11 @@
 <script src="~/Scripts/zebra_datepicker.min.js"></script>
 <script src="~/Scripts/zebra_datepicker.src.js"></script>
 
-
 <script type="text/javascript">
-    var currentdate = new Date();
-    var dateExport = "" + String(currentdate.getDate()).padStart(2, '0') + ""
-        + String(currentdate.getMonth() + 1).padStart(2, '0') + ""
-        + currentdate.getFullYear() + ""
-        + currentdate.getHours() + ""
-        + currentdate.getMinutes() + ""
-        + currentdate.getSeconds();
-
+    /*=============================================
+    Declaration
+    ==============================================*/
     var UserID = '@ViewBag.UserID';
-
-    $(document).ready(function () {
-        FillCombo_Loc(UserID);
-        FillCombo_Status()
-
-        $("#fromDate").val(today)
-        $("#toDate").val(today)
-
-        //millisecondsToWait = 1500;
-        //setTimeout(function () {
-        //    loadData(); //Get list complaint
-        //}, millisecondsToWait);
-
-        /* BASIC ;*/
-        var responsiveHelper_dt_basic = undefined;
-        var breakpointDefinition = {
-            tablet: 1024,
-            phone: 480
-        };
-
-        $("#tableID").dataTable({
-            bDestroy: true,
-            data: [],
-            columns: [
-                {
-                    "data": "Action", className: "txtAlignCenter", "render": function (data, type, row) {
-                        //return '<a href="#" class="fa fa-pencil" onclick="ReplyMyKY(\'' + row.MyKYID + '|' + row.CreateDate + '|' + row.MyKYLocationDesc + '|' + row.MyKYSpecLocation + '|' + row.MyKYDesc + '|' + row.CreateUser + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteMyKY(\'' + row.MyKYID + '\')"></a>'
-                        return '<a href="#" class="fa fa-pencil" onclick="ReplyMyKY(\'' + row.MyKYID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteMyKY(\'' + row.MyKYID + '\')"></a>'
-                    }
-                },
-                { "data": "KYID_Eats", "autoWidth": true, className: "txtAlignLeft" },
-                { "data": "CreateDate", "autoWidth": true, className: "txtAlignCenter" },
-                { "data": "MyKYLocationDesc", "autoWidth": true, className: "txtAlignCenter" },
-                { "data": "MyKYSpecLocation", "autoWidth": true, className: "txtAlignCenter" },
-                { "data": "MyKYDesc", "autoWidth": true, className: "txtAlignLeft" },
-                {
-                    "data": "FileName", className: "txtAlignCenter", "render": function (data, type, row) {
-                        var FileName = row.Evidence.split('|')[0];
-                        if (FileName != "") {
-                            return '<img src="/Image/MyKY/' + FileName + '" alt=Evidence id="EvidenceShow" style="height: 100px; width: 100px; max-width: 100%; max-height: 100%; object-fit: cover;" />'
-                        } else {
-                            return '<label> </label>'
-                        }
-                        /*return '<a href="#" onclick="ImgShow(\'' + row.Evidence + '\')">' + row.Evidence + '</a>'*/
-                    }
-                },
-                { "data": "CreateUser", "autoWidth": true, className: "txtAlignCenter" },
-                { "data": "MyKYStatusDesc", "autoWidth": true, className: "txtAlignCenter" },
-                { "data": "MyKYReply", "autoWidth": true, className: "txtAlignLeft" },
-                { "data": "LastUser", "autoWidth": true, className: "txtAlignCenter" },
-                { "data": "LastUser", "autoWidth": true, className: "txtAlignCenter" },
-                { "data": "LastUpdate", "autoWidth": true, className: "txtAlignCenter" },
-            ],
-
-            rowCallback: function (row, data) { responsiveHelper_dt_basic.createExpandIcon(row) },
-            filter: true,
-            info: true,
-            ordering: true,
-            processing: true,
-            retrieve: true,
-            bLengthChange: false,
-            lengthMenu: [[15, 20, -1], [15, 20, "All"]],
-            bFilter: true,
-            bSort: true,
-            bPaginate: true,
-            scrollX: false,
-            //scrollX: "100%",
-            //scrollY: "350px",
-            autoWidth: true,
-            preDrawCallback: function () {
-                // Initialize the responsive datatables helper once.
-                if (!responsiveHelper_dt_basic) {
-                    responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#tableID'), breakpointDefinition);
-                }
-            },
-            drawCallback: function (oSettings) {
-                responsiveHelper_dt_basic.respond();
-            }
-        });
-    });
-
-    function loadData() {
-        //var fromDate = $("#fromDate").val();
-        //var toDate = $("#toDate").val();
-        var location = $("#Location").val();
-        var status = $("#Status").val();
-
-        var months = {
-            Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
-            Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
-        };
-
-        var pfromDate = $("#fromDate").val().split(' ');
-        var fromDate = pfromDate[2] + "-" + months[pfromDate[1]] + "-" + pfromDate[0]; //convert date to format "yyyy-mm-dd"
-
-        var ptoDate = $("#toDate").val().split(' ');
-        var toDate = ptoDate[2] + "-" + months[ptoDate[1]] + "-" + ptoDate[0]; //convert date to format "yyyy-mm-dd"
-
-        var formdata = new FormData();
-        formdata.append("FromDate", fromDate);
-        formdata.append("toDate", toDate);
-        formdata.append("MyKYLocation", location);
-        formdata.append("MyKYStatus", status);
-        formdata.append("UserID", UserID);
-
-        waitingDialog.show("Please wait retrieving data...");
-        $.ajax({
-            type: "POST",
-            url:  "@Url.Action("ReplyMyKYList", "MyKY")", //"/MyKY/ReplyMyKYList/",
-            contentType: false,
-            processData: false,
-            data: formdata,
-            success: function (result) {
-                if (result.Message.toLowerCase().includes("success")) {
-                    $("#tableID").DataTable().clear();
-                    $("#tableID").DataTable().rows.add(result.Contents).draw(false);
-                    setTimeout(function () {
-                        waitingDialog.hide();
-                    }, 500);
-                }
-                else {
-                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
-                    setTimeout(function () {
-                        waitingDialog.hide();
-                    }, 500);
-                }
-            },
-            error: function (ex) {
-                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
-                setTimeout(function () {
-                    waitingDialog.hide();
-                }, 500);
-            }
-        })
-    }
-
-    $('#fromDate').Zebra_DatePicker({
-        format: 'd M Y', //'d M Y'
-        onSelect: function () {
-            $(this).change();
-        }
-    });
-
-    $('#toDate').Zebra_DatePicker({
-        format: 'd M Y', //'d M Y'
-        onSelect: function () {
-            $(this).change();
-        }
-    });
 
     var d = new Date();
     var month = new Array();
@@ -457,13 +305,162 @@
     var dyear = d.getFullYear()
     var today = dd + " " + dmonth + " " + dyear
 
+    var months = {
+        Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
+        Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
+    };
 
+    $('#fromDate').Zebra_DatePicker({
+        format: 'd M Y', //'d M Y'
+        onSelect: function () {
+            $(this).change();
+        }
+    });
+
+    $('#toDate').Zebra_DatePicker({
+        format: 'd M Y', //'d M Y'
+        onSelect: function () {
+            $(this).change();
+        }
+    });
+
+    var tab_text = "";
+    var data_type = 'data:application/vnd.ms-excel';
+
+
+    /*===========================================================
+    Function untuk mendapatkan export date guna penamaan file
+    ============================================================*/
+    var currentdate = new Date();
+    var dateExport = "" + String(currentdate.getDate()).padStart(2, '0') + ""
+        + String(currentdate.getMonth() + 1).padStart(2, '0') + ""
+        + currentdate.getFullYear() + ""
+        + currentdate.getHours() + ""
+        + currentdate.getMinutes() + ""
+        + currentdate.getSeconds();
+
+    /*=========================================================
+     Load page awal
+     =========================================================*/
+    $(document).ready(function () {
+        //Initialisasi
+        $("#print").attr("disabled", "disabled");
+
+        //Load filter header
+        $("#fromDate").val(today)
+        $("#toDate").val(today)
+        FillCombo_Loc(UserID);
+        FillCombo_Status()
+
+        //Initialisasi Table ID
+        $("#tableID").dataTable({
+            bDestroy: true,
+            data: [],
+            columns: [
+                {
+                    "data": "Action", className: "txtAlignCenter", "render": function (data, type, row) {
+                        return '<a href="#" class="fa fa-pencil" onclick="ReplyMyKY(\'' + row.MyKYID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteMyKY(\'' + row.MyKYID + '\')"></a>'
+                    }
+                },
+                { "data": "KYID_Eats", "autoWidth": true, className: "txtAlignLeft" },
+                { "data": "CreateDate", "autoWidth": true, className: "txtAlignCenter" },
+                { "data": "MyKYLocationDesc", "autoWidth": true, className: "txtAlignCenter" },
+                { "data": "MyKYSpecLocation", "autoWidth": true, className: "txtAlignCenter" },
+                { "data": "MyKYDesc", "autoWidth": true, className: "txtAlignLeft" },
+                {
+                    "data": "FileName", className: "txtAlignCenter", "render": function (data, type, row) {
+                        var FileName = row.Evidence.split('|')[0]; //get File name
+                        if (FileName != "") {
+                            return '<img src="/Image/MyKY/' + FileName + '" alt=Evidence id="EvidenceShow" style="height: 100px; width: 100px; max-width: 100%; max-height: 100%; object-fit: cover;" />'
+                        } else {
+                            return '<label> </label>'
+                        }
+                    }
+                },
+                { "data": "CreateUser", "autoWidth": true, className: "txtAlignCenter" },
+                { "data": "MyKYStatusDesc", "autoWidth": true, className: "txtAlignCenter" },
+                { "data": "MyKYReply", "autoWidth": true, className: "txtAlignLeft" },
+                { "data": "LastUser", "autoWidth": true, className: "txtAlignCenter" },
+                { "data": "LastUser", "autoWidth": true, className: "txtAlignCenter" },
+                { "data": "LastUpdate", "autoWidth": true, className: "txtAlignCenter" },
+            ],
+            lengthMenu: [[15, 20, -1], [15, 20, "All"]],
+        });
+    });
+
+    /*=========================================================
+     * load data, get list data feedback
+     ==========================================================*/
+    function loadData() {
+        //show waiting dialog
+        waitingDialog.show("Please wait retrieving data...");
+
+        //Parameter declaration
+        var location = $("#Location").val();
+        var status = $("#Status").val();
+
+        var pfromDate = $("#fromDate").val().split(' ');
+        var fromDate = pfromDate[2] + "-" + months[pfromDate[1]] + "-" + pfromDate[0]; //convert date to format "yyyy-mm-dd"
+
+        var ptoDate = $("#toDate").val().split(' ');
+        var toDate = ptoDate[2] + "-" + months[ptoDate[1]] + "-" + ptoDate[0]; //convert date to format "yyyy-mm-dd"
+
+        // add parameter to formdata
+        var formdata = new FormData();
+        formdata.append("FromDate", fromDate);
+        formdata.append("toDate", toDate);
+        formdata.append("MyKYLocation", location);
+        formdata.append("MyKYStatus", status);
+        formdata.append("UserID", UserID);
+
+        // post parameter
+        $.ajax({
+            type: "POST",
+            url:  "@Url.Action("ReplyMyKYList", "MyKY")", //"/MyKY/ReplyMyKYList/",
+            contentType: false,
+            processData: false,
+            data: formdata,
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+                    $("#tableID").DataTable().clear();
+                    $("#tableID").DataTable().rows.add(result.Contents).draw(false);
+
+                    if (result.Contents.length > 0) {
+                        $("#print").removeAttr("disabled", "disabled");
+                    } else {
+                        $("#print").attr("disabled", "disabled");
+                    }
+
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 500);
+                }
+                else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 500);
+                }
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
+                setTimeout(function () {
+                    waitingDialog.hide();
+                }, 500);
+            }
+        })
+    }
+
+    /*====================================
+    * button refresh click
+    =====================================*/
     $("#refresh").click(function () {
         loadData();
-
-        //load datatable function
     })
 
+    /*====================================
+    * button Replay click
+    =====================================*/
     function ReplyMyKY(myKYID) {
          $.ajax({
             type: "POST",
@@ -484,7 +481,6 @@
                         $("#MyKYReply").val(result.Contents.MyKYReply);
                         $("#CreateUser").val(result.Contents.CreateUser);
                         FillCombo_cbStatus(result.Contents.MyKYStatus);
-
                     }
                     else {
                         toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
@@ -494,14 +490,19 @@
                     toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
                 }
             });
-        //var myKYID = data.split('|')[0];
-        //var createDate = data.split('|')[1];
-        //var myKYLoc = data.split('|')[2];
-        //var myKYSpecLoc = data.split('|')[3];
-        //var myKYDesc = data.split('|')[4];
-        //var createUser = data.split('|')[5];
     }
 
+    /*====================================
+    * button delete click
+    =====================================*/
+    function DeleteMyKY(data) {
+        $("#MyKYID").val(data);
+        $("#DeleteConfirmation").modal("show");
+    }
+
+    /*=========================================================
+    * function button save insert click
+    ==========================================================*/
     $("#InsertData").click(function () {
         var MyKYID = $("#MyKYID").val();
         var complaintReply = $("#MyKYReply").val();
@@ -541,11 +542,9 @@
         }
     })
 
-    function DeleteMyKY(data) {
-        $("#MyKYID").val(data);
-        $("#DeleteConfirmation").modal("show");
-    }
-
+    /*=========================================================
+    * function button save delete click
+    ==========================================================*/
     $("#DeleteData").click(function () {
         var MyKYID = $("#MyKYID").val();
         $.ajax({
@@ -570,6 +569,9 @@
         });
     })
 
+    /*=========================================================
+    * function fill combo Location
+    ==========================================================*/
     function FillCombo_Loc(UserID) {
         $.ajax({
             type: "POST",
@@ -592,6 +594,9 @@
         });
     }
 
+    /*=========================================================
+    * function fill combo status
+    ==========================================================*/
     function FillCombo_Status() {
         $.ajax({
             type: "POST",
@@ -615,6 +620,9 @@
         });
     }
 
+    /*=========================================================
+    * function fill combo status to modal
+    ==========================================================*/
     function FillCombo_cbStatus(status) {
         $.ajax({
             type: "POST",
@@ -641,7 +649,9 @@
         });
     }
 
-
+    /*=========================================================
+    * function
+    ==========================================================*/
     function clearTextBox() {
         $("#CreateDate").val('');
         $("#MyKYLocation").val('');
@@ -651,82 +661,42 @@
         $("#MyKYReply").val('');
     }
 
-    function ImgShow(data) {
-        var FileName = data.split('|')[0];
+    /*==================================================================
+    Function Image Show
+    ====================================================================*/
+    //function ImgShow(data) {
+    //    var FileName = data.split('|')[0];
 
-        $("#ShowImg").modal();
-        var path = "/Image/MyKY/" + FileName;
-        document.getElementById('EvidenceShow').src = path;
-    }
-
+    //    $("#ShowImg").modal();
+    //    var path = "/Image/MyKY/" + FileName;
+    //    document.getElementById('EvidenceShow').src = path;
+    //}
 
     /*=============================================================================
      Dowmload Excel
      ==============================================================================*/
-    var tab_text = "";
-    var data_type = 'data:application/vnd.ms-excel';
-    var TableMarkUp = "";
+    function fnExcelReport() {
 
-    function CreateHiddenTable(ListOfMessages) {
+        //validasi parameter
+        var ListOfMessages;
+        var location = $("#Location").val();
+        var status = $("#Status").val();
 
-        var ColumnHead = "";
-        ColumnHead += "<td><b>KYID</b></td>";
-        ColumnHead += "<td><b>Date</b></td>";
-        ColumnHead += "<td><b>Location</b></td>";
-        ColumnHead += "<td><b>Specific Location</b></td>";
-        ColumnHead += "<td><b>Description</b></td>";
-        ColumnHead += "<td><b>Created By</b></td>";
-        ColumnHead += "<td><b>Status</b></td>";
-        ColumnHead += "<td><b>Response</b></td>";
-        ColumnHead += "<td><b>Create Response</b></td>";
-        ColumnHead += "<td><b>Last User</b></td>";
-        ColumnHead += "<td><b>Last Update</b></td>";
+        var pfromDate = $("#fromDate").val().split(' ');
+        var fromDate = pfromDate[2] + "-" + months[pfromDate[1]] + "-" + pfromDate[0]; //convert date to format "yyyy-mm-dd"
 
-        TableMarkUp += '<table border="2px" id="myModifiedTable" class="visibilityHide"><thead><tr bgcolor="#d3d3d3">' + ColumnHead + '</tr></thead><tbody>';
+        var ptoDate = $("#toDate").val().split(' ');
+        var toDate = ptoDate[2] + "-" + months[ptoDate[1]] + "-" + ptoDate[0]; //convert date to format "yyyy-mm-dd"
 
-        for (x = 0; x < ListOfMessages.length; x++) {
+        //add parameter to formdata
+        var formdata = new FormData();
+        formdata.append("FromDate", fromDate);
+        formdata.append("toDate", toDate);
+        formdata.append("MyKYLocation", location);
+        formdata.append("MyKYStatus", status);
+        formdata.append("UserID", UserID);
 
-            var rowdata = "";
-            rowdata += "<td>" + ListOfMessages[x]["KYID_Eats"] + "</td>"
-            rowdata += "<td>" + ListOfMessages[x]["CreateDate"] + "</td>"
-            rowdata += "<td>" + ListOfMessages[x]["MyKYLocationDesc"] + "</td>"
-            rowdata += "<td>" + ListOfMessages[x]["MyKYSpecLocation"] + "</td>"
-            rowdata += "<td>" + ListOfMessages[x]["MyKYDesc"] + "</td>"
-            rowdata += "<td>" + ListOfMessages[x]["CreateUser"] + "</td>"
-            rowdata += "<td>" + ListOfMessages[x]["MyKYStatusDesc"] + "</td>"
-            rowdata += "<td>" + ListOfMessages[x]["MyKYReply"] + "</td>"
-            rowdata += "<td>" + ListOfMessages[x]["LastUser"] + "</td>"
-            rowdata += "<td>" + ListOfMessages[x]["LastUser"] + "</td>"
-            rowdata += "<td>" + ListOfMessages[x]["LastUpdate"] + "</td>"
-
-            TableMarkUp += '<tr>' + rowdata + '</tr>';
-        }
-
-        TableMarkUp += "</tbody></table>";
-    }
-
-     function loadExcel() {
-         var location = $("#Location").val();
-         var status = $("#Status").val();
-
-         var months = {
-             Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06",
-             Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12"
-         };
-
-         var pfromDate = $("#fromDate").val().split(' ');
-         var fromDate = pfromDate[2] + "-" + months[pfromDate[1]] + "-" + pfromDate[0]; //convert date to format "yyyy-mm-dd"
-
-         var ptoDate = $("#toDate").val().split(' ');
-         var toDate = ptoDate[2] + "-" + months[ptoDate[1]] + "-" + ptoDate[0]; //convert date to format "yyyy-mm-dd"
-
-         var formdata = new FormData();
-         formdata.append("FromDate", fromDate);
-         formdata.append("toDate", toDate);
-         formdata.append("MyKYLocation", location);
-         formdata.append("MyKYStatus", status);
-         formdata.append("UserID", UserID);
-
+        //post data
         $.ajax({
             type: "POST",
             url: "@Url.Action("ReplyMyKYList", "MyKY")", //"/MyComplaint/ReplyComplaintList/",
@@ -735,22 +705,10 @@
             data: formdata,
             success: function (result) {
                 if (result.Message.toLowerCase().includes("success")) {
-
-                    TableMarkUp += '<table>'
-                    TableMarkUp += '<tr><td colspan="4"><b style="font-size:160%;"> PGM EATS - List Of MyKY <b></td></tr>';
-                    TableMarkUp += '</table><br>'
-
-                    TableMarkUp += '<table>'
-                    TableMarkUp += '<tr><td colspan="2"><b>Periode<b></td><td colspan="2"><b>: ' + $("#fromDate").val() + ' - ' + $("#toDate").val() + '<b></td></tr>';
-                    TableMarkUp += '<tr><td colspan="2"><b>Location<b></td><td colspan="2"><b>: ' + $("#Location option:selected").text() + '<b></td></tr>';
-                    TableMarkUp += '<tr><td colspan="2"><b>Status<b></td><td colspan="2"><b>: ' + $("#Status option:selected").text() + '<b></td></tr>';
-                    TableMarkUp += '</table><br><br>'
-
-                    CreateHiddenTable(result.Contents);
+                    ListOfMessages = result.Contents;
                 }
                 else {
                     toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
-                    return
                 }
             },
             error: function (ex) {
@@ -758,6 +716,54 @@
                 return
             }
         }).done(function () {
+
+            // column head table declaration
+            var ColumnHead = "";
+            ColumnHead += "<td><b>KYID</b></td>";
+            ColumnHead += "<td><b>Date</b></td>";
+            ColumnHead += "<td><b>Location</b></td>";
+            ColumnHead += "<td><b>Specific Location</b></td>";
+            ColumnHead += "<td><b>Description</b></td>";
+            ColumnHead += "<td><b>Created By</b></td>";
+            ColumnHead += "<td><b>Status</b></td>";
+            ColumnHead += "<td><b>Response</b></td>";
+            ColumnHead += "<td><b>Create Response</b></td>";
+            ColumnHead += "<td><b>Last User</b></td>";
+            ColumnHead += "<td><b>Last Update</b></td>";
+
+            // table declaration
+            var TableMarkUp = "";
+            TableMarkUp += '<table>'
+            TableMarkUp += '<tr><td colspan="4"><b style="font-size:160%;"> PGM EATS - List Of MyKY <b></td></tr>';
+            TableMarkUp += '</table><br>'
+
+            TableMarkUp += '<table>'
+            TableMarkUp += '<tr><td colspan="2"><b>Periode<b></td><td colspan="2"><b>: ' + $("#fromDate").val() + ' - ' + $("#toDate").val() + '<b></td></tr>';
+            TableMarkUp += '<tr><td colspan="2"><b>Location<b></td><td colspan="2"><b>: ' + $("#Location option:selected").text() + '<b></td></tr>';
+            TableMarkUp += '<tr><td colspan="2"><b>Status<b></td><td colspan="2"><b>: ' + $("#Status option:selected").text() + '<b></td></tr>';
+            TableMarkUp += '</table><br><br>'
+
+            TableMarkUp += '<table border="2px" id="myModifiedTable" class="visibilityHide"><thead><tr bgcolor="#d3d3d3">' + ColumnHead + '</tr></thead><tbody>';
+
+            for (x = 0; x < ListOfMessages.length; x++) {
+
+                var rowdata = "";
+                rowdata += "<td>" + ListOfMessages[x]["KYID_Eats"] + "</td>"
+                rowdata += "<td>" + ListOfMessages[x]["CreateDate"] + "</td>"
+                rowdata += "<td>" + ListOfMessages[x]["MyKYLocationDesc"] + "</td>"
+                rowdata += "<td>" + ListOfMessages[x]["MyKYSpecLocation"] + "</td>"
+                rowdata += "<td>" + ListOfMessages[x]["MyKYDesc"] + "</td>"
+                rowdata += "<td>" + ListOfMessages[x]["CreateUser"] + "</td>"
+                rowdata += "<td>" + ListOfMessages[x]["MyKYStatusDesc"] + "</td>"
+                rowdata += "<td>" + ListOfMessages[x]["MyKYReply"] + "</td>"
+                rowdata += "<td>" + ListOfMessages[x]["LastUser"] + "</td>"
+                rowdata += "<td>" + ListOfMessages[x]["LastUser"] + "</td>"
+                rowdata += "<td>" + ListOfMessages[x]["LastUpdate"] + "</td>"
+
+                TableMarkUp += '<tr>' + rowdata + '</tr>';
+            }
+
+            TableMarkUp += "</tbody></table>";
 
             tab_text += '<html xmlns:x="urn:schemas-microsoft-com:office:excel">';
             tab_text += '<head><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>';
@@ -786,17 +792,22 @@
         })
     }
 
-
-    function fnExcelReport() {
-        loadExcel();
-    }
-
     $($("#ExcelReportAnchor")[0]).click(function () {
         console.log(data_type);
         console.log(tab_text);
         $('#ExcelReportAnchor').attr('href', data_type + ', ' + encodeURIComponent(tab_text));
         $('#ExcelReportAnchor').attr('download', 'List Of MyKY_' + dateExport +'_.xls');
     });
+    /*==============================================================================*/
+
+
+    /*============================
+     Function untuk print windows
+     ============================*/
+    $("#print").click(function () {
+        window.print();
+    });
+    /*===========================*/
 
 </script>
 
