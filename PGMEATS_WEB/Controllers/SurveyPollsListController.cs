@@ -19,12 +19,23 @@ namespace PGMEATS_WEB.Controllers
     public class SurveyPollsListController : Controller
     {
         // GET: SurveyPollsList
-        public ActionResult Index()
+        public ActionResult Index(string back)
         {
             /*CHECK SESSION LOGIN*/
             if (Session["LogUserID"] is null)
             {
                 return RedirectToAction("Login", "Home");
+            }
+
+            if (Session["StringBack"] != null)
+            {
+                ViewBag.stringBack = Session["StringBack"].ToString();
+                Session["StringBack"] = null;
+			}
+			else
+			{
+                ViewBag.stringBack = "";
+
             }
 
             string userID = Session["LogUserID"].ToString();
@@ -118,6 +129,7 @@ namespace PGMEATS_WEB.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
+
             string userID = Session["LogUserID"].ToString();
             string AdminStatus = Session["AdminStatus"].ToString();
 
@@ -129,9 +141,15 @@ namespace PGMEATS_WEB.Controllers
 
             check = db.CheckAnswer(id);
 
+            List<SurveyAndPollsHeader> resultInfo = new List<SurveyAndPollsHeader>();
+            resultInfo = db.GetInfo(id);
+
             ViewBag.SurveyID = id;
             ViewBag.ViewChart = resp[0].ViewChart;
             ViewBag.AnswerCheck = check[0].Messages;
+
+            ViewBag.SurveyTitle = resultInfo[0].SurveyTitle;
+            ViewBag.InfoUser = resultInfo[0].CreateBy + " | " + DateTime.Now.ToString("dd MMM yyyy");
             return View();
         }
 
@@ -145,6 +163,8 @@ namespace PGMEATS_WEB.Controllers
             try
             {
                 response = db.GetSurveyAndPollsList(param, userID);
+                string stringBack = DateTime.Parse(param.StartDate).ToString("dd MMM yyyy") + "|" + DateTime.Parse(param.EndDate).ToString("dd MMM yyyy") + " | " + param.Groupdepartment + "|" + param.Designation + "|" + param.ActiveStatus;
+                Session["StringBack"] = stringBack;
             }
             catch (Exception ex)
             {

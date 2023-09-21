@@ -68,26 +68,43 @@
 
                                 @if (ViewBag.AnswerCheck == "True")
                                 {
-                                    <div class="div-body p-4">
-                                        <div class="row align-items-center">
-                                            <div class="col-lg-12">
-                                                <h3 class="fw-bold" style="z-index: 99 !important; position: relative; display: flex; justify-content: left;">By Employee</h3>
+                                <div class="div-body p-4">
+                                    <div id="result-title" style="padding:5px 5px 0px 0px; display:flex;">
+                                        <p style="line-height:normal;margin-bottom:0px !important; width:100%">
+                                            <span id="spnTitle" style="font-size: 20pt; font-family: Arial,sans-serif; color: black; font-weight: bold;">
+                                                @ViewBag.SurveyTitle
+                                            </span>
+                                        </p>
+                                        <div style="width:400px; display:flex">
+                                            <button type="button" class="btn btn-save" id="btnexport" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: bold; color: #ffffff; background-color: #4CBFBC; width: 150px; float: right; margin-right:10px;" onclick="window.print()">Print</button>
+                                            <button type="button" class="btn btn-save" id="btnBack" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: bold;color:#ffffff; background-color: #4CBFBC; width:150px; float:right; right:0" onclick="back()">Back</button>
+                                        </div>
+                                    </div>
+                                    <div id="result-infouser" style="padding-left: 3px;">
+                                        <p style="font-family: Arial,sans-serif;color: black; margin-bottom:20px; padding:0px 0px 0px 0px;">
+                                            <i class="bi bi-person-fill"></i>
+                                            @ViewBag.InfoUser
+                                        </p>
+                                    </div>
+                                    <div class="row align-items-center">
+                                        <div class="col-lg-12">
+                                            <h3 class="fw-bold" style="z-index: 99 !important; position: relative; display: flex; justify-content: left; margin-bottom:0px !important;">By Employee</h3>
 
-                                                <div id="fill-by-employee" style="position: relative;">
-                                                    <div id="piechart" tyle="width: 700px;"></div>
-                                                </div>
+                                            <div id="fill-by-employee" style="position: relative;">
+                                                <div id="piechart" style="width:100%; height: 500px;"></div>
+                                            </div>
 
-                                                <h3 class="fw-bold" style="z-index: 99 !important; position: relative; display: flex; justify-content: left;">By Department</h3>
-                                                <div id="fill-by-department" style="position: relative;">
-                                                    <div id="by-department" tyle="width: 700px;"></div>
-                                                </div>
-                                                <h3 class="fw-bold" style="z-index: 99 !important; position: relative; display: flex; justify-content: left;">By Shift</h3>
-                                                <div id="fill-by-Shift" style="position: relative">
-                                                    <div id="by-Shift" tyle="width: 700px;"></div>
-                                                </div>
+                                            <h3 class="fw-bold" style="z-index: 99 !important; position: relative; display: flex; justify-content: left; margin-bottom: 0px !important;">By Department</h3>
+                                            <div id="fill-by-department" style="position: relative;">
+                                                <div id="by-department" style="width: 100%; height: 500px; margin-top: 0px; "></div>
+                                            </div>
+                                            <h3 class="fw-bold" style="z-index: 99 !important; position: relative; display: flex; justify-content: left; margin-bottom: 0px !important;">By Shift</h3>
+                                            <div id="fill-by-Shift" style="position: relative">
+                                                <div id="by-Shift" style="width: 100%; height: 500px; margin-top: 0px; "></div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                                 }
                                 else
                                 {
@@ -97,7 +114,7 @@
                                                 <span class="fa fa-search mb-3" style="font-size:50px"></span>
                                             </div>
                                             <div class="div-center">
-                                                <p>VNo Result</p>
+                                                <p>No Result</p>
                                             </div>
                                         </div>
                                     </div>
@@ -163,7 +180,11 @@
                         $.each(data[0].Contents, function (i, dt) {
                             pdata = null;
                             options = null;
-                            htmlsList = '<div id="piechart_' + dt.QuestionID + '" style="margin-bottom: 0px;"></div>';
+                            if (dt.QuestionID == 1) {
+                                htmlsList = '<div id="piechart_' + dt.QuestionID + '" style="margin-bottom: 0px;margin-top:0px; width:100%; height: 500px;"></div>';
+                            } else {
+                                htmlsList = '<div id="piechart_' + dt.QuestionID + '" style="margin-bottom: 0px; width:100%; height: 500px;"></div>';
+                            }
                             $('#fill-by-employee').append(htmlsList);
                             var pObj = { 'SurveyID': dt.SurveyID, 'QuestionID': dt.QuestionID };
                             var qsID = dt.QuestionID;
@@ -203,12 +224,14 @@
                             }).done(function () {
                                 pdata = google.visualization.arrayToDataTable(dp);
                                 options = {
-                                    'title': dt.QuestionDesc,
-                                    'width': 700,
-                                    'height': 500,
-                                    'legend': 'none',
-                                    'crosshair': { trigger: 'both' },
-                                    'tooltip': { trigger: 'selection' }
+                                    'title': dt.QuestionDesc //,
+                                    //'width': 700,
+                                    //'height': 400,
+                                    //'legend': 'none',
+                                    //'crosshair': { trigger: 'both' },
+                                    //'tooltip': {
+                                    //    trigger: 'selection'
+                                    //}
                                 };
 
                                 //crosshair: { trigger: 'both' },   // Display crosshairs.
@@ -220,7 +243,6 @@
                                 //var chart_div = document.getElementById(id);
                                 //google.visualization.events.addListener(chart, 'ready', function () {
                                 //    chart_div.innerHTML = '<img id="' + imgID + '" src="' + chart.getImageURI() + '">';
-                                //    //console.log(chart_div.innerHTML);
                                 //});
                                 chart.draw(pdata, options);
 
@@ -273,7 +295,6 @@
                                 toastr.error('Failed to retrieve this Data. ' + ex, 'Error', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
                             }
                         }).done(function () {
-                            debugger
                             pData.push(pHeader)
                             var depart;
                             var val;
@@ -291,9 +312,14 @@
                             }
                            
                             var pVal = google.visualization.arrayToDataTable(pData);
-                            var options = { 'title': '', 'width': 900, 'height': 500 };
+                            var options = { 'title': '', 'chartArea': { width: '50%' } }; /*, 'width': 700, 'height': 400 };*/
 
                             var chart = new google.visualization.BarChart(document.getElementById('by-department'));
+                            //var imgID = "Imgdepartment";
+                            //var chart_div = document.getElementById('by-department');
+                            //google.visualization.events.addListener(chart, 'ready', function () {
+                            //    chart_div.innerHTML = '<img id="' + imgID + '" src="' + chart.getImageURI() + '">';
+                            //});
                             chart.draw(pVal, options);
 
                             //$.each(data[0].Contents, function (i, dt) {
@@ -437,9 +463,14 @@
                                 pData.push(result)
                             }
                             var pVal = google.visualization.arrayToDataTable(pData);
-                            var options = { 'title': '', 'width': 900, 'height': 500 };
+                            var options = { 'title': '', 'chartArea': { width: '50%' }  }; /*, 'width': 700, 'height': 400 };*/
 
                             var chart = new google.visualization.BarChart(document.getElementById('by-Shift'));
+                            //var imgID = "ImgdShift";
+                            //var chart_div = document.getElementById('by-Shift');
+                            //google.visualization.events.addListener(chart, 'ready', function () {
+                            //    chart_div.innerHTML = '<img id="' + imgID + '" src="' + chart.getImageURI() + '">';
+                            //});
                             chart.draw(pVal, options);
 
                             //$.each(Result[0].Contents, function (i, dt) {
@@ -483,7 +514,6 @@
                             ////var chart_div = document.getElementById('by-Shift');
                             ////google.visualization.events.addListener(chart, 'ready', function () {
                             ////    chart_div.innerHTML = '<img id="' + imgID + '" src="' + chart.getImageURI() + '">';
-                            ////    /*console.log(chart_div.innerHTML);*/
                             ////});
                             //chart.draw(pVal, options);
 
@@ -498,6 +528,16 @@
                 }
             });
         }
+
+        function back() {
+            var url = "/SurveyPollsList/Index?back=1";
+            //var url = "/MyPGM_Web/SurveyPollsList/Index?back=1";
+            window.location.href = url;
+        }
+
+        //function print() {
+        //    window.print();
+        //}
 
         @*var exportToExcel = (function () {
             var uri = 'data:application/vnd.ms-excel;base64,'

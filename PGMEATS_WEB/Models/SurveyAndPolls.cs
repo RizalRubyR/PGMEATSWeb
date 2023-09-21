@@ -25,6 +25,8 @@ namespace PGMEATS_WEB.Models
         public string ViewChart { get; set; }
         public string Type { get; set; }
         public string Finalized { get;set; } // 0 = New, 1 = Finalized update from web
+
+        public string CreateBy { get; set; }
     }
 
     public class SurveyAndPollsListSearch
@@ -207,7 +209,7 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("@Groupdepartment", data.Groupdepartment);
                     cmd.Parameters.AddWithValue("@Designation", data.Designation);
                     cmd.Parameters.AddWithValue("@ActiveStatus", data.ActiveStatus);
-                    cmd.Parameters.AddWithValue("@User", user);
+                    cmd.Parameters.AddWithValue("@User", user.Trim());
                     con.Open();
 
                     DataTable dt = new DataTable();
@@ -1638,6 +1640,44 @@ namespace PGMEATS_WEB.Models
             }
             catch (Exception ex)
             {
+            }
+            return responList;
+        }
+
+        public List<SurveyAndPollsHeader> GetInfo(string id)
+        {
+            List<SurveyAndPollsHeader> responList = new List<SurveyAndPollsHeader>();
+            try
+            {
+                string surveyID = id;
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    string sql = "sp_SurveyPollsResult_GetInfo";
+
+                    SqlCommand cmd = new SqlCommand(sql, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SurveyID", surveyID);
+                    con.Open();
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    da.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                    responList = dt.AsEnumerable().Select(x => new SurveyAndPollsHeader()
+                    {
+                        SurveyID = Convert.ToString(x.Field<object>("SurveyID")),
+                        SurveyTitle = Convert.ToString(x.Field<object>("SurveyTitle")),
+                        CreateBy = Convert.ToString(x.Field<object>("CreateUser"))
+                    }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                
             }
             return responList;
         }

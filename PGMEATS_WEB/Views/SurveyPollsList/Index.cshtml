@@ -163,6 +163,8 @@
 @section pagespecific
 {
     <script>
+        var back;
+        var stringBack = "@ViewBag.stringBack";
         $(document).ready(function () {
             FillCombo_FilterGroupDepartment();
             FillCombo_FilterDesignation();
@@ -257,11 +259,32 @@
                     responsiveHelper_dt_basic.respond();
                 }
             });
+
+            
             loadData();
+
+
         })
 
         function loadData() {
             waitingDialog.show("Please wait retrieving data...");
+            getUrlVars();
+            if (back == "1") {
+                if (stringBack != "") {
+                    var pArray = stringBack.split("|");
+                    var startDate = pArray[0];
+                    var endDate = pArray[1];
+                    var grDept = pArray[2];
+                    var designat = pArray[3];
+                    var activeStatus = pArray[4];
+                    $("#filterDatefrom").val(startDate);
+                    $("#filterDateTo").val(endDate);
+                    $("#FilterGroupDepartment").val(grDept);
+                    $("#FilterDesignation").val(designat);
+                    $("#FilterActiveStatus").val(activeStatus);
+                    stringBack = "";
+                }
+            }
 
             var fdatefrom = $("#filterDatefrom").val().split(' ');
             var fdateto = $("#filterDateTo").val().split(' ');
@@ -307,7 +330,7 @@
                     toastr.error(result.Message, 'Error', { timeOut: 3000, "closeButton": true });
                 }
                 else {
-                    
+
                     if (result.Contents.length == 0) {
                         toastr.warning('Data not found', 'Warning', { timeOut: 3000, "closeButton": true });
                     }
@@ -317,6 +340,7 @@
                 setTimeout(function () {
                     waitingDialog.hide();
                 }, 1000);
+
 
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 //toastr.error(jqXHR.status + " : " + jqXHR.responseText, 'Error', { timeOut: 3000, "closeButton": true });
@@ -425,5 +449,16 @@
         $("#refresh").click(function () {
             loadData();
         })
+
+        function getUrlVars() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            back = vars.back;
+        }
     </script> 
 }
