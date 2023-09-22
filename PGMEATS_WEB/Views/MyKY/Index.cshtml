@@ -169,7 +169,8 @@
                                                                 <td>
                                                                     <div class="form-group ">
                                                                         <label style="font-weight:500; margin-bottom:0.5em;">Location</label>
-                                                                        @Html.TextBoxFor(m => m.MyKYLocation, new { @id = "MyKYLocation", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled" })
+                                                                        <select id="MyKYLocation" class="form-control input-md" style="height: 20px; width: 300px;"></select>
+                                                                        @*@Html.TextBoxFor(m => m.MyKYLocation, new { @id = "MyKYLocation", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled" })*@
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -475,12 +476,13 @@
                         $("#MyModal").modal();
                         $("#CreateDate").val(result.Contents.CreateDate);
                         $("#MyKYID").val(myKYID);
-                        $("#MyKYLocation").val(result.Contents.MyKYLocationDesc);
+                        /*$("#MyKYLocation").val(result.Contents.MyKYLocationDesc);*/
                         $("#MyKYSpecLocation").val(result.Contents.MyKYSpecLocation);
                         $("#MyKYDesc").val(result.Contents.MyKYDesc);
                         $("#MyKYReply").val(result.Contents.MyKYReply);
                         $("#CreateUser").val(result.Contents.CreateUser);
                         FillCombo_cbStatus(result.Contents.MyKYStatus);
+                        FillCombo_Loc_modal(UserID,result.Contents.MyKYLocationDesc);
                     }
                     else {
                         toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
@@ -508,13 +510,11 @@
         var complaintReply = $("#MyKYReply").val();
         var status = $("#cbStatus").val();
 
-        if (complaintReply == "") {
-            toastr.warning("Please, enter your response!", 'Warning', { timeOut: 1000, closeButton: true });
-        } else {
-            var formdata = new FormData();
+         var formdata = new FormData();
             formdata.append("MyKYID", MyKYID);
             formdata.append("MyKYReply", complaintReply);
             formdata.append("MyKYStatus", status);
+            formdata.append("MyKYLocation", $("#MyKYLocation").val());
 
             $.ajax({
                 type: "POST",
@@ -539,7 +539,12 @@
                     toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
                 }
             });
-        }
+
+        //if (complaintReply == "") {
+        //    toastr.warning("Please, enter your response!", 'Warning', { timeOut: 1000, closeButton: true });
+        //} else {
+
+        //}
     })
 
     /*=========================================================
@@ -581,6 +586,7 @@
             success: function (result) {
                 if (result.Message.toLowerCase().includes("success")) {
                     $('#Location').empty();
+                    $("#Location").append('<option value="ALL" selected>ALL</option>');
                     $.each(result.Content, function (i, dt) {
                         $("#Location").append('<option value="' + dt.Code + '">' + dt.CodeDesc + '</option>');
                     });
@@ -648,6 +654,36 @@
             }
         });
     }
+
+    /*=========================================================
+    * function fill combo location on modal edit
+    ==========================================================*/
+     function FillCombo_Loc_modal(UserID,prm) {
+        $.ajax({
+            type: "POST",
+            url:  "@Url.Action("GetFillCombo", "MyKY")", //"/MyKY/FillCombo/",
+            datatype: 'json',
+            data: { TypeAction: "06", Param: UserID },
+            success: function (result) {
+                if (result.Message.toLowerCase().includes("success")) {
+                    $('#MyKYLocation').empty();
+                    $.each(result.Content, function (i, dt) {
+                        if (prm == dt.Code) {
+                            $("#MyKYLocation").append('<option value="' + dt.Code + '"selected>' + dt.CodeDesc + '</option>');
+                        } else {
+                            $("#MyKYLocation").append('<option value="' + dt.Code + '">' + dt.CodeDesc + '</option>');
+                        }
+                    });
+                } else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
+                }
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
+            }
+        });
+    }
+
 
     /*=========================================================
     * function

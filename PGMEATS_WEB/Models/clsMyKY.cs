@@ -142,6 +142,7 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("MyKYID", data.MyKYID);
                     cmd.Parameters.AddWithValue("MyKYReply", data.MyKYReply);
                     cmd.Parameters.AddWithValue("Status", data.MyKYStatus);
+                    cmd.Parameters.AddWithValue("MyKYLoc", data.MyKYLocation);
                     cmd.Parameters.AddWithValue("CreateUser", data.CreateUser);
                     con.Open();
                     cmd.ExecuteNonQuery();
