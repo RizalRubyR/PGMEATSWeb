@@ -871,7 +871,7 @@
                         var dep = $("#txtdepartment").val().split(";");
                         $.each(result.Contents, function (index, value) {
                             if (count == 1) {
-                                content += '<div style="width:120px">\n'
+                                content += '<div style="width:200px">\n'
                             }
                             content += '    <div class="form-check">\n'
                             if (dep.length == 1) {
@@ -933,7 +933,7 @@
                         var dep = $("#txtdesignation").val().split(";");
                         $.each(result.Contents, function (index, value) {
                             if (count == 1) {
-                                content += '<div style="width:120px">\n'
+                                content += '<div style="width:200px">\n'
                             }
                             content += '    <div class="form-check">\n'
                             if (dep.length == 1) {
@@ -955,7 +955,7 @@
                                 }
                             }
 
-                            content += '        <label class="form-check-label" for="' + value.Code + '">' + value.Code + '\n'
+                            content += '        <label class="form-check-label" for="' + value.Description + '">' + value.Code + '\n'
                             content += '        </label>\n'
                             content += '    </div>\n'
                             if (count == 10 || v == result.Contents.length) {

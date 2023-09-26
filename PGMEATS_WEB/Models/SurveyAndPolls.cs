@@ -483,7 +483,8 @@ namespace PGMEATS_WEB.Models
                     ComboList = dt.AsEnumerable().Select(x =>
                     new clsFillCombo
                     {
-                        Code = x.Field<string>("Designation"),
+                        Code = x.Field<string>("Code"),
+                        Description = x.Field<string>("Description")
                     }).ToList();
 
                     Response.ID = 1;
