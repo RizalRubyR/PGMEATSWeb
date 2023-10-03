@@ -683,6 +683,25 @@ namespace PGMEATS_WEB.Controllers
             }
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+        [HttpPost]
+        public JsonResult GetchartByParticipantDept(string SurveyID)
+		{
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            List<clsResponse> response = new List<clsResponse>();
+            Encryption enc = new Encryption();
+            string param = enc.EncryptData(SurveyID + "||");
+            try
+            {
+                response = db.GetchartByParticipantDept(param).ToList();
+            }
+            catch (Exception ex)
+            {
+                response[0].ID = 0;
+                response[0].Message = ex.Message;
+                response[0].Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
 
         //[AcceptVerbs("GET", "POST")]
         [HttpPost]
@@ -695,6 +714,25 @@ namespace PGMEATS_WEB.Controllers
             try
             {
                 response = db.GetchartByShift(param).ToList();
+            }
+            catch (Exception ex)
+            {
+                response[0].ID = 0;
+                response[0].Message = ex.Message;
+                response[0].Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult GetchartByParticipantShift(string SurveyID)
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            List<clsResponse> response = new List<clsResponse>();
+            Encryption enc = new Encryption();
+            string param = enc.EncryptData(SurveyID + "||");
+            try
+            {
+                response = db.GetchartByParticipantShift(param).ToList();
             }
             catch (Exception ex)
             {
