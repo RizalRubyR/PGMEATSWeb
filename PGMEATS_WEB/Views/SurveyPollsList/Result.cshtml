@@ -96,13 +96,13 @@
 
                                             <h3 class="fw-bold" style="z-index: 99 !important; position: relative; display: flex; justify-content: left; margin-bottom: 0px !important;">By Department</h3>
                                             <div id="fill-by-department" style="position: relative;">
-                                                <div id="by-department" style="width: 100%; height: 500px; margin-top: 0px; "></div>
                                                 <div id="participant_byDept" style="width: 100%; height: 700px; margin-top: 0px; "></div>
+                                                <div id="by-department" style="width: 100%; height: 500px; margin-top: 0px; "></div>
                                             </div>
                                             <h3 class="fw-bold" style="z-index: 99 !important; position: relative; display: flex; justify-content: left; margin-bottom: 0px !important;">By Shift</h3>
                                             <div id="fill-by-Shift" style="position: relative">
-                                                <div id="by-Shift" style="width: 100%; height: 500px; margin-top: 0px; "></div>
                                                 <div id="participant_byShift" style="width: 100%; height: 500px; margin-top: 0px; "></div>
+                                                <div id="by-Shift" style="width: 100%; height: 500px; margin-top: 0px; "></div>
                                             </div>
                                         </div>
                                     </div>
@@ -123,10 +123,6 @@
                                 }
                             </div>
                         </div>
-                        @*<div id="chart_div"></div>
-                        <div>
-                            <button type="button" class="btn btn-save" id="export" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: bold;color:#ffffff; background-color: #4CBFBC; width:150px" onclick="exportToExcel('img', 'Export To Excel')">Export to excel</button>
-                        </div>*@
                     </div>
 
                 </div>
@@ -155,10 +151,10 @@
             //drawChart();
             google.charts.load('current', { 'packages': ['corechart'] });
             google.charts.setOnLoadCallback(drawChart);
-            google.charts.setOnLoadCallback(getchartByDepartment);
             google.charts.setOnLoadCallback(getchartByParticipantDept);
-            google.charts.setOnLoadCallback(getchartByShift);
+            google.charts.setOnLoadCallback(getchartByDepartment);
             google.charts.setOnLoadCallback(getchartByParticipantShift);
+            google.charts.setOnLoadCallback(getchartByShift);
         });
 
         // Draw the chart and set the chart values
@@ -262,6 +258,68 @@
             });
         }
 
+        function getchartByParticipantDept() {
+            var htmlsList = "";
+            var obj = { 'SurveyID': surveyID };
+            var pData = []
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetchartByParticipantDept", "SurveyPollsList")",
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(obj),
+                success: function (data) {
+                    var oi = 0
+                    var participants
+                    $.each(data[0].Contents, function (i, dt) {
+                        var xData = []; //= { dt.Department, dt.Total }
+                        if (oi == 0) {
+                            xData = [dt.Department, dt.Total, { type: 'string', role: 'annotation' }]
+                            participants = Number(dt.TotalParticipant);
+                        } else {
+                            xData = [ dt.Department, Number(dt.Total), dt.Percentage ]
+                        }
+
+                        pData.push(xData)
+                        oi += 1;
+                    })
+                    var pVal = google.visualization.arrayToDataTable(pData);
+                    var options = {
+                        title: 'Staff by participants',
+                        chartArea: { width: '50%' },
+                        annotations: {
+                            alwaysOutside: false,
+                            textStyle: {
+                                fontSize: 12,
+                                auraColor: 'none',
+                                color: '#555'
+                            },
+                            boxStyle: {
+                                stroke: '#ccc',
+                                strokeWidth: 1,
+                                gradient: {
+                                    color1: '#f3e5f5',
+                                    color2: '#f3e5f5',
+                                    x1: '0%', y1: '0%',
+                                    x2: '100%', y2: '100%'
+                                }
+                            }
+                        },
+                        hAxis: {
+                            minValue: 0, maxValue: participants
+                        },
+                        legend: { position: 'none' }
+                    };
+                    var chart = new google.visualization.BarChart(document.getElementById('participant_byDept'));
+                    chart.draw(pVal, options);
+                },
+                error: function (ex) {
+                    toastr.error('Failed to retrieve this Data. ' + ex, 'Error', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                }
+            });
+        }
+
         function getchartByDepartment() {
             var htmlsList = "";
             var obj = { 'SurveyID': surveyID };
@@ -316,7 +374,7 @@
                             }
 
                             var pVal = google.visualization.arrayToDataTable(pData);
-                            var options = { 'title': '', 'chartArea': { width: '50%' } }; /*, 'width': 700, 'height': 400 };*/
+                            var options = { 'title': 'Question & Answer', 'chartArea': { width: '50%' } }; /*, 'width': 700, 'height': 400 };*/
 
                             var chart = new google.visualization.BarChart(document.getElementById('by-department'));
                             //var imgID = "Imgdepartment";
@@ -326,7 +384,6 @@
                             //});
                             chart.draw(pVal, options);
                         });
-
                     }
                 },
                 error: function (ex) {
@@ -336,14 +393,13 @@
             });
         }
 
-        function getchartByParticipantDept() {
+        function getchartByParticipantShift() {
             var htmlsList = "";
             var obj = { 'SurveyID': surveyID };
             var pData = []
-            
             $.ajax({
                 type: "POST",
-                url: "@Url.Action("GetchartByParticipantDept", "SurveyPollsList")",
+                url: "@Url.Action("GetchartByParticipantShift", "SurveyPollsList")",
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(obj),
@@ -353,10 +409,10 @@
                     $.each(data[0].Contents, function (i, dt) {
                         var xData = []; //= { dt.Department, dt.Total }
                         if (oi == 0) {
-                            xData = [dt.Department, dt.Total, { type: 'string', role: 'annotation' }]
+                            xData = [dt.Shift, dt.Total, { type: 'string', role: 'annotation' }]
                             participants = Number(dt.TotalParticipant);
                         } else {
-                            xData = [ dt.Department, Number(dt.Total), dt.Percentage ]
+                            xData = [ dt.Shift, Number(dt.Total), dt.Percentage ]
                         }
 
                         pData.push(xData)
@@ -364,10 +420,11 @@
                     })
                     var pVal = google.visualization.arrayToDataTable(pData);
                     var options = {
-                        title: 'Department by participants',
+                        title: 'Shift by participants',
                         chartArea: { width: '50%' },
+                        bar: { groupWidth: "35%" },
                         annotations: {
-                            alwaysOutside: true,
+                            alwaysOutside: false,
                             textStyle: {
                                 fontSize: 12,
                                 auraColor: 'none',
@@ -389,7 +446,7 @@
                         },
                         legend: { position: 'none' }
                     };
-                    var chart = new google.visualization.BarChart(document.getElementById('participant_byDept'));
+                    var chart = new google.visualization.BarChart(document.getElementById('participant_byShift'));
                     chart.draw(pVal, options);
                 },
                 error: function (ex) {
@@ -407,7 +464,6 @@
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(obj),
-
                 success: function (Result) {
                     var pShift = Result[0].Contents;
 
@@ -453,7 +509,7 @@
                                 pData.push(result)
                             }
                             var pVal = google.visualization.arrayToDataTable(pData);
-                            var options = { 'title': '', 'chartArea': { width: '50%' }  }; /*, 'width': 700, 'height': 400 };*/
+                            var options = { 'title': 'Question & Answer', 'chartArea': { width: '50%' }  }; /*, 'width': 700, 'height': 400 };*/
 
                             var chart = new google.visualization.BarChart(document.getElementById('by-Shift'));
                             //var imgID = "ImgdShift";
@@ -462,52 +518,6 @@
                             //    chart_div.innerHTML = '<img id="' + imgID + '" src="' + chart.getImageURI() + '">';
                             //});
                             chart.draw(pVal, options);
-
-                            //$.each(Result[0].Contents, function (i, dt) {
-                            //    if (Shiftbefore != dt.Shift) {
-                            //        if (pContent.length < (lastCol + 1) && Shiftbefore != "") {
-                            //            for (var p = pContent.length; p < (lastCol + 1); p++) {
-                            //                pContent.push(0)
-                            //            }
-                            //        }
-                            //        if (pContent.length > 2) {
-                            //            pData.push(pContent)
-                            //        } else if (pContent.length == 2) {
-                            //            pContent.push(0)
-                            //            pData.push(pContent)
-                            //        }
-                            //        pContent = []
-                            //        pContent.push(dt.Shift)
-                            //        pContent.push(dt.Total)
-                            //    } else {
-                            //        pContent.push(dt.Total)
-                            //    }
-                            //    if (i + 1 == oj.length) {
-                            //        if (pContent.length < (lastCol + 1) && Shiftbefore != "") {
-                            //            for (var p = oj.length; p < (lastCol); p++) {
-                            //                pContent.push(0)
-                            //            }
-                            //        }
-                            //    }
-                            //    o += 1
-                            //    if (o == oj.length) {
-                            //        pData.push(pContent)
-                            //    }
-                            //    Shiftbefore = dt.Shift
-                            //});
-
-                            //var pVal = google.visualization.arrayToDataTable(pData);
-                            //var options = { 'title': '', 'width': 900, 'height': 500 };
-
-                            //var chart = new google.visualization.BarChart(document.getElementById('by-Shift'));
-                            ////var imgID = "ImgdShift";
-                            ////var chart_div = document.getElementById('by-Shift');
-                            ////google.visualization.events.addListener(chart, 'ready', function () {
-                            ////    chart_div.innerHTML = '<img id="' + imgID + '" src="' + chart.getImageURI() + '">';
-                            ////});
-                            //chart.draw(pVal, options);
-
-                            ////SaveBase64ToImg();
                         });
                     }
 
@@ -515,67 +525,6 @@
                 error: function (ex) {
                     toastr.error('Failed to retrieve this Data. ' + ex, 'Error', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
 
-                }
-            });
-        }
-
-        function getchartByParticipantShift() {
-            var htmlsList = "";
-            var obj = { 'SurveyID': surveyID };
-            var pData = []
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("GetchartByParticipantShift", "SurveyPollsList")",
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify(obj),
-                success: function (data) {
-                    var oi = 0
-                    var participants
-                    $.each(data[0].Contents, function (i, dt) {
-                        var xData = []; //= { dt.Department, dt.Total }
-                        if (oi == 0) {
-                            xData = [dt.Shift, dt.Total, { type: 'string', role: 'annotation' }]
-                            participants = Number(dt.TotalParticipant);
-                        } else {
-                            xData = [ dt.Shift, Number(dt.Total), dt.Percentage ]
-                        }
-
-                        pData.push(xData)
-                        oi += 1;
-                    })
-                    var pVal = google.visualization.arrayToDataTable(pData);
-                    var options = {
-                        title: 'Shift by participants',
-                        chartArea: { width: '50%' },
-                        annotations: {
-                            alwaysOutside: true,
-                            textStyle: {
-                                fontSize: 12,
-                                auraColor: 'none',
-                                color: '#555'
-                            },
-                            boxStyle: {
-                                stroke: '#ccc',
-                                strokeWidth: 1,
-                                gradient: {
-                                    color1: '#f3e5f5',
-                                    color2: '#f3e5f5',
-                                    x1: '0%', y1: '0%',
-                                    x2: '100%', y2: '100%'
-                                }
-                            }
-                        },
-                        hAxis: {
-                            minValue: 0, maxValue: participants
-                        },
-                        legend: { position: 'none' }
-                    };
-                    var chart = new google.visualization.BarChart(document.getElementById('participant_byShift'));
-                    chart.draw(pVal, options);
-                },
-                error: function (ex) {
-                    toastr.error('Failed to retrieve this Data. ' + ex, 'Error', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
                 }
             });
         }
