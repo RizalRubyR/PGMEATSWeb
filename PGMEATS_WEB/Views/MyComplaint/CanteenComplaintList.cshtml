@@ -268,7 +268,7 @@
                                     </div>
                                 </div>
 
-                                @*<div class="modal fade" id="ShowImg">
+                                <div class="modal fade" id="ShowImg">
                                     <div class="modal-dialog" style="width:360px;">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -279,7 +279,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>*@
+                                </div>
 
                             </div>
                         </div>
@@ -394,7 +394,7 @@
                     "data": "FileName", className: "txtAlignCenter", "render": function (data, type, row) {
                         var FileName = row.Evidence.split('|')[0]; //get File name
                         if (FileName != "") {
-                            return '<img src="/Image/MyComplaint/' + FileName + '" alt=Evidence id="EvidenceShow" style="height: 100px; width: 100px; max-width: 100%; max-height: 100%; object-fit: cover;" />'
+                            return '<a href="#" onclick="ImgShow(\'' + row.Evidence + '\')"><img src="/Image/MyComplaint/' + FileName + '"  style = "height: 100px; width: 100px; max-width: 100%; max-height: 100%; object-fit: cover;" /></a >'
                         } else {
                             return '<label> </label>'
                         }
@@ -746,13 +746,11 @@
     /*==================================================================
      Function Image Show
      ====================================================================*/
-    //function ImgShow(data) {
-    //    var FileName = data.split('|')[0];
-
-    //    $("#ShowImg").modal();
-    //    var path = "/Image/MyComplaint/" + FileName;
-    //    document.getElementById('EvidenceShow').src = path;
-    //}
+    function ImgShow(data) {
+        $("#ShowImg").modal();
+        var path = "/Image/MyComplaint/" + data;
+        document.getElementById('EvidenceShow').src = path;
+    }
 
     /*=============================================================================
      Dowmload Excel
