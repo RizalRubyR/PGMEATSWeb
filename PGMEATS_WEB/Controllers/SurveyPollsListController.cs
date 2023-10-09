@@ -135,11 +135,14 @@ namespace PGMEATS_WEB.Controllers
 
             List<CheckResult> resp = new List<CheckResult>();
             List<checkResult> check = new List<checkResult>();
+            List<checkResult> Responses = new List<checkResult>();
             SurveyAndPollsDB db = new SurveyAndPollsDB();
 
             resp = db.ResultCheck(id);
 
             check = db.CheckAnswer(id);
+
+            Responses = db.GetResponses(id);
 
             List<SurveyAndPollsHeader> resultInfo = new List<SurveyAndPollsHeader>();
             resultInfo = db.GetInfo(id);
@@ -150,6 +153,8 @@ namespace PGMEATS_WEB.Controllers
 
             ViewBag.SurveyTitle = resultInfo[0].SurveyTitle;
             ViewBag.InfoUser = resultInfo[0].CreateBy + " | " + DateTime.Now.ToString("dd MMM yyyy");
+
+            ViewBag.Responses = Responses[0].Messages; //"50 Responses";
             return View();
         }
 
@@ -733,6 +738,26 @@ namespace PGMEATS_WEB.Controllers
             try
             {
                 response = db.GetchartByParticipantShift(param).ToList();
+            }
+            catch (Exception ex)
+            {
+                response[0].ID = 0;
+                response[0].Message = ex.Message;
+                response[0].Contents = "";
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult getchartByDepartmentisStacked(string SurveyID)
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            List<clsResponse> response = new List<clsResponse>();
+            Encryption enc = new Encryption();
+            string param = enc.EncryptData(SurveyID + "||");
+            try
+            {
+                response = db.getchartByDepartmentisStacked(param).ToList();
             }
             catch (Exception ex)
             {

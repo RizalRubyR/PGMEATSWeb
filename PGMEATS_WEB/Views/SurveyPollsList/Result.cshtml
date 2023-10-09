@@ -69,6 +69,7 @@
                                 @if (ViewBag.AnswerCheck == "True")
                                 {
                                 <div class="div-body p-4">
+                                    
                                     <div id="result-title" style="padding:5px 5px 0px 0px; display:flex;">
                                         <p style="line-height:normal;margin-bottom:0px !important; width:100%">
                                             <span id="spnTitle" style="font-size: 20pt; font-family: Arial,sans-serif; color: black; font-weight: bold;">
@@ -87,6 +88,11 @@
                                         </p>
                                     </div>
                                     <div class="row align-items-center">
+                                        <h3 class="fw-bold" style="z-index: 99 !important; position: relative; display: flex; justify-content: left; margin-bottom: 0px !important; margin-top: 0px !important; margin-left: 10px; font-size: 16px; font-weight: normal !important; ">
+                                            @ViewBag.Responses
+                                        </h3>
+                                    </div>
+                                    <div class="row align-items-center">
                                         <div class="col-lg-12">
                                             <h3 class="fw-bold" style="z-index: 99 !important; position: relative; display: flex; justify-content: left; margin-bottom:0px !important;">By Employee</h3>
 
@@ -97,12 +103,12 @@
                                             <h3 class="fw-bold" style="z-index: 99 !important; position: relative; display: flex; justify-content: left; margin-bottom: 0px !important;">By Department</h3>
                                             <div id="fill-by-department" style="position: relative;">
                                                 <div id="participant_byDept" style="width: 100%; height: 700px; margin-top: 0px; "></div>
-                                                <div id="by-department" style="width: 100%; height: 500px; margin-top: 0px; "></div>
+                                                <div id="by-department" style="width: 100%; height: 100vh; margin-top: 0px; "></div>
                                             </div>
                                             <h3 class="fw-bold" style="z-index: 99 !important; position: relative; display: flex; justify-content: left; margin-bottom: 0px !important;">By Shift</h3>
                                             <div id="fill-by-Shift" style="position: relative">
                                                 <div id="participant_byShift" style="width: 100%; height: 500px; margin-top: 0px; "></div>
-                                                <div id="by-Shift" style="width: 100%; height: 500px; margin-top: 0px; "></div>
+                                                <div id="by-Shift" style="width: 100%; height: 100vh; margin-top: 0px; "></div>
                                             </div>
                                         </div>
                                     </div>
@@ -152,7 +158,8 @@
             google.charts.load('current', { 'packages': ['corechart'] });
             google.charts.setOnLoadCallback(drawChart);
             google.charts.setOnLoadCallback(getchartByParticipantDept);
-            google.charts.setOnLoadCallback(getchartByDepartment);
+            /*google.charts.setOnLoadCallback(getchartByDepartment);*/
+            google.charts.setOnLoadCallback(getchartByDepartment_isStacked);
             google.charts.setOnLoadCallback(getchartByParticipantShift);
             google.charts.setOnLoadCallback(getchartByShift);
         });
@@ -286,7 +293,7 @@
                     })
                     var pVal = google.visualization.arrayToDataTable(pData);
                     var options = {
-                        title: 'Staff by participants',
+                        title: 'Staff participation',
                         chartArea: { width: '50%' },
                         annotations: {
                             alwaysOutside: false,
@@ -393,6 +400,64 @@
             });
         }
 
+        //New isStacked
+        function getchartByDepartment_isStacked() {
+            var htmlsList = "";
+            var obj = { 'SurveyID': surveyID };
+            var pData = []
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("getchartByDepartmentisStacked", "SurveyPollsList")",
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(obj),
+                success: function (data) {
+                    var oi = 0
+                    var participants
+
+                    $.each(data[0].Contents, function (i, dt) {
+                        var xData = []; //= { dt.Department, dt.Total }
+                        var xstr = dt.Array.split(",");
+                        for (ii = 0; ii < xstr.length; ii++) {
+                            if (i == 0) {
+                                xData.push(xstr[ii])
+                            } else {
+                                if (ii > 0) {
+                                    xData.push(Number(xstr[ii]))
+                                } else {
+                                    xData.push(xstr[ii])
+                                }
+                            }
+                        }
+                        //var xData = JSON.stringify(dt.Array)
+                        //if (oi == 0) {
+                        //    xData = [dt.Shift, dt.Total, { type: 'string', role: 'annotation' }]
+                        //    participants = Number(dt.TotalParticipant);
+                        //} else {
+                        //    xData = [dt.Shift, Number(dt.Total), dt.Percentage]
+                        //}
+
+                        pData.push(xData)
+                        oi += 1;
+                    })
+
+                    var pVal = google.visualization.arrayToDataTable(pData);
+
+                    var options = {
+                        title: 'Staff participation',
+                        isStacked: true,
+                        width: '100%', //pdata.getNumberOfRows() * 65,
+                        bar: { groupWidth: '70%' }
+                    };
+                    var chart = new google.visualization.BarChart(document.getElementById('by-department'));
+                    chart.draw(pVal, options);
+                },
+                error: function (ex) {
+                    toastr.error('Failed to retrieve this Data. ' + ex, 'Error', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                }
+            });
+        }
+
         function getchartByParticipantShift() {
             var htmlsList = "";
             var obj = { 'SurveyID': surveyID };
@@ -420,7 +485,7 @@
                     })
                     var pVal = google.visualization.arrayToDataTable(pData);
                     var options = {
-                        title: 'Shift by participants',
+                        title: 'Staff participation',
                         chartArea: { width: '50%' },
                         bar: { groupWidth: "35%" },
                         annotations: {

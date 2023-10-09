@@ -1649,6 +1649,54 @@ namespace PGMEATS_WEB.Models
             return responList;
         }
 
+        public IEnumerable<clsResponse> getchartByDepartmentisStacked(string param)
+		{
+            List<clsResponse> responList = new List<clsResponse>();
+            clsResponse clsrespon = new clsResponse();
+            Encryption encrypt = new Encryption();
+            try
+            {
+                var array = encrypt.DecryptData(param).Split(new string[] { "||" }, StringSplitOptions.None);
+                string surveyID = array[0];
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    string sql = "sp_SurveyPollsResult_ByDepartment_New";  //"sp_surveyandpoolsbydept_get";
+
+                    SqlCommand cmd = new SqlCommand(sql, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SurveyID", surveyID);
+                    con.Open();
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    da.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                    clsrespon = new clsResponse();
+                    clsrespon.ID = 0;
+                    clsrespon.Message = "Success";
+                    clsrespon.Contents = dt.AsEnumerable().Select(row => row.Table.Columns.Cast<DataColumn>().ToDictionary(col => col.ColumnName, col => row[col])).Select(dict => (dynamic)dict).ToList();
+
+                    responList.Add(clsrespon);
+                }
+            }
+            catch (Exception ex)
+            {
+                responList = new List<clsResponse>();
+                clsrespon = new clsResponse();
+
+                clsrespon.ID = 1;
+                clsrespon.Message = ex.Message;
+                clsrespon.Contents = "";
+
+                responList.Add(clsrespon);
+            }
+            return responList;
+        }
+
         public IEnumerable<clsResponse> Getlabelanswer(string param)
         {
             List<clsResponse> responList = new List<clsResponse>();
@@ -1712,6 +1760,42 @@ namespace PGMEATS_WEB.Models
                 using (SqlConnection con = new SqlConnection(constr))
                 {
                     string sql = "sp_SurveyPollsResult_Check";
+
+                    SqlCommand cmd = new SqlCommand(sql, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SurveyID", param);
+                    con.Open();
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    da.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                    responList = dt.AsEnumerable().Select(x => new checkResult()
+                    {
+                        ID = Convert.ToInt16(x.Field<object>("ID")),
+                        Messages = Convert.ToString(x.Field<object>("Message"))
+                    }).ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return responList;
+        }
+
+        public List<checkResult> GetResponses(string param)
+		{
+            List<checkResult> responList = new List<checkResult>();
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    string sql = "sp_SurveyPollsResult_GetResponses";
 
                     SqlCommand cmd = new SqlCommand(sql, con);
                     cmd.CommandType = CommandType.StoredProcedure;
