@@ -103,7 +103,7 @@
                                             <h3 class="fw-bold" style="z-index: 99 !important; position: relative; display: flex; justify-content: left; margin-bottom: 0px !important;">By Department</h3>
                                             <div id="fill-by-department" style="position: relative;">
                                                 <div id="participant_byDept" style="width: 100%; height: 700px; margin-top: 0px; "></div>
-                                                <div id="by-department" style="width: 100%; height: 100vh; margin-top: 0px; "></div>
+                                                <div id="by-department" style="width: 100%; height: 700px; margin-top: 0px; "></div>
                                             </div>
                                             <h3 class="fw-bold" style="z-index: 99 !important; position: relative; display: flex; justify-content: left; margin-bottom: 0px !important;">By Shift</h3>
                                             <div id="fill-by-Shift" style="position: relative">
@@ -444,10 +444,11 @@
                     var pVal = google.visualization.arrayToDataTable(pData);
 
                     var options = {
-                        title: 'Staff participation',
+                        title: 'Question & Answer',
                         isStacked: true,
                         width: '100%', //pdata.getNumberOfRows() * 65,
-                        bar: { groupWidth: '70%' }
+                        bar: { groupWidth: '70%' },
+                        chartArea: { width: '50%'}
                     };
                     var chart = new google.visualization.BarChart(document.getElementById('by-department'));
                     chart.draw(pVal, options);

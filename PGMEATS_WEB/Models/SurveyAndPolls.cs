@@ -45,6 +45,7 @@ namespace PGMEATS_WEB.Models
         public string SurveyTitle { get; set; }
         public string Department { get; set; }
         public string Designation { get; set; }
+        public string Finalized { get; set; }
         public string SurveyStatus { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
@@ -226,6 +227,7 @@ namespace PGMEATS_WEB.Models
                         SurveyTitle = x.Field<string>("SurveyTitle"),
                         Department = x.Field<string>("Department"),
                         Designation = x.Field<string>("Designation"),
+                        Finalized = x.Field<string>("Finalized"),
                         SurveyStatus = x.Field<string>("SurveyStatus"),
                         StartDate = x.Field<string>("StartDate"),
                         EndDate = x.Field<string>("EndDate"),

@@ -99,7 +99,7 @@
                                 <thead>
                                     <tr>
                                         <th style="text-align: center;width: 12%">Action</th>
-                                        <th style="text-align: center" class="hidden">
+                                        <th style="text-align: center" width="80px">
                                             Survey ID
                                         </th>
                                         <th style="text-align: center; width: 280px">
@@ -110,6 +110,9 @@
                                         </th>
                                         <th style="text-align: center; width: 150px">
                                             Designation
+                                        </th>
+                                        <th style="text-align: center" width="80px">
+                                            Finalized
                                         </th>
                                         <th style="text-align: center; width: 120px">
                                             Start Date
@@ -226,10 +229,11 @@
                             }
                         }
                     },
-                    { "data": "SurveyID",    className: "hidden" },
+                    { "data": "SurveyID", className: "txtAlignCenter" },
                     { "data": "SurveyTitle", className: "txtAlignLeft" },
                     { "data": "Department", className: "txtAlignLeft" },
                     { "data": "Designation", className: "txtAlignLeft" },
+                    { "data": "Finalized", class: "txtAlignCenter"},
                     { "data": "StartDate",   className: "txtAlignCenter" },
                     { "data": "EndDate", className: "txtAlignCenter" },
                     { "data": "CreateDate", className: "txtAlignCenter" }
