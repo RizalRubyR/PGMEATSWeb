@@ -574,7 +574,6 @@
 
         function showPop(dataID)
         {
-            debugger
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("FillDetailPopUp", "NewsList")",
@@ -582,7 +581,6 @@
                 dataType: "json",
                 success: function (result)
                 {
-                    debugger
                     if (result.ID == '0')
                     {
                         toastr.warning(result.Message, 'Warning', { timeOut: 3000, closeButton: true });
@@ -592,7 +590,6 @@
                     }
                 },
                 error: function (ex) {
-                    debugger
                     toastr.error(ex, 'Failed', { timeOut: 3000, "closeButton": true });
                 }
             });
@@ -765,7 +762,6 @@
                         var count = 1;
                         var v = 1;
                         var dep = code.split(";");
-                        debugger
                         $.each(result.Contents, function (index, value) {
                             if (count == 1) {
                                 content += '<div style="width:120px">\n'
@@ -776,7 +772,6 @@
                             } else {
                                 var xi = 0
                                 for (kk = 0; kk < dep.length; kk++) {
-                                    debugger
                                     if (dep[kk].trim() == value.Code) {
                                         content += '        <input class="form-check-input" type="checkbox" value="' + value.Code + '" id="' + value.Code + '" checked="checked">\n'
                                         xi += 1;
@@ -834,7 +829,6 @@
                             } else {
                                 var xi = 0
                                 for (kk = 0; kk < dep.length; kk++) {
-                                    debugger
                                     if (dep[kk].trim() == value.Code) {
                                         content += '        <input class="form-check-input" type="checkbox" value="' + value.Code + '" id="' + value.Code + '" checked="checked">\n'
                                         xi += 1;
@@ -998,10 +992,12 @@
         $("#InsertData").click(function () {
             checkSessionExpired().then(function (data)
             {
+                debugger
                 var NewsID = $("#NewsID").val();
                 var NewsTitle = $("#NewsTitle").val();
                 var NewsDescCode = $("#NewsDesc").code();
-                var NewsDescText = $($("#NewsDesc").code()).text();
+                //var NewsDescText = $($("#NewsDesc").code()).text();
+                var NewsDescText = $("#NewsDesc").code().replace(/<\/?[^>]+(>|$)/g, "");
                 var NewsDescImg = '';
                 var DateFrom = $("#DateFrom").val().split(' ');
                 var DateTo = $("#DateTo").val().split(' ');;
@@ -1104,10 +1100,12 @@
         $("#UpdateData").click(function () {
             checkSessionExpired().then(function (data)
             {
+                debugger
                 var NewsID = $("#NewsID").val();
                 var NewsTitle = $("#NewsTitle").val();
                 var NewsDescCode = $("#NewsDesc").code();
-                var NewsDescText = $($("#NewsDesc").code()).text();
+                //var NewsDescText = $($("#NewsDesc").code()).text();
+                var NewsDescText = $("#NewsDesc").code().replace(/<\/?[^>]+(>|$)/g, "");
                 var NewsDescImg = '';
                 var DateFrom = $("#DateFrom").val().split(' ');
                 var DateTo = $("#DateTo").val().split(' ');;
