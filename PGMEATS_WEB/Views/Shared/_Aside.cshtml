@@ -239,6 +239,39 @@
                 </ul>
             </li>
 
+            <li class="@Html.RouteIf("Sport Master", "active")">
+                @foreach (var menu in Model)
+                {
+                    if (cpcheck == 0 && menu.MenuGroup == "Sport Master")
+                    {
+                        <a href="#">
+                            <i style="color:white; font-size:15px">
+                                <span class="menu-on-top" style="font-family:'Poppins'; color:white; font-weight:400; font-size:13px">&nbsp;Sport Master</span>
+                            </i>
+                        </a>
+                        cpcheck = cpcheck + 1;
+                    }
+                }
+
+                @{
+                    cpcheck = 0;
+                }
+
+                <ul>
+                    @foreach (var menu in Model)
+                    {
+                        if (menu.GroupIndex == 8)
+                        {
+                            <li>
+                                <a href=@menu.MenuName class="fa fa-lg">
+                                    <i style="font-family:'Poppins';font-style:normal">@menu.MenuDescription</i>
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </li>
+
             <li class="@Html.RouteIf("security", "active")">
                 @foreach (var menu in Model)
                 {

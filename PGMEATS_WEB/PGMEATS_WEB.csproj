@@ -1033,6 +1033,7 @@
     <Content Include="Views\SurveyPollsList\Create.cshtml" />
     <Content Include="Views\UserSetup\UserPrivilege.cshtml" />
     <Content Include="Views\SurveyPollsList\Update.cshtml" />
+    <Content Include="Views\SportMaster\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Helpers\DashRouteHandler.cs" />
@@ -1051,6 +1052,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\MultipleButtonAttribute.cs" />
+    <Compile Include="Controllers\SportMasterController.cs" />
     <Compile Include="Controllers\MyComplaintController.cs" />
     <Compile Include="Controllers\MyKYController.cs" />
     <Compile Include="Controllers\NewsListController.cs" />
@@ -1065,6 +1067,7 @@
     <Compile Include="Models\clsClinicInformationListDB.cs" />
     <Compile Include="Models\clsAccessPrivilege.cs" />
     <Compile Include="Models\clsConPathFolder.cs" />
+    <Compile Include="Models\clsSportMaster.cs" />
     <Compile Include="Models\clsIssueTypeMaster.cs" />
     <Compile Include="Models\clsJSOXSetup.cs" />
     <Compile Include="Models\clsMenu.cs" />
