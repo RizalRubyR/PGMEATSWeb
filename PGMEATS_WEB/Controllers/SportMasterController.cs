@@ -325,7 +325,7 @@ namespace PGMEATS_WEB.Controllers
                 //update filename to db
                 var FileName = fileName + ".PNG";
                 data.LastUser = Session["LogUserID"].ToString();
-                data.FileName = FileName;
+                data.FileName2 = FileName;
                 response = DB.SportMasterUpd(data, "2");
             }
 

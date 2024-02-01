@@ -315,6 +315,7 @@
     });
 
     $("#InsertData").click(function () {
+        debugger;
         var fileDataImg = $("#IconImg").get(0).files;
         var SportDesc = $("#SportDesc").val();
         var SportID = $("#SportID").val();
@@ -338,6 +339,7 @@
     })
 
     $("#UpdateData").click(function () {
+        debugger;
         var SportDesc = $("#SportDesc").val()?? "";
         var SportID = $("#SportID").val() ?? "";
         var ActiveStatus = $("#ActiveStatus").val() ?? "";
@@ -468,7 +470,7 @@
                 if (FileReader && files && files.length) {
                     var fr = new FileReader();
                     fr.onload = function () {
-                        //cropImage(fr.result);
+                        cropImage(fr.result);
                     }
                     fr.readAsDataURL(files[0]);
                 }
@@ -486,7 +488,7 @@
             if (FileReader && files2 && files2.length) {
                 var fr = new FileReader();
                 fr.onload = function () {
-                    //cropImage2(fr.result);
+                    cropImage2(fr.result);
                 }
                 fr.readAsDataURL(files2[0]);
             }
@@ -494,6 +496,7 @@
     }
 
     function saveData(formData) {
+        debugger;
         $.ajax({
             type: "POST",
             url:   "@Url.Action("SportMasterIns", "SportMaster")", // "/MyComplaint/IssueTypeIns/",
@@ -545,6 +548,7 @@
     }
 
     function UpdateData(formData) {
+        debugger;
         $.ajax({
             type: "POST",
             url:  "@Url.Action("SportMasterUpd", "SportMaster")", // "/MyComplaint/IssueTypeUpd/",
@@ -552,6 +556,7 @@
             processData: false,
             data: formData,
             success: function (result) {
+                debugger;
                 if (result.Message.toLowerCase().includes("success")) {
 
                     var ImgSave = document.getElementById('canvas').toDataURL("image/png", 0.9);
@@ -665,6 +670,7 @@
     }
 
     function uploadImg(fileData) {
+        debugger;
         $.ajax({
             url: "@Url.Action("ImgSave", "SportMaster")",
             type: "POST",
@@ -672,6 +678,7 @@
             processData: false,
             data: fileData,
             success: function (result) {
+                debugger;
                 if (result.Message.toLowerCase().includes("success")) {
                     toastr.success(result.Message, 'Warning', { timeOut: 1000, closeButton: true});
                     millisecondsToWait = 500;
@@ -690,6 +697,7 @@
     }
 
     function uploadImgAfterClick(fileData) {
+        debugger;
         $.ajax({
             url: "@Url.Action("ImgSaveAfterClick", "SportMaster")",
             type: "POST",
@@ -697,6 +705,7 @@
             processData: false,
             data: fileData,
             success: function (result) {
+                debugger;
                 if (result.Message.toLowerCase().includes("success")) {
                     toastr.success(result.Message, 'Warning', { timeOut: 1000, closeButton: true});
                     millisecondsToWait = 500;
@@ -723,6 +732,7 @@
         var path = "/Image/SportMaster/" + FileName;
         document.getElementById('IconShow').src = path;
         $("#IconTitle").html(Title);
+        console.log(path);
     }
 </script>
 
