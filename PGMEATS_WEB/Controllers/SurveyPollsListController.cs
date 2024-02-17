@@ -474,6 +474,33 @@ namespace PGMEATS_WEB.Controllers
                     p.AnswerDesc = "";
                     cls.Add(p);
                 }
+                else if (param.AnswerType == "2")
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        surveyAnswer p = new surveyAnswer();
+                        p.SurveyID = param2.SurveyID;
+                        p.QuestionID = param2.QuestionID;
+                        p.AnswerSeqNo = (i + 1).ToString();
+                        if (i == 0)
+                        {
+                            p.AnswerDesc = param2.txtmlt1;
+                        }
+                        else if (i == 1)
+                        {
+                            p.AnswerDesc = param2.txtmlt2;
+                        }
+                        else if (i == 2)
+                        {
+                            p.AnswerDesc = param2.txtmlt3;
+                        }
+                        else if (i == 3)
+                        {
+                            p.AnswerDesc = param2.txtmlt4;
+                        }
+                        cls.Add(p);
+                    }
+                }
 
 
                 response = db.saveDetailandAnswer(param, cls, UserLogin);
