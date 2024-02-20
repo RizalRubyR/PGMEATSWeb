@@ -400,7 +400,29 @@ namespace PGMEATS_WEB.Controllers
             }
             return Json(response, JsonRequestBehavior.AllowGet);
         }
-        
+
+        [AcceptVerbs("GET", "POST")]
+        [HttpPost]
+        public ActionResult CopyDetail(string SurveyIDFrom, string SurveyIDTo)
+        {
+            SurveyAndPollsDB db = new SurveyAndPollsDB();
+            clsResponse response = new clsResponse();
+
+            try
+            {
+                response = db.CopyDataDetail(SurveyIDFrom, SurveyIDTo);
+
+            }
+            catch(Exception ex)
+            {
+                response.ID = 0;
+                response.Message = ex.Message;
+                response.Contents = "";
+            }
+
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
         [AcceptVerbs("GET", "POST")]
         [HttpPost]
         public ActionResult SaveDetail(SurveyAndPollsDetail param, SurveyAndPollsAnswer param2)

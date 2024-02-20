@@ -127,6 +127,33 @@
                                 </thead>
                             </table>
 
+                            <div class="modal fade" id="CopyConfirmation">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                            <h4 style="font-family:'Poppins'">Copy Data Survey &Aacute; Polls</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h4 style="font-family:'Poppins'">Are you sure to copy this data?</h4>
+                                            <input id="txtsurveyidFrom" type="text" class="form-control" style="visibility:hidden" />
+                                            <input id="txtsurveyid" type="text" class="form-control" style="visibility:hidden" />
+                                            <input id="txtSurveyTitle" type="text" class="form-control"  style="visibility:hidden"/>
+                                            <input id="txtdepartment" type="text" class="form-control" style="visibility:hidden"/>
+                                            <input id="txtdesignation" type="text" class="form-control" style="visibility:hidden"/>
+                                            <input id="txtType" type="text" class="form-control" style="visibility:hidden"/>
+                                            <input id="txtViewChart" type="text" class="form-control" style="visibility:hidden"/>
+                                            <input id="StartDate" type="text" class="form-control" style="visibility:hidden"/>
+                                            <input id="EndDate" type="text" class="form-control" style="visibility:hidden"/>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="#" class="btn btn-save" style="width:85px; font-size:13px" id="ConfirmCopyData">Confirm</a>
+                                            <a href="#" class="btn btn-default" style="width: 85px; font-size: 13px; border-width: thin;" data-dismiss="modal" id="CancelCopy">Cancel</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -225,7 +252,7 @@
                             if ('@ViewBag.AllowUpdate' == '0') {
                                 return '<a href="#" class="fa fa-pencil disable"></a> &nbsp; | &nbsp; <a class="fa fa-trash-o disable"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-bar-chart" onclick="Result(\'' + row.SurveyID + '\')"></a>'
                             } else {
-                                return '<a href="#" class="fa fa-pencil" onclick="EditData(\'' + row.SurveyID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteData(\'' + row.SurveyID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-bar-chart" onclick="Result(\'' + row.SurveyID + '\')"></a>'
+                                return '<a href="#" class="fa fa-pencil" onclick="EditData(\'' + row.SurveyID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-trash-o" onclick="DeleteData(\'' + row.SurveyID + '\')"></a> &nbsp; | &nbsp; <a href="#" class="fa fa-bar-chart" onclick="Result(\'' + row.SurveyID + '\')"></a>  &nbsp; |  &nbsp; <a href="#" class="fa fa-copy" onclick="CopyData(\'' + row.SurveyTitle + '|' + row.Department + '|' + row.Designation + '|' + row.Type + '|' + row.ViewChart + '|' + row.StartDate + '|' + row.EndDate + '|' + row.SurveyID + '\')"></a>'
                             }
                         }
                     },
@@ -264,7 +291,7 @@
                 }
             });
 
-            
+
             loadData();
 
 
@@ -454,6 +481,167 @@
             loadData();
         })
 
+        function CopyData(data) {
+            debugger;
+
+            var SurveyTitle = data.split('|')[0];
+            var Department = data.split('|')[1];
+            var Designation = data.split('|')[2];
+            var Type = data.split('|')[3];
+            var ViewChart = data.split('|')[4];
+            var StartDate = data.split('|')[5];
+            var EndDate = data.split('|')[6];
+            var SurveyID = data.split('|')[7];
+
+            getsurveyid();
+
+            $("#txtSurveyTitle").val(SurveyTitle);
+            $("#txtdepartment").val(Department);
+            $("#txtdesignation").val(Designation);
+            $("#txtType").val(Type);
+            $("#txtViewChart").val(ViewChart);
+            $("#StartDate").val(StartDate);
+            $("#EndDate").val(EndDate);
+            $("#txtsurveyidFrom").val(SurveyID);
+
+            $("#CopyConfirmation").modal("show");
+        }
+
+        function getsurveyid() {
+            $.ajax({
+                    url: "@Url.Action("getsurveyid", "SurveyPollsList")",
+                    type: "post",
+                    dataType: "json"
+            }).done(function (result) {
+                $("#txtsurveyid").val(result.Contents);
+
+                setTimeout(function () {
+                    waitingDialog.hide();
+                }, 1000);
+
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                setTimeout(function () {
+                    waitingDialog.hide();
+                }, 1000);
+            });
+        }
+
+        $("#ConfirmCopyData").click(function () {
+            HeaderSubmit();
+            DetailSubmit();
+            loadData();
+            $("#CopyConfirmation").modal("hide");
+        })
+
+        //function copyData() {
+        //    HeaderSubmit();
+        //}
+        function HeaderSubmit() {
+            debugger;
+            var SurveyID = $("#txtsurveyid").val();
+            var SurveyTitle = $("#txtSurveyTitle").val();
+            var sDepartment = $("#txtdepartment").val().split(",");
+            var sDesignation = $("#txtdesignation").val().split(",");
+            var Department = [];
+            var Designation = [];
+            var SurveyStatus = "0";
+            var StartDate = $("#StartDate").val();
+            var EndDate = $("#EndDate").val();
+            var Type = $("#txtType").val();
+            var ViewChart = $("#txtViewChart").val();
+            var Finalized = "0"
+
+            if (sDepartment.length == 1) {
+                Department.push(sDepartment[0]);
+            } else {
+                for (i = 0; i < sDepartment.length - 1; i++) {
+                    Department.push(sDepartment[i]);
+                }
+            }
+            if (sDesignation.length == 1) {
+                Designation.push(sDesignation[0]);
+            } else {
+                for (i = 0; i < sDesignation.length - 1; i++) {
+                    Designation.push(sDesignation[i]);
+                }
+            }
+
+            var param = {
+                SurveyID: SurveyID,
+                SurveyTitle: SurveyTitle,
+                GroupDepartment: Department,
+                Designation: Designation,
+                SurveyStatus: SurveyStatus,
+                StartDate: StartDate,
+                EndDate: EndDate,
+                ViewChart: ViewChart,
+                Type: Type,
+                Finalized: Finalized
+            };
+
+            var pdata = { 'param': param }
+            $.ajax({
+                url: "@Url.Action("SaveHeader", "SurveyPollsList")",
+                type: "post",
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(pdata),
+                success: function (data) {
+                    if (data.ID == '0') {
+                        toastr.warning(data.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                        $("#txttitle").focus();
+                    } else {
+                        toastr.success("Success save survey", 'Success', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    }
+                },
+                error: function () {
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                }
+            }).done(function (result) {
+
+               /* $("#txtQuestionID").val(result.Contents);*/
+                setTimeout(function () {
+                    waitingDialog.hide();
+                }, 1000);
+
+            });
+        }
+
+        function DetailSubmit() {
+            debugger;
+            var SurveyIDFrom = $("#txtsurveyidFrom").val();
+            var SurveyIDTo = $("#txtsurveyid").val();
+
+            var pdata = { SurveyIDFrom: SurveyIDFrom, SurveyIDTo: SurveyIDTo }
+            $.ajax({
+                url: "@Url.Action("CopyDetail", "SurveyPollsList")",
+                type: "post",
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(pdata),
+                success: function (data) {
+                    if (data.ID == '0') {
+                        toastr.warning(data.Message, 'Warning', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    } else {
+                        toastr.success("Success save survey", 'Success', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
+                    }
+                },
+                error: function () {
+                    setTimeout(function () {
+                        waitingDialog.hide();
+                    }, 1000);
+                }
+            }).done(function (result) {
+
+               /* $("#txtQuestionID").val(result.Contents);*/
+                setTimeout(function () {
+                    waitingDialog.hide();
+                }, 1000);
+
+            });
+        }
         function getUrlVars() {
             var vars = [], hash;
             var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');

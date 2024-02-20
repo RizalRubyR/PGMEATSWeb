@@ -50,6 +50,8 @@ namespace PGMEATS_WEB.Models
         public string StartDate { get; set; }
         public string EndDate { get; set; }
         public string CreateDate { get; set; }
+        public string ViewChart { get; set; }
+        public string Type { get; set; }
     }
     public class SurveyAndPollsDetailList
     {
@@ -231,7 +233,9 @@ namespace PGMEATS_WEB.Models
                         SurveyStatus = x.Field<string>("SurveyStatus"),
                         StartDate = x.Field<string>("StartDate"),
                         EndDate = x.Field<string>("EndDate"),
-                        CreateDate = x.Field<string>("CreateDate")
+                        CreateDate = x.Field<string>("CreateDate"),
+                        ViewChart = x.Field<string>("ViewChart"),
+                        Type = x.Field<string>("Type")
                     }).ToList();
 
                     Response.ID = 1;
@@ -946,6 +950,39 @@ namespace PGMEATS_WEB.Models
                 Response.Contents = "";
 
             }
+            return Response;
+        }
+
+        public clsResponse CopyDataDetail(string SurveyIDFrom, string SurveyIDTo)
+        {
+            clsResponse Response = new clsResponse();
+
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using(SqlConnection con = new SqlConnection(constr))
+                {
+                    con.Open();
+                    SqlCommand cmd;
+                    cmd = new SqlCommand("sp_SurverAndPolls_CopyData", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SurveyIDFrom", SurveyIDFrom);
+                    cmd.Parameters.AddWithValue("@SurveyIDTo", SurveyIDTo);
+                    cmd.ExecuteNonQuery();
+
+                    Response.ID = 1;
+                    Response.Message = "Success copy data";
+                    Response.Contents = "";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Response.ID = 0;
+                Response.Message = ex.Message;
+                Response.Contents = "";
+            }
+
             return Response;
         }
 
