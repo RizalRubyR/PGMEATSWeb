@@ -77,6 +77,7 @@
                                             </span>
                                         </p>
                                         <div style="width:400px; display:flex">
+                                            <button type="button" class="btn btn-save" id="btnExcel" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: bold; color: #ffffff; background-color: #4CBFBC; width: 150px; float: right; margin-right:10px;" onclick="exportToExcel()">Excel</button>
                                             <button type="button" class="btn btn-save" id="btnexport" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: bold; color: #ffffff; background-color: #4CBFBC; width: 150px; float: right; margin-right:10px;" onclick="window.print()">Print</button>
                                             <button type="button" class="btn btn-save" id="btnBack" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: bold;color:#ffffff; background-color: #4CBFBC; width:150px; float:right; right:0" onclick="back()">Back</button>
                                         </div>
@@ -605,13 +606,15 @@
         //    window.print();
         //}
 
-        @*var exportToExcel = (function () {
+        var exportToExcel = (function () {
+            debugger;
             var uri = 'data:application/vnd.ms-excel;base64,'
                 , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta name=ProgId content=Excel.Sheet> <meta name=Generator content="Microsoft Excel 11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><div>{div}</div></html>'
                 , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
                 , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+            debugger;
             return function (images, name) {
-                debugger
+                debugger;
                 if (!images.nodeType)
                     images = $("img")
                 debugger
@@ -666,7 +669,7 @@
                     }
                 },
             });
-        }*@
+        }
 
         //function convertToBase64(ArrayBuffer) {
         //    const uInt8Array = new Uint8Array(input);

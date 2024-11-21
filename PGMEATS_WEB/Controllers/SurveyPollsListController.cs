@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using System.Web.Helpers;
 using System.Data;
 using System.Collections;
+using System.Text;
 
 namespace PGMEATS_WEB.Controllers
 {
@@ -695,6 +696,26 @@ namespace PGMEATS_WEB.Controllers
             }
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+
+        //[AcceptVerbs("GET", "POST")]
+        //[HttpPost]
+        //public ActionResult ExportExcel()
+        //{
+        //    //var products = new System.Data.DataTable("teste");
+        //    //products.Columns.Add("col1", typeof(int));
+        //    //products.Columns.Add("col2", typeof(string));
+
+        //    //products.Rows.Add(1, "product 1");
+        //    //products.Rows.Add(2, "product 2");
+        //    //products.Rows.Add(3, "product 3");
+        //    //products.Rows.Add(4, "product 4");
+        //    //products.Rows.Add(5, "product 5");
+        //    //products.Rows.Add(6, "product 6");
+        //    //products.Rows.Add(7, "product 7");
+
+
+        //    //return File(Encoding.ASCII.GetBytes(), "application/vnd.ms-excel", "Grid.xls");
+        //}
 
         //[AcceptVerbs("GET", "POST")]
         [HttpPost]
