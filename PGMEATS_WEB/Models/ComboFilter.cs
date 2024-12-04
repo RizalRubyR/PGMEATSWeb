@@ -61,5 +61,81 @@ namespace PGMEATS_WEB.Models
                 return resp;
             }
         }
+
+        public Response FillComboUser()
+        {
+            Response resp = new Response();
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    string sql =
+                        "select '' UserID, '-' UserName, 1 seq union " +
+                        "select upper(UserID) UserID, upper(UserID) UserName, 2 seq from M_UserSetup where (UserType = 0 or UserType = 2) " +
+                        "order by Seq, UserName ";
+                    SqlCommand cmd = new SqlCommand(sql, con);                    
+                    con.Open();
+                    SqlDataReader rd = cmd.ExecuteReader();
+
+                    List<ComboFilter> cb = new List<ComboFilter>();
+                    while (rd.Read())
+                    {
+                        ComboFilter cbDet = new ComboFilter();
+                        cbDet.Code = rd["UserID"].ToString();
+                        cbDet.CodeDesc = rd["UserName"].ToString();
+                        cb.Add(cbDet);
+                    }
+                    resp.Message = "success";
+                    resp.ID = "0";
+                    resp.Content = cb;
+                    return resp;
+                }
+            }
+            catch (Exception ex)
+            {
+                resp.Message = ex.Message;
+                resp.ID = "1";
+                resp.Content = "";
+                return resp;
+            }
+        }
+
+
+        public Response FillComboResponse()
+        {
+            Response resp = new Response();
+            try
+            {
+                string constr = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    string sql = "select ResponseID, Description from M_ResponseTemplate ";
+                    SqlCommand cmd = new SqlCommand(sql, con);
+                    con.Open();
+                    SqlDataReader rd = cmd.ExecuteReader();
+
+                    List<ComboFilter> cb = new List<ComboFilter>();
+                    while (rd.Read())
+                    {
+                        ComboFilter cbDet = new ComboFilter();
+                        cbDet.Code = rd["UserID"].ToString();
+                        cbDet.CodeDesc = rd["UserName"].ToString();
+                        cb.Add(cbDet);
+                    }
+                    resp.Message = "success";
+                    resp.ID = "0";
+                    resp.Content = cb;
+                    return resp;
+                }
+            }
+            catch (Exception ex)
+            {
+                resp.Message = ex.Message;
+                resp.ID = "1";
+                resp.Content = "";
+                return resp;
+            }
+        }
     }
 }

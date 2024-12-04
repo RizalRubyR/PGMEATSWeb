@@ -30,6 +30,7 @@ namespace PGMEATS_WEB.Models
         public string CatererID { get; set; }
         public string ActionType { get; set; }
         public string UserID { get; set; }
+        public string ResponseID { get; set; }
     }
 
     public class clsMyComplaintDB
@@ -141,6 +142,7 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("ComplaintReply", data.ComplaintReply);
                     cmd.Parameters.AddWithValue("CatererID", data.CatererID);
                     cmd.Parameters.AddWithValue("CreatedUser", data.CreatedUser);
+                    cmd.Parameters.AddWithValue("ResponseID", data.ResponseID);
                     con.Open();
                     cmd.ExecuteNonQuery();
 

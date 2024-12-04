@@ -17,6 +17,7 @@ namespace PGMEATS_WEB.Models
         public string LastUpdate { get; set; }
         public string FileName { get; set; }
         public string files { get; set; }
+        public string PIC { get; set; }
     }
 
     public class clsIssueTypeMaterDB
@@ -44,6 +45,7 @@ namespace PGMEATS_WEB.Models
                         Menu.LastUser = rd["UpdateUser"].ToString();
                         Menu.LastUpdate = rd["UpdateDate"].ToString();
                         Menu.FileName = rd["FileName"].ToString();
+                        Menu.PIC = rd["PIC"].ToString();
                         Menus.Add(Menu);
                     }
 
@@ -73,6 +75,7 @@ namespace PGMEATS_WEB.Models
                     SqlCommand cmd = new SqlCommand("sp_IssueType_Ins", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("IssueTypeDesc", dataFrom.IssueTypeDesc ?? "");
+                    cmd.Parameters.AddWithValue("PIC", dataFrom.PIC ?? "");
                     cmd.Parameters.AddWithValue("ActiveStatus", dataFrom.ActiveStatus ?? "");
                     cmd.Parameters.AddWithValue("UserID", dataFrom.LastUser ?? "");
                     con.Open();
@@ -111,6 +114,7 @@ namespace PGMEATS_WEB.Models
                     cmd.Parameters.AddWithValue("ActiveStatus", dataFrom.ActiveStatus ?? "");
                     cmd.Parameters.AddWithValue("FileName", dataFrom.FileName ?? "");
                     cmd.Parameters.AddWithValue("UserID", dataFrom.LastUser ?? "");
+                    cmd.Parameters.AddWithValue("PIC", dataFrom.PIC ?? "");
                     con.Open();
 
                     SqlDataReader rd = cmd.ExecuteReader();
@@ -162,7 +166,7 @@ namespace PGMEATS_WEB.Models
             return Response;
         }
 
-        public clsResponse FillCombo(string Type)
+        public clsResponse FillCombo(string Type, string UserID = null)
         {
             clsResponse Response = new clsResponse();
             List<clsFillCombo> fillcombos = new List<clsFillCombo>();
@@ -174,6 +178,7 @@ namespace PGMEATS_WEB.Models
                     SqlCommand cmd = new SqlCommand("sp_FilterCombo", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("Type", Type);
+                    cmd.Parameters.AddWithValue("UserID", UserID);
                     con.Open();
 
                     SqlDataReader rd = cmd.ExecuteReader();
