@@ -77,7 +77,8 @@
                                             </span>
                                         </p>
                                         <div style="width:400px; display:flex">
-                                            <button type="button" class="btn btn-save" id="btnExcel" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: bold; color: #ffffff; background-color: #4CBFBC; width: 150px; float: right; margin-right:10px;" onclick="exportToExcel()">Excel</button>
+                                            @*<a href="@Url.Action("ExportToExcel", "SurveyPollsList")" class="btn btn-primary">Export to Excel</a>*@
+                                            <button type="button" class="btn btn-save" id="btnExcel" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: bold; color: #ffffff; background-color: #4CBFBC; width: 150px; float: right; margin-right:10px;"><a href="@Url.Action(" ExportToExcel", "SurveyPollsList" )" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: bold; color: #ffffff; background-color: #4CBFBC;">Excel</a></button>
                                             <button type="button" class="btn btn-save" id="btnexport" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: bold; color: #ffffff; background-color: #4CBFBC; width: 150px; float: right; margin-right:10px;" onclick="window.print()">Print</button>
                                             <button type="button" class="btn btn-save" id="btnBack" style="font-family: 'Poppins-Regular'; font-size: 15px; font-weight: bold;color:#ffffff; background-color: #4CBFBC; width:150px; float:right; right:0" onclick="back()">Back</button>
                                         </div>
@@ -137,7 +138,7 @@
         </div>
     </section>
 </div>
-
+<div id="image_div"></div>
 <script src="~/Scripts/plugin/bootstrap-waitingfor/bootstrap-waitingfor.min.js"></script>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 @*<script src="~/Scripts/jquery-3.4.1.min.js"></script>*@
@@ -147,6 +148,7 @@
 <script src="~/Scripts/chart.js"></script>
 @*<script src="~/Scripts/result.js"></script>*@
 <script src="~/Scripts/plugin/summernote/summernote.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
 @section pagespecific
 {
     <script>
@@ -321,6 +323,19 @@
                     };
                     var chart = new google.visualization.BarChart(document.getElementById('participant_byDept'));
                     chart.draw(pVal, options);
+
+                    // Get the image URI (Base64 encoded)
+                    var imageUri = chart.getImageURI();
+
+                    // Display the image in an <img> tag (for demonstration purposes)
+                    document.getElementById('participant_byDept').innerHTML = '<img src="' + imageUri + '" />';
+                    // Create an AJAX request to send the image data to the server
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/SurveyPollsList/saveImage', true);  // Server endpoint to handle saving
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+
+                    // Send the image data (Base64) to the server
+                    xhr.send(JSON.stringify({ image: "byDept||" + imageUri }));
                 },
                 error: function (ex) {
                     toastr.error('Failed to retrieve this Data. ' + ex, 'Error', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
@@ -453,6 +468,18 @@
                     };
                     var chart = new google.visualization.BarChart(document.getElementById('by-department'));
                     chart.draw(pVal, options);
+                    // Get the image URI (Base64 encoded)
+                    var imageUri = chart.getImageURI();
+
+                    // Display the image in an <img> tag (for demonstration purposes)
+                    document.getElementById('by-department').innerHTML = '<img src="' + imageUri + '" />';
+                    // Create an AJAX request to send the image data to the server
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/SurveyPollsList/saveImage', true);  // Server endpoint to handle saving
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+
+                    // Send the image data (Base64) to the server
+                    xhr.send(JSON.stringify({ image: "bydepartment||" + imageUri }));
                 },
                 error: function (ex) {
                     toastr.error('Failed to retrieve this Data. ' + ex, 'Error', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
@@ -515,6 +542,34 @@
                     };
                     var chart = new google.visualization.BarChart(document.getElementById('participant_byShift'));
                     chart.draw(pVal, options);
+                    // Get the image URI (Base64 encoded)
+                    var imageUri = chart.getImageURI();
+
+                    // Display the image in an <img> tag (for demonstration purposes)
+                    document.getElementById('participant_byShift').innerHTML = '<img src="' + imageUri + '" />';
+
+                    // Optionally, you can trigger download or send the image to the server
+                    // Example: Triggering a download (Optional)
+                    //var downloadLink = document.createElement('a');
+                    //downloadLink.href = imageUri;
+                    //downloadLink.download = 'chart.png';
+                    //downloadLink.click();
+
+                    // Create an AJAX request to send the image data to the server
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/SurveyPollsList/saveImage', true);  // Server endpoint to handle saving
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+
+                    // Send the image data (Base64) to the server
+                    xhr.send(JSON.stringify({ image: "byShift||" + imageUri }));
+
+                    //xhr.onload = function () {
+                    //    if (xhr.status === 200) {
+                    //        alert('Image saved successfully!');
+                    //    } else {
+                    //        alert('Failed to save image');
+                    //    }
+                    //};
                 },
                 error: function (ex) {
                     toastr.error('Failed to retrieve this Data. ' + ex, 'Error', { timeOut: 3000, closeButton: true, positionClass: "toast-top-full-width" });
@@ -585,6 +640,18 @@
                             //    chart_div.innerHTML = '<img id="' + imgID + '" src="' + chart.getImageURI() + '">';
                             //});
                             chart.draw(pVal, options);
+                            // Get the image URI (Base64 encoded)
+                            var imageUri = chart.getImageURI();
+
+                            // Display the image in an <img> tag (for demonstration purposes)
+                            document.getElementById('by-Shift').innerHTML = '<img src="' + imageUri + '" />';
+                            // Create an AJAX request to send the image data to the server
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('POST', '/SurveyPollsList/saveImage', true);  // Server endpoint to handle saving
+                            xhr.setRequestHeader('Content-Type', 'application/json');
+
+                            // Send the image data (Base64) to the server
+                            xhr.send(JSON.stringify({ image: "Shift||" + imageUri }));
                         });
                     }
 
@@ -615,7 +682,7 @@
             debugger;
             return function (images, name) {
                 debugger;
-                if (!images.nodeType)
+                if (!div.nodeType)
                     images = $("img")
                 debugger
                 var html = "";
@@ -642,6 +709,46 @@
                 window.location.href = uri + base64(format(template, ctx))
             }
         })()
+
+        function exportListToExcel() {
+            //var url = 'data:application/vnd.ms-excel,' + encodeURIComponent($('#participant_byShift').html())
+            //location.href = url
+            //return false
+            debugger;
+            var uri = 'data:application/vnd.ms-excel;base64,'
+                , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta name=ProgId content=Excel.Sheet> <meta name=Generator content="Microsoft Excel 11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><div>{div}</div></html>'
+                , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+                , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+            debugger;
+            return function (div, name) {
+                debugger;
+                if (!div.nodeType)
+                    images = $("img")
+                debugger
+                var html = "";
+                for (i = 0; i < images.length; i++) {
+                    if (images[i].id != "") {
+                        if (images[i].id == "Imgpiechart_1") {
+                            html += "<div><h1>By Employee</h1></div><br>"
+                        }
+                        if (images[i].id.split("_")[0] == "Imgdepartment") {
+                            html += "<div><h1>By Department</h1></div><br>"
+                        }
+                        if (images[i].id.split("_")[0] == "ImgdShift") {
+                            html += "<div><h1>By Shift</h1></div><br>"
+                        }
+
+                        const link = images[i].src;
+                        /*html += '<div> <img src="' + images[i].src + '"></img></div><br>'*/
+                        html += '<div> <img src="blob:null/8b8f2c34-8491-4581-88c2-98e905b60c06"></img></div><br>'
+                        /* xID = images[i].id;*/
+                    }
+                }
+                debugger
+                var ctx = { worksheet: name || 'Worksheet', div: html }
+                window.location.href = uri + base64(format(template, ctx))
+            }
+        }
 
         function SaveBase64ToImg() {
             images = $("img")
