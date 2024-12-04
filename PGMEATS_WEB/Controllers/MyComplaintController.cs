@@ -48,6 +48,46 @@ namespace PGMEATS_WEB.Controllers
             return View();
         }
 
+        [HttpGet]
+        public JsonResult FillComboUser()
+        {
+            Response resp = new Response();
+            ComboFilter db = new ComboFilter();
+            try
+            {
+                resp = db.FillComboUser();
+                return Json(resp, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                resp.Message = ex.Message;
+                resp.ID = "1";
+                resp.Content = "";
+
+                return Json(resp, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult FillComboResponse()
+        {
+            Response resp = new Response();
+            ComboFilter db = new ComboFilter();
+            try
+            {
+                resp = db.FillComboUser();
+                return Json(resp, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                resp.Message = ex.Message;
+                resp.ID = "1";
+                resp.Content = "";
+
+                return Json(resp, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult CanteenComplaintList()
         {
             /*CHECK SESSION LOGIN*/
@@ -91,6 +131,7 @@ namespace PGMEATS_WEB.Controllers
             clsResponse response = new clsResponse();
             try
             {
+                string userID = Session["LogUserID"].ToString();
                 response = db.IssueTypeList();
             }
             catch (Exception ex)
@@ -104,12 +145,13 @@ namespace PGMEATS_WEB.Controllers
         [HttpPost]
         public JsonResult FillCombo(String Type)
         {
+            string userID = Session["LogUserID"].ToString();
             List<clsIssueTypeMaster> data = new List<clsIssueTypeMaster>();
             clsIssueTypeMaterDB db = new clsIssueTypeMaterDB();
             clsResponse response = new clsResponse();
             try
             {
-                response = db.FillCombo(Type);
+                response = db.FillCombo(Type, userID);
             }
             catch (Exception ex)
             {
