@@ -35,6 +35,8 @@ namespace PGMEATS_WEB.Models
         public string CatererID { get; set; }
         public string LastPassword { get; set; }
         public string LockStatus { get; set; }
+        public string Email { get; set; }
+        public string ReceiveNotification { get; set; }
     }
 
 
@@ -68,6 +70,8 @@ namespace PGMEATS_WEB.Models
                         User.AdminStatus = rd["AdminStatus"].ToString();
                         User.LastUser = rd["LastUser"].ToString().Trim();
                         User.LastUpdate = rd["LastUpdate"].ToString();
+                        User.Email = rd["Email"].ToString();
+                        User.ReceiveNotification = rd["ReceiveNotification"].ToString();
 
                         Users.Add(User);
                     }
@@ -110,6 +114,8 @@ namespace PGMEATS_WEB.Models
                         User.LastUser = rd["LastUser"].ToString().Trim();
                         User.LastUpdate = rd["LastUpdate"].ToString();
                         User.LockStatus = rd["LockStatus"].ToString();
+                        User.Email = rd["Email"].ToString();
+                        User.ReceiveNotification = rd["ReceiveNotification"].ToString();
                     }
                     resp.Message = "Success";
                     resp.ID = "0";
@@ -179,6 +185,8 @@ namespace PGMEATS_WEB.Models
                         cmd.Parameters.AddWithValue("CatererID", User.CatererID);
                         cmd.Parameters.AddWithValue("UserLogin", UserLogin);
                         cmd.Parameters.AddWithValue("LockStatus", User.LockStatus);
+                        cmd.Parameters.AddWithValue("Email", User.Email);
+                        cmd.Parameters.AddWithValue("ReceiveNotification", User.ReceiveNotification);
                         cmd.ExecuteNonQuery();
                         Message = "success";
                         con.Close();
@@ -252,6 +260,8 @@ namespace PGMEATS_WEB.Models
                         cmd.Parameters.AddWithValue("CatererID", User.CatererID);
                         cmd.Parameters.AddWithValue("UserLogin", UserLogin);
                         cmd.Parameters.AddWithValue("LockStatus", User.LockStatus);
+                        cmd.Parameters.AddWithValue("ReceiveNotification", User.ReceiveNotification);
+                        cmd.Parameters.AddWithValue("Email", User.Email);
                         cmd.ExecuteNonQuery();
                         Message = "success";
                         con.Close();

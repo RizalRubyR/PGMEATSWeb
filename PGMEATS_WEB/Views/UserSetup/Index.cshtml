@@ -60,6 +60,12 @@
                                         <th style="text-align:center;width:200px;">
                                             Full Name
                                         </th>
+                                        <th style="text-align:center;width:200px;">
+                                            Email
+                                        </th>
+                                        <th style="text-align:center;width:100px;">
+                                            Receive Notification
+                                        </th>
                                         <th style="text-align:center;width:100px;">
                                             Department
                                         </th>
@@ -111,6 +117,15 @@
                                                                     <label style="font-weight:500" for="FullName">Full Name</label>
                                                                     @Html.TextBoxFor(m => m.UserName, new { @id = "UserName", @class = "form-control input-md", placeholder = "Enter full name", required = "required", @style = "height:20px; width:300px" })
                                                                     @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <label style="font-weight:500" for="Email">Email</label>
+                                                                    @Html.TextBoxFor(m => m.Email, new { @id = "Email", @class = "form-control input-md", placeholder = "Enter Email", required = "required", @style = "height:20px; width:300px" })
+                                                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -170,8 +185,17 @@
                                                         <tr>
                                                             <td>
                                                                 <div class="form-group">
+                                                                    <label style="font-weight:500" for="ReceiveNotification">Receive Notification</label>
+                                                                    <input type="checkbox" id="chxReceiveNotification" />
+                                                                </div>
+                                                            </td>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-group">
                                                                     <label style="font-weight:500" for="lockstatus">Lock Status</label>
-                                                                    <input type="checkbox" id="lockstatus" value="0"/>
+                                                                    <input type="checkbox" id="lockstatus" value="0" />
                                                                 </div>
                                                             </td>
                                                             <td>&nbsp;</td>
@@ -281,12 +305,24 @@
                 },
                 { "data": "UserID", "autoWidth": true, className: "txtAlignLeft" },
                 { "data": "UserName", "autoWidth": true, className: "txtAlignLeft" },
+                { "data": "Email", "autoWidth": true, className: "txtAlignLeft" },
+                { "data": "ReceiveNotification", "autoWidth": true, className: "txtAlignCenter" },
+               
                 { "data": "Department", "autoWidth": true, className: "txtAlignLeft" },
                 { "data": "UserType", "autoWidth": true, className: "txtAlignLeft" },
                 { "data": "AdminStatus", "autoWidth": true, className: "txtAlignLeft" },
                 { "data": "LastUser", "autoWidth": true, className: "txtAlignLeft" },
                 { "data": "LastUpdate", "autoWidth": true, className: "txtAlignCenter" }
             ],
+            columnDefs: [{
+                'targets': [4],
+                'className': 'dt-body-center',
+                "mRender": function (data, type, full, meta) {
+                    return '<input id="CheckReceiveNotification" type="checkbox" onclick="return false;" ' + (data == '1'  ? ' checked' : '') + '/>';
+
+                }
+            },
+             ],
             rowCallback: function (row, data) { responsiveHelper_dt_basic.createExpandIcon(row) },
             filter: true,
             info: true,
@@ -350,6 +386,7 @@
                 var formData = new FormData();
                 formData.append("UserID", $("#UserID").val());
                 formData.append("UserName", $("#UserName").val());
+                formData.append("Email", $("#Email").val());
                 formData.append("Password", $("#Password").val());
                 formData.append("UserType", $("#UserType").val());
                 formData.append("Department", $("#Department").val());
@@ -364,6 +401,17 @@
                         lockstatus = "0";
                     }
                 });
+
+                var receiveN = "0";
+             
+                    var ischecked = $('#chxReceiveNotification').is(':checked');
+                  
+                    if (ischecked) {
+                        receiveN = "1";
+                    } else {
+                        receiveN = "0";
+                    }
+            
                 //var checkBox = document.getElementById("lockstatus");
                 //var lockstatus = "";
                 //if (checkBox.checked = true) {
@@ -372,6 +420,7 @@
                 //    lockstatus = "0";
                 //}
                 formData.append("LockStatus", lockstatus);
+                formData.append("ReceiveNotification", receiveN);
 
                 $.ajax({
                     type: "Post",
@@ -407,6 +456,7 @@
 
                 formData.append("UserID", $("#UserID").val());
                 formData.append("UserName", $("#UserName").val());
+                formData.append("Email", $("#Email").val());
                 formData.append("Password", $("#Password").val());
                 formData.append("UserType", $("#UserType").val());
                 formData.append("Department", $("#Department").val());
@@ -422,7 +472,15 @@
                         lockstatus = "0";
                     }
                 });
-
+                var receiveN = "0";
+                var ischeckedReceiveNotification = $("#chxReceiveNotification").is(':checked');
+                    console.log(ischeckedReceiveNotification)
+                    if (ischeckedReceiveNotification) {
+                        receiveN = "1";
+                    } else {
+                        receiveN = "0";
+                    }
+             
 
                 //var checkBox = document.getElementById("lockstatus");
                 //var lockstatus = "0";
@@ -432,9 +490,10 @@
                 //    lockstatus = "0";
                 ////}
                 //console.log(checkBox.checked);
-                console.log(lockstatus);
+                
                 formData.append("LockStatus", lockstatus);
-
+                formData.append("ReceiveNotification", receiveN);
+            
                 $.ajax({
                     type: "Post",
                     url: "@Url.Action("UpdateData", "UserSetup")",
@@ -523,6 +582,7 @@
 
         $("#UserID").val("");
         $("#UserName").val("");
+        $("#Email").val("");
         $("#Password").val("");
         $("#ModalTitle").html("Create Data User Setup");
         $("#MyModal").modal();
@@ -534,6 +594,7 @@
         $("#CatererID").prop('disabled', true);
         $("#CatererID").val("");
         $("#lockstatus").prop('checked', false);
+        $("#chxReceiveNotification").prop('checked', false);
     }
 
     //Show The Popup Modal For Edit
@@ -551,6 +612,7 @@
                     $("#UserID").val(result.Content.UserID).prop('readonly', true);
                     $("#Password").val(result.Content.Password);
                     $("#UserName").val(result.Content.UserName);
+                    $("#Email").val(result.Content.Email);
                     FillCombo_Department(result.Content.Department);
                     FillCombo_AdminStatus(result.Content.AdminStatus);
                     FillCombo_UserType(result.Content.UserType);
@@ -565,12 +627,18 @@
                     }
                     $("#lastPassword").val(result.Content.Password);
                     var lockstatus = result.Content.LockStatus;
-                    console.log(lockstatus);
+                    var receiveN = result.Content.ReceiveNotification;
+                  
 
                     if (lockstatus == "0") {
                         $("#lockstatus").prop('checked', false);
                     } else {
                         $("#lockstatus").prop('checked', true);
+                    }
+                    if (receiveN == "0") {
+                        $("#chxReceiveNotification").prop('checked', false);
+                    } else {
+                        $("#chxReceiveNotification").prop('checked', true);
                     }
                 } else {
                     toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });

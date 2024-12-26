@@ -48,225 +48,251 @@
                     <header style="border-top-left-radius:8px; border-top-right-radius:8px">
                         <h2 style="font-family:'Poppins';font-weight:500;font-size:13px">List of MyKY</h2>
                     </header>
+                        <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
+                            <div class="widget-body">
+                                <div class="table-responsive">
+                                    <form class="form-inline" role="form">
 
-                    <div style="border-bottom-left-radius:8px; border-bottom-right-radius:8px">
-                        <div class="widget-body">
-                            <div class="table-responsive">
-                                <div class="table-toolbar" style="padding-bottom:10px">
-                                    <table>
-                                        <tr style="height:45px">
-                                            <td width="100px">
-                                                <p style="font-weight:600; margin-right:20px">Date</p>
-                                            </td>
-                                            <td>
-                                                <input id="fromDate" type="text" class="form-control input-md" style="background-color:white; width:150px" />
-                                            </td>
-                                            <td width="40px" style="text-align:center">
-                                                <p style="font-weight:600">To</p>
-                                            </td>
-                                            <td>
-                                                <input id="toDate" type="text" class="form-control input-md" style="background-color:white; width:150px" />
-                                            </td>
-                                            <td width="120px">
-                                                <p style="font-weight:600; margin-left:20px">Status</p>
-                                            </td>
-                                            <td>
-                                                <select id="Status" class="form-control input-md" style="height:30px; width:200px; margin-right:20px"></select>
-                                            </td>
-                                            <td>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <p style="font-weight:600">Location</p>
-                                            </td>
-                                            <td colspan="3">
-                                                <select id="Location" class="form-control input-md" style="height:30px; width:340px;"></select>
-                                            </td>
-                                            <td>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-save" id="refresh"> Refresh </button> &nbsp;
-                                                <input type="button" id="ExcelReport" class="btn btn-save" onClick="fnExcelReport();" value="Download Excel" />
-                                                <a href="#" id="ExcelReportAnchor"></a> &nbsp;
-                                                <button class="btn btn-save" id="print"> Print </button>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
+                                        <div class="table-toolbar" style="padding-bottom:10px">
+                                            <table>
+                                                <tr style="height:45px">
+                                                    <td width="100px">
+                                                        <p style="font-weight:600; margin-right:20px">Date</p>
+                                                    </td>
+                                                    <td>
+                                                        <input id="fromDate" type="text" class="form-control input-md" style="background-color:white; width:150px" />
+                                                    </td>
+                                                    <td width="40px" style="text-align:center">
+                                                        <p style="font-weight:600">To</p>
+                                                    </td>
+                                                    <td>
+                                                        <input id="toDate" type="text" class="form-control input-md" style="background-color:white; width:150px" />
+                                                    </td>
+                                                    <td width="120px">
+                                                        <p style="font-weight:600; margin-left:20px">Status</p>
+                                                    </td>
+                                                    <td>
+                                                        <select id="Status" class="form-control input-md" style="height:30px; width:200px; margin-right:20px"></select>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <p style="font-weight:600">Location</p>
+                                                    </td>
+                                                    <td colspan="3">
+                                                        <select id="Location" class="form-control input-md" style="height:30px; width:340px;"></select>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-save" id="refresh"> Refresh </button> &nbsp;
+                                                        <button type="button" id="ExcelReport" class="btn btn-save" name="action:DownloadExcel" onclick="DownloadExcel()">Download Excel</button>
+                                                        <a href="#" id="ExcelReportAnchor"></a> &nbsp;
+                                                        <button type="button" class="btn btn-save" id="print"> Print </button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </form>
+                                    <div>
+                                        <table id="tableID" data-page-size='3' class="table table-striped table-bordered table-hover">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th style="text-align:center;width:50px;">
+                                                        Action
+                                                    </th>
+                                                    <th style="text-align: center; width: 100px;">
+                                                        KYID
+                                                    </th>
+                                                    <th style="text-align: center; width: 100px;">
+                                                        Date
+                                                    </th>
+                                                    <th style="text-align: center; width: 100px;">
+                                                        Location
+                                                    </th>
+                                                    <th style="text-align: center; width: 100px;">
+                                                        Specific Location
+                                                    </th>
+                                                    <th style="text-align: center; width: 300px;">
+                                                        Description
+                                                    </th>
+                                                    <th style="text-align: center; width: 150px;">
+                                                        Evindence
+                                                    </th>
+                                                    <th style="text-align: center; width: 150px;">
+                                                        Evindence After
+                                                    </th>
+                                                    <th style="text-align: center; width: 300px;">
+                                                        Created By
+                                                    </th>
+                                                    <th style="text-align: center; width: 80px">
+                                                        Status
+                                                    </th>
+                                                    <th style="text-align: center; width: 300px;">
+                                                        Response
+                                                    </th>
+                                                    <th style="text-align: center; width: 100px;">
+                                                        Create Response
+                                                    </th>
+                                                    <th style="text-align: center; width: 100px;">
+                                                        Last User
+                                                    </th>
+                                                    <th style="text-align: center; width: 150px;">
+                                                        Last Update
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
 
-                                <div>
-                                    <table id="tableID" data-page-size='3' class="table table-striped table-bordered table-hover">
-                                        <thead>
-                                            <tr role="row">
-                                                <th style="text-align:center;width:50px;">
-                                                    Action
-                                                </th>
-                                                <th style="text-align: center; width: 100px;">
-                                                    KYID
-                                                </th>
-                                                <th style="text-align: center; width: 100px;">
-                                                    Date
-                                                </th>
-                                                <th style="text-align: center; width: 100px;">
-                                                    Location
-                                                </th>
-                                                <th style="text-align: center; width: 100px;">
-                                                    Specific Location
-                                                </th>
-                                                <th style="text-align: center; width: 300px;">
-                                                    Description
-                                                </th>
-                                                <th style="text-align: center; width: 150px;">
-                                                    Evindence
-                                                </th>
-                                                <th style="text-align: center; width: 100px;">
-                                                    Created By
-                                                </th>
-                                                <th style="text-align: center; width: 80px">
-                                                    Status
-                                                </th>
-                                                <th style="text-align: center; width: 300px;">
-                                                    Response
-                                                </th>
-                                                <th style="text-align: center; width: 100px;">
-                                                    Create Response
-                                                </th>
-                                                <th style="text-align: center; width: 100px;">
-                                                    Last User
-                                                </th>
-                                                <th style="text-align: center; width: 150px;">
-                                                    Last Update
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
-                                </div>
+                                    <div class="modal fade" id="MyModal">
+                                        <div class="modal-dialog" style="width:400px">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                                    <h4 style="font-family:'Poppins'" id="ModalTitle"></h4>
+                                                </div>
+                                                <div style="padding-left:20px; padding-right:20px">
+                                                    <form id="form" class="smart-form">
+                                                        <fieldset id="SubmitForm">
+                                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                            <table style="border:0px solid black; width:100%">
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="form-group ">
+                                                                            <label style="font-weight:500; margin-bottom:0.5em;">Date</label>
+                                                                            @Html.TextBoxFor(m => m.CreateDate, new { @id = "CreateDate", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled" })
+                                                                            @Html.HiddenFor(m => m.MyKYID, new { @id = "MyKYID" })
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="form-group ">
+                                                                            <label style="font-weight:500; margin-bottom:0.5em;">Location</label>
+                                                                            <select id="MyKYLocation" class="form-control input-md" style="height: 20px; width: 300px;"></select>
+                                                                            @*@Html.TextBoxFor(m => m.MyKYLocation, new { @id = "MyKYLocation", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled" })*@
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="form-group ">
+                                                                            <label style="font-weight:500; margin-bottom:0.5em;">Issue Type</label>
+                                                                            @Html.TextBoxFor(m => m.MyKYSpecLocation, new { @id = "MyKYSpecLocation", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled", })
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="form-group ">
+                                                                            <label style="font-weight:500; margin-bottom:0.5em;">Description</label>
+                                                                            @Html.TextAreaFor(m => m.MyKYDesc, new { @id = "MyKYDesc", @class = "form-control input-md", @style = "height:100px; width:300px;", disabled = "disabled" })
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="form-group ">
+                                                                            <label style="font-weight:500; margin-bottom:0.5em;">Created By</label>
+                                                                            @Html.TextBoxFor(m => m.CreateUser, new { @id = "CreateUser", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled" })
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="form-group ">
+                                                                            <label style="font-weight:500; margin-bottom:0.5em;">Status</label>
+                                                                            <select id="cbStatus" class="form-control input-md" style="height:30px; width:200px; margin-right:20px"></select>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="form-group ">
+                                                                            <label style="font-weight:500; margin-bottom:0.5em;"> Response </label>
+                                                                            @Html.TextAreaFor(m => m.MyKYReply, new { @id = "MyKYReply", @class = "form-control input-md", @placeholder = "Enter your response", @style = "height:100px; width:300px;" })
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="form-group">
+                                                                            <label style="font-weight: 500; margin-bottom: 0.5em;">Evidence After</label>
+                                                                            <input type="file" id="EvidenceAfter" onclick="performClick()" />
+                                                                            <br />
+                                                                            <img src="#" alt=EvidenceAfter id="EvidenceAfterShowEdit" style="height: 300px; width: 300px; max-width: 300%; max-height: 100%;" />
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </fieldset>
+                                                    </form>
+                                                </div>
 
-                                <div class="modal fade" id="MyModal">
-                                    <div class="modal-dialog" style="width:400px">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                                <h4 style="font-family:'Poppins'" id="ModalTitle"></h4>
-                                            </div>
-                                            <div style="padding-left:20px; padding-right:20px">
-                                                <form id="form" class="smart-form">
-                                                    <fieldset id="SubmitForm">
-                                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                                        <table style="border:0px solid black; width:100%">
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="form-group ">
-                                                                        <label style="font-weight:500; margin-bottom:0.5em;">Date</label>
-                                                                        @Html.TextBoxFor(m => m.CreateDate, new { @id = "CreateDate", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled" })
-                                                                        @Html.HiddenFor(m => m.MyKYID, new { @id = "MyKYID" })
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="form-group ">
-                                                                        <label style="font-weight:500; margin-bottom:0.5em;">Location</label>
-                                                                        <select id="MyKYLocation" class="form-control input-md" style="height: 20px; width: 300px;"></select>
-                                                                        @*@Html.TextBoxFor(m => m.MyKYLocation, new { @id = "MyKYLocation", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled" })*@
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="form-group ">
-                                                                        <label style="font-weight:500; margin-bottom:0.5em;">Issue Type</label>
-                                                                        @Html.TextBoxFor(m => m.MyKYSpecLocation, new { @id = "MyKYSpecLocation", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled", })
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="form-group ">
-                                                                        <label style="font-weight:500; margin-bottom:0.5em;">Description</label>
-                                                                        @Html.TextAreaFor(m => m.MyKYDesc, new { @id = "MyKYDesc", @class = "form-control input-md", @style = "height:100px; width:300px;", disabled = "disabled" })
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="form-group ">
-                                                                        <label style="font-weight:500; margin-bottom:0.5em;">Created By</label>
-                                                                        @Html.TextBoxFor(m => m.CreateUser, new { @id = "CreateUser", @class = "form-control input-md", @style = "height:20px; width:300px;", disabled = "disabled" })
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="form-group ">
-                                                                        <label style="font-weight:500; margin-bottom:0.5em;">Status</label>
-                                                                        <select id="cbStatus" class="form-control input-md" style="height:30px; width:200px; margin-right:20px"></select>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="form-group ">
-                                                                        <label style="font-weight:500; margin-bottom:0.5em;"> Response </label>
-                                                                        @Html.TextAreaFor(m => m.MyKYReply, new { @id = "MyKYReply", @class = "form-control input-md", @placeholder = "Enter your response", @style = "height:100px; width:300px;" })
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </fieldset>
-                                                </form>
-                                            </div>
-
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal" style="width:85px; font-size:13px; border-width:thin;" onclick="">Cancel</button>
-                                                @if (ViewBag.AllowWrite == "0")
-                                                {
-                                                    <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px" disabled>Save</button>
-                                                }
-                                                else
-                                                {
-                                                    <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px;">Save</button>
-                                                }
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal" style="width:85px; font-size:13px; border-width:thin;" onclick="">Cancel</button>
+                                                    @if (ViewBag.AllowWrite == "0")
+                                                    {
+                                                        <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px" disabled>Save</button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button type="button" class="btn btn-save" id="InsertData" style="width:85px; font-size:13px;">Save</button>
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="modal fade" id="DeleteConfirmation">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <a href="#" class="close" data-dismiss="modal">&times;</a>
-                                                <h4 style="font-family:'Poppins'">Delete Data MyKY</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <h4 style="font-family:'Poppins'">Are you sure to delete this data?</h4>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <a href="#" class="btn btn-save" style="width:85px; font-size:13px" id="DeleteData">Confirm</a>
-                                                <a href="#" class="btn btn-default" style="width: 85px; font-size: 13px; border-width: thin;" data-dismiss="modal" id="DeleteCancel">Cancel</a>
+                                    <div class="modal fade" id="DeleteConfirmation">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                                    <h4 style="font-family:'Poppins'">Delete Data MyKY</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h4 style="font-family:'Poppins'">Are you sure to delete this data?</h4>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <a href="#" class="btn btn-save" style="width:85px; font-size:13px" id="DeleteData">Confirm</a>
+                                                    <a href="#" class="btn btn-default" style="width: 85px; font-size: 13px; border-width: thin;" data-dismiss="modal" id="DeleteCancel">Cancel</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="modal fade" id="ShowImg">
-                                    <div class="modal-dialog" style="width:360px;">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                    <div class="modal fade" id="ShowImg">
+                                        <div class="modal-dialog" style="width:360px;">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                                </div>
+                                                <div class="modal-body" style="display:flex; justify-content:center">
+                                                    <img src="#" alt=Evidence id="EvidenceShow" style="height: 300px; width: 300px; max-width: 300%; max-height: 100%; object-fit: cover;" />
+                                                </div>
                                             </div>
-                                            <div class="modal-body" style="display:flex; justify-content:center">
-                                                <img src="#" alt=Evidence id="EvidenceShow" style="height: 300px; width: 300px; max-width: 300%; max-height: 100%; object-fit: cover;" />
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="ShowImgEvidenceAfter">
+                                        <div class="modal-dialog" style="width:360px;">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                                                </div>
+                                                <div class="modal-body" style="display:flex; justify-content:center">
+                                                    <img src="#" alt=EvidenceAfter id="EvidenceAfterShow" style="height: 300px; width: 300px; max-width: 300%; max-height: 100%; object-fit: cover;" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
             </article>
         </div>
@@ -327,7 +353,63 @@
 
     var tab_text = "";
     var data_type = 'data:application/vnd.ms-excel';
+    /*===========================================================
+  Function untuk Upload Image
+  ============================================================*/
+    function performClick() {
+        var elem = document.getElementById('EvidenceAfter');
+        elem.accept = '.jpg,.jpeg,.png'
 
+        EvidenceAfter.onchange = evt => {
+            var tgt = evt.target || window.event.srcElement,
+                files = tgt.files;
+            console.log(files[0]);
+
+            if (FileReader && files && files.length) {
+                var fr = new FileReader();
+                fr.onload = function () {
+                    cropImage(fr.result);
+                }
+                fr.readAsDataURL(files[0]);
+            }
+        }
+    }
+
+    function cropImage(imagePath) {
+        console.log(imagePath);
+        const image = new Image();
+        image.src = imagePath;
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        image.addEventListener('load', function () {
+
+            var Width = 0;
+            var Height = 0;
+            var originalWidth = image.width;
+            var originalHeight = image.height;
+            var cropheight = 0;
+            var cropwitdh = 0;
+
+            if (originalWidth > originalHeight) {
+                Width = originalHeight;
+                Height = originalHeight;
+                cropwitdh = (originalWidth - Width) / 2;
+            } else if (originalWidth < originalHeight) {
+                Height = originalWidth;
+                Width = originalWidth
+                cropheight = (originalHeight - Height) / 2;
+            } else {
+                Width = originalWidth;
+                Height = originalHeight;
+            }
+
+            canvas.width = Width;
+            canvas.height = Height;
+
+            ctx.drawImage(image, cropwitdh, cropheight, Width, Height, 0, 0, Width, Height);
+        });
+    }
 
     /*===========================================================
     Function untuk mendapatkan export date guna penamaan file
@@ -344,6 +426,8 @@
      Load page awal
      =========================================================*/
     $(document).ready(function () {
+
+
         //Initialisasi
         $("#print").attr("disabled", "disabled");
 
@@ -378,7 +462,21 @@
                         }
                     }
                 },
-                { "data": "CreateUser", "autoWidth": true, className: "txtAlignCenter" },
+                {
+                    "data": "FileName", className: "txtAlignCenter", "render": function (data, type, row) {
+                        var FileName = row.EvidenceAfter.split('|')[0]; //get File name
+                        if (FileName != "") {
+                            return '<a href="#" onclick="ImgShowEvidenceAfter(\'' + row.EvidenceAfter + '\')"><img src = "/Image/MyKY/Response/' + row.EvidenceAfter + '" style = "height: 100px; width: 100px; max-width: 100%; max-height: 100%; object-fit: cover;" /></a >'
+                        } else {
+                            return '<label> </label>'
+                        }
+                    }
+                },
+                {
+                    "data": "user", className: "txtAlignCenter", "render": function (data, type, row) {
+                        return '<span>' + row.CreateUser + ' <br> ' + row.Section + ' <br> ' + row.Shift +  '</span> &nbsp'
+                    }
+                },
                 { "data": "MyKYStatusDesc", "autoWidth": true, className: "txtAlignCenter" },
                 { "data": "MyKYReply", "autoWidth": true, className: "txtAlignLeft" },
                 { "data": "LastUser", "autoWidth": true, className: "txtAlignCenter" },
@@ -476,6 +574,12 @@
                         $("#MyModal").modal();
                         $("#CreateDate").val(result.Contents.CreateDate);
                         $("#MyKYID").val(myKYID);
+                        if (result.Contents.EvidenceAfter == "") {
+                            $("#EvidenceAfterShowEdit").hide();
+
+                        }
+                        var path = "/Image/MyKY/Response/" + result.Contents.EvidenceAfter;
+                        document.getElementById('EvidenceAfterShowEdit').src = path;
                         /*$("#MyKYLocation").val(result.Contents.MyKYLocationDesc);*/
                         $("#MyKYSpecLocation").val(result.Contents.MyKYSpecLocation);
                         $("#MyKYDesc").val(result.Contents.MyKYDesc);
@@ -509,13 +613,28 @@
         var MyKYID = $("#MyKYID").val();
         var complaintReply = $("#MyKYReply").val();
         var status = $("#cbStatus").val();
+        var ImgSaveEvidenceAfter = document.getElementById('canvas').toDataURL("image", 0.9);
+        var ImgFilesEvidenceAfter = ImgSaveEvidenceAfter.split(',')[1];
 
+        var fileDataImgEvidenceAfterName = $("#EvidenceAfter").get(0).files;
+        console.log(DataImgEvidenceAfter)
          var formdata = new FormData();
             formdata.append("MyKYID", MyKYID);
             formdata.append("MyKYReply", complaintReply);
             formdata.append("MyKYStatus", status);
-            formdata.append("MyKYLocation", $("#MyKYLocation").val());
-
+        formdata.append("MyKYLocation", $("#MyKYLocation").val());
+        console.log(fileDataImgEvidenceAfterName)
+        if (fileDataImgEvidenceAfterName.length > 0) {
+            var fileDataImgEvidenceAfter = $("#EvidenceAfter").get(0).files[0].name;
+            var lastDot = fileDataImgEvidenceAfter.lastIndexOf('.');
+            var DataImgEvidenceAfter = fileDataImgEvidenceAfter.substring(0, lastDot);
+            formdata.append("EvidenceAfter", DataImgEvidenceAfter);
+                formdata.append("FileNameEvidenceAfter", ImgFilesEvidenceAfter);
+            } else {
+                formdata.append("EvidenceAfter", "null");
+            formdata.append("FileNameEvidenceAfter", "null");
+        }
+        console.log(formdata)
             $.ajax({
                 type: "POST",
                 url:  "@Url.Action("ReplyMyKYUpd", "MyKY")", //"/MyKY/ReplyMyKYUpd/",
@@ -524,12 +643,15 @@
                 data: formdata,
                 success: function (result) {
                     if (result.Message.toLowerCase().includes("success")) {
-                        toastr.success(result.Message, 'Success', { timeOut: 1000, closeButton: true });
-                        $('#MyModal').modal('hide');
-                        millisecondsToWait = 500;
-                        setTimeout(function () {
-                            loadData();
-                        }, millisecondsToWait);
+
+
+                            toastr.success(result.Message, 'Success', { timeOut: 1000, closeButton: true });
+                            $('#MyModal').modal('hide');
+                            millisecondsToWait = 500;
+                            setTimeout(function () {
+                                window.location.reload(true);
+                            }, millisecondsToWait);
+
                     }
                     else {
                         toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
@@ -703,12 +825,66 @@
     function ImgShow(data) {
         $("#ShowImg").modal();
         var path = "/Image/MyKY/" + data;
+        console.log(path)
         document.getElementById('EvidenceShow').src = path;
     }
-
+    function ImgShowEvidenceAfter(data) {
+        $("#ShowImgEvidenceAfter").modal();
+        var path = "/Image/MyKY/Response/" + data;
+        console.log(path)
+        document.getElementById('EvidenceAfterShow').src = path;
+    }
     /*=============================================================================
      Dowmload Excel
      ==============================================================================*/
+   
+    function DownloadExcel() {
+        var Periode = $("#fromDate").val() + ' - ' + $("#toDate").val();
+        var locationText =  $("#Location option:selected").text();
+        var StatusText = $("#Status option:selected").text();
+        var location = $("#Location").val();
+        var status = $("#Status").val();
+
+        var pfromDate = $("#fromDate").val().split(' ');
+        var fromDate = pfromDate[2] + "-" + months[pfromDate[1]] + "-" + pfromDate[0]; //convert date to format "yyyy-mm-dd"
+
+        var ptoDate = $("#toDate").val().split(' ');
+        var toDate = ptoDate[2] + "-" + months[ptoDate[1]] + "-" + ptoDate[0]; //convert date to format "yyyy-mm-dd"
+
+    var formdata = new FormData();
+        formdata.append("FromDate", fromDate);
+        formdata.append("toDate", toDate);
+        formdata.append("MyKYLocation", location);
+        formdata.append("MyKYStatus", status);
+        formdata.append("UserID", UserID);
+        formdata.append("Periode", Periode);
+        formdata.append("Location", locationText);
+        formdata.append("Status", StatusText);
+
+        //post data
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ExportExcelMyKYList", "MyKY")", //"/MyComplaint/ReplyComplaintList/",
+            contentType: false,
+            processData: false,
+            data:  formdata ,
+            success: function (result) {
+                console.log(result)
+                if (result.status = 200) {
+                    toastr.success('Download Success!', 'Success', { timeOut: 3000, "closeButton": true });
+                    window.location = '/MyKY/DownloadExcel';
+                }
+                else {
+                    toastr.warning(result.Message, 'Warning', { timeOut: 1000, closeButton: true });
+                }
+            },
+            error: function (ex) {
+                toastr.error(ex, 'Failed', { timeOut: 1000, "closeButton": true });
+                return
+            }
+        })
+       
+    }
     function fnExcelReport() {
 
         //validasi parameter
@@ -758,6 +934,7 @@
             ColumnHead += "<td><b>Location</b></td>";
             ColumnHead += "<td><b>Specific Location</b></td>";
             ColumnHead += "<td><b>Description</b></td>";
+            ColumnHead += "<td><b>Evidence</b></td>";
             ColumnHead += "<td><b>Created By</b></td>";
             ColumnHead += "<td><b>Status</b></td>";
             ColumnHead += "<td><b>Response</b></td>";
@@ -780,13 +957,14 @@
             TableMarkUp += '<table border="2px" id="myModifiedTable" class="visibilityHide"><thead><tr bgcolor="#d3d3d3">' + ColumnHead + '</tr></thead><tbody>';
 
             for (x = 0; x < ListOfMessages.length; x++) {
-
+                console.log(ListOfMessages[x]["EvidenceAfter"])
                 var rowdata = "";
                 rowdata += "<td>" + ListOfMessages[x]["KYID_Eats"] + "</td>"
                 rowdata += "<td>" + ListOfMessages[x]["CreateDate"] + "</td>"
                 rowdata += "<td>" + ListOfMessages[x]["MyKYLocationDesc"] + "</td>"
                 rowdata += "<td>" + ListOfMessages[x]["MyKYSpecLocation"] + "</td>"
                 rowdata += "<td>" + ListOfMessages[x]["MyKYDesc"] + "</td>"
+                rowdata += "<td><img src='/Image/MyKY/" + ListOfMessages[x]["EvidenceAfter"] + "' /></td>"
                 rowdata += "<td>" + ListOfMessages[x]["CreateUser"] + "</td>"
                 rowdata += "<td>" + ListOfMessages[x]["MyKYStatusDesc"] + "</td>"
                 rowdata += "<td>" + ListOfMessages[x]["MyKYReply"] + "</td>"

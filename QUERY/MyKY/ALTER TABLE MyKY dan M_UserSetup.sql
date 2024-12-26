@@ -1,0 +1,5 @@
+ALTER TABLE M_MyKY ADD EvidenceAfter varchar(max)
+ALTER TABLE M_MyKY ADD Section varchar(50)
+ALTER TABLE M_MyKY ADD Shift varchar(1)
+ALTER TABLE M_UserSetup ADD Email varchar(100)
+ALTER TABLE M_UserSetup ADD ReceiveNotification char(1)
